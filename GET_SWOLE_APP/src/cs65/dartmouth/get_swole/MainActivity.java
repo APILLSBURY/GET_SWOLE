@@ -84,18 +84,20 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		return true;
 	}
 	
+	
+	// Menu Bar Options
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item){
 	    switch(item.getItemId()){
-	    case R.id.profile_settings:
+	    case R.id.profile_activity:
 	    	Intent profile = new Intent(this, ProfileActivity.class);
 	    	startActivity(profile);
 	    	return true;
-	    case R.id.friends_list:
+	    case R.id.friends_activity:
 	    	Intent friends = new Intent(this, FriendsActivity.class);
 	    	startActivity(friends);
 	    	return true;
-	    case R.id.get_swole_settings:
+	    case R.id.settings_activity:
 	        Intent settings = new Intent(this, SettingsActivity.class);
 	        startActivity(settings);
 	        return true;            
