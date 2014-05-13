@@ -1,0 +1,189 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainLayout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" 
+    tools:context=".ProfileActivity">
+
+    <LinearLayout
+        
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" 
+    	android:paddingBottom="@dimen/activity_vertical_margin"
+    	android:paddingLeft="@dimen/activity_horizontal_margin"
+    	android:paddingRight="@dimen/activity_horizontal_margin"
+    	android:paddingTop="@dimen/activity_vertical_margin"
+    	android:focusable="true"
+		android:focusableInTouchMode="true">
+
+    	<TextView
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:text="@string/ui_profile_photo_title" />
+
+    	<LinearLayout
+    	    android:layout_width="match_parent"
+    	    android:layout_height="150dp"
+    	    android:layout_margin="5dp"
+    	    android:gravity="center" >
+
+    	    <ImageView
+    	        android:id="@+id/profilePhoto"
+    	        android:layout_width="140dp"
+    	        android:layout_height="140dp"
+    	        android:layout_weight="0.50"
+    	        android:contentDescription="@string/profile_photo"
+    	        android:src="@drawable/default_profile" />
+
+    	    <Button
+    	        android:id="@+id/btnCameraUpdate"
+    	        android:layout_width="0dp"
+    	        android:layout_height="wrap_content"
+    	        android:layout_weight="1.50"
+    	        android:layout_marginRight="24dp"
+    	        android:onClick="onChangePhotoClicked"
+    	        android:text="@string/ui_profile_button_photo_change" />
+
+    	</LinearLayout>
+    	
+    	<TextView
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:text="@string/ui_profile_name_title" />
+    	
+    	<EditText
+    	    android:id="@+id/editName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:hint="@string/ui_profile_name_hint"
+            android:inputType="textCapWords"
+            android:singleLine="true" >
+            
+		</EditText>
+            
+    	<TextView
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:text="@string/ui_profile_email_title" />
+    	
+        <EditText
+            android:id="@+id/editEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:hint="@string/ui_profile_email_hint"
+            android:inputType="textEmailAddress"
+            android:singleLine="true" >
+            
+        </EditText>
+            
+ 
+    	<TextView
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:text="@string/ui_profile_phone_title" />
+  
+    	<EditText
+            android:id="@+id/editPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:hint="@string/ui_profile_phone_hint"
+            android:inputType="phone"
+            android:singleLine="true" >
+            
+        </EditText>
+            
+    	
+		<TextView
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:text="@string/ui_profile_gender_title" />
+		
+		<RadioGroup
+            android:id="@+id/radioGender"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:orientation="horizontal" >
+
+            <RadioButton
+                android:id="@+id/radioGenderF"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/ui_profile_gender_female" />
+
+            <RadioButton
+                android:id="@+id/radioGenderM"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/ui_profile_gender_male" />
+        </RadioGroup>
+		
+		<TextView
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:text="@string/ui_profile_class_title" />
+  
+		<EditText
+            android:id="@+id/editClass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:hint="@string/ui_profile_class_hint"
+            android:inputType="number"
+            android:singleLine="true" >
+            
+        </EditText>
+            
+		
+		<TextView
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:text="@string/ui_profile_major_title" />
+
+		<EditText
+            android:id="@+id/editMajor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:hint="@string/ui_profile_major_hint"
+            android:inputType="textCapWords"
+            android:singleLine="true" >
+            
+        </EditText>
+        
+		<LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp" >
+            
+            <Button
+                android:id="@+id/btnProfileSave"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:layout_weight="1"
+                android:onClick="onSaveClicked"
+                android:text="@string/ui_button_save_title" >
+            </Button>
+
+            <Button
+                android:id="@+id/btnProfileCancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="40dp"
+                android:layout_weight="1"
+                android:onClick="onCancelClicked"
+                android:text="@string/ui_button_cancel_title" >
+            </Button>
+            
+        </LinearLayout>
+            
+	</LinearLayout>
+	
+</ScrollView>
