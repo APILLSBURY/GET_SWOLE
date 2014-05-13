@@ -47,11 +47,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="cs65.dartmouth.get_swole.SettingsActivity"
-            android:label="@string/title_activity_settings" 
-            android:screenOrientation="portrait" >
-        </activity>
+
+        <!-- ACTIVITIES -->
+        
         <activity
     		android:name="cs65.dartmouth.get_swole.ProfileActivity"
     		android:label="@string/app_name"  
@@ -60,7 +58,24 @@
         		<action android:name="cs65.dartmouth.get_swole.ProfileActivity" />
         		<category android:name="android.intent.category.DEFAULT" />
     		</intent-filter>
+    	</activity>
+    	
+    	 <activity
+    		android:name="cs65.dartmouth.get_swole.FriendsActivity"
+    		android:label="@string/app_name"  
+    		android:screenOrientation="portrait" > 
+    		<intent-filter>
+        		<action android:name="cs65.dartmouth.get_swole.FriendsActivity" />
+        		<category android:name="android.intent.category.DEFAULT" />
+    		</intent-filter>
 		</activity>
+		
+    	<activity
+            android:name="cs65.dartmouth.get_swole.SettingsActivity"
+            android:label="@string/title_activity_settings" 
+            android:screenOrientation="portrait" >
+        </activity>
+		
     </application>
 
 </manifest>
