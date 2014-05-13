@@ -8,11 +8,6 @@
         android:minSdkVersion="11"
         android:targetSdkVersion="18" />
 
-    <permission
-        android:name="com.example.androidmapsv2.permission.MAPS_RECEIVE"
-        android:protectionLevel="signature" >
-    </permission>
-
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />
@@ -58,7 +53,7 @@
 		
     	<activity
             android:name="cs65.dartmouth.get_swole.SettingsActivity"
-            android:label="@string/title_activity_settings" 
+            android:label="@string/settings_title" 
             android:screenOrientation="portrait" >
         </activity>
 		
