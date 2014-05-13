@@ -169,7 +169,12 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 			
 			switch (position) {
 			
+			// WorkoutFragment
+			case 0:
+			
+			// ScheduleFragment
 			case 1:
+				
 				Fragment sched = new ScheduleFragment();
 				Bundle args = new Bundle();
 				sched.setArguments(args);
@@ -177,6 +182,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 				mPageReferenceMap.put(Integer.valueOf(position),sched);
 				
 				return sched;
+			
+			// ProgressFragment	
+			case 2:
+			
+			
 			default:
 				Fragment fragment = new DummySectionFragment();
 				Bundle args2 = new Bundle();
