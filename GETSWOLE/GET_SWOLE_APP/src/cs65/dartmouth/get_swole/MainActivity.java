@@ -84,7 +84,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		return true;
 	}
 	
-	
 	// Menu Bar Options
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item){
