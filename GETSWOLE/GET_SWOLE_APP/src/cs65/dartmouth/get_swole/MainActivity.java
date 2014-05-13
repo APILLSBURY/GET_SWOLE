@@ -1,48 +1,19 @@
 package cs65.dartmouth.get_swole;
 
-import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.android.gms.location.LocationClient;
-import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.PolylineOptions;
 import cs65.dartmouth.get_swole.R;
-import android.R.color;
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.location.Address;
-import android.location.Criteria;
-import android.location.Geocoder;
-import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -167,36 +138,41 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		@Override
 		public Fragment getItem(int position) {
 			
+			Fragment currFragment = null;
+			
 			switch (position) {
 			
 			// WorkoutFragment
 			case 0:
 			
+				currFragment = new WorkoutFragment();
+				Bundle args1 = new Bundle();
+				currFragment.setArguments(args1);
+	
+				mPageReferenceMap.put(Integer.valueOf(position), currFragment);
+				
 			// ScheduleFragment
 			case 1:
 				
-				Fragment sched = new ScheduleFragment();
-				Bundle args = new Bundle();
-				sched.setArguments(args);
+				currFragment = new ScheduleFragment();
+				Bundle args2 = new Bundle();
+				currFragment.setArguments(args2);
 	
-				mPageReferenceMap.put(Integer.valueOf(position),sched);
-				
-				return sched;
+				mPageReferenceMap.put(Integer.valueOf(position),currFragment);
 			
 			// ProgressMainFragment	
 			case 2:
 			
-			
-			default:
-				Fragment fragment = new DummySectionFragment();
-				Bundle args2 = new Bundle();
-				args2.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1);
-				fragment.setArguments(args2);
+				currFragment = new ProgressMainFragment();
+				Bundle args3 = new Bundle();
+				currFragment.setArguments(args3);
+	
+				mPageReferenceMap.put(Integer.valueOf(position), currFragment);
 				
-				mPageReferenceMap.put(Integer.valueOf(position),fragment);
-				
-				return fragment;
 			}
+			
+			return currFragment;
+			
 		}
 		
         @SuppressWarnings("deprecation")
@@ -234,33 +210,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 			return null;
 		}
 	}
-
-	/**
-	 * A dummy fragment representing a section of the app, but that simply
-	 * displays dummy text.
-	 */
-	public class DummySectionFragment extends Fragment {
-		/**
-		 * The fragment argument representing the section number for this
-		 * fragment.
-		 */
-		public static final String ARG_SECTION_NUMBER = "section_number";
-		
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-			View v = inflater.inflate(R.layout.fragment_main_dummy, null, false);
-			
-			TextView text = (TextView) v.findViewById(R.id.section_label);
-			text.setText("Dummy");
-			
-			return v;
-			
-		}
-
-	}
-	
-	
 	
 //	@Override
 //	public void onPause() {
