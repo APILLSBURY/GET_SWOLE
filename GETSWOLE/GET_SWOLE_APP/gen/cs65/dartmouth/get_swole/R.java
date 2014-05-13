@@ -266,6 +266,7 @@ containing a value of this type.
         public static final int activity_profile=0x7f030001;
         public static final int fragment_main_dummy=0x7f030002;
         public static final int fragment_schedule=0x7f030003;
+        public static final int history_tab_fragment=0x7f030004;
     }
     public static final class menu {
         public static final int main=0x7f0b0000;
