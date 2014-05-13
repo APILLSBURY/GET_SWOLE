@@ -2,9 +2,9 @@
 <resources>
 
     <string name="app_name">GET SWOLE</string>
-    <string name="profile_settings">Profile</string>
-    <string name="friends_list">Friends</string>
-    <string name="get_swole_settings">Settings</string>
+    <string name="profile_title">Profile</string>
+    <string name="friends_title">Friends</string>
+    <string name="settings_title">Settings</string>
     <string name="title_activity_settings">Settings</string>
     <string name="title_section1">Workout</string>
     <string name="title_section2">Schedule</string>
