@@ -183,7 +183,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 				
 				return sched;
 			
-			// ProgressFragment	
+			// ProgressMainFragment	
 			case 2:
 			
 			
