@@ -19,7 +19,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-@SuppressLint("ValidFragment")
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
 
 	/**
@@ -93,7 +92,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	    	startActivity(profile);
 	    	return true;
 	    case R.id.friends_list:
-	    	return false;
+	    	Intent friends = new Intent(this, FriendsActivity.class);
+	    	startActivity(friends);
+	    	return true;
 	    case R.id.get_swole_settings:
 	        Intent settings = new Intent(this, SettingsActivity.class);
 	        startActivity(settings);
@@ -149,6 +150,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	
 				mPageReferenceMap.put(Integer.valueOf(position), currFragment);
 				
+				return currFragment;
+				
 			// ScheduleFragment
 			case 1:
 				
@@ -158,6 +161,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	
 				mPageReferenceMap.put(Integer.valueOf(position),currFragment);
 			
+				return currFragment;
+				
 			// ProgressMainFragment	
 			case 2:
 			
@@ -166,6 +171,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 				currFragment.setArguments(args3);
 	
 				mPageReferenceMap.put(Integer.valueOf(position), currFragment);
+				
+				return currFragment;
 				
 			}
 			
