@@ -12,7 +12,7 @@
     
     <!-- From MyRuns -->
     
-<!-- Profile (MyRuns_1) -->
+	<!-- Profile (MyRuns_1) -->
     <string name="ui_profile_photo_title">Profile Photo:</string>
     <string name="ui_profile_button_photo_change">Change</string>
     <string name="ui_profile_name_title">Name:</string>
