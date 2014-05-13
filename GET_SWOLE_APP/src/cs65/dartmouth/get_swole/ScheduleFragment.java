@@ -1,6 +1,5 @@
 package cs65.dartmouth.get_swole;
 
-import android.annotation.SuppressLint;
 import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
@@ -12,7 +11,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class ScheduleFragment extends Fragment {

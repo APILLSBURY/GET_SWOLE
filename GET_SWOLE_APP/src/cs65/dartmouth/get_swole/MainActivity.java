@@ -14,12 +14,9 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 @SuppressLint("ValidFragment")
@@ -129,6 +126,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	 */
 	public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
+		@SuppressLint("UseSparseArrays")
 		private Map<Integer, Object> mPageReferenceMap = new HashMap<Integer, Object>();
 		
 		public SectionsPagerAdapter(FragmentManager fm) {
