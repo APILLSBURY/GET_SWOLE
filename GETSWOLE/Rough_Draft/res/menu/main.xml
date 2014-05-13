@@ -1,0 +1,21 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/profile_settings"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/profile_settings"/>
+    
+    <item
+        android:id="@+id/friends_list"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/friends_list"/>
+    
+    <item
+        android:id="@+id/get_swole_settings"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/get_swole_settings"/>
+
+</menu>
