@@ -17,15 +17,11 @@
     	android:focusable="true"
 		android:focusableInTouchMode="true">
 
-    	<TextView
-        	android:layout_width="wrap_content"
-        	android:layout_height="wrap_content"
-        	android:text="@string/ui_profile_photo_title" />
-
     	<LinearLayout
     	    android:layout_width="match_parent"
     	    android:layout_height="150dp"
     	    android:layout_margin="5dp"
+    	    android:orientation="horizontal"
     	    android:gravity="center" >
 
     	    <ImageView
@@ -33,76 +29,43 @@
     	        android:layout_width="140dp"
     	        android:layout_height="140dp"
     	        android:layout_weight="0.50"
-    	        android:contentDescription="@string/profile_photo"
+    	        android:onClick="onChangePhotoClicked"
+    	        android:contentDescription="@string/default_profile_photo"
     	        android:src="@drawable/default_profile" />
 
-    	    <Button
-    	        android:id="@+id/btnCameraUpdate"
-    	        android:layout_width="0dp"
-    	        android:layout_height="wrap_content"
-    	        android:layout_weight="1.50"
-    	        android:layout_marginRight="24dp"
-    	        android:onClick="onChangePhotoClicked"
-    	        android:text="@string/ui_profile_button_photo_change" />
-
+    	    <LinearLayout
+    	        android:layout_width="wrap_content"
+				android:layout_height="wrap_content" 
+				android:orientation="horizontal">
+		    	
+		    	<EditText
+		    	    android:id="@+id/firstName"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_margin="5dp"
+		            android:hint="@string/profile_first_name"
+		            android:inputType="textCapWords"
+		            android:singleLine="true" >
+		            
+				</EditText>
+				
+		    	<EditText
+		    	    android:id="@+id/lastName"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_margin="5dp"
+		            android:hint="@string/profile_last_name"
+		            android:inputType="textCapWords"
+		            android:singleLine="true" >
+		            
+				</EditText>
+    	        
+    	    </LinearLayout>    	        
+    	        
     	</LinearLayout>
     	
-    	<TextView
-        	android:layout_width="wrap_content"
-        	android:layout_height="wrap_content"
-        	android:text="@string/ui_profile_name_title" />
-    	
-    	<EditText
-    	    android:id="@+id/editName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:hint="@string/ui_profile_name_hint"
-            android:inputType="textCapWords"
-            android:singleLine="true" >
-            
-		</EditText>
-            
-    	<TextView
-        	android:layout_width="wrap_content"
-        	android:layout_height="wrap_content"
-        	android:text="@string/ui_profile_email_title" />
-    	
-        <EditText
-            android:id="@+id/editEmail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:hint="@string/ui_profile_email_hint"
-            android:inputType="textEmailAddress"
-            android:singleLine="true" >
-            
-        </EditText>
-            
- 
-    	<TextView
-        	android:layout_width="wrap_content"
-        	android:layout_height="wrap_content"
-        	android:text="@string/ui_profile_phone_title" />
-  
-    	<EditText
-            android:id="@+id/editPhone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:hint="@string/ui_profile_phone_hint"
-            android:inputType="phone"
-            android:singleLine="true" >
-            
-        </EditText>
-            
-    	
-		<TextView
-        	android:layout_width="wrap_content"
-        	android:layout_height="wrap_content"
-        	android:text="@string/ui_profile_gender_title" />
-		
-		<RadioGroup
+
+    	<RadioGroup
             android:id="@+id/radioGender"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -114,48 +77,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/ui_profile_gender_female" />
+                android:text="@string/profile_gender_female" />
 
             <RadioButton
                 android:id="@+id/radioGenderM"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/ui_profile_gender_male" />
+                android:text="@string/profile_gender_male" />
         </RadioGroup>
-		
-		<TextView
-        	android:layout_width="wrap_content"
-        	android:layout_height="wrap_content"
-        	android:text="@string/ui_profile_class_title" />
-  
-		<EditText
-            android:id="@+id/editClass"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:hint="@string/ui_profile_class_hint"
-            android:inputType="number"
-            android:singleLine="true" >
-            
-        </EditText>
-            
-		
-		<TextView
-        	android:layout_width="wrap_content"
-        	android:layout_height="wrap_content"
-        	android:text="@string/ui_profile_major_title" />
-
-		<EditText
-            android:id="@+id/editMajor"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:hint="@string/ui_profile_major_hint"
-            android:inputType="textCapWords"
-            android:singleLine="true" >
-            
-        </EditText>
+    	
         
 		<LinearLayout
             android:layout_width="match_parent"

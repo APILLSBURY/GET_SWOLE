@@ -291,7 +291,7 @@ public class ProfileActivity extends Activity {
 		saveProfile();
 		
 		// Send toast message
-		Toast.makeText(getApplicationContext(), getString(R.string.save_message), Toast.LENGTH_SHORT).show();
+		Toast.makeText(getApplicationContext(), getString(R.string.save_profile_message), Toast.LENGTH_SHORT).show();
 		
 		finish();
 		
@@ -305,7 +305,7 @@ public class ProfileActivity extends Activity {
 	public void onCancelClicked(View v) {
 		
 		// Send toast message
-		Toast.makeText(getApplicationContext(), getString(R.string.cancel_message), Toast.LENGTH_SHORT).show();
+		Toast.makeText(getApplicationContext(), getString(R.string.cancel_profile_message), Toast.LENGTH_SHORT).show();
 		
 		finish();
 		
@@ -331,21 +331,13 @@ public class ProfileActivity extends Activity {
 		
 		// Load Name
 		
-		mKey = getString(R.string.preference_key_profile_name);
+		mKey = getString(R.string.profile_first_name);
 		String mValue = mPrefs.getString(mKey, "");
-		((EditText) findViewById(R.id.editName)).setText(mValue);
+		((EditText) findViewById(R.id.firstName)).setText(mValue);
 		
-		// Load Email
-
-		mKey = getString(R.string.preference_key_profile_email);
+		mKey = getString(R.string.profile_last_name);
 		mValue = mPrefs.getString(mKey, "");
-		((EditText) findViewById(R.id.editEmail)).setText(mValue);
-		
-		// Load Phone
-		
-		mKey = getString(R.string.preference_key_profile_phone);
-		mValue = mPrefs.getString(mKey, "");
-		((EditText) findViewById(R.id.editPhone)).setText(mValue);
+		((EditText) findViewById(R.id.lastName)).setText(mValue);
 		
 		// Load Gender
 
@@ -364,23 +356,13 @@ public class ProfileActivity extends Activity {
 			
 		}
 		
-		// Load Class
-		mKey = getString(R.string.preference_key_profile_class);
-		mValue = mPrefs.getString(mKey, "");
-		((EditText) findViewById(R.id.editClass)).setText(mValue);
-		
-		// Load Major
-		mKey = getString(R.string.preference_key_profile_major);
-		mValue = mPrefs.getString(mKey, "");
-		((EditText) findViewById(R.id.editMajor)).setText(mValue);
-		
 		Log.d(TAG, "LOADED OTHER");
 		
 		// Grab existing Image, code help from TA
 		try {
 			
 			// Get image
-			FileInputStream fis = openFileInput(getString(R.string.profile_photo_file_name));
+			FileInputStream fis = openFileInput(getString(R.string.profile_saved_photo_file_name));
 			ByteArrayOutputStream bos = new ByteArrayOutputStream();
 			
 			// Compress image in byte array
@@ -424,20 +406,12 @@ public class ProfileActivity extends Activity {
 
 		// Save Name Information
 		
-		mKey = getString(R.string.preference_key_profile_name);
-		String mValue = (String) ((EditText) findViewById(R.id.editName)).getText().toString();
+		mKey = getString(R.string.preference_key_profile_first_name);
+		String mValue = (String) ((EditText) findViewById(R.id.firstName)).getText().toString();
 		mEditor.putString(mKey, mValue);
 		
-		// Save email information
-
-		mKey = getString(R.string.preference_key_profile_email);
-		mValue = (String) ((EditText) findViewById(R.id.editEmail)).getText().toString();
-		mEditor.putString(mKey, mValue);
-		
-		// Save Phone Number
-		
-		mKey = getString(R.string.preference_key_profile_phone);
-		mValue = (String) ((EditText) findViewById(R.id.editPhone)).getText().toString();
+		mKey = getString(R.string.preference_key_profile_last_name);
+		mValue = (String) ((EditText) findViewById(R.id.lastName)).getText().toString();
 		mEditor.putString(mKey, mValue);
 		
 		// Save Gender
@@ -446,18 +420,6 @@ public class ProfileActivity extends Activity {
 		RadioGroup mRadioGroup = (RadioGroup) findViewById(R.id.radioGender);
 		int mIntValue = mRadioGroup.indexOfChild(findViewById(mRadioGroup.getCheckedRadioButtonId()));
 		mEditor.putInt(mKey, mIntValue);
-
-		// Save Class
-		
-		mKey = getString(R.string.preference_key_profile_class);
-		mValue = (String) ((EditText) findViewById(R.id.editClass)).getText().toString();
-		mEditor.putString(mKey, mValue);
-		
-		// Save Major
-		
-		mKey = getString(R.string.preference_key_profile_major);
-		mValue = (String) ((EditText) findViewById(R.id.editMajor)).getText().toString();
-		mEditor.putString(mKey, mValue);
 		
 		// Commit all the changes into the shared preference
 		mEditor.commit();
@@ -480,7 +442,7 @@ public class ProfileActivity extends Activity {
 			if (pictureArray != null) {
 			
 			// Grab profile_photo_file_name and save it from picture Array
-			FileOutputStream fos = openFileOutput(getString(R.string.profile_photo_file_name), MODE_PRIVATE);
+			FileOutputStream fos = openFileOutput(getString(R.string.profile_saved_photo_file_name), MODE_PRIVATE);
 			fos.write(pictureArray);
 			fos.flush();
 			fos.close();

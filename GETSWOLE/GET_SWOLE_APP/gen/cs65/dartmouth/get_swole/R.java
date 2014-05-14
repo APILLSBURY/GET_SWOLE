@@ -222,41 +222,37 @@ containing a value of this type.
         public static final int ic_plusone_tall_off_client=0x7f02001d;
     }
     public static final class id {
-        public static final int btnCameraUpdate=0x7f060009;
-        public static final int btnProfileCancel=0x7f060013;
-        public static final int btnProfileSave=0x7f060012;
-        public static final int button1=0x7f060015;
-        public static final int button2=0x7f060016;
-        public static final int button3=0x7f060017;
-        public static final int button4=0x7f060018;
-        public static final int button6=0x7f06001e;
-        public static final int button7=0x7f06001f;
-        public static final int checkBox1=0x7f060019;
-        public static final int editClass=0x7f060010;
-        public static final int editEmail=0x7f06000b;
-        public static final int editMajor=0x7f060011;
-        public static final int editName=0x7f06000a;
-        public static final int editPhone=0x7f06000c;
+        public static final int btnProfileCancel=0x7f06000f;
+        public static final int btnProfileSave=0x7f06000e;
+        public static final int button1=0x7f060011;
+        public static final int button2=0x7f060012;
+        public static final int button3=0x7f060013;
+        public static final int button4=0x7f060014;
+        public static final int button6=0x7f06001a;
+        public static final int button7=0x7f06001b;
+        public static final int checkBox1=0x7f060015;
+        public static final int firstName=0x7f060009;
         public static final int friendsLayout=0x7f060005;
-        public static final int friends_activity=0x7f060022;
-        public static final int gridview=0x7f060020;
+        public static final int friends_activity=0x7f06001e;
+        public static final int gridview=0x7f06001c;
         public static final int hybrid=0x7f060004;
+        public static final int lastName=0x7f06000a;
         public static final int mainLayout=0x7f060007;
         public static final int none=0x7f060000;
         public static final int normal=0x7f060001;
         public static final int pager=0x7f060006;
         public static final int profilePhoto=0x7f060008;
-        public static final int profile_activity=0x7f060021;
-        public static final int progressBar1=0x7f06001b;
-        public static final int radioButton1=0x7f06001d;
-        public static final int radioGender=0x7f06000d;
-        public static final int radioGenderF=0x7f06000e;
-        public static final int radioGenderM=0x7f06000f;
-        public static final int ratingBar1=0x7f06001c;
+        public static final int profile_activity=0x7f06001d;
+        public static final int progressBar1=0x7f060017;
+        public static final int radioButton1=0x7f060019;
+        public static final int radioGender=0x7f06000b;
+        public static final int radioGenderF=0x7f06000c;
+        public static final int radioGenderM=0x7f06000d;
+        public static final int ratingBar1=0x7f060018;
         public static final int satellite=0x7f060002;
-        public static final int section_label=0x7f060014;
-        public static final int settings_activity=0x7f060023;
-        public static final int spinner1=0x7f06001a;
+        public static final int section_label=0x7f060010;
+        public static final int settings_activity=0x7f06001f;
+        public static final int spinner1=0x7f060016;
         public static final int terrain=0x7f060003;
     }
     public static final class integer {
@@ -300,8 +296,7 @@ containing a value of this type.
         [CHAR LIMIT=70] 
          */
         public static final int auth_client_using_bad_version_title=0x7f070014;
-        public static final int cancel_message=0x7f070032;
-        public static final int change_photo_message=0x7f070033;
+        public static final int cancel_profile_message=0x7f07002f;
         /**  Button in confirmation dialog to enable Google Play services.  Clicking it
         will direct user to application settings of Google Play services where they
         can enable it [CHAR LIMIT=40] 
@@ -373,50 +368,30 @@ containing a value of this type.
         /**  Long form sign-in button text [CHAR LIMIT=30] 
          */
         public static final int common_signin_button_text_long=0x7f070013;
+        /**  Profile 
+         */
+        public static final int default_profile_photo=0x7f070022;
         public static final int friends_title=0x7f07001d;
-        public static final int hello_world=0x7f07003e;
         /**  Location client code resources (prefix with location_client) 
          */
         public static final int location_client_powered_by_google=0x7f07001a;
-        public static final int preference_key_profile_class=0x7f070038;
-        public static final int preference_key_profile_email=0x7f070035;
-        public static final int preference_key_profile_gender=0x7f07003a;
-        public static final int preference_key_profile_major=0x7f070039;
-        public static final int preference_key_profile_name=0x7f070036;
-        public static final int preference_key_profile_phone=0x7f070037;
-        public static final int profile_photo=0x7f07003b;
-        public static final int profile_photo_file_name=0x7f07003c;
-        public static final int profile_shared_preferences=0x7f070034;
+        public static final int preference_key_profile_first_name=0x7f070029;
+        public static final int preference_key_profile_gender=0x7f07002b;
+        public static final int preference_key_profile_last_name=0x7f07002a;
+        public static final int profile_first_name=0x7f070024;
+        public static final int profile_gender_female=0x7f070026;
+        public static final int profile_gender_male=0x7f070027;
+        public static final int profile_last_name=0x7f070025;
+        public static final int profile_saved_photo_file_name=0x7f070023;
+        public static final int profile_shared_preferences=0x7f070028;
         public static final int profile_title=0x7f07001c;
-        public static final int save_message=0x7f070031;
+        public static final int save_profile_message=0x7f07002e;
         public static final int settings_title=0x7f07001e;
-        public static final int title_activity_display_entry=0x7f07003f;
-        public static final int title_activity_map_display=0x7f07003d;
         public static final int title_section1=0x7f07001f;
         public static final int title_section2=0x7f070020;
         public static final int title_section3=0x7f070021;
-        public static final int ui_button_cancel_title=0x7f070041;
-        /**  Shared Strings 
-         */
-        public static final int ui_button_save_title=0x7f070040;
-        public static final int ui_profile_button_photo_change=0x7f070023;
-        public static final int ui_profile_class_hint=0x7f07002e;
-        public static final int ui_profile_class_title=0x7f07002d;
-        public static final int ui_profile_email_hint=0x7f070027;
-        public static final int ui_profile_email_title=0x7f070026;
-        public static final int ui_profile_gender_female=0x7f07002b;
-        public static final int ui_profile_gender_male=0x7f07002c;
-        public static final int ui_profile_gender_title=0x7f07002a;
-        public static final int ui_profile_major_hint=0x7f070030;
-        public static final int ui_profile_major_title=0x7f07002f;
-        public static final int ui_profile_name_hint=0x7f070025;
-        public static final int ui_profile_name_title=0x7f070024;
-        public static final int ui_profile_phone_hint=0x7f070029;
-        public static final int ui_profile_phone_title=0x7f070028;
-        /**  From MyRuns 
- Profile (MyRuns_1) 
-         */
-        public static final int ui_profile_photo_title=0x7f070022;
+        public static final int ui_button_cancel_title=0x7f07002d;
+        public static final int ui_button_save_title=0x7f07002c;
     }
     public static final class style {
         /** 
