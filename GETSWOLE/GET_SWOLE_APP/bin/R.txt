@@ -99,10 +99,11 @@ int integer google_play_services_version 0x7f080000
 int layout activity_friends 0x7f030000
 int layout activity_main 0x7f030001
 int layout activity_profile 0x7f030002
-int layout fragment_main_dummy 0x7f030003
-int layout fragment_progress_main 0x7f030004
-int layout fragment_schedule 0x7f030005
-int layout fragment_workout 0x7f030006
+int layout activity_workout 0x7f030003
+int layout fragment_main_dummy 0x7f030004
+int layout fragment_progress_main 0x7f030005
+int layout fragment_schedule 0x7f030006
+int layout fragment_workout 0x7f030007
 int menu main 0x7f0b0000
 int string app_name 0x7f07001b
 int string auth_client_needs_enabling_title 0x7f070015
