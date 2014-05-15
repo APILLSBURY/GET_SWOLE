@@ -149,32 +149,6 @@ public class WorkoutFragment extends ListFragment {
 //		}
 //    	
 //    }
-
-//    private class HistoryTabDbUpdateReceiver extends BroadcastReceiver {
-//
-//		@Override
-//		public void onReceive(Context context, Intent intent) {
-//			new GetEntryListAsyncTask().execute();
-//		}
-//		
-//    }
-//    
-//    private class GetEntryListAsyncTask extends AsyncTask<Void, Void, ArrayList<ExerciseEntry>> {
-//
-//		@Override
-//		protected ArrayList<ExerciseEntry> doInBackground(Void... params) {
-//            return dbHelper.fetchEntries();
-//			
-//		}
-//    	
-//		@Override
-//		protected void onPostExecute(ArrayList<ExerciseEntry> entries) {
-//			entriesAdapter.clear();
-//			entriesAdapter.addAll(entries);
-//			entriesAdapter.notifyDataSetChanged();
-//		}
-//
-//    }
     
 }
 
