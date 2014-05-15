@@ -4,7 +4,7 @@ import cs65.dartmouth.get_swole.R;
 import android.os.Bundle;
 import android.app.Activity;
 
-public class WorkoutActivity extends Activity {
+public class WorkoutEditActivity extends Activity {
 	
 	/**
 	 * onCreate()
