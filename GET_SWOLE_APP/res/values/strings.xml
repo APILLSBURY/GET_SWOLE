@@ -5,12 +5,13 @@
     <string name="profile_title">Profile</string>
     <string name="friends_title">Friends</string>
     <string name="settings_title">Settings</string>
-    <string name="title_section1">Workout</string>
+    <string name="title_section1">Workouts</string>
     <string name="title_section2">Schedule</string>
     <string name="title_section3">Progress</string>
     
     <!-- Colors -->
     <color name="white">#FFFFFF</color>
+    <color name="background_holo_dark">#aaa</color>
     
     <!-- Profile -->
 	<string name="default_profile_photo">default_profile.png</string>
