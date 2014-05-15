@@ -9,6 +9,9 @@
     <string name="title_section2">Schedule</string>
     <string name="title_section3">Progress</string>
     
+    <!-- Colors -->
+    <color name="white">#FFFFFF</color>
+    
     <!-- Profile -->
 	<string name="default_profile_photo">default_profile.png</string>
 	<string name="profile_saved_photo_file_name">profile_photo</string>
@@ -17,8 +20,11 @@
 	<string name="profile_nickname">Nickname</string>
 	<string name="profile_sport">Sport</string>
     
+	<string name="profile_gender_male">Male</string>
+    
 	<string name="profile_gender_female">Female</string>
-    <string name="profile_gender_male">Male</string>
+
+    <string name="profile_shared_workouts">Shared Workouts\n(Check all that apply)</string>
 	
     <string name="profile_shared_preferences">profile_shared_preferences</string>
     <string name="preference_key_profile_first_name">profile_first_name</string>
