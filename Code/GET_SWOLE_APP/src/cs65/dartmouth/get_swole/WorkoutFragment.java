@@ -46,8 +46,13 @@ public class WorkoutFragment extends ListFragment {
         OnItemClickListener listener = new OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             	
-            	Intent intent = new Intent(getActivity(), WorkoutEditActivity.class);
+            	Bundle b = new Bundle();
             	Workout w = workouts.get(position);
+            	b.putLong(Globals.ID_TAG, w.getId());
+            	
+            	Intent intent = new Intent(getActivity(), WorkoutEditActivity.class);
+            	intent.putExtras(b);
+            	
             	getActivity().startActivity(intent);   
             }
         };
