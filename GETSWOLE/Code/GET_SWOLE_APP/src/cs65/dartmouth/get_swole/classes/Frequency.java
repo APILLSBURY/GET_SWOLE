@@ -7,11 +7,13 @@ public class Frequency {
 	private int day;
 	private Calendar startDate;
 	private Calendar endDate;
+	private long id;
 	
 	public Frequency (int day) {
 		this.day = day;
 		startDate = null;
 		endDate = null;
+		id = -1;
 	}
 	
 	
@@ -28,6 +30,10 @@ public class Frequency {
 		return endDate;
 	}
 	
+	public long getId() {
+		return id;
+	}
+	
 	
 	//SETTER METHODS
 	public void setDay(int d) {
@@ -40,5 +46,9 @@ public class Frequency {
 	
 	public void setEndDate(Calendar ed) {
 		endDate = ed;
+	}
+	
+	public void setId(long i) {
+		id = i;
 	}
 }

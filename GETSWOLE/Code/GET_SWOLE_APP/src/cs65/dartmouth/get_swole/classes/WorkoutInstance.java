@@ -7,12 +7,14 @@ public class WorkoutInstance {
 	private Workout workout;
 	private Calendar time;
 	private ArrayList<Exercise> exerciseList;
+	private long id;
 	
 	
 	public WorkoutInstance(Workout w) {
 		workout = w;
 		time = Calendar.getInstance();
 		exerciseList = new ArrayList<Exercise>();
+		id = -1;
 	}
 	
 	public void addExercise(Exercise e) {
@@ -32,6 +34,10 @@ public class WorkoutInstance {
 		return exerciseList;
 	}
 	
+	public long getId() {
+		return id;
+	}
+	
 	
 	//SETTER METHODS
 	public void setWorkout(Workout w) {
@@ -44,5 +50,9 @@ public class WorkoutInstance {
 	
 	public void setExerciseList(ArrayList<Exercise> el) {
 		exerciseList = el;
+	}
+	
+	public void setId(long i) {
+		id = i;
 	}
 }

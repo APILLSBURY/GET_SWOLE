@@ -6,6 +6,9 @@ public class Exercise {
 	private int weight;
 	private int repsGoal;
 	private int weightGoal;
+	private int rest;
+	private String notes;
+	private long id;
 	
 	//default undefined numbers to -1
 	public Exercise(String name) {
@@ -14,6 +17,9 @@ public class Exercise {
 		weight = -1;
 		repsGoal = -1;
 		weightGoal = -1;
+		rest = -1;
+		notes = "";
+		id = -1;
 	}
 	
 	
@@ -38,6 +44,18 @@ public class Exercise {
 		return weightGoal;
 	}
 	
+	public int getRest() {
+		return rest;
+	}
+	
+	public String getNotes() {
+		return notes;
+	}
+	
+	public long getId() {
+		return id;
+	}
+	
 	
 	//SETTER METHODS
 	public void setName(String n) {
@@ -58,5 +76,17 @@ public class Exercise {
 	
 	public void setWeightGoal(int wg) {
 		weightGoal = wg;
+	}
+	
+	public void setRest(int r) {
+		rest = r;
+	}
+	
+	public void setWeightGoal(String n) {
+		notes = n;
+	}
+	
+	public void setId(long i) {
+		id = i;
 	}
 }
