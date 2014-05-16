@@ -15,6 +15,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final String WORKOUT_SCHEDULED_DATES = "scheduleddates";
 	public static final String WORKOUT_START_DATE = "startdate";
 	public static final String WORKOUT_FREQUENCY_LIST = "frequencylist";
+	public static final String WORKOUT_NOTES = "notes";
 	
 	//Workout instance table
 	public static final String TABLE_NAME_WORKOUT_INSTANCE = "workout_instance";
@@ -31,6 +32,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final String EXERCISE_WEIGHT = "weight";
 	public static final String EXERCISE_REPS_GOAL = "repsgoal";
 	public static final String EXERCISE_WEIGHT_GOAL = "weightgoal";
+	public static final String EXERCISE_REST = "rest";
+	public static final String EXERCISE_NOTES = "notes";
 	
 	//Frequency table
 	public static final String TABLE_NAME_FREQUENCY = "frequency";
@@ -51,8 +54,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + WORKOUT_NAME + " TEXT, "
             + WORKOUT_EXERCISE_LIST + " BLOB, "
             + WORKOUT_SCHEDULED_DATES + " BLOB, "
-            + WORKOUT_START_DATE + " DATE, "
-            + WORKOUT_FREQUENCY_LIST + " BLOB, " + ");";  
+            + WORKOUT_START_DATE + " DATETIME, "
+            + WORKOUT_FREQUENCY_LIST + " BLOB, "
+            + WORKOUT_NOTES + " TEXT, " + ");";  
     
     public static final String CREATE_TABLE_EXERCISE = "CREATE TABLE IF NOT EXISTS "
             + TABLE_NAME_WORKOUT_INSTANCE + " ("
@@ -68,14 +72,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + EXERCISE_REPS + " INT, "
             + EXERCISE_WEIGHT + " INT, "
             + EXERCISE_REPS_GOAL + " INT, "
-            + EXERCISE_WEIGHT_GOAL + " INT, " + ");";  
+            + EXERCISE_WEIGHT_GOAL + " INT, "
+            + EXERCISE_REST + " INT, "
+            + EXERCISE_NOTES + " TEXT, " + ");";  
     
     public static final String CREATE_TABLE_FREQUENCY = "CREATE TABLE IF NOT EXISTS "
             + TABLE_NAME_FREQUENCY + " ("
             + FREQUENCY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + FREQUENCY_DAY + " INT, "
-            + FREQUENCY_START_DATE + " DATE, "
-            + FREQUENCY_END_DATE + " DATE, " + ");";
+            + FREQUENCY_START_DATE + " DATETIME, "
+            + FREQUENCY_END_DATE + " DATETIME, " + ");";
     
     public static final String[] TABLE_NAMES = {TABLE_NAME_WORKOUT, TABLE_NAME_WORKOUT_INSTANCE, 
     												TABLE_NAME_EXERCISE, TABLE_NAME_FREQUENCY};

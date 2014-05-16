@@ -13,31 +13,45 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import cs65.dartmouth.get_swole.classes.*;
+
 public class DatabaseWrapper {
 
 	// Database fields
 	private SQLiteDatabase database;
 	private DatabaseHelper dbHelper;
-	private String[] allColumns = { 
-			DatabaseHelper.KEY_ROWID, 
-			DatabaseHelper.KEY_INPUT_TYPE, 
-			DatabaseHelper.KEY_ACTIVITY_TYPE, 
-			DatabaseHelper.KEY_DATE_TIME, 
-			DatabaseHelper.KEY_DURATION, 
-			DatabaseHelper.KEY_DISTANCE, 
-			DatabaseHelper.KEY_AVG_PACE, 
-			DatabaseHelper.KEY_AVG_SPEED, 
-			DatabaseHelper.KEY_CALORIES, 
-			DatabaseHelper.KEY_CLIMB, 
-			DatabaseHelper.KEY_HEARTRATE, 
-			DatabaseHelper.KEY_COMMENT, 
-			DatabaseHelper.KEY_PRIVACY, 
-			DatabaseHelper.KEY_GPS_DATA };
+	
+	private String[] workoutColumns = {
+			DatabaseHelper.WORKOUT_ID, 
+			DatabaseHelper.WORKOUT_NAME, 
+			DatabaseHelper.WORKOUT_EXERCISE_LIST, 
+			DatabaseHelper.WORKOUT_SCHEDULED_DATES, 
+			DatabaseHelper.WORKOUT_START_DATE, 
+			DatabaseHelper.WORKOUT_FREQUENCY_LIST, 
+			DatabaseHelper.WORKOUT_NOTES };
+	
+	private String[] workoutInstanceColumns = {
+			DatabaseHelper.WORKOUT_INSTANCE_ID, 
+			DatabaseHelper.WORKOUT_INSTANCE_NAME, 
+			DatabaseHelper.WORKOUT_INSTANCE_EXERCISE_LIST, 
+			DatabaseHelper.WORKOUT_INSTANCE_TIME };
 
-	private static final String TAG = "DATABASE";
-	public static final int INPUT_MANUAL = 0;
-	public static final int INPUT_GPS = 1;
-	public static final int INPUT_AUTOMATIC = 0;
+	private String[] exerciseColumns = {
+			DatabaseHelper.EXERCISE_ID, 
+			DatabaseHelper.EXERCISE_NAME, 
+			DatabaseHelper.EXERCISE_REPS, 
+			DatabaseHelper.EXERCISE_WEIGHT, 
+			DatabaseHelper.EXERCISE_REPS_GOAL, 
+			DatabaseHelper.EXERCISE_WEIGHT_GOAL, 
+			DatabaseHelper.EXERCISE_REST, 
+			DatabaseHelper.EXERCISE_NOTES };
+
+	private String[] frequencyColumns = {
+			DatabaseHelper.FREQUENCY_ID, 
+			DatabaseHelper.FREQUENCY_DAY, 
+			DatabaseHelper.FREQUENCY_START_DATE, 
+			DatabaseHelper.FREQUENCY_END_DATE };
+	
 	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
 
 	public DatabaseWrapper(Context context) {
@@ -52,37 +66,29 @@ public class DatabaseWrapper {
 		dbHelper.close();
 	}
 
-	public ExerciseEntry createEntry(ExerciseEntry entry) {
-
+	public Workout createEntry(Workout workout) {
 		ContentValues values = new ContentValues();
-		values.put(DatabaseHelper.KEY_INPUT_TYPE, entry.getInputType());
-		values.put(DatabaseHelper.KEY_ACTIVITY_TYPE, entry.getFinalActivityType());
-		values.put(DatabaseHelper.KEY_DATE_TIME, dateFormat.format(entry.getDateTime().getTime()));
-		values.put(DatabaseHelper.KEY_DURATION, entry.getDuration());
-		values.put(DatabaseHelper.KEY_DISTANCE, entry.getDistance());
-		values.put(DatabaseHelper.KEY_AVG_PACE, 0);
-		values.put(DatabaseHelper.KEY_AVG_SPEED, entry.getAvgSpeed());
-		values.put(DatabaseHelper.KEY_CALORIES, entry.getCalories());
-		values.put(DatabaseHelper.KEY_CLIMB, entry.getClimb());
-		values.put(DatabaseHelper.KEY_HEARTRATE, entry.getHeartRate());
-		values.put(DatabaseHelper.KEY_COMMENT, entry.getComment());
-		values.put(DatabaseHelper.KEY_PRIVACY, entry.getPrivacy());
-		values.put(DatabaseHelper.KEY_GPS_DATA, entry.getLocationByteArray());
+		values.put(DatabaseHelper.WORKOUT_NAME, workout.getName());
+		values.put(DatabaseHelper.WORKOUT_EXERCISE_LIST, workout.getExerciseListByteArray());
+		values.put(DatabaseHelper.WORKOUT_SCHEDULED_DATES, workout.getScheduledDatesByteArray());
+		values.put(DatabaseHelper.WORKOUT_START_DATE, dateFormat.format(workout.getStartDate()));
+		values.put(DatabaseHelper.WORKOUT_FREQUENCY_LIST, workout.getFrequencyListByteArray());
+		values.put(DatabaseHelper.WORKOUT_NOTES, workout.getNotes());
 		
 		if (database == null) {
 			open();
 		}
 		
-		long insertId = database.insert(DatabaseHelper.TABLE_NAME_ENTRIES, null, values); //ILLEGAL STATE EXCEPTION
-		entry.setId(insertId); //entry.setId(cursor.getLong(0))
-		Cursor cursor = database.query(DatabaseHelper.TABLE_NAME_ENTRIES,
-				allColumns, DatabaseHelper.KEY_ROWID + " = " + insertId, null,
+		long insertId = database.insert(DatabaseHelper.TABLE_NAME_WORKOUT, null, values); //ILLEGAL STATE EXCEPTION
+		workout.setId(insertId); //entry.setId(cursor.getLong(0))
+		Cursor cursor = database.query(DatabaseHelper.TABLE_NAME_WORKOUT,
+				workoutColumns, DatabaseHelper.WORKOUT_ID + " = " + insertId, null,
 				null, null, null);
 		cursor.moveToFirst();
-		ExerciseEntry newEntry = cursorToEntry(cursor);
+		Workout workout = cursorToWorkout(cursor);
 
 		cursor.close();
-		return newEntry;
+		return workout;
 	}
 
 	public void deleteEntry (ExerciseEntry entry) {

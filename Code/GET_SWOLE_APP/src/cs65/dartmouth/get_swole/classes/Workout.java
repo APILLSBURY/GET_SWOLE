@@ -9,6 +9,8 @@ public class Workout {
 	private Calendar startDate;
 	private ArrayList<Calendar> scheduledDates;
 	private ArrayList<Frequency> frequencyList;
+	private String notes;
+	private long id;
 	
 	
 	public Workout(String name) {
@@ -16,6 +18,8 @@ public class Workout {
 		startDate = Calendar.getInstance();
 		scheduledDates = new ArrayList<Calendar>();
 		frequencyList = new ArrayList<Frequency>();
+		notes = "";
+		id = -1;
 	}
 	
 	//add a date to the list of scheduled dates
@@ -85,6 +89,14 @@ public class Workout {
 		return frequencyList;
 	}
 	
+	public long getId() {
+		return id;
+	}
+	
+	public String getNotes() {
+		return notes;
+	}
+	
 	
 	//SETTER METHODS
 	public void setName(String n) {
@@ -105,5 +117,13 @@ public class Workout {
 	
 	public void setFrequencyList(ArrayList<Frequency> f) {
 		frequencyList = f;
+	}
+	
+	public void setNotes(String n) {
+		notes = n;
+	}
+	
+	public void setId(long i) {
+		id = i;
 	}
 }
