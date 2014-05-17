@@ -14,6 +14,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import cs65.dartmouth.get_swole.classes.*;
+import cs65.dartmouth.get_swole.*;
 
 public class DatabaseWrapper {
 
@@ -32,7 +33,7 @@ public class DatabaseWrapper {
 	
 	private String[] workoutInstanceColumns = {
 			DatabaseHelper.WORKOUT_INSTANCE_ID, 
-			DatabaseHelper.WORKOUT_INSTANCE_NAME, 
+			DatabaseHelper.WORKOUT_INSTANCE_WORKOUT, 
 			DatabaseHelper.WORKOUT_INSTANCE_EXERCISE_LIST, 
 			DatabaseHelper.WORKOUT_INSTANCE_TIME };
 
@@ -66,6 +67,8 @@ public class DatabaseWrapper {
 		dbHelper.close();
 	}
 
+	
+	//create a workout entry
 	public Workout createEntry(Workout workout) {
 		ContentValues values = new ContentValues();
 		values.put(DatabaseHelper.WORKOUT_NAME, workout.getName());
@@ -85,37 +88,128 @@ public class DatabaseWrapper {
 				workoutColumns, DatabaseHelper.WORKOUT_ID + " = " + insertId, null,
 				null, null, null);
 		cursor.moveToFirst();
-		Workout workout = cursorToWorkout(cursor);
+		Workout newWorkout = cursorToEntry(cursor, Workout.class);
 
 		cursor.close();
-		return workout;
+		return newWorkout;
 	}
 
-	public void deleteEntry (ExerciseEntry entry) {
-		deleteEntry(entry.getId());
-	}
 	
-	public void deleteEntry(long id) {
-		Log.d(TAG, "delete entry = " + id);
-		System.out.println("Comment deleted with id: " + id);
-		database.delete(DatabaseHelper.TABLE_NAME_ENTRIES, DatabaseHelper.KEY_ROWID + " = " + id, null);
-	}
-	
-	public void deleteAllEntries() {
-		System.out.println("Comment deleted all");
-		Log.d(TAG, "delete all = ");
-		database.delete(DatabaseHelper.TABLE_NAME_ENTRIES, null, null);
-	}
-	
-	public List<ExerciseEntry> getAllEntries() {
-		List<ExerciseEntry> entries = new ArrayList<ExerciseEntry>();
+	//create a workout instance entry
+	public Workout createEntry(WorkoutInstance workoutInstance) {
+		ContentValues values = new ContentValues();
+		values.put(DatabaseHelper.WORKOUT_INSTANCE_WORKOUT, workoutInstance.getWorkout().getId());
+		values.put(DatabaseHelper.WORKOUT_INSTANCE_EXERCISE_LIST, workoutInstance.getExerciseListByteArray());
+		values.put(DatabaseHelper.WORKOUT_INSTANCE_TIME, dateFormat.format(workoutInstance.getTime()));
+		
+		if (database == null) {
+			open();
+		}
+		
+		long insertId = database.insert(DatabaseHelper.TABLE_NAME_WORKOUT_INSTANCE, null, values); //ILLEGAL STATE EXCEPTION
+		workoutInstance.setId(insertId); //entry.setId(cursor.getLong(0))
+		Cursor cursor = database.query(DatabaseHelper.TABLE_NAME_WORKOUT_INSTANCE,
+				workoutColumns, DatabaseHelper.WORKOUT_INSTANCE_ID + " = " + insertId, null,
+				null, null, null);
+		cursor.moveToFirst();
+		Workout newWorkoutInstance = cursorToEntry(cursor, WorkoutInstance.class);
 
-		Cursor cursor = database.query(DatabaseHelper.TABLE_NAME_ENTRIES,
+		cursor.close();
+		return newWorkoutInstance;
+	}
+	
+	//create an exercise entry
+	public Exercise createEntry(Exercise exercise) {
+		ContentValues values = new ContentValues();
+		values.put(DatabaseHelper.EXERCISE_NAME, exercise.getName());
+		values.put(DatabaseHelper.EXERCISE_REPS, exercise.getReps());
+		values.put(DatabaseHelper.EXERCISE_WEIGHT, exercise.getWeight());
+		values.put(DatabaseHelper.EXERCISE_REPS_GOAL, exercise.getRepsGoal());
+		values.put(DatabaseHelper.EXERCISE_WEIGHT_GOAL, exercise.getWeightGoal());
+		values.put(DatabaseHelper.EXERCISE_REST, exercise.getRest());
+		values.put(DatabaseHelper.EXERCISE_NOTES, exercise.getNotes());
+		
+		if (database == null) {
+			open();
+		}
+		
+		long insertId = database.insert(DatabaseHelper.TABLE_NAME_EXERCISE, null, values); //ILLEGAL STATE EXCEPTION
+		exercise.setId(insertId); //entry.setId(cursor.getLong(0))
+		Cursor cursor = database.query(DatabaseHelper.TABLE_NAME_EXERCISE,
+				exerciseColumns, DatabaseHelper.EXERCISE_ID + " = " + insertId, null,
+				null, null, null);
+		cursor.moveToFirst();
+		Exercise newExercise = cursorToEntry(cursor, Exercise.class);
+
+		cursor.close();
+		return newExercise;
+	}
+
+	//create a frequency entry
+	public Frequency createEntry(Frequency frequency) {
+		ContentValues values = new ContentValues();
+		values.put(DatabaseHelper.FREQUENCY_DAY, frequency.getDay());
+		values.put(DatabaseHelper.FREQUENCY_START_DATE, dateFormat.format(frequency.getStartDate()));
+		values.put(DatabaseHelper.FREQUENCY_END_DATE, dateFormat.format(frequency.getEndDate()));
+		
+		if (database == null) {
+			open();
+		}
+		
+		long insertId = database.insert(DatabaseHelper.TABLE_NAME_FREQUENCY, null, values); //ILLEGAL STATE EXCEPTION
+		frequency.setId(insertId); //entry.setId(cursor.getLong(0))
+		Cursor cursor = database.query(DatabaseHelper.TABLE_NAME_FREQUENCY,
+				workoutColumns, DatabaseHelper.FREQUENCY_ID + " = " + insertId, null,
+				null, null, null);
+		cursor.moveToFirst();
+		Frequency newFrequency = cursorToEntry(cursor, Frequency.class);
+
+		cursor.close();
+		return newFrequency;
+	}
+
+	public void deleteEntry (Workout workout) {
+		deleteEntry(workout.getId(), DatabaseHelper.TABLE_NAME_WORKOUT, DatabaseHelper.WORKOUT_ID);
+	}
+
+	public void deleteEntry (WorkoutInstance workoutInstance) {
+		deleteEntry(workoutInstance.getId(), DatabaseHelper.TABLE_NAME_WORKOUT_INSTANCE, DatabaseHelper.WORKOUT_INSTANCE_ID);
+	}
+
+	public void deleteEntry (Exercise exercise) {
+		deleteEntry(exercise.getId(), DatabaseHelper.TABLE_NAME_EXERCISE, DatabaseHelper.EXERCISE_ID);
+	}
+
+	public void deleteEntry (Frequency frequency) {
+		deleteEntry(frequency.getId(), DatabaseHelper.TABLE_NAME_FREQUENCY, DatabaseHelper.FREQUENCY_ID);
+	}
+	
+	public void deleteEntry(long id, String tableName, String IdRowKey) {
+		Log.d(Globals.TAG, "delete entry = " + id);
+		Log.d(Globals.TAG, "Entry deleted from table " + tableName + " with id: " + id);
+		database.delete(tableName, IdRowKey + " = " + id, null);
+	}
+	
+	public void deleteAllEntries(Class c) {
+		String tableName = getTableNameFromClass(c);
+		if (tableName == null) {
+			Log.e(Globals.TAG, "Cannot clear entries for class " + c.getName());
+		}
+		Log.d(TAG, "delete all entries from table " + tableName);
+		database.delete(tableName, null, null);
+	}
+	
+	public List<Object> getAllEntries(Class c) {
+		String tableName = getTableNameFromClass(c);
+		String[] allColumns = getColumnNamesFromClass(c);
+		List<Object> entries = new ArrayList<Object>();
+
+		Cursor cursor = database.query(tableName,
 				allColumns, null, null, null, null, null);
 
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {
-			ExerciseEntry entry = cursorToEntry(cursor);
+			Object entry = cursorToEntry(cursor, c);
 			entries.add(entry);
 			cursor.moveToNext();
 		}
@@ -167,5 +261,41 @@ public class DatabaseWrapper {
 		entry.setPrivacy(cursor.getInt(cursor.getColumnIndex(DatabaseHelper.KEY_PRIVACY)));
 		entry.setLocationFromByteArray(cursor.getBlob(cursor.getColumnIndex(DatabaseHelper.KEY_GPS_DATA)));
 		return entry;
+	}
+	
+	private String getTableNameFromClass(Class c) {
+		if (c == Workout.class) {
+			return DatabaseHelper.TABLE_NAME_WORKOUT;
+		}
+		else if (c == WorkoutInstance.class) {
+			return DatabaseHelper.TABLE_NAME_WORKOUT_INSTANCE;
+		}
+		else if (c == Exercise.class) {
+			return DatabaseHelper.TABLE_NAME_EXERCISE;
+		}
+		else if (c == Frequency.class) {
+			return DatabaseHelper.TABLE_NAME_FREQUENCY;
+		}
+		else {
+			return null;
+		}
+	}
+	
+	private String[] getColumnNamesFromClass(Class c) {
+		if (c == Workout.class) {
+			return workoutColumns;
+		}
+		else if (c == WorkoutInstance.class) {
+			return workoutInstanceColumns;
+		}
+		else if (c == Exercise.class) {
+			return exerciseColumns;
+		}
+		else if (c == Frequency.class) {
+			return frequencyColumns;
+		}
+		else {
+			return null;
+		}
 	}
 }
