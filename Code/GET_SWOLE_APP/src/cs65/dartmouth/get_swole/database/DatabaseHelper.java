@@ -20,7 +20,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	//Workout instance table
 	public static final String TABLE_NAME_WORKOUT_INSTANCE = "workout_instance";
 	public static final String WORKOUT_INSTANCE_ID = "_id";
-	public static final String WORKOUT_INSTANCE_NAME = "name";
+	public static final String WORKOUT_INSTANCE_WORKOUT = "workout";
 	public static final String WORKOUT_INSTANCE_EXERCISE_LIST = "exerciselist";
 	public static final String WORKOUT_INSTANCE_TIME = "time";
 	
@@ -61,9 +61,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String CREATE_TABLE_EXERCISE = "CREATE TABLE IF NOT EXISTS "
             + TABLE_NAME_WORKOUT_INSTANCE + " ("
             + WORKOUT_INSTANCE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + WORKOUT_INSTANCE_NAME + " TEXT, "
+            + "FOREIGN KEY (" + WORKOUT_INSTANCE_WORKOUT + ") REFERENCES " + TABLE_NAME_WORKOUT + " (" + WORKOUT_ID + ") "
             + WORKOUT_EXERCISE_LIST + " BLOB, "
-            + WORKOUT_INSTANCE_TIME + " DATETIME, " + ");";  
+            + WORKOUT_INSTANCE_TIME + " DATETIME, " + ");";
     
     public static final String CREATE_TABLE_WORKOUT_INSTANCE = "CREATE TABLE IF NOT EXISTS "
             + TABLE_NAME_EXERCISE + " ("
