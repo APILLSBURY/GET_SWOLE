@@ -109,7 +109,7 @@ public class DatabaseWrapper {
 		long insertId = database.insert(DatabaseHelper.TABLE_NAME_WORKOUT_INSTANCE, null, values); //ILLEGAL STATE EXCEPTION
 		workoutInstance.setId(insertId); //entry.setId(cursor.getLong(0))
 		Cursor cursor = database.query(DatabaseHelper.TABLE_NAME_WORKOUT_INSTANCE,
-				workoutColumns, DatabaseHelper.WORKOUT_INSTANCE_ID + " = " + insertId, null,
+				workoutInstanceColumns, DatabaseHelper.WORKOUT_INSTANCE_ID + " = " + insertId, null,
 				null, null, null);
 		cursor.moveToFirst();
 		Workout newWorkoutInstance = cursorToEntry(cursor, WorkoutInstance.class);
@@ -159,7 +159,7 @@ public class DatabaseWrapper {
 		long insertId = database.insert(DatabaseHelper.TABLE_NAME_FREQUENCY, null, values); //ILLEGAL STATE EXCEPTION
 		frequency.setId(insertId); //entry.setId(cursor.getLong(0))
 		Cursor cursor = database.query(DatabaseHelper.TABLE_NAME_FREQUENCY,
-				workoutColumns, DatabaseHelper.FREQUENCY_ID + " = " + insertId, null,
+				frequencyColumns, DatabaseHelper.FREQUENCY_ID + " = " + insertId, null,
 				null, null, null);
 		cursor.moveToFirst();
 		Frequency newFrequency = cursorToEntry(cursor, Frequency.class);
@@ -199,10 +199,22 @@ public class DatabaseWrapper {
 		database.delete(tableName, null, null);
 	}
 	
-	public List<Object> getAllEntries(Class c) {
+	public List getAllEntries(Class c) {
 		String tableName = getTableNameFromClass(c);
 		String[] allColumns = getColumnNamesFromClass(c);
-		List<Object> entries = new ArrayList<Object>();
+		List entries;
+		if (c == Workout.class) {
+			entries = new ArrayList<Workout>();
+		}
+		else if (c == WorkoutInstance.class) {
+			entries = new ArrayList<WorkoutInstance>();
+		}
+		else if (c == Exercise.class) {
+			entries = new ArrayList<Exercise>();
+		}
+		else if (c == Frequency.class) {
+			entries = new ArrayList<Frequency>();
+		}
 
 		Cursor cursor = database.query(tableName,
 				allColumns, null, null, null, null, null);
