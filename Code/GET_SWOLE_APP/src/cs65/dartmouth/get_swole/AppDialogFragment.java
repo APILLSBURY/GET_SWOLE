@@ -16,18 +16,14 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
+import android.widget.Toast;
 import cs65.dartmouth.get_swole.classes.Exercise;
+import cs65.dartmouth.get_swole.database.DatabaseWrapper;
 
 public class AppDialogFragment extends DialogFragment {
 
 	// For use by edit exercise dialog
-	private static final String E_NAME = "Name";
-	private static final String E_REPS = "Reps";
-	private static final String E_WEIGHT = "Weight";
-	private static final String E_RGOAL = "RepsGoal";
-	private static final String E_WGOAL = "WeightGoal";
-	private static final String E_REST = "Rest";
-	private static final String E_NOTES = "Notes";
+	private static final String ENTRY_ID = "Id";
 	
 	public static final int DIALOG_ID_PHOTO_PICKER = 1;
 	public static final int ID_PHOTO_FROM_CAMERA = 0;
@@ -53,13 +49,7 @@ public class AppDialogFragment extends DialogFragment {
 		AppDialogFragment frag = new AppDialogFragment();
 		Bundle args = new Bundle();
 		args.putInt(DIALOG_ID_KEY, DIALOG_ID_EDIT_EXERCISE);
-		args.putString(E_NAME, e.getName());
-		args.putInt(E_REPS, e.getReps());
-		args.putInt(E_WEIGHT, e.getWeight());
-		args.putInt(E_RGOAL, e.getRepsGoal());
-		args.putInt(E_WGOAL, e.getWeightGoal());
-		args.putInt(E_REST, e.getRest());
-		args.putString(E_NOTES, e.getNotes());
+		args.putLong(ENTRY_ID, e.getId());
 		frag.setArguments(args);
 		return frag;
 	}
@@ -123,14 +113,21 @@ public class AppDialogFragment extends DialogFragment {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					// we want to launch new activity 
+					if (nameInput.getText().toString().isEmpty()) {
+						Toast.makeText(getActivity(), "Please enter a workout name", Toast.LENGTH_SHORT).show();
+					}
 	            	
-	            	Bundle bundle = new Bundle();
-	            	bundle.putString(Globals.NAME_TAG, nameInput.getText().toString());
-	            	
-	            	Intent intent = new Intent(getActivity(), WorkoutEditActivity.class);
-	            	intent.putExtras(bundle);
-	            	
-	            	getActivity().startActivity(intent);   
+					else {
+		            	Bundle bundle = new Bundle();
+		            	bundle.putString(Globals.NAME_TAG, nameInput.getText().toString());
+		            	
+		            	Intent intent = new Intent(getActivity(), WorkoutEditActivity.class);
+		            	intent.putExtras(bundle);
+		            	
+		            	getActivity().startActivity(intent);   
+		            	getDialog().cancel(); // is this right?
+		            
+					}
 					
 				}
 			});
@@ -148,36 +145,64 @@ public class AppDialogFragment extends DialogFragment {
 
 			 // Get the layout inflater
 		    LayoutInflater inflater = getActivity().getLayoutInflater();
-
-		    // Inflate and set the layout for the dialog
-		    // Pass null as the parent view because its going in the dialog layout
 		    View v = inflater.inflate(R.layout.dialog_edit_exercise, null);
 		    b.setView(v);		
 
+		    // Text views
+		    final EditText exerciseName = (EditText) v.findViewById(R.id.exerciseName);
+			final EditText exerciseReps = (EditText) v.findViewById(R.id.exerciseReps);
+			final EditText exerciseWeight = (EditText) v.findViewById(R.id.exerciseWeight);
+			final EditText exerciseRepsGoal = (EditText) v.findViewById(R.id.exerciseRepsGoal);
+			final EditText exerciseWeightGoal = (EditText) v.findViewById(R.id.exerciseWeightGoal);
+			final EditText exerciseRest = (EditText) v.findViewById(R.id.exerciseRest);
+			final EditText exerciseNotes = (EditText) v.findViewById(R.id.exerciseNotes);
+			
+			// Id of exercise entry that we are loading up, could not be there
+		    final long id = getArguments().getLong(ENTRY_ID, -1L);
+		    
 		    // We fill the fields if there is data
-			String name = savedInstanceState.getString(E_NAME, "");
-			if (!name.isEmpty()) {		
-				((EditText) v.findViewById(R.id.exerciseName)).setText(name);
-				((EditText) v.findViewById(R.id.exerciseReps)).setText(savedInstanceState.getInt(E_REPS));
-				((EditText) v.findViewById(R.id.exerciseWeight)).setText(savedInstanceState.getInt(E_WEIGHT));
-				((EditText) v.findViewById(R.id.exerciseRepsGoal)).setText(savedInstanceState.getInt(E_RGOAL));
-				((EditText) v.findViewById(R.id.exerciseWeightGoal)).setText(savedInstanceState.getInt(E_WGOAL));
-				((EditText) v.findViewById(R.id.exerciseRest)).setText(savedInstanceState.getInt(E_REST));
-				((EditText) v.findViewById(R.id.exerciseNotes)).setText(savedInstanceState.getInt(E_NOTES));
-
+			if (id != -1L) {	
+				DatabaseWrapper dbWrapper = new DatabaseWrapper(getActivity());
+				dbWrapper.open();
+				Exercise e = dbWrapper.getEntryById(id, Exercise.class);
+				dbWrapper.close();		
+				
+				exerciseName.setText(e.getName());
+				exerciseReps.setText(e.getReps());
+				exerciseWeight.setText(e.getWeight());
+				exerciseRepsGoal.setText(e.getRepsGoal());
+				exerciseWeightGoal.setText(e.getWeightGoal());
+				exerciseRest.setText(e.getRest());
+				exerciseNotes.setText(e.getNotes());
 			}
-
+			
 			b.setPositiveButton(getString(R.string.positive), new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					// save the exercise into the exercise list of the workout
-					       	
+					DatabaseWrapper dbWrapper = new DatabaseWrapper(getActivity());
+					dbWrapper.open();
+					dbWrapper.deleteEntry(id, Exercise.class); // might be deleting nothing
+					Exercise e = new Exercise(exerciseName.getText().toString());
+					e.setReps(Integer.parseInt(exerciseReps.getText().toString()));
+					e.setRepsGoal(Integer.parseInt(exerciseRepsGoal.getText().toString()));
+					e.setWeight(Integer.parseInt(exerciseWeight.getText().toString()));
+					e.setWeightGoal(Integer.parseInt(exerciseWeightGoal.getText().toString()));
+					e.setRest(Integer.parseInt(exerciseRest.getText().toString()));
+					e.setNotes(exerciseNotes.getText().toString());
+					dbWrapper.createEntry(e);		       	
+					dbWrapper.close();
 				}
 			});
 			b.setNegativeButton(getString(R.string.delete), new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					// delete the entry
+					DatabaseWrapper dbWrapper = new DatabaseWrapper(getActivity());
+					dbWrapper.open();
+					dbWrapper.deleteEntry(id);
+					dbWrapper.close();
+					
 				}
 			});
 			return b.create();
