@@ -13,6 +13,14 @@
     <color name="white">#FFFFFF</color>
     <color name="background_holo_dark">#aaa</color>
     
+    <!-- Workouts -->
+    
+    <!--  Dialogs -->
+    <string name="positive">OK</string>
+    <string name="negative">Cancel</string>
+    <string name="dialog_title_new_workout">New Workout</string>
+    <string name="dialog_hint_new_workout">Workout Name</string>
+    
     <!-- Profile -->
 	<string name="default_profile_photo">default_profile.png</string>
 	<string name="profile_saved_photo_file_name">profile_photo</string>

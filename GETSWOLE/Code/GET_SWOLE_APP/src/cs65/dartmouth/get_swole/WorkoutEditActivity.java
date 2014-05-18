@@ -33,18 +33,30 @@ public class WorkoutEditActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_workout);
 		
-		long id = getIntent().getExtras().getLong(Globals.ID_TAG);
-		DatabaseWrapper dbWrapper = new DatabaseWrapper(this);
-		dbWrapper.open();
-		workout = dbWrapper.getEntryById(id);
-		
 		// Display		
 		TextView nameView = (TextView) findViewById(R.id.workoutName);
-		nameView.setText(workout.getName());
+					
+		long id = getIntent().getExtras().getLong(Globals.ID_TAG, -1L);
+		if (id == -1) { // we are creating a new workout
+			
+			workout = new Workout(getIntent().getExtras().getString(Globals.NAME_TAG));
+			
+			nameView.setText(workout.getName());
+			
+			exercises = workout.getExerciseList();
+			
+		}
+		else {
+			DatabaseWrapper dbWrapper = new DatabaseWrapper(this);
+			dbWrapper.open();
+			workout = (Workout) dbWrapper.getEntryById(id, Workout.class);
+	
+			nameView.setText(workout.getName());
 		
-		exercises = workout.getExerciseList();
+			exercises = workout.getExerciseList();
+		}
 		
-		 // Define a new adapter
+		// Define a new adapter
         ExercisesAdapter mAdapter = new ExercisesAdapter(this, R.layout.exercises_list_row, exercises);
 
         // Assign the adapter to ListView
@@ -55,17 +67,13 @@ public class WorkoutEditActivity extends Activity {
         OnItemClickListener mListener = new OnItemClickListener() {
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                             // Open dialog to edit this exercise
+                    		
                     }
         };
 
         // Get the ListView and wired the listener
         listView.setOnItemClickListener(mListener);
 		
-		
-		
-		
-		workout.getExerciseList();
-		//workout.getNotes();
 	}
 	
 	public void onStartWorkout() {
@@ -79,6 +87,11 @@ public class WorkoutEditActivity extends Activity {
 		startActivity(intent);
 	}
 	
+	/**
+	 * 
+	 * PRIVATE CLASSES
+	 *
+	 */
 	private class ExercisesAdapter extends ArrayAdapter<Exercise> {
     	
     	private Context context;

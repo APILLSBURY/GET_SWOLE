@@ -1,22 +1,19 @@
 package cs65.dartmouth.get_swole;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
 import cs65.dartmouth.get_swole.classes.Workout;
 import cs65.dartmouth.get_swole.database.DatabaseWrapper;
 
@@ -35,7 +32,7 @@ public class WorkoutFragment extends ListFragment {
 		
 		dbWrapper = new DatabaseWrapper(mContext);
 		dbWrapper.open();
-		workouts = dbWrapper.getAllWorkouts();
+		workouts = (List<Workout>) dbWrapper.getAllEntries(Workout.class);
 		dbWrapper.close();
 				
 		workoutsAdapter = new WorkoutsAdapter(mContext, R.layout.workouts_list_row, workouts);
