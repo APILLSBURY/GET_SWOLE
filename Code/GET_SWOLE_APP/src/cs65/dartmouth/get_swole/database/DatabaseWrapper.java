@@ -184,10 +184,31 @@ public class DatabaseWrapper {
 		deleteEntry(frequency.getId(), DatabaseHelper.TABLE_NAME_FREQUENCY, DatabaseHelper.FREQUENCY_ID);
 	}
 	
-	public void deleteEntry(long id, String tableName, String IdRowKey) {
+	public void deleteEntry (Long id, Class c) {
+		String idRowKey;
+		if (c == Workout.class) {
+			idRowKey = DatabaseHelper.WORKOUT_ID;
+		}
+		else if (c == WorkoutInstance.class) {
+			idRowKey = DatabaseHelper.WORKOUT_INSTANCE_ID;
+		}
+		else if (c == Exercise.class) {
+			idRowKey = DatabaseHelper.EXERCISE_ID;
+		}
+		else if (c == Frequency.class) {
+			idRowKey = DatabaseHelper.FREQUENCY_ID;
+		}
+		else {
+			idRowKey = "";
+			Log.d(Globals.TAG, "What the heck is class " + c.getName());
+		}
+		deleteEntry(id, getTableNameFromClass(c), idRowKey);
+	}
+	
+	public void deleteEntry(long id, String tableName, String idRowKey) {
 		Log.d(Globals.TAG, "delete entry = " + id);
 		Log.d(Globals.TAG, "Entry deleted from table " + tableName + " with id: " + id);
-		database.delete(tableName, IdRowKey + " = " + id, null);
+		database.delete(tableName, idRowKey + " = " + id, null);
 	}
 	
 	public void deleteAllEntries(Class c) {
