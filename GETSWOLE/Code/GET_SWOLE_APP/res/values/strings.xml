@@ -13,11 +13,20 @@
     <color name="white">#FFFFFF</color>
     <color name="background_holo_dark">#aaa</color>
     
-    <!-- Workouts -->
+    <!-- Exercises -->
+    <string name="exercise_name_title">Name:</string>
+    <string name="exercise_reps_title">Reps:</string>
+    <string name="exercise_weight_title">Weight:</string>
+    <string name="exercise_reps_goal_title">Reps Goal:</string>
+    <string name="exercise_weight_goal_title">Weight Goal:</string>
+    <string name="exercise_rest_title">Rest (secs):</string>
+    <string name="exercise_notes_title">Notes:</string>
+    <string name="exercise_notes_hint">about this exercise.</string>
     
     <!--  Dialogs -->
     <string name="positive">OK</string>
     <string name="negative">Cancel</string>
+    <string name="delete">Delete</string>
     <string name="dialog_title_new_workout">New Workout</string>
     <string name="dialog_hint_new_workout">Workout Name</string>
     
