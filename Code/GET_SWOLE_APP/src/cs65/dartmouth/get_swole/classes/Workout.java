@@ -14,6 +14,7 @@ public class Workout {
 	
 	
 	public Workout(String name) {
+		this.name = name;
 		exerciseList = new ArrayList<Exercise>();
 		startDate = Calendar.getInstance();
 		scheduledDates = new ArrayList<Calendar>();
