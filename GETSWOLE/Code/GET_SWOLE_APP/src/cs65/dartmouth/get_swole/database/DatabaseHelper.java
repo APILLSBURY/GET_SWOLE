@@ -58,14 +58,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + WORKOUT_FREQUENCY_LIST + " BLOB, "
             + WORKOUT_NOTES + " TEXT, " + ");";  
     
-    public static final String CREATE_TABLE_EXERCISE = "CREATE TABLE IF NOT EXISTS "
+    public static final String CREATE_TABLE_WORKOUT_INSTANCE = "CREATE TABLE IF NOT EXISTS "
             + TABLE_NAME_WORKOUT_INSTANCE + " ("
             + WORKOUT_INSTANCE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + "FOREIGN KEY (" + WORKOUT_INSTANCE_WORKOUT + ") REFERENCES " + TABLE_NAME_WORKOUT + " (" + WORKOUT_ID + ") "
             + WORKOUT_EXERCISE_LIST + " BLOB, "
             + WORKOUT_INSTANCE_TIME + " DATETIME, " + ");";
     
-    public static final String CREATE_TABLE_WORKOUT_INSTANCE = "CREATE TABLE IF NOT EXISTS "
+    public static final String CREATE_TABLE_EXERCISE = "CREATE TABLE IF NOT EXISTS "
             + TABLE_NAME_EXERCISE + " ("
             + EXERCISE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + EXERCISE_NAME + " TEXT, "

@@ -7,7 +7,6 @@ public class Frequency extends GetSwoleClass {
 	private int day;
 	private Calendar startDate;
 	private Calendar endDate;
-	private long id;
 	
 	public Frequency () {
 		this(-1);
@@ -34,10 +33,6 @@ public class Frequency extends GetSwoleClass {
 		return endDate;
 	}
 	
-	public long getId() {
-		return id;
-	}
-	
 	
 	//SETTER METHODS
 	public void setDay(int d) {
@@ -50,9 +45,5 @@ public class Frequency extends GetSwoleClass {
 	
 	public void setEndDate(Calendar ed) {
 		endDate = ed;
-	}
-	
-	public void setId(long i) {
-		id = i;
 	}
 }
