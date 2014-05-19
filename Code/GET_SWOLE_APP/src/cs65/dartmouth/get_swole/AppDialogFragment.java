@@ -114,7 +114,7 @@ public class AppDialogFragment extends DialogFragment {
 				public void onClick(DialogInterface dialog, int which) {
 					// we want to launch new activity 
 					if (nameInput.getText().toString().isEmpty()) {
-						Toast.makeText(getActivity(), "Please enter a workout name", Toast.LENGTH_SHORT).show();
+						Toast.makeText(getActivity(), "Workout has no name. Try again.", Toast.LENGTH_SHORT).show();
 					}
 	            	
 					else {
@@ -164,7 +164,7 @@ public class AppDialogFragment extends DialogFragment {
 			if (id != -1L) {	
 				DatabaseWrapper dbWrapper = new DatabaseWrapper(getActivity());
 				dbWrapper.open();
-				Exercise e = dbWrapper.getEntryById(id, Exercise.class);
+				Exercise e = dbWrapper.getExerciseEntryById(id);
 				dbWrapper.close();		
 				
 				exerciseName.setText(e.getName());
@@ -182,7 +182,7 @@ public class AppDialogFragment extends DialogFragment {
 					// save the exercise into the exercise list of the workout
 					DatabaseWrapper dbWrapper = new DatabaseWrapper(getActivity());
 					dbWrapper.open();
-					dbWrapper.deleteEntry(id, Exercise.class); // might be deleting nothing
+					dbWrapper.deleteEntry(id, Exercise.class); // might be deleting nothing if id is -1
 					Exercise e = new Exercise(exerciseName.getText().toString());
 					e.setReps(Integer.parseInt(exerciseReps.getText().toString()));
 					e.setRepsGoal(Integer.parseInt(exerciseRepsGoal.getText().toString()));
@@ -194,17 +194,27 @@ public class AppDialogFragment extends DialogFragment {
 					dbWrapper.close();
 				}
 			});
-			b.setNegativeButton(getString(R.string.delete), new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					// delete the entry
-					DatabaseWrapper dbWrapper = new DatabaseWrapper(getActivity());
-					dbWrapper.open();
-					dbWrapper.deleteEntry(id);
-					dbWrapper.close();
-					
-				}
-			});
+			
+			if (id == -1) { // then this is a new entry, and we might want to just cancel
+				b.setNegativeButton(getString(R.string.negative), new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// do nothing
+					}
+				});
+			}
+			else { // this entry exists, and we might want to delete it
+				b.setNegativeButton(getString(R.string.delete), new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// delete the entry
+						DatabaseWrapper dbWrapper = new DatabaseWrapper(getActivity());
+						dbWrapper.open();
+						dbWrapper.deleteEntry(id, Exercise.class);
+						dbWrapper.close();
+					}
+				});
+			}
 			return b.create();
 		default:
 			return null;		
