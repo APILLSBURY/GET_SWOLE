@@ -2,12 +2,16 @@ package cs65.dartmouth.get_swole.classes;
 
 import java.util.Calendar;
 
-public class Frequency {
+public class Frequency extends GetSwoleClass {
 
 	private int day;
 	private Calendar startDate;
 	private Calendar endDate;
 	private long id;
+	
+	public Frequency () {
+		this(-1);
+	}
 	
 	public Frequency (int day) {
 		this.day = day;

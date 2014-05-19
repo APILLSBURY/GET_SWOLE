@@ -3,12 +3,15 @@ package cs65.dartmouth.get_swole.classes;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class WorkoutInstance {
+public class WorkoutInstance extends GetSwoleClass {
 	private Workout workout;
 	private Calendar time;
 	private ArrayList<Exercise> exerciseList;
 	private long id;
 	
+	public WorkoutInstance() {
+		this(null);
+	}
 	
 	public WorkoutInstance(Workout w) {
 		workout = w;

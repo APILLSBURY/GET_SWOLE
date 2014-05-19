@@ -3,7 +3,7 @@ package cs65.dartmouth.get_swole.classes;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class Workout {
+public class Workout extends GetSwoleClass {
 	private String name;
 	private ArrayList<Exercise> exerciseList;
 	private Calendar startDate;
@@ -12,6 +12,9 @@ public class Workout {
 	private String notes;
 	private long id;
 	
+	public Workout() {
+		this("");
+	}
 	
 	public Workout(String name) {
 		this.name = name;
