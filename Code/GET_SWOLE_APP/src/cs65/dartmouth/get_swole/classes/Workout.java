@@ -1,16 +1,25 @@
 package cs65.dartmouth.get_swole.classes;
 
+import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import cs65.dartmouth.get_swole.Globals;
+import cs65.dartmouth.get_swole.database.*;
+
+import android.content.Context;
+import android.util.Log;
+
 public class Workout extends GetSwoleClass {
-	private String name;
 	private ArrayList<Exercise> exerciseList;
 	private Calendar startDate;
 	private ArrayList<Calendar> scheduledDates;
 	private ArrayList<Frequency> frequencyList;
 	private String notes;
-	private long id;
 	
 	public Workout() {
 		this("");
@@ -72,11 +81,55 @@ public class Workout extends GetSwoleClass {
 		frequencyList.add(f);
 	}
 	
-	//GETTER METHODS
-	public String getName() {
-		return name;
+	
+	//BYTE ARRAY METHODS
+	public byte[] getExerciseListByteArray() {
+		int[] intArray = new int[exerciseList.size()];
+		for (int i = 0; i < exerciseList.size(); i++) {
+			Exercise exercise = exerciseList.get(i);
+			intArray[i] = (int) exercise.getId();
+		}
+		ByteBuffer byteBuffer = ByteBuffer.allocate(intArray.length * Integer.SIZE);
+		IntBuffer intBuffer = byteBuffer.asIntBuffer();
+		intBuffer.put(intArray);
+		return byteBuffer.array();
 	}
 	
+	public void setExerciseListFromByteArray(byte[] byteArray, Context c) {
+		ByteBuffer byteBuffer = ByteBuffer.wrap(byteArray);
+		IntBuffer intBuffer = byteBuffer.asIntBuffer();
+		int[] intArray = new int[byteArray.length/Integer.SIZE];
+		intBuffer.get(intArray);
+		Exercise exercise;
+		exerciseList.clear();
+		DatabaseWrapper db = new DatabaseWrapper(c);
+		db.open();
+		for (int i = 0; i < intArray.length; i++) {
+			exercise = (Exercise) db.getEntryById((long) id, Exercise.class);
+			exerciseList.add(exercise);
+		}
+	}
+	
+
+	//JSON maker
+	public JSONObject toJSONObject(Context c) {
+		JSONObject obj = new JSONObject();
+		try {
+			obj.put(DatabaseHelper.WORKOUT_ID, id);
+			obj.put(DatabaseHelper.WORKOUT_EXERCISE_LIST, exerciseList);
+			obj.put(DatabaseHelper.WORKOUT_START_DATE, startDate);
+			obj.put(DatabaseHelper.WORKOUT_EXERCISE_LIST, scheduledDates);
+			obj.put(DatabaseHelper.WORKOUT_EXERCISE_LIST, frequencyList);
+			obj.put(DatabaseHelper.WORKOUT_NOTES, notes);
+		}
+		catch (JSONException e) {
+			Log.e(Globals.TAG, "Couldn't make JSON object", e);
+		}
+		return obj;
+	}
+	
+	
+	//GETTER METHODS
 	public ArrayList<Exercise> getExerciseList() {
 		return exerciseList;
 	}
@@ -125,9 +178,5 @@ public class Workout extends GetSwoleClass {
 	
 	public void setNotes(String n) {
 		notes = n;
-	}
-	
-	public void setId(long i) {
-		id = i;
 	}
 }

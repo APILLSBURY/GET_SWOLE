@@ -7,7 +7,6 @@ public class WorkoutInstance extends GetSwoleClass {
 	private Workout workout;
 	private Calendar time;
 	private ArrayList<Exercise> exerciseList;
-	private long id;
 	
 	public WorkoutInstance() {
 		this(null);
@@ -24,6 +23,10 @@ public class WorkoutInstance extends GetSwoleClass {
 		exerciseList.add(e);
 	}
 	
+	//BYTE ARRAY METHODS
+	
+	
+	
 	//GETTER METHODS
 	public Workout getWorkout() {
 		return workout;
@@ -35,10 +38,6 @@ public class WorkoutInstance extends GetSwoleClass {
 	
 	public ArrayList<Exercise> getExerciseList() {
 		return exerciseList;
-	}
-	
-	public long getId() {
-		return id;
 	}
 	
 	
@@ -53,9 +52,5 @@ public class WorkoutInstance extends GetSwoleClass {
 	
 	public void setExerciseList(ArrayList<Exercise> el) {
 		exerciseList = el;
-	}
-	
-	public void setId(long i) {
-		id = i;
 	}
 }

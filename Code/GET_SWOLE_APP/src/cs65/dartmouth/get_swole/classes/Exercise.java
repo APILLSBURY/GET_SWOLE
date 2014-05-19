@@ -1,14 +1,12 @@
 package cs65.dartmouth.get_swole.classes;
 
 public class Exercise extends GetSwoleClass {
-	private String name;
 	private int reps;
 	private int weight;
 	private int repsGoal;
 	private int weightGoal;
 	private int rest;
 	private String notes;
-	private long id;
 	
 	public Exercise() {
 		this("");
@@ -28,9 +26,6 @@ public class Exercise extends GetSwoleClass {
 	
 	
 	//GETTER METHODS
-	public String getName() {
-		return name;
-	}
 	
 	public int getReps() {
 		return reps;
@@ -56,16 +51,8 @@ public class Exercise extends GetSwoleClass {
 		return notes;
 	}
 	
-	public long getId() {
-		return id;
-	}
-	
 	
 	//SETTER METHODS
-	public void setName(String n) {
-		name = n;
-	}
-	
 	public void setReps(int r) {
 		reps = r;
 	}
@@ -86,11 +73,7 @@ public class Exercise extends GetSwoleClass {
 		rest = r;
 	}
 	
-	public void setWeightGoal(String n) {
+	public void setNotes(String n) {
 		notes = n;
-	}
-	
-	public void setId(long i) {
-		id = i;
 	}
 }
