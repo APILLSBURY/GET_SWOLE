@@ -53,7 +53,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + WORKOUT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + WORKOUT_NAME + " TEXT, "
             + WORKOUT_EXERCISE_LIST + " BLOB, "
-            + WORKOUT_SCHEDULED_DATES + " BLOB, "
+            + WORKOUT_SCHEDULED_DATES + " TEXT, "
             + WORKOUT_START_DATE + " DATETIME, "
             + WORKOUT_FREQUENCY_LIST + " BLOB, "
             + WORKOUT_NOTES + " TEXT, " + ");";  

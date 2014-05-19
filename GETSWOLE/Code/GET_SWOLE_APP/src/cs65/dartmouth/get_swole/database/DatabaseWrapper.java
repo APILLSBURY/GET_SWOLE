@@ -21,6 +21,7 @@ public class DatabaseWrapper {
 	// Database fields
 	private SQLiteDatabase database;
 	private DatabaseHelper dbHelper;
+	private Context context;
 	
 	private static final String[] WORKOUT_COLUMNS = {
 									DatabaseHelper.WORKOUT_ID, 
@@ -70,10 +71,13 @@ public class DatabaseWrapper {
 											EXERCISE_COLUMNS, 
 											FREQUENCY_COLUMNS};
 	
-	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+	public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
 
+	
+	
 	public DatabaseWrapper(Context context) {
 		dbHelper = new DatabaseHelper(context);
+		this.context = context;
 	}
 
 	public void open() throws SQLException {
@@ -90,7 +94,7 @@ public class DatabaseWrapper {
 		ContentValues values = new ContentValues();
 		values.put(DatabaseHelper.WORKOUT_NAME, workout.getName());
 		values.put(DatabaseHelper.WORKOUT_EXERCISE_LIST, workout.getExerciseListByteArray());
-		values.put(DatabaseHelper.WORKOUT_SCHEDULED_DATES, workout.getScheduledDatesByteArray());
+		values.put(DatabaseHelper.WORKOUT_SCHEDULED_DATES, workout.getScheduledDatesString());
 		values.put(DatabaseHelper.WORKOUT_START_DATE, DATE_FORMAT.format(workout.getStartDate()));
 		values.put(DatabaseHelper.WORKOUT_FREQUENCY_LIST, workout.getFrequencyListByteArray());
 		values.put(DatabaseHelper.WORKOUT_NOTES, workout.getNotes());
@@ -216,7 +220,7 @@ public class DatabaseWrapper {
 		database.delete(tableName, null, null);
 	}
 	
-	public List<GetSwoleClass> getAllEntries(Class<? extends GetSwoleClass> c) {
+	public List getAllEntries(Class<? extends GetSwoleClass> c) {
 		int index = getClassIndex(c);
 		String tableName =  DatabaseHelper.TABLE_NAMES[index];
 		String[] allColumns = ALL_COLUMNS_OF_ALL_TABLES[index];
@@ -275,8 +279,8 @@ public class DatabaseWrapper {
 	private Workout cursorToEntry(Cursor cursor, Workout workout) {
 		workout.setId(cursor.getLong(cursor.getColumnIndex(DatabaseHelper.WORKOUT_ID)));
 		workout.setName(cursor.getString(cursor.getColumnIndex(DatabaseHelper.WORKOUT_NAME)));
-		workout.setExerciseListFromByteArray(cursor.getBlob(cursor.getColumnIndex(DatabaseHelper.WORKOUT_EXERCISE_LIST)));
-		workout.setScheduledDatesFromByteArray(cursor.getBlob(cursor.getColumnIndex(DatabaseHelper.WORKOUT_SCHEDULED_DATES)));
+		workout.setExerciseListFromByteArray(cursor.getBlob(cursor.getColumnIndex(DatabaseHelper.WORKOUT_EXERCISE_LIST)), context);
+		workout.setScheduledDatesFromString(cursor.getString(cursor.getColumnIndex(DatabaseHelper.WORKOUT_SCHEDULED_DATES)));
 		Calendar c = Calendar.getInstance();
 		try {
 			c.setTime(DATE_FORMAT.parse(cursor.getString(cursor.getColumnIndex(DatabaseHelper.WORKOUT_START_DATE))));
@@ -287,7 +291,7 @@ public class DatabaseWrapper {
 					+ " to date format: ", pe);
 		}
 		workout.setStartDate(c);
-		workout.setFrequencyListFromByteArray(cursor.getBlob(cursor.getColumnIndex(DatabaseHelper.WORKOUT_FREQUENCY_LIST)));
+		workout.setFrequencyListFromByteArray(cursor.getBlob(cursor.getColumnIndex(DatabaseHelper.WORKOUT_FREQUENCY_LIST)), context);
 		workout.setNotes(cursor.getString(cursor.getColumnIndex(DatabaseHelper.WORKOUT_NOTES)));
 		return workout;
 	}
@@ -297,7 +301,7 @@ public class DatabaseWrapper {
 		workoutInstance.setId(cursor.getLong(cursor.getColumnIndex(DatabaseHelper.WORKOUT_INSTANCE_ID)));
 		long workoutId = cursor.getLong(cursor.getColumnIndex(DatabaseHelper.WORKOUT_INSTANCE_WORKOUT));
 		workoutInstance.setWorkout((Workout) getEntryById(workoutId, Workout.class));
-		workoutInstance.setExerciseListFromByteArray(cursor.getBlob(cursor.getColumnIndex(DatabaseHelper.WORKOUT_INSTANCE_EXERCISE_LIST)));
+		workoutInstance.setExerciseListFromByteArray(cursor.getBlob(cursor.getColumnIndex(DatabaseHelper.WORKOUT_INSTANCE_EXERCISE_LIST)), context);
 		Calendar c = Calendar.getInstance();
 		try {
 			c.setTime(DATE_FORMAT.parse(cursor.getString(cursor.getColumnIndex(DatabaseHelper.WORKOUT_START_DATE))));
