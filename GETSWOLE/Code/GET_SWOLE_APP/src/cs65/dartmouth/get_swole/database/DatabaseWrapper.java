@@ -257,6 +257,26 @@ public class DatabaseWrapper {
 		cursor.close();
 		return null;
 	}
+	
+	// YO PILLS, I just added this so I wouldn't have errors. Do whatever you want with it.
+	public Exercise getExerciseEntryById(long id) {
+		Cursor cursor = database.query(DatabaseHelper.TABLE_NAME_EXERCISE,
+				EXERCISE_COLUMNS, null, null, null, null, null);
+
+		cursor.moveToFirst();
+		while (!cursor.isAfterLast()) {
+			if (id == cursor.getLong(cursor.getColumnIndex(DatabaseHelper.EXERCISE_ID))) {
+				Exercise e = (Exercise) getEntryFromClass(cursor, Exercise.class);
+				cursor.close();
+				return e;
+			}
+			cursor.moveToNext();
+		}
+		// Make sure to close the cursor
+		cursor.close();
+		return null;
+	}
+	
 
 	private GetSwoleClass getEntryFromClass(Cursor cursor, Class<? extends GetSwoleClass> c) {
 		int index = getClassIndex(c);

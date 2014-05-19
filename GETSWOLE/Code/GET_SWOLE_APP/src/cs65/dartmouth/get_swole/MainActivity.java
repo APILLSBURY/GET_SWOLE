@@ -3,9 +3,10 @@ package cs65.dartmouth.get_swole;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import cs65.dartmouth.get_swole.R;
+
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
+import android.app.DialogFragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
@@ -80,7 +81,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
+		if (getActionBar().getSelectedNavigationIndex() == 0)  // we are on workouts, so we want to display the + button in the corner
+			getMenuInflater().inflate(R.menu.workouts, menu);
+		
+		else getMenuInflater().inflate(R.menu.main, menu);
+		
 		return true;
 	}
 	
@@ -99,7 +104,12 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	    case R.id.settings_activity:
 	        Intent settings = new Intent(this, SettingsActivity.class);
 	        startActivity(settings);
-	        return true;            
+	        return true;     
+	    case R.id.action_add_workout:
+	    	// We want to display the dialog for the workout name
+	    	DialogFragment fragment = AppDialogFragment.newInstance(AppDialogFragment.DIALOG_ID_NEW_WORKOUT);
+	        fragment.show(getFragmentManager(), getString(R.string.dialog_fragment_tag_new_workout));
+	    	
 	    }
 	    return false;
 	}

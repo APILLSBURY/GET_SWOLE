@@ -14,6 +14,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import cs65.dartmouth.get_swole.classes.GetSwoleClass;
 import cs65.dartmouth.get_swole.classes.Workout;
 import cs65.dartmouth.get_swole.database.DatabaseWrapper;
 
@@ -32,7 +33,7 @@ public class WorkoutFragment extends ListFragment {
 		
 		dbWrapper = new DatabaseWrapper(mContext);
 		dbWrapper.open();
-		workouts = (List<Workout>) dbWrapper.getAllEntries(Workout.class);
+		workouts = dbWrapper.getAllEntries(Workout.class);
 		dbWrapper.close();
 				
 		workoutsAdapter = new WorkoutsAdapter(mContext, R.layout.workouts_list_row, workouts);
