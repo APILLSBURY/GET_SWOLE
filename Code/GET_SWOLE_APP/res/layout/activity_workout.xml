@@ -41,16 +41,7 @@
         <Button
             android:id="@+id/button1"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:onClick="onAddExercise"
-            android:text="@string/add_exercise_button" />
-	
-	    <Button
-	        android:id="@+id/button2"
-	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content"
-	        android:onClick="onStartWorkout"
-	        android:text="@string/start_workout_button" />
+            android:layout_height="wrap_content" />
     
     </LinearLayout>
     
