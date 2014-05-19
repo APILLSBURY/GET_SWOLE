@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
-
+	
 	//Workout table
 	public static final String TABLE_NAME_WORKOUT = "workout";
 	public static final String WORKOUT_ID = "_id";
@@ -83,13 +83,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + FREQUENCY_START_DATE + " DATETIME, "
             + FREQUENCY_END_DATE + " DATETIME, " + ");";
     
-    public static final String[] TABLE_NAMES = {TABLE_NAME_WORKOUT, TABLE_NAME_WORKOUT_INSTANCE, 
-    												TABLE_NAME_EXERCISE, TABLE_NAME_FREQUENCY};
-    public static final String[] CREATE_TABLE_COMMANDS = {CREATE_TABLE_WORKOUT, CREATE_TABLE_WORKOUT_INSTANCE, 
-		CREATE_TABLE_EXERCISE, CREATE_TABLE_FREQUENCY};
+	public static final String[] TABLE_NAMES = {
+									DatabaseHelper.TABLE_NAME_WORKOUT, 
+									DatabaseHelper.TABLE_NAME_WORKOUT_INSTANCE, 
+									DatabaseHelper.TABLE_NAME_EXERCISE, 
+									DatabaseHelper.TABLE_NAME_FREQUENCY};
+    
+    public static final String[] CREATE_TABLE_COMMANDS = {
+    								DatabaseHelper.CREATE_TABLE_WORKOUT, 
+							    	DatabaseHelper.CREATE_TABLE_WORKOUT_INSTANCE, 
+							    	DatabaseHelper.CREATE_TABLE_EXERCISE, 
+							    	DatabaseHelper.CREATE_TABLE_FREQUENCY};
     
     @Override
-    public void onCreate(SQLiteDatabase database) {
+    public void onCreate (SQLiteDatabase database) {
     	for (String createCommand : CREATE_TABLE_COMMANDS) {
 	        database.execSQL(createCommand);
     	}

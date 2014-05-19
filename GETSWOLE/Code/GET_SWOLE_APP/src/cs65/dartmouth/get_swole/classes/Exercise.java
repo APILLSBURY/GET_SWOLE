@@ -1,6 +1,6 @@
 package cs65.dartmouth.get_swole.classes;
 
-public class Exercise {
+public class Exercise extends GetSwoleClass {
 	private String name;
 	private int reps;
 	private int weight;
@@ -9,6 +9,10 @@ public class Exercise {
 	private int rest;
 	private String notes;
 	private long id;
+	
+	public Exercise() {
+		this("");
+	}
 	
 	//default undefined numbers to -1
 	public Exercise(String name) {
