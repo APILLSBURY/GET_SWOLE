@@ -82,6 +82,33 @@ public class Workout extends GetSwoleClass {
 	}
 	
 	
+	
+	public String getScheduledDatesString() {
+		String s = "";
+		for (int i = 0; i < scheduledDates.size(); i++) {
+			s += DatabaseWrapper.DATE_FORMAT.format(scheduledDates.get(i)) + "&";
+		}
+		s = s.substring(0, s.length() - 1); //remove the trailing "&"
+		return s;
+	}
+	
+	public void setScheduledDatesFromString(String s) {
+		String[] dates = s.split("&");
+		Calendar cal;
+		scheduledDates.clear();
+		for (int i = 0; i < dates.length; i++) {
+			cal = Calendar.getInstance();
+			try {
+				cal.setTime(DatabaseWrapper.DATE_FORMAT.parse(dates[i]));
+			}
+			catch (Exception e) {
+				Log.e(Globals.TAG, "Couldn't parse the date " + dates[i], e);
+			}
+			scheduledDates.add(cal);
+		}
+	}
+	
+	
 	//BYTE ARRAY METHODS
 	public byte[] getExerciseListByteArray() {
 		int[] intArray = new int[exerciseList.size()];
@@ -107,6 +134,34 @@ public class Workout extends GetSwoleClass {
 		for (int i = 0; i < intArray.length; i++) {
 			exercise = (Exercise) db.getEntryById((long) id, Exercise.class);
 			exerciseList.add(exercise);
+		}
+	}
+	
+	
+	public byte[] getFrequencyListByteArray() {
+		int[] intArray = new int[frequencyList.size()];
+		for (int i = 0; i < frequencyList.size(); i++) {
+			Frequency frequency = frequencyList.get(i);
+			intArray[i] = (int) frequency.getId();
+		}
+		ByteBuffer byteBuffer = ByteBuffer.allocate(intArray.length * Integer.SIZE);
+		IntBuffer intBuffer = byteBuffer.asIntBuffer();
+		intBuffer.put(intArray);
+		return byteBuffer.array();
+	}
+	
+	public void setFrequencyListFromByteArray(byte[] byteArray, Context c) {
+		ByteBuffer byteBuffer = ByteBuffer.wrap(byteArray);
+		IntBuffer intBuffer = byteBuffer.asIntBuffer();
+		int[] intArray = new int[byteArray.length/Integer.SIZE];
+		intBuffer.get(intArray);
+		Frequency frequency;
+		frequencyList.clear();
+		DatabaseWrapper db = new DatabaseWrapper(c);
+		db.open();
+		for (int i = 0; i < intArray.length; i++) {
+			frequency = (Frequency) db.getEntryById((long) intArray[i], Frequency.class);
+			frequencyList.add(frequency);
 		}
 	}
 	
