@@ -35,7 +35,8 @@ public class AppDialogFragment extends DialogFragment {
 	public static final int DIALOG_ID_NEW_WORKOUT = 2;
 	public static final int DIALOG_ID_DATE = 3;
 	public static final int DIALOG_ID_TIME = 4;
-	public static final int DIALOG_ID_EDIT_EXERCISE = 5;
+	public static final int DIALOG_ID_EDIT_EXERCISE = 5; // for adding new exercises, or editing already existing
+	public static final int DIALOG_ID_ADD_EXISTING_EXERCISE = 6;
 	
 	private static final String DIALOG_ID_KEY = "dialog_id";
 	
@@ -219,6 +220,15 @@ public class AppDialogFragment extends DialogFragment {
 				});
 			}
 			return b.create();
+		case DIALOG_ID_ADD_EXISTING_EXERCISE:
+			// Create custom dialog
+			b = new AlertDialog.Builder(parent);
+
+			 // Get the layout inflater
+		    LayoutInflater inflater2 = getActivity().getLayoutInflater();
+		    View v2 = inflater2.inflate(R.layout.dialog_edit_exercise, null);
+		    b.setView(v2);	
+		    return b.create();
 		default:
 			return null;		
 		

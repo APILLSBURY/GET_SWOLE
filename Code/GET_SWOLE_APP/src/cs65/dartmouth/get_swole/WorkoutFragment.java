@@ -34,6 +34,9 @@ public class WorkoutFragment extends ListFragment {
 			String msg = intent.getStringExtra("message");
 			if (msg != null && msg.equals("update")) {
 				Log.d(Globals.TAG, "Received update");	
+				dbWrapper.open();
+				workouts = dbWrapper.getAllEntries(Workout.class);
+				dbWrapper.close();
 				workoutsAdapter.notifyDataSetChanged();
 				
 			}
