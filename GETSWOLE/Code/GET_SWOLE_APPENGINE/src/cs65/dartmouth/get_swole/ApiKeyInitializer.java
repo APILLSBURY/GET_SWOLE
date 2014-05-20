@@ -11,7 +11,7 @@ import com.google.appengine.api.datastore.Key;
 
 public class ApiKeyInitializer implements ServletContextListener {
 
-	public static String API_KEY = "AIzaSyCZLRccA-7PVbZgHdFNdbmb7Sr6uI0EVfs";
+	public static String API_KEY = "AIzaSyDCfNMlghkn9GtcNjecs-2AjLbPxzk-paQ";
 	
 	@Override
 	public void contextDestroyed(ServletContextEvent arg0) {
