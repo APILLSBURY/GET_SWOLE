@@ -11,6 +11,7 @@ import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -110,6 +111,7 @@ public class AppDialogFragment extends DialogFragment {
 			b = new AlertDialog.Builder(parent);
 			b.setTitle(getString(R.string.dialog_title_new_workout));		
 			final EditText nameInput = new EditText(parent);
+			nameInput.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS);
 			b.setView(nameInput);
 			nameInput.setHint(getString(R.string.dialog_hint_new_workout));
 			b.setPositiveButton(getString(R.string.positive), new DialogInterface.OnClickListener() {
