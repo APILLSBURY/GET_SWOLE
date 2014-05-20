@@ -16,11 +16,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 
@@ -140,6 +142,24 @@ public class FriendsActivity extends ListActivity {
 
 		}.execute();	
 	}
+	
+    @Override
+	public void onListItemClick(ListView l, View v, int position, long id) {
+        super.onListItemClick(l, v, position, id);
+        
+        ProfileObject entry = friends.get(position);
+        
+        Intent entryIntent = new Intent(mContext, FriendProfileActivity.class);
+
+        entryIntent.putExtra("firstName", entry.firstName);
+        entryIntent.putExtra("lastName", entry.lastName);
+        entryIntent.putExtra("hometown", entry.hometown);
+        entryIntent.putExtra("sport", entry.sport);  
+        
+        startActivity(entryIntent);
+       
+	}
+
 	
     // ********** Private Classes **********
     
