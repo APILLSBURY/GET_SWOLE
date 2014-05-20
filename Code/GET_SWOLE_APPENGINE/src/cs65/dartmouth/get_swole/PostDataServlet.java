@@ -23,15 +23,24 @@ public class PostDataServlet extends BaseServlet {
 		// Get parameters for regId and data
 		String regId = getParameter(req, "regId");
 		
-		if (regId == null)
-			mLogger.log(Level.INFO, "regId is null!");
+		String profile = getParameter(req, "profile");
 		
-		String data = getParameter(req, "data");
+		//String data = getParameter(req, "data");
 		
-		if (data == null) {
-			mLogger.log(Level.INFO, "Data supposedly null");
+		// Save Profile
+		if (!profile.isEmpty()) {
+			
+			mLogger.log(Level.INFO, "Profile is being added");
+			
+			try {
+				Datastore.saveProfile(regId, profile);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+			
 		}
 		
+
 		// Save data to datastore
 //		try {
 //			//Datastore.saveData(regId, data);
