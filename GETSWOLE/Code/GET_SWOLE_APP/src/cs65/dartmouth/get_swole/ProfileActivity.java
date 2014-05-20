@@ -6,8 +6,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import cs65.dartmouth.get_swole.R;
+import cs65.dartmouth.get_swole.classes.ProfileObject;
+import cs65.dartmouth.get_swole.gae.Uploader;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -57,6 +61,10 @@ public class ProfileActivity extends Activity {
 //	private boolean isTakenFromCamera;
 	private byte[] pictureArray;
 	
+	// ProfileObject for GCM
+	public ProfileObject profileObj;
+	public Uploader mUploader;
+	
 	// ********** Main Functions ********** //
 	
 	/**
@@ -83,6 +91,14 @@ public class ProfileActivity extends Activity {
 		}
 		else
 			loadProfile();
+		
+        // ********** LAB 6 - App Engine **********
+        
+        // Create the serverURL
+        String serverURL = getString(R.string.server_url) + "/post_data";
+        
+        // Set history uploader object to be
+        mUploader = new Uploader(getApplicationContext(), serverURL);
 
 	}
 	
@@ -290,10 +306,70 @@ public class ProfileActivity extends Activity {
 		// Save ProfileActivity
 		saveProfile();
 		
+		// Save Profile on the Datastore
+		uploadProfile();
+		
 		// Send toast message
 		Toast.makeText(getApplicationContext(), getString(R.string.save_profile_message), Toast.LENGTH_SHORT).show();
 		
 		finish();
+		
+	}
+	
+	/**
+	 * uploadProfile()
+	 */
+	public void uploadProfile() {
+	
+	   	new AsyncTask<String, Void, String>() {
+
+             @Override
+             protected String doInBackground(String... params) {
+            	 
+            	 String msg = "";
+            	 
+               	 try {
+               		 
+	         		 profileObj = new ProfileObject();
+	        		
+	        		 // Get the shared preferences - create or retrieve the activity
+	        		 // preference object
+	
+	        		 String mKey = getString(R.string.profile_shared_preferences);
+	        		 SharedPreferences mPrefs = getSharedPreferences(mKey, MODE_PRIVATE);
+	        		
+	        		 // Load Name
+	        		 mKey = getString(R.string.preference_key_profile_first_name);
+	        		 String first = mPrefs.getString(mKey, "");
+	        		
+	        		 mKey = getString(R.string.preference_key_profile_last_name);
+	        		 String last = mPrefs.getString(mKey, "");
+	        		
+	        		 profileObj.setName(first, last);
+	            	 
+		        	 // Upload history of all entries
+	        		 mUploader.uploadProfile(profileObj);
+		        	 
+		        	 msg = "Uploaded the profile";
+                	 
+            	 }
+            	 catch (IOException ex) {
+            		 msg = "Error: " + ex.getMessage();
+            	 }
+            	 
+            	 return msg;
+
+             }
+
+             @Override
+             protected void onPostExecute(String res) {
+            	 
+             }
+
+         }.execute();
+    	
+		
+
 		
 	}
 	
@@ -400,7 +476,7 @@ public class ProfileActivity extends Activity {
 
 		String mKey = getString(R.string.profile_shared_preferences);
 		SharedPreferences mPrefs = getSharedPreferences(mKey, MODE_PRIVATE);
-
+		
 		SharedPreferences.Editor mEditor = mPrefs.edit();
 		mEditor.clear();
 
