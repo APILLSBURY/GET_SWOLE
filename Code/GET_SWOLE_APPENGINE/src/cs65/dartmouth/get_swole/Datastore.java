@@ -166,21 +166,21 @@ public final class Datastore {
 			for (Entity entity : entities) {
 				
 				logger.log(Level.INFO, "regId: " + "Device(\"" + regId + "\")" + "\ndevice: " + entity.getKey().toString());
-					
-				Query entityQuery = new Query(ENTITY_KIND_PROFILE);
-					
-				query.setAncestor(entity.getKey());
-					
-				Iterable<Entity> profileEntities = datastore.prepare(entityQuery).asIterable(DEFAULT_FETCH_OPTIONS);
 				
-				for (Entity profileEntity : profileEntities) {
-					ProfileObject currProfile = EntityConverter.fromEntitytoProfile(profileEntity);
+				if (!entity.getKey().toString().equals("Device(\"" + regId + "\")")) {
+				
+					Query entityQuery = new Query(ENTITY_KIND_PROFILE);
+						
+					query.setAncestor(entity.getKey());
+						
+					Iterable<Entity> profileEntities = datastore.prepare(entityQuery).asIterable(DEFAULT_FETCH_OPTIONS);
 					
-					// Make sure it is not the current Profile
-					if (!currProfile.regId.equals(regId))
-						result.add(currProfile);
+					for (Entity profileEntity : profileEntities) {
+						
+						if (!profileEntity.getParent().toString().equals("Device(\"" + regId + "\")"))
+							result.add(EntityConverter.fromEntitytoProfile(profileEntity));
+					}
 				}
-				
 			}
 			
 		}
