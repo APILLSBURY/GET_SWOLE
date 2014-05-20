@@ -154,7 +154,6 @@ public class WorkoutEditActivity extends Activity {
         
         Exercise savedExercise = dbWrapper.createEntry(e);
 		exercises.add(savedExercise);
-		
         dbWrapper.updateExerciseList(workout);
         dbWrapper.close();
         

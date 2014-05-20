@@ -95,7 +95,7 @@ public class DatabaseWrapper {
 		values.put(DatabaseHelper.WORKOUT_NAME, workout.getName());
 		values.put(DatabaseHelper.WORKOUT_EXERCISE_LIST, workout.getExerciseListByteArray());
 		values.put(DatabaseHelper.WORKOUT_SCHEDULED_DATES, workout.getScheduledDatesString());
-		values.put(DatabaseHelper.WORKOUT_START_DATE, DATE_FORMAT.format(workout.getStartDate()));
+		values.put(DatabaseHelper.WORKOUT_START_DATE, DATE_FORMAT.format(workout.getStartDate().getTime()));
 		values.put(DatabaseHelper.WORKOUT_FREQUENCY_LIST, workout.getFrequencyListByteArray());
 		values.put(DatabaseHelper.WORKOUT_NOTES, workout.getNotes());
 		
@@ -121,7 +121,7 @@ public class DatabaseWrapper {
 		ContentValues values = new ContentValues();
 		values.put(DatabaseHelper.WORKOUT_INSTANCE_WORKOUT, workoutInstance.getWorkout().getId());
 		values.put(DatabaseHelper.WORKOUT_INSTANCE_EXERCISE_LIST, workoutInstance.getExerciseListByteArray());
-		values.put(DatabaseHelper.WORKOUT_INSTANCE_TIME, DATE_FORMAT.format(workoutInstance.getTime()));
+		values.put(DatabaseHelper.WORKOUT_INSTANCE_TIME, DATE_FORMAT.format(workoutInstance.getTime().getTime()));
 		
 		if (database == null) {
 			open();
@@ -170,8 +170,8 @@ public class DatabaseWrapper {
 	public Frequency createEntry(Frequency frequency) {
 		ContentValues values = new ContentValues();
 		values.put(DatabaseHelper.FREQUENCY_DAY, frequency.getDay());
-		values.put(DatabaseHelper.FREQUENCY_START_DATE, DATE_FORMAT.format(frequency.getStartDate()));
-		values.put(DatabaseHelper.FREQUENCY_END_DATE, DATE_FORMAT.format(frequency.getEndDate()));
+		values.put(DatabaseHelper.FREQUENCY_START_DATE, DATE_FORMAT.format(frequency.getStartDate().getTime()));
+		values.put(DatabaseHelper.FREQUENCY_END_DATE, DATE_FORMAT.format(frequency.getEndDate().getTime()));
 		
 		if (database == null) {
 			open();
@@ -264,25 +264,6 @@ public class DatabaseWrapper {
 		values.put(DatabaseHelper.WORKOUT_EXERCISE_LIST, workout.getExerciseListByteArray());
 		return database.update(DatabaseHelper.TABLE_NAME_WORKOUT, values, 
 							DatabaseHelper.WORKOUT_ID + " = " + workout.getId(), null);
-	}
-	
-	// YO PILLS, I just added this so I wouldn't have errors. Do whatever you want with it.
-	public Exercise getExerciseEntryById(long id) {
-		Cursor cursor = database.query(DatabaseHelper.TABLE_NAME_EXERCISE,
-				EXERCISE_COLUMNS, null, null, null, null, null);
-
-		cursor.moveToFirst();
-		while (!cursor.isAfterLast()) {
-			if (id == cursor.getLong(cursor.getColumnIndex(DatabaseHelper.EXERCISE_ID))) {
-				Exercise e = (Exercise) getEntryFromClass(cursor, Exercise.class);
-				cursor.close();
-				return e;
-			}
-			cursor.moveToNext();
-		}
-		// Make sure to close the cursor
-		cursor.close();
-		return null;
 	}
 	
 

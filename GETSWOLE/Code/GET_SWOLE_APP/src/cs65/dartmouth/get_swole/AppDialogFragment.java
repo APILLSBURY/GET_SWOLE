@@ -165,8 +165,8 @@ public class AppDialogFragment extends DialogFragment {
 			if (id != -1L) {	
 				DatabaseWrapper dbWrapper = new DatabaseWrapper(getActivity());
 				dbWrapper.open();
-				Exercise e = dbWrapper.getExerciseEntryById(id);
-				dbWrapper.close();		
+				Exercise e = (Exercise) dbWrapper.getEntryById(id, Exercise.class);
+				dbWrapper.close();
 				
 				exerciseName.setText(e.getName());
 				exerciseReps.setText(e.getReps());
