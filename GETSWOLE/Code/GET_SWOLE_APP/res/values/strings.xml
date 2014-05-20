@@ -68,5 +68,7 @@
     
     <string name="save_profile_message">Saved Profile!</string>
     <string name="cancel_profile_message">Canceled Profile</string>
+    
+    <string name="server_url">https://localhost:8888</string>
 
 </resources>
