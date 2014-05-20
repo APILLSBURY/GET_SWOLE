@@ -5,7 +5,7 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="11"
+        android:minSdkVersion="12"
         android:targetSdkVersion="18" />
 
     <uses-feature
@@ -53,6 +53,18 @@
 		
     	<activity
             android:name="cs65.dartmouth.get_swole.SettingsActivity"
+            android:label="@string/settings_title" 
+            android:screenOrientation="portrait" >
+        </activity>
+		
+    	<activity
+            android:name="cs65.dartmouth.get_swole.WorkoutDoActivity"
+            android:label="@string/settings_title" 
+            android:screenOrientation="portrait" >
+        </activity>
+		
+    	<activity
+            android:name="cs65.dartmouth.get_swole.WorkoutEditActivity"
             android:label="@string/settings_title" 
             android:screenOrientation="portrait" >
         </activity>
