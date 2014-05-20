@@ -33,13 +33,13 @@ public class PostDataServlet extends BaseServlet {
 		}
 		
 		// Save data to datastore
-		try {
-			Datastore.saveData(regId, data);
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+//		try {
+//			//Datastore.saveData(regId, data);
+//		} catch (JSONException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
 		// setSuccess
 		setSuccess(resp);
 

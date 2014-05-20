@@ -70,7 +70,7 @@ public class SendDeleteMessagesServlet extends BaseServlet {
 			
 			// Loop through devices and remove the id
 			for (String device : devices) {
-				Datastore.deleteHistoryEntry(device, Long.toString(id));
+				//Datastore.deleteHistoryEntry(device, Long.toString(id));
 			}
 		}
 		

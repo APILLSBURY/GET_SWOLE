@@ -27,7 +27,8 @@ public final class Datastore {
 	private static final DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 	
 	private static final String ENTITY_KIND_DEVICE = "Device";
-	private static final String ENTITY_KIND_HISTORY_ENTRY = "HistoryEntry";
+	private static final String ENTITY_KIND_PROFILE = "Profile";
+	private static final String ENTITY_KIND_WORKOUT = "Workout";
 	private static final String DEVICE_REG_ID_PROPERTY = "regId";
 
 	public static void register(String regId) {
@@ -75,37 +76,37 @@ public final class Datastore {
 		return KeyFactory.createKey(ENTITY_KIND_DEVICE, regId);
 	}
 	
-	public static void deleteHistoryEntry(String regId, String entryId) {
-		
-		// Getting the key
-		Key k = KeyFactory.createKey(getRegDeviceKey(regId), ENTITY_KIND_HISTORY_ENTRY, entryId);
-		
-		// Call datastore.delete
-		datastore.delete(k);
-
-	}
+//	public static void deleteHistoryEntry(String regId, String entryId) {
+//		
+//		// Getting the key
+//		Key k = KeyFactory.createKey(getRegDeviceKey(regId), ENTITY_KIND_HISTORY_ENTRY, entryId);
+//		
+//		// Call datastore.delete
+//		datastore.delete(k);
+//
+//	}
 	
 	// save Data
-	public static void saveData(String regId, String data) throws JSONException { 
-		
-		logger.log(Level.INFO, "saveData");
-		
-		JSONArray historyEntryList = null;
-		Transaction txn = datastore.beginTransaction();
-		
-		logger.log(Level.INFO, data);
-		
-		try {
-			
-			// Get the JSONArraydata
-			historyEntryList = new JSONArray(data);
-			
-			Entity parentEntity = findDeviceByRegId(regId);
-			
-			// Check that device is registered properly
-			if (parentEntity == null)
-				return;
-			
+//	public static void saveData(String regId, String data) throws JSONException { 
+//		
+//		logger.log(Level.INFO, "saveData");
+//		
+//		JSONArray historyEntryList = null;
+//		Transaction txn = datastore.beginTransaction();
+//		
+//		logger.log(Level.INFO, data);
+//		
+//		try {
+//			
+//			// Get the JSONArraydata
+//			historyEntryList = new JSONArray(data);
+//			
+//			Entity parentEntity = findDeviceByRegId(regId);
+//			
+//			// Check that device is registered properly
+//			if (parentEntity == null)
+//				return;
+//			
 //			// Clear History entry
 //			List<HistoryEntry> oldRecord = getHistoryEntry(regId);
 //			
@@ -125,21 +126,21 @@ public final class Datastore {
 //				datastore.put(historyEntity);
 //			}
 //			
-			txn.commit();
-			
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		finally {
-			
-			if (txn.isActive())
-				txn.rollback();
-		}
-		
-
-	}
+//			txn.commit();
+//			
+//		}
+//		catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		
+//		finally {
+//			
+//			if (txn.isActive())
+//				txn.rollback();
+//		}
+//		
+//
+//	}
 	
 	// getHistoryEntry
 //	public static ArrayList<HistoryEntry> getHistoryEntry(String regId) {
