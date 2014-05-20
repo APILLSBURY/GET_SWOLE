@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import org.json.JSONArray;
+
+import cs65.dartmouth.get_swole.Globals;
+import cs65.dartmouth.get_swole.MainActivity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
@@ -17,6 +20,35 @@ public class Downloader {
 	public Downloader (Context context, String serverURL) {
 		mContext = context;
 		mServerUrl = serverURL;
+	}
+	
+	public boolean getFriends() throws IOException {
+		
+		// Get Shared Preferences
+		SharedPreferences GCMPreferences = mContext.getSharedPreferences(MainActivity.class.getSimpleName(), Context.MODE_PRIVATE);
+		
+		// Get registration id:
+		final String regId =  GCMPreferences.getString(MainActivity.PROPERTY_REG_ID, "");				
+		
+		if (!regId.isEmpty()) {
+			
+			Log.d(Globals.TAG, "getFriends");
+			
+			// Create new hashmap
+			Map<String, String> hashmap = new HashMap<String, String>();
+			
+			// Put the regId with key “regId” into hashmap
+			hashmap.put("regId", regId);
+			
+			// Put the data (the converted string jsonArray from earlier) with key “data” into hashmap
+			hashmap.put("getFriends", "getFriendsRequest");
+	
+			// Post
+			ServerUtilities.post(mServerUrl, hashmap);
+		}
+		
+		return true;
+		
 	}
 	
 //	public boolean upload(ArrayList<ExerciseEntry> entryList) throws IOException {

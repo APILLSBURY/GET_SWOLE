@@ -97,7 +97,7 @@ public class ProfileActivity extends Activity {
         // Create the serverURL
         String serverURL = getString(R.string.server_url) + "/post_data";
         
-        // Set history uploader object to be
+        // Set uploader object to be
         mUploader = new Uploader(getApplicationContext(), serverURL);
 
 	}
@@ -346,6 +346,15 @@ public class ProfileActivity extends Activity {
 	        		 String last = mPrefs.getString(mKey, "");
 	        		
 	        		 profileObj.setName(first, last);
+	        		 
+	        		 // Load Hometown
+	        		 
+	        		 mKey = getString(R.string.preference_key_profile_hometown);
+	        		 profileObj.setHometown(mPrefs.getString(mKey, ""));
+
+	        		 // Load Sport
+	        		 mKey = getString(R.string.preference_key_profile_sport);
+	        		 profileObj.setSport(mPrefs.getString(mKey, ""));
 	            	 
 		        	 // Upload history of all entries
 	        		 mUploader.uploadProfile(profileObj);
@@ -414,6 +423,16 @@ public class ProfileActivity extends Activity {
 		mKey = getString(R.string.preference_key_profile_last_name);
 		mValue = mPrefs.getString(mKey, "");
 		((EditText) findViewById(R.id.lastName)).setText(mValue);
+		
+		// Load Hometown
+		mKey = getString(R.string.preference_key_profile_hometown);
+		mValue = mPrefs.getString(mKey, "");
+		((EditText) findViewById(R.id.hometown)).setText(mValue);
+		
+		// Load Sport
+		mKey = getString(R.string.preference_key_profile_sport);
+		mValue = mPrefs.getString(mKey, "");
+		((EditText) findViewById(R.id.sport)).setText(mValue);
 		
 		// Load Gender
 
@@ -488,6 +507,16 @@ public class ProfileActivity extends Activity {
 		
 		mKey = getString(R.string.preference_key_profile_last_name);
 		mValue = (String) ((EditText) findViewById(R.id.lastName)).getText().toString();
+		mEditor.putString(mKey, mValue);
+		
+		// Save Hometown
+		mKey = getString(R.string.preference_key_profile_hometown);
+		mValue = (String) ((EditText) findViewById(R.id.hometown)).getText().toString();
+		mEditor.putString(mKey, mValue);
+		
+		// Save Sport
+		mKey = getString(R.string.preference_key_profile_sport);
+		mValue = (String) ((EditText) findViewById(R.id.sport)).getText().toString();
 		mEditor.putString(mKey, mValue);
 		
 		// Save Gender
