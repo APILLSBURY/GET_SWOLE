@@ -75,11 +75,11 @@ public class WorkoutDoActivity extends Activity {
 	    		@Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 	    			
-	    			/*
+	    			
                         // Open dialog to edit this exercise
-                	Exercise e = exercises.get(position);
+                	Exercise e = workoutInstance.getExerciseList().get(position);
                 	DialogFragment fragment = AppDialogFragment.newInstance(e);
-        	        fragment.show(getFragmentManager(), getString(R.string.dialog_fragment_tag_edit_exercise));*/
+        	        fragment.show(getFragmentManager(), getString(R.string.dialog_fragment_tag_edit_exercise));
                 		
                 }
 	    };
@@ -94,8 +94,13 @@ public class WorkoutDoActivity extends Activity {
 	public void onFinishWorkout() {
 		
 		// We want to save the workout into the database as a workout instance
+		DatabaseWrapper dbWrapper = new DatabaseWrapper(this);
+		dbWrapper.open();
+		dbWrapper.createEntry(workoutInstance);
+		dbWrapper.close();
 		
-		
+		finish(); // close the activity
+			
 	}
 	
 	/**

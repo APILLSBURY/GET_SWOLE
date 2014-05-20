@@ -14,7 +14,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import cs65.dartmouth.get_swole.classes.GetSwoleClass;
 import cs65.dartmouth.get_swole.classes.Workout;
 import cs65.dartmouth.get_swole.database.DatabaseWrapper;
 
@@ -25,9 +24,9 @@ public class WorkoutFragment extends ListFragment {
 	List<Workout> workouts;
 	Context mContext;
 	
-	//@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
 		
 		mContext = getActivity();
 		
@@ -58,6 +57,14 @@ public class WorkoutFragment extends ListFragment {
         // Get the ListView and wired the listener
         ListView listView = getListView();
         listView.setOnItemClickListener(listener);
+        		
+	}
+	
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		
+		
 		        
 	}
     

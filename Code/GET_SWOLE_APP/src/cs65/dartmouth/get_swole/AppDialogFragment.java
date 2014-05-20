@@ -138,8 +138,7 @@ public class AppDialogFragment extends DialogFragment {
 				}
 			});
 			return b.create();
-		case DIALOG_ID_EDIT_EXERCISE:
-				
+		case DIALOG_ID_EDIT_EXERCISE:				
 			// Create custom dialog
 			b = new AlertDialog.Builder(parent);
 
