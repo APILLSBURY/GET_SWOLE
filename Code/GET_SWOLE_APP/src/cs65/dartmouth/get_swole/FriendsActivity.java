@@ -129,8 +129,8 @@ public class FriendsActivity extends ListActivity {
 				}
 				
 				if (!friends.isEmpty()) {
-					for (ProfileObject friend : friends)
-						Toast.makeText(getApplicationContext(), friend.getFirstName() + " " + friend.getLastName(), Toast.LENGTH_SHORT).show();
+//					for (ProfileObject friend : friends)
+//						Toast.makeText(getApplicationContext(), friend.getFirstName() + " " + friend.getLastName(), Toast.LENGTH_SHORT).show();
 					
 					updateFriendProfiles();
 				}
