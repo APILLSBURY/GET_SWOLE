@@ -9,12 +9,12 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
-public class WorkoutUploader {
+public class Downloader {
 
 	Context mContext;
 	String mServerUrl;
 	
-	public WorkoutUploader (Context context, String serverURL) {
+	public Downloader (Context context, String serverURL) {
 		mContext = context;
 		mServerUrl = serverURL;
 	}
