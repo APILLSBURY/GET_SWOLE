@@ -111,7 +111,7 @@ public class FriendsActivity extends ListActivity {
 
 			@Override
 			protected void onPostExecute(String res) {
-				Toast.makeText(getApplicationContext(), res, Toast.LENGTH_SHORT).show();
+				//Toast.makeText(getApplicationContext(), res, Toast.LENGTH_SHORT).show();
 				
 				// Get all profiles from the response
 				try {
