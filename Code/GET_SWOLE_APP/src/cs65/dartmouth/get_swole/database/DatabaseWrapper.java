@@ -259,6 +259,13 @@ public class DatabaseWrapper {
 		return null;
 	}
 	
+	public int updateExerciseList(Workout workout) {
+		ContentValues values = new ContentValues();
+		values.put(DatabaseHelper.WORKOUT_EXERCISE_LIST, workout.getExerciseListByteArray());
+		return database.update(DatabaseHelper.TABLE_NAME_WORKOUT, values, 
+							DatabaseHelper.WORKOUT_ID + " = " + workout.getId(), null);
+	}
+	
 	// YO PILLS, I just added this so I wouldn't have errors. Do whatever you want with it.
 	public Exercise getExerciseEntryById(long id) {
 		Cursor cursor = database.query(DatabaseHelper.TABLE_NAME_EXERCISE,
