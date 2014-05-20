@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+
 import cs65.dartmouth.get_swole.MainActivity;
 
 public class GCMIntentService extends IntentService {
