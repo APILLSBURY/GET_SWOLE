@@ -455,7 +455,7 @@ containing a value of this type.
         public static final int profile_weight=0x7f07003e;
         public static final int save_profile_message=0x7f070048;
         /**  GCM Strings 
- <string name="server_url">http://getswoleandroidapp.appspot.com</string> 
+<string name="server_url">http://getswoleandroidapp.appspot.com</string>
          */
         public static final int server_url=0x7f07004a;
         public static final int settings_title=0x7f07001e;
