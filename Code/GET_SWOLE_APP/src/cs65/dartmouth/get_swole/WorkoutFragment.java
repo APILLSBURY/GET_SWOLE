@@ -2,10 +2,13 @@ package cs65.dartmouth.get_swole;
 
 import java.util.List;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +26,19 @@ public class WorkoutFragment extends ListFragment {
 	WorkoutsAdapter workoutsAdapter;
 	List<Workout> workouts;
 	Context mContext;
+	IntentFilter mMessageIntentFilter;
+	
+	private BroadcastReceiver mMessageUpdateReceiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			String msg = intent.getStringExtra("message");
+			if (msg != null && msg.equals("update")) {
+				Log.d(Globals.TAG, "Received update");	
+				workoutsAdapter.notifyDataSetChanged();
+				
+			}
+		}
+	};
 	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -58,14 +74,24 @@ public class WorkoutFragment extends ListFragment {
         ListView listView = getListView();
         listView.setOnItemClickListener(listener);
         		
+        // Listen for updates about the list of workouts
+        mMessageIntentFilter = new IntentFilter();
+		mMessageIntentFilter.addAction("UPDATE_NOTIFY");
+					
+	
 	}
 	
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		
-		
-		        
+	public void onResume() {
+		getActivity().registerReceiver(mMessageUpdateReceiver, mMessageIntentFilter);
+		super.onResume();
+	}
+	
+	@Override
+	public void onPause() {
+
+		getActivity().unregisterReceiver(mMessageUpdateReceiver);
+		super.onPause();
 	}
     
     // ********** Private Classes **********

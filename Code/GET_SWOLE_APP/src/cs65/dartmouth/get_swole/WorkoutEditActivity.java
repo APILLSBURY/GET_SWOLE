@@ -140,10 +140,13 @@ public class WorkoutEditActivity extends Activity {
 		
 	@Override 
 	public void onBackPressed() {
-		// Don't really want to do this...
-		Intent intent = new Intent(this, MainActivity.class);
-		startActivity(intent);
+		// send intent to update in mainactivity
 		
+        Intent i = new Intent();
+        i.setAction("UPDATE_NOTIFY");
+        i.putExtra("message", "update");
+        sendBroadcast(i);
+        
 		finish();
 		
 	}
