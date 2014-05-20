@@ -40,7 +40,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	private GoogleCloudMessaging gcm;
     private static String regId;
     private Context mContext;
-    public static String SENDER_ID = ""; // NEED TO CHANGE THIS! 
+    public static String SENDER_ID = "1096115807294"; 
 	
 	/**
 	 * The {@link android.support.v4.view.PagerAdapter} that will provide
