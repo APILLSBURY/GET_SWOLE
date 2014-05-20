@@ -101,7 +101,9 @@ public class Workout extends GetSwoleClass {
 		for (int i = 0; i < dates.length; i++) {
 			cal = Calendar.getInstance();
 			try {
-				cal.setTime(DatabaseWrapper.DATE_FORMAT.parse(dates[i]));
+				if (!dates[i].isEmpty()) {
+					cal.setTime(DatabaseWrapper.DATE_FORMAT.parse(dates[i]));
+				}
 			}
 			catch (Exception e) {
 				Log.e(Globals.TAG, "Couldn't parse the date " + dates[i], e);

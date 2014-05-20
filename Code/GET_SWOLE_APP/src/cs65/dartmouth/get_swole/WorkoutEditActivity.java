@@ -29,7 +29,7 @@ public class WorkoutEditActivity extends Activity {
 	
 	List<Exercise> exercises;	
 	Workout workout;
-
+	ExercisesAdapter mAdapter;
 	
 	/**
 	 * onCreate()
@@ -88,7 +88,7 @@ public class WorkoutEditActivity extends Activity {
 		exercises = workout.getExerciseList();
 		
 		// Define a new adapter
-        ExercisesAdapter mAdapter = new ExercisesAdapter(this, R.layout.exercises_list_row, exercises);
+        mAdapter = new ExercisesAdapter(this, R.layout.exercises_list_row, exercises);
 
         // Assign the adapter to ListView
         ListView listView = (ListView) findViewById(R.id.exerciseListView);
@@ -157,7 +157,7 @@ public class WorkoutEditActivity extends Activity {
         dbWrapper.updateExerciseList(workout);
         dbWrapper.close();
         
-        // update the screen too?? 
+        mAdapter.notifyDataSetChanged();
 	}
 	
 	// New exercise does not have a database id yet
@@ -171,19 +171,25 @@ public class WorkoutEditActivity extends Activity {
         
         onAddNewExercise(newExercise);
 		
+        
 	}
 	
 	public void onDeleteExercise(long id) {
 		// Delete this exercise from THIS WORKOUT'S LIST. Not the exercise database
+		Exercise toRemove = null;
 		for (Exercise e : exercises) {
 			if (e.getId() == id) 
-				exercises.remove(e);
+				toRemove = e;
 		}
+		
+		exercises.remove(toRemove);
 		
 		DatabaseWrapper dbWrapper = new DatabaseWrapper(this);
 		dbWrapper.open();
 		dbWrapper.updateExerciseList(workout);
 		dbWrapper.close();
+		
+		mAdapter.notifyDataSetChanged();
 	}
 	
 	/**

@@ -11,6 +11,7 @@ import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.DatePicker;
@@ -169,11 +170,11 @@ public class AppDialogFragment extends DialogFragment {
 				dbWrapper.close();
 				
 				exerciseName.setText(e.getName());
-				exerciseReps.setText(e.getReps());
-				exerciseWeight.setText(e.getWeight());
-				exerciseRepsGoal.setText(e.getRepsGoal());
-				exerciseWeightGoal.setText(e.getWeightGoal());
-				exerciseRest.setText(e.getRest());
+				exerciseReps.setText(e.getReps() + "");
+				exerciseWeight.setText(e.getWeight() + "");
+				exerciseRepsGoal.setText(e.getRepsGoal() + "");
+				exerciseWeightGoal.setText(e.getWeightGoal() + "");
+				exerciseRest.setText(e.getRest() + "");
 				exerciseNotes.setText(e.getNotes());
 			}
 			
@@ -182,7 +183,7 @@ public class AppDialogFragment extends DialogFragment {
 				public void onClick(DialogInterface dialog, int which) {
 					
 					Exercise e = new Exercise(exerciseName.getText().toString());
-					if (!exerciseReps.getText().toString().isEmpty()) e.setReps(Integer.parseInt(exerciseReps.getText().toString()));		
+					if (!exerciseReps.getText().toString().isEmpty()) e.setReps(Integer.parseInt(exerciseReps.getText().toString()));
 					if (!exerciseRepsGoal.getText().toString().isEmpty()) e.setRepsGoal(Integer.parseInt(exerciseRepsGoal.getText().toString()));
 					if (!exerciseWeight.getText().toString().isEmpty()) e.setWeight(Integer.parseInt(exerciseWeight.getText().toString()));
 					if (!exerciseWeightGoal.getText().toString().isEmpty()) e.setWeightGoal(Integer.parseInt(exerciseWeightGoal.getText().toString()));
