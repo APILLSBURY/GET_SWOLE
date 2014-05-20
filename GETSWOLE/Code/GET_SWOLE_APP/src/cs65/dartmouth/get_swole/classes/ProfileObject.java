@@ -4,6 +4,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class ProfileObject {
+	public String regId;
+	
 	public String firstName;
 	public String lastName;
 	public String hometown;
@@ -12,6 +14,7 @@ public class ProfileObject {
 	public String bio;
 
 	public ProfileObject() {
+		regId = "";
 		firstName = "";
 		lastName = "";
 		hometown = "";
@@ -19,6 +22,10 @@ public class ProfileObject {
 	}
 	
 	// Setting methods
+	
+	public void setId(String regID) {
+		regId = regID;
+	}
 	
 	public void setName(String first, String last) {
 		firstName = first;
@@ -39,6 +46,10 @@ public class ProfileObject {
 	}
 	
 	// Getting methods
+	
+	public String getId() {
+		return regId;
+	}
 	
 	public String getFirstName() {
 		return firstName;
@@ -65,7 +76,9 @@ public class ProfileObject {
 	
 	public JSONObject fromJSONObject(JSONObject obj) {	
 		try {
-
+			
+			regId = obj.getString("regId");
+			
 			firstName = obj.getString("firstName");
 			lastName = obj.getString("lastName");
 			hometown = obj.getString("hometown");
@@ -83,6 +96,8 @@ public class ProfileObject {
 		try {
 			
 			JSONObject obj = new JSONObject();
+			
+			obj.put("regId", regId);
 			
 			obj.put("firstName", firstName);
 			obj.put("lastName", lastName);

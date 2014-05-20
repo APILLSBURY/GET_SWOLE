@@ -21,6 +21,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -62,8 +63,10 @@ public class ProfileActivity extends Activity {
 	private byte[] pictureArray;
 	
 	// ProfileObject for GCM
-	public ProfileObject profileObj;
-	public Uploader mUploader;
+	private ProfileObject profileObj;
+	private Uploader mUploader;
+	private Context mContext;
+	private String regId;
 	
 	// ********** Main Functions ********** //
 	
@@ -77,6 +80,12 @@ public class ProfileActivity extends Activity {
 		// onCreate on super class and set ProfileActivity UI on screen
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_profile);
+		
+		// Store the context
+		mContext = getApplicationContext();
+		
+		// Get the RegID
+		regId = getIntent().getExtras().getString("regId");
 		
 		// Get image view from UI
 		profileImageView = (ImageView) findViewById(R.id.profilePhoto);
@@ -331,7 +340,10 @@ public class ProfileActivity extends Activity {
                	 try {
                		 
 	         		 profileObj = new ProfileObject();
-	        		
+	         		 
+	         		 // Store the regId
+	         		 profileObj.setId(regId);
+	         		 
 	        		 // Get the shared preferences - create or retrieve the activity
 	        		 // preference object
 	

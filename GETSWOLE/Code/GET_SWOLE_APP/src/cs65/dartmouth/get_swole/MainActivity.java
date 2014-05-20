@@ -134,6 +134,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	    switch(item.getItemId()){
 	    case R.id.profile_activity:
 	    	Intent profile = new Intent(this, ProfileActivity.class);
+	    	profile.putExtra("regId", regId); // send regId for profile
 	    	startActivity(profile);
 	    	return true;
 	    case R.id.friends_activity:
