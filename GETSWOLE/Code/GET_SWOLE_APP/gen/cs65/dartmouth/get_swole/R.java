@@ -339,7 +339,7 @@ containing a value of this type.
         [CHAR LIMIT=70] 
          */
         public static final int auth_client_using_bad_version_title=0x7f070014;
-        public static final int cancel_profile_message=0x7f070049;
+        public static final int cancel_profile_message=0x7f07004b;
         /**  Button in confirmation dialog to enable Google Play services.  Clicking it
         will direct user to application settings of Google Play services where they
         can enable it [CHAR LIMIT=40] 
@@ -438,8 +438,10 @@ containing a value of this type.
          */
         public static final int positive=0x7f07002f;
         public static final int preference_key_profile_first_name=0x7f070043;
-        public static final int preference_key_profile_gender=0x7f070045;
+        public static final int preference_key_profile_gender=0x7f070047;
+        public static final int preference_key_profile_hometown=0x7f070045;
         public static final int preference_key_profile_last_name=0x7f070044;
+        public static final int preference_key_profile_sport=0x7f070046;
         public static final int profile_athletic_information=0x7f07003b;
         public static final int profile_first_name=0x7f070038;
         public static final int profile_gender_female=0x7f070040;
@@ -453,19 +455,18 @@ containing a value of this type.
         public static final int profile_sport=0x7f07003c;
         public static final int profile_title=0x7f07001c;
         public static final int profile_weight=0x7f07003e;
-        public static final int save_profile_message=0x7f070048;
+        public static final int save_profile_message=0x7f07004a;
         /**  GCM Strings 
-<string name="server_url">http://getswoleandroidapp.appspot.com</string>
          */
-        public static final int server_url=0x7f07004a;
+        public static final int server_url=0x7f07004c;
         public static final int settings_title=0x7f07001e;
         public static final int start_workout_button=0x7f070024;
         public static final int stop_workout_button=0x7f070025;
         public static final int title_section1=0x7f07001f;
         public static final int title_section2=0x7f070020;
         public static final int title_section3=0x7f070021;
-        public static final int ui_button_cancel_title=0x7f070047;
-        public static final int ui_button_save_title=0x7f070046;
+        public static final int ui_button_cancel_title=0x7f070049;
+        public static final int ui_button_save_title=0x7f070048;
         public static final int workout_notes_hint=0x7f070026;
     }
     public static final class style {

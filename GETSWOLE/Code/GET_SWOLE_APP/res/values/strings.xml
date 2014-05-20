@@ -60,6 +60,8 @@
     <string name="profile_shared_preferences">profile_shared_preferences</string>
     <string name="preference_key_profile_first_name">profile_first_name</string>
     <string name="preference_key_profile_last_name">profile_last_name</string>
+    <string name="preference_key_profile_hometown">profile_hometown</string>
+    <string name="preference_key_profile_sport">profile_sport</string>
     
     <string name="preference_key_profile_gender">profile_gender</string>
 	
@@ -70,7 +72,7 @@
     <string name="cancel_profile_message">Canceled Profile</string>
     
     <!-- GCM Strings -->
-    <string name="server_url">http://getswoleandroidapp.appspot.com</string>
-    <!--<string name="server_url">http://10.0.1.12:8888</string>-->
+    <!--<string name="server_url">http://getswoleandroidapp.appspot.com</string>-->
+    <string name="server_url">http://10.0.1.12:8888</string>
 
 </resources>
