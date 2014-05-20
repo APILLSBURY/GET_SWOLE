@@ -71,5 +71,6 @@
     
     <!-- GCM Strings -->
     <string name="server_url">http://getswoleandroidapp.appspot.com</string>
+    <!--<string name="server_url">http://10.0.1.12:8888</string>-->
 
 </resources>

@@ -1,9 +1,9 @@
 package cs65.dartmouth.get_swole.gae;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.json.JSONArray;
 
 import cs65.dartmouth.get_swole.Globals;
