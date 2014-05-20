@@ -1,11 +1,11 @@
 package cs65.dartmouth.get_swole;
 
+import java.util.Calendar;
 import java.util.List;
 
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,17 +15,16 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import cs65.dartmouth.get_swole.classes.Exercise;
 import cs65.dartmouth.get_swole.classes.Workout;
+import cs65.dartmouth.get_swole.classes.WorkoutInstance;
 import cs65.dartmouth.get_swole.database.DatabaseWrapper;
 
 public class WorkoutDoActivity extends Activity {
 	
-	Workout workout;
-	List<Exercise> exercises;
+	WorkoutInstance workoutInstance;
 	
 	/**
 	 * onCreate()
@@ -34,8 +33,7 @@ public class WorkoutDoActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_workout);
-		
+		setContentView(R.layout.activity_workout);	
 		
 		// Display		
 		TextView nameView = (TextView) findViewById(R.id.workoutName);
@@ -52,17 +50,20 @@ public class WorkoutDoActivity extends Activity {
 		     }
 		});
 					
+		// Initialize all instance variables
+		workoutInstance = new WorkoutInstance();
+		workoutInstance.setTime(Calendar.getInstance());
+		
 		long id = getIntent().getExtras().getLong(Globals.ID_TAG, -1L);
 		DatabaseWrapper dbWrapper = new DatabaseWrapper(this);
 		dbWrapper.open();
-		workout = (Workout) dbWrapper.getEntryById(id, Workout.class);
+		workoutInstance.setWorkout((Workout) dbWrapper.getEntryById(id, Workout.class));
 		dbWrapper.close();
 
-		nameView.setText(workout.getName());		
-		exercises = workout.getExerciseList();
+		nameView.setText(workoutInstance.getWorkout().getName());		
 		
 		// Define a new adapter
-	    ExercisesAdapter mAdapter = new ExercisesAdapter(this, R.layout.exercises_list_row, exercises);
+	    ExercisesAdapter mAdapter = new ExercisesAdapter(this, R.layout.exercises_list_row, workoutInstance.getExerciseList());
 
 	    // Assign the adapter to ListView
 	    ListView listView = (ListView) findViewById(R.id.exerciseListView);
@@ -70,13 +71,17 @@ public class WorkoutDoActivity extends Activity {
 
 	    // Define the listener interface
 	    OnItemClickListener mListener = new OnItemClickListener() {
-	                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-	                        // Open dialog to edit this exercise
-	                	Exercise e = exercises.get(position);
-	                	DialogFragment fragment = AppDialogFragment.newInstance(e);
-	        	        fragment.show(getFragmentManager(), getString(R.string.dialog_fragment_tag_edit_exercise));
-	                		
-	                }
+	    	
+	    		@Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+	    			
+	    			/*
+                        // Open dialog to edit this exercise
+                	Exercise e = exercises.get(position);
+                	DialogFragment fragment = AppDialogFragment.newInstance(e);
+        	        fragment.show(getFragmentManager(), getString(R.string.dialog_fragment_tag_edit_exercise));*/
+                		
+                }
 	    };
 
 	    // Get the ListView and wired the listener
@@ -88,16 +93,7 @@ public class WorkoutDoActivity extends Activity {
 
 	public void onFinishWorkout() {
 		
-		// Save whatever comment was in the box, right now not done
-		//EditText comments = (EditText) findViewById(R.id.workoutComments);
-		
-		Bundle b = new Bundle();
-		b.putLong(Globals.ID_TAG, workout.getId());
-		
-		Intent intent = new Intent(this, WorkoutDoActivity.class);
-		intent.putExtras(b);
-		
-		startActivity(intent);
+		// We want to save the workout into the database as a workout instance
 		
 		
 	}

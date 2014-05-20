@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
@@ -24,9 +25,9 @@ import cs65.dartmouth.get_swole.database.DatabaseWrapper;
 
 public class WorkoutEditActivity extends Activity {
 	
-	List<Exercise> exercises;
-	
+	List<Exercise> exercises;	
 	Workout workout;
+	
 	/**
 	 * onCreate()
 	 * @param Bundle savedInstanceStates
@@ -36,15 +37,14 @@ public class WorkoutEditActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_workout);
 		
-		
 		// Display	
 		LinearLayout buttonLayout = (LinearLayout) findViewById(R.id.workout_buttons);
-		TextView nameView = (TextView) findViewById(R.id.workoutName);
 		
 		// Set the buttons to have the correct names and callbacks
 		Button button1 = (Button) findViewById(R.id.button1);
 		Button button2 = new Button(this);
-		buttonLayout.addView(child, params);
+		LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+		buttonLayout.addView(button2, params);
 		
 		// set the button text
 		button1.setText(getString(R.string.add_exercise_button));			
@@ -61,8 +61,11 @@ public class WorkoutEditActivity extends Activity {
     	          onStartWorkout();
     	     }
     	});
-					
+		
+		
+		// Get the id of the workout from the intent - if it is not there, then we are making a new workout
 		long id = getIntent().getExtras().getLong(Globals.ID_TAG, -1L);
+		
 		if (id == -1) { // we are creating a new workout		
 			workout = new Workout(getIntent().getExtras().getString(Globals.NAME_TAG));	
 			
@@ -74,6 +77,8 @@ public class WorkoutEditActivity extends Activity {
 			dbWrapper.close();
 				
 		}
+		
+		TextView nameView = (TextView) findViewById(R.id.workoutName);
 		nameView.setText(workout.getName());		
 		exercises = workout.getExerciseList();
 		
@@ -96,9 +101,7 @@ public class WorkoutEditActivity extends Activity {
         };
 
         // Get the ListView and wired the listener
-        listView.setOnItemClickListener(mListener);
-		
-        
+        listView.setOnItemClickListener(mListener);     
         
 	}
 	
@@ -123,6 +126,12 @@ public class WorkoutEditActivity extends Activity {
 		// Display dialog with nothing in it
 		DialogFragment fragment = AppDialogFragment.newInstance(AppDialogFragment.DIALOG_ID_EDIT_EXERCISE);
         fragment.show(getFragmentManager(), getString(R.string.dialog_fragment_tag_edit_exercise));
+        
+        // We need to update the display to show the new exercise
+        DatabaseWrapper dbWrapper = new DatabaseWrapper(this);
+        dbWrapper.open();
+        workout = (Workout) dbWrapper.getEntryById(workout.getId(), Workout.class);
+        exercises = workout.getExerciseList();
 		
 	}
 	
