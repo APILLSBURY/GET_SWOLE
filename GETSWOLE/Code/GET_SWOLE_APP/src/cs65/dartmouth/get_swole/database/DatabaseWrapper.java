@@ -236,6 +236,7 @@ public class DatabaseWrapper {
 		}
 		// Make sure to close the cursor
 		cursor.close();
+		Log.d(Globals.TAG, "Got the entries for class " + c.getName());
 		return entries;
 	}
 	
