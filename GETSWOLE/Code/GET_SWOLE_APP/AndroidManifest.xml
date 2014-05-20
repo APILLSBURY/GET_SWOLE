@@ -55,12 +55,22 @@
     		</intent-filter>
     	</activity>
     	
-    	 <activity
+    	<activity
     		android:name="cs65.dartmouth.get_swole.FriendsActivity"
     		android:label="@string/friends_title"  
     		android:screenOrientation="portrait" > 
     		<intent-filter>
         		<action android:name="cs65.dartmouth.get_swole.FriendsActivity" />
+        		<category android:name="android.intent.category.DEFAULT" />
+    		</intent-filter>
+		</activity>
+		
+    	<activity
+    		android:name="cs65.dartmouth.get_swole.FriendProfileActivity"
+    		android:label="@string/friend_title"  
+    		android:screenOrientation="portrait" > 
+    		<intent-filter>
+        		<action android:name="cs65.dartmouth.get_swole.FriendProfileActivity" />
         		<category android:name="android.intent.category.DEFAULT" />
     		</intent-filter>
 		</activity>
