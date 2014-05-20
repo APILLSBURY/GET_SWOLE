@@ -362,8 +362,12 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 					if (gcm == null) {
 						gcm = GoogleCloudMessaging.getInstance(mContext);
 					}
+					
+					Log.d(Globals.TAG, "Now trying to register sender id");
 					regId = gcm.register(SENDER_ID);
 					msg = "Device registered, registration ID=" + regId;
+					
+					Log.d(Globals.TAG, "Should have registered sender id");
 
 					// You should send the registration ID to your server over
 					// HTTP,
@@ -372,7 +376,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 					// The request to your server should be authenticated if
 					// your app
 					// is using accounts.
+					Log.d(Globals.TAG, "Now trying to do send registration id to backend");
 					ServerUtilities.sendRegistrationIdToBackend(getApplicationContext(), regId);
+					Log.d(Globals.TAG, "Now should have sent registration id to backend");
 
 					// For this demo: we don't need to send it because the
 					// device
@@ -382,6 +388,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
 					// Persist the regID - no need to register again.
 					storeRegistrationId(mContext, regId);
+					
 				} catch (IOException ex) {
 					msg = "Error :" + ex.getMessage();
 					// If there is an error, don't just keep trying to register.
