@@ -1,6 +1,8 @@
 package cs65.dartmouth.get_swole;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -12,15 +14,16 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 import cs65.dartmouth.get_swole.classes.Exercise;
-import cs65.dartmouth.get_swole.classes.Workout;
 import cs65.dartmouth.get_swole.database.DatabaseWrapper;
 
 public class AppDialogFragment extends DialogFragment {
@@ -224,10 +227,33 @@ public class AppDialogFragment extends DialogFragment {
 			// Create custom dialog
 			b = new AlertDialog.Builder(parent);
 
-			 // Get the layout inflater
 		    LayoutInflater inflater2 = getActivity().getLayoutInflater();
-		    View v2 = inflater2.inflate(R.layout.dialog_edit_exercise, null);
+		    View v2 = inflater2.inflate(R.layout.dialog_existing_exercise, null);    
+		    Spinner exerciseSpinner = (Spinner) v2.findViewById(R.id.exercise_spinner);
+		    
+		    DatabaseWrapper dbWrapper = new DatabaseWrapper(parent);
+		    dbWrapper.open();
+		    List<Exercise> dbExercises = dbWrapper.getAllEntries(Exercise.class);
+		    final ArrayList<Exercise> exercises = new ArrayList<Exercise>();
+		    exercises.addAll(dbExercises);
+		    dbWrapper.close();
+
+		    ExerciseArrayAdapter exerciseArrayAdapter = new ExerciseArrayAdapter(parent, R.layout.exercises_list_row, exercises);
+
+		    exerciseSpinner.setAdapter(exerciseArrayAdapter);
+		    exerciseSpinner.setOnItemClickListener(new OnItemClickListener() {
+		    	@Override
+		    	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		    		
+		    		// We want to add this exercise to the workout's list of exercises
+		    		((WorkoutEditActivity) parent).onUseExistingExercise(exercises.get(position));
+            		
+		    	}
+		    });
+		    	    
 		    b.setView(v2);	
+
+		    
 		    return b.create();
 		default:
 			return null;		

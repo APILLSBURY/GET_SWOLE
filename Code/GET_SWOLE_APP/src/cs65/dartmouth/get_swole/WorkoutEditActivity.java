@@ -29,7 +29,9 @@ public class WorkoutEditActivity extends Activity {
 	
 	List<Exercise> exercises;	
 	Workout workout;
-	ExercisesAdapter mAdapter;
+	ExerciseArrayAdapter mAdapter;
+	DatabaseWrapper dbWrapper = new DatabaseWrapper(this);
+
 	
 	/**
 	 * onCreate()
@@ -70,7 +72,6 @@ public class WorkoutEditActivity extends Activity {
 		// Get the id of the workout from the intent - if it is not there, then we are making a new workout
 		long id = getIntent().getExtras().getLong(Globals.ID_TAG, -1L);
 		
-		DatabaseWrapper dbWrapper = new DatabaseWrapper(this);
 		dbWrapper.open();
 		
 		if (id == -1) { // we are creating a new workout, it is added to the database
@@ -88,7 +89,7 @@ public class WorkoutEditActivity extends Activity {
 		exercises = workout.getExerciseList();
 		
 		// Define a new adapter
-        mAdapter = new ExercisesAdapter(this, R.layout.exercises_list_row, exercises);
+        mAdapter = new ExerciseArrayAdapter(this, R.layout.exercises_list_row, exercises);
 
         // Assign the adapter to ListView
         ListView listView = (ListView) findViewById(R.id.exerciseListView);
@@ -124,7 +125,6 @@ public class WorkoutEditActivity extends Activity {
 	   
 		// Only the delete button so it shouldn't matter
 		// delete this workout from the workouts database - all of its entries will still be there though
-		DatabaseWrapper dbWrapper = new DatabaseWrapper(this);
 		dbWrapper.open();
 		dbWrapper.deleteEntry(workout);
 		dbWrapper.close();
@@ -165,12 +165,11 @@ public class WorkoutEditActivity extends Activity {
 		
 		startActivity(intent);
 		
-		
+		finish();
 	}
 	
 	public void onAddNewExercise(Exercise e) {
         
-		DatabaseWrapper dbWrapper = new DatabaseWrapper(this);
         dbWrapper.open();
         
         Exercise savedExercise = dbWrapper.createEntry(e);
@@ -190,9 +189,15 @@ public class WorkoutEditActivity extends Activity {
 				exercises.remove(e);
 		}
         
-        onAddNewExercise(newExercise);
-		
+        onAddNewExercise(newExercise);	
         
+	}
+	
+	public void onUseExistingExercise(Exercise e) {
+		
+		exercises.add(e);
+		dbWrapper.updateExerciseList(workout);
+		mAdapter.notifyDataSetChanged();
 	}
 	
 	public void onDeleteExercise(long id) {
@@ -205,45 +210,11 @@ public class WorkoutEditActivity extends Activity {
 		
 		exercises.remove(toRemove);
 		
-		DatabaseWrapper dbWrapper = new DatabaseWrapper(this);
 		dbWrapper.open();
 		dbWrapper.updateExerciseList(workout);
 		dbWrapper.close();
 		
 		mAdapter.notifyDataSetChanged();
 	}
-	
-	/**
-	 * 
-	 * PRIVATE CLASSES
-	 *
-	 */
-	private class ExercisesAdapter extends ArrayAdapter<Exercise> {
-    	
-    	private Context context;
-    	private List<Exercise> exercises;
-    	
-    	public ExercisesAdapter(Context context, int resource, List<Exercise> exercises) {
-    		super(context, resource, exercises);
-    		this.exercises = exercises;
-    		this.context = context;	       
-    	}
-    	
-    	
-    	@Override 
-    	public View getView(int position, View convertView, ViewGroup parent) {
-    		
-    		// Inflate the layout for a row
-    		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    	    View rowView = inflater.inflate(R.layout.exercises_list_row, parent, false);
-    	    
-    	    // Access the textviews to set
-    	    TextView exerciseView = (TextView) rowView.findViewById(R.id.exercise_list_single_row);    		
-    	    Exercise e = exercises.get(position);
-    	    exerciseView.setText(e.getName());
-    	    
-    	    return rowView;
-    	}
-    }
 	
 }
