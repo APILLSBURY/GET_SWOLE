@@ -129,9 +129,13 @@ public class WorkoutEditActivity extends Activity {
 		dbWrapper.deleteEntry(workout);
 		dbWrapper.close();
 			
-		Intent intent = new Intent(this, MainActivity.class);
-		startActivity(intent);
-		
+		 Intent i = new Intent();
+        i.setAction("UPDATE_NOTIFY");
+        i.putExtra("message", "update");
+        sendBroadcast(i);
+        
+		finish();
+	
 		finish();
 		
 	    return false;
