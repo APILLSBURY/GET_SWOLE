@@ -18,12 +18,13 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
 import cs65.dartmouth.get_swole.classes.Exercise;
+import cs65.dartmouth.get_swole.classes.Workout;
 import cs65.dartmouth.get_swole.database.DatabaseWrapper;
 
 public class AppDialogFragment extends DialogFragment {
 
 	// For use by edit exercise dialog
-	private static final String ENTRY_ID = "Id";
+	private static final String EXERCISE_ID = "Exercise_Id";
 	
 	public static final int DIALOG_ID_PHOTO_PICKER = 1;
 	public static final int ID_PHOTO_FROM_CAMERA = 0;
@@ -45,11 +46,12 @@ public class AppDialogFragment extends DialogFragment {
 		return frag;
 	}
 	
+	
 	public static AppDialogFragment newInstance(Exercise e) {
 		AppDialogFragment frag = new AppDialogFragment();
 		Bundle args = new Bundle();
 		args.putInt(DIALOG_ID_KEY, DIALOG_ID_EDIT_EXERCISE);
-		args.putLong(ENTRY_ID, e.getId());
+		if (e != null) args.putLong(EXERCISE_ID, e.getId());
 		frag.setArguments(args);
 		return frag;
 	}
@@ -157,7 +159,7 @@ public class AppDialogFragment extends DialogFragment {
 			final EditText exerciseNotes = (EditText) v.findViewById(R.id.exerciseNotes);
 			
 			// Id of exercise entry that we are loading up, could not be there
-		    final long id = getArguments().getLong(ENTRY_ID, -1L);
+		    final long id = getArguments().getLong(EXERCISE_ID, -1L);
 		    
 		    // We fill the fields if there is data
 			if (id != -1L) {	
@@ -178,10 +180,7 @@ public class AppDialogFragment extends DialogFragment {
 			b.setPositiveButton(getString(R.string.positive), new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
-					// save the exercise into the exercise list of the workout
-					DatabaseWrapper dbWrapper = new DatabaseWrapper(getActivity());
-					dbWrapper.open();
-					dbWrapper.deleteEntry(id, Exercise.class); // might be deleting nothing if id is -1
+					
 					Exercise e = new Exercise(exerciseName.getText().toString());
 					e.setReps(Integer.parseInt(exerciseReps.getText().toString()));
 					e.setRepsGoal(Integer.parseInt(exerciseRepsGoal.getText().toString()));
@@ -189,12 +188,16 @@ public class AppDialogFragment extends DialogFragment {
 					e.setWeightGoal(Integer.parseInt(exerciseWeightGoal.getText().toString()));
 					e.setRest(Integer.parseInt(exerciseRest.getText().toString()));
 					e.setNotes(exerciseNotes.getText().toString());
-					dbWrapper.createEntry(e);		       	
-					dbWrapper.close();
+										
+					if (id == -1L) // if we are creating a new exercise						
+						((WorkoutEditActivity) parent).onAddNewExercise(e); // we want to add this exercise to the workout's list
+					else { // we are editing an exercise, meaning we need to delete the old one from this activities list
+						((WorkoutEditActivity) parent).onEditExercise(id, e);
+					}
 				}
 			});
 			
-			if (id == -1) { // then this is a new entry, and we might want to just cancel
+			if (id == -1L) { // then this is a new entry, and we might want to just cancel
 				b.setNegativeButton(getString(R.string.negative), new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
@@ -207,10 +210,8 @@ public class AppDialogFragment extends DialogFragment {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						// delete the entry
-						DatabaseWrapper dbWrapper = new DatabaseWrapper(getActivity());
-						dbWrapper.open();
-						dbWrapper.deleteEntry(id, Exercise.class);
-						dbWrapper.close();
+						((WorkoutEditActivity) parent).onDeleteExercise(id);
+						
 					}
 				});
 			}

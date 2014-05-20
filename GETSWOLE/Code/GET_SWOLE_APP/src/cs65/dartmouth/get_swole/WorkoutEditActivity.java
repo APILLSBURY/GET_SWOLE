@@ -8,6 +8,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -27,6 +29,7 @@ public class WorkoutEditActivity extends Activity {
 	
 	List<Exercise> exercises;	
 	Workout workout;
+
 	
 	/**
 	 * onCreate()
@@ -51,7 +54,9 @@ public class WorkoutEditActivity extends Activity {
 		button1.setOnClickListener(new OnClickListener() {
     	     @Override
     	     public void onClick(View v) {
-    	           onAddExercise();
+    	    	 	// Display dialog with nothing in it
+    	 			DialogFragment fragment = AppDialogFragment.newInstance(AppDialogFragment.DIALOG_ID_EDIT_EXERCISE);
+    	 			fragment.show(getFragmentManager(), getString(R.string.dialog_fragment_tag_edit_exercise));
     	     }
     	});
 		button2.setText(getString(R.string.start_workout_button));
@@ -62,22 +67,22 @@ public class WorkoutEditActivity extends Activity {
     	     }
     	});
 		
-		
 		// Get the id of the workout from the intent - if it is not there, then we are making a new workout
 		long id = getIntent().getExtras().getLong(Globals.ID_TAG, -1L);
 		
-		if (id == -1) { // we are creating a new workout		
-			workout = new Workout(getIntent().getExtras().getString(Globals.NAME_TAG));	
-			
+		DatabaseWrapper dbWrapper = new DatabaseWrapper(this);
+		dbWrapper.open();
+		
+		if (id == -1) { // we are creating a new workout, it is added to the database
+			Workout w = new Workout(getIntent().getExtras().getString(Globals.NAME_TAG));	
+			workout = dbWrapper.createEntry(w);
 		}
 		else {
-			DatabaseWrapper dbWrapper = new DatabaseWrapper(this);
-			dbWrapper.open();
-			workout = (Workout) dbWrapper.getEntryById(id, Workout.class);
-			dbWrapper.close();
-				
+			workout = (Workout) dbWrapper.getEntryById(id, Workout.class);		
 		}
 		
+		dbWrapper.close();
+	
 		TextView nameView = (TextView) findViewById(R.id.workoutName);
 		nameView.setText(workout.getName());		
 		exercises = workout.getExerciseList();
@@ -91,13 +96,14 @@ public class WorkoutEditActivity extends Activity {
 
         // Define the listener interface
         OnItemClickListener mListener = new OnItemClickListener() {
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            // Open dialog to edit this exercise
-                    	Exercise e = exercises.get(position);
-                    	DialogFragment fragment = AppDialogFragment.newInstance(e);
-            	        fragment.show(getFragmentManager(), getString(R.string.dialog_fragment_tag_edit_exercise));
-                    		
-                    }
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    // Open dialog to edit this exercise
+            	Exercise e = exercises.get(position);
+            	DialogFragment fragment;
+            	fragment = AppDialogFragment.newInstance(e);
+    	        fragment.show(getFragmentManager(), getString(R.string.dialog_fragment_tag_edit_exercise));
+            		
+            }
         };
 
         // Get the ListView and wired the listener
@@ -105,10 +111,30 @@ public class WorkoutEditActivity extends Activity {
         
 	}
 	
-	public void onStartWorkout() {
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.delete, menu);		
+		return true;
+	}
+	
+	// Menu Bar Options
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item){
+	   
+		// Only the delete button so it shouldn't matter
+		// delete this workout from the workouts database - all of its entries will still be there though
+		DatabaseWrapper dbWrapper = new DatabaseWrapper(this);
+		dbWrapper.open();
+		dbWrapper.deleteEntry(workout);
+		dbWrapper.close();
 		
-		// Save whatever comment was in the box, right now not done
-		//EditText comments = (EditText) findViewById(R.id.workoutComments);
+		finish();
+	    return false;
+	}
+		
+		
+	public void onStartWorkout() {
 		
 		Bundle b = new Bundle();
 		b.putLong(Globals.ID_TAG, workout.getId());
@@ -121,18 +147,44 @@ public class WorkoutEditActivity extends Activity {
 		
 	}
 	
-	public void onAddExercise() {
-		
-		// Display dialog with nothing in it
-		DialogFragment fragment = AppDialogFragment.newInstance(AppDialogFragment.DIALOG_ID_EDIT_EXERCISE);
-        fragment.show(getFragmentManager(), getString(R.string.dialog_fragment_tag_edit_exercise));
+	public void onAddNewExercise(Exercise e) {
         
-        // We need to update the display to show the new exercise
-        DatabaseWrapper dbWrapper = new DatabaseWrapper(this);
+		DatabaseWrapper dbWrapper = new DatabaseWrapper(this);
         dbWrapper.open();
-        workout = (Workout) dbWrapper.getEntryById(workout.getId(), Workout.class);
-        exercises = workout.getExerciseList();
+        
+        Exercise savedExercise = dbWrapper.createEntry(e);
+		exercises.add(savedExercise);
 		
+        dbWrapper.updateExerciseList(workout);
+        dbWrapper.close();
+        
+        // update the screen too?? 
+	}
+	
+	// New exercise does not have a database id yet
+	public void onEditExercise(long oldId, Exercise newExercise) {
+		
+		// Remove the old exercise of this id from the exercise list of this workout
+		for (Exercise e : exercises) {
+			if (e.getId() == oldId) 
+				exercises.remove(e);
+		}
+        
+        onAddNewExercise(newExercise);
+		
+	}
+	
+	public void onDeleteExercise(long id) {
+		// Delete this exercise from THIS WORKOUT'S LIST. Not the exercise database
+		for (Exercise e : exercises) {
+			if (e.getId() == id) 
+				exercises.remove(e);
+		}
+		
+		DatabaseWrapper dbWrapper = new DatabaseWrapper(this);
+		dbWrapper.open();
+		dbWrapper.updateExerciseList(workout);
+		dbWrapper.close();
 	}
 	
 	/**
