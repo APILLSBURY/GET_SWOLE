@@ -57,6 +57,18 @@
             android:screenOrientation="portrait" >
         </activity>
 		
+    	<activity
+            android:name="cs65.dartmouth.get_swole.WorkoutDoActivity"
+            android:label="@string/settings_title" 
+            android:screenOrientation="portrait" >
+        </activity>
+		
+    	<activity
+            android:name="cs65.dartmouth.get_swole.WorkoutEditActivity"
+            android:label="@string/settings_title" 
+            android:screenOrientation="portrait" >
+        </activity>
+		
     </application>
 
 </manifest>
