@@ -226,7 +226,8 @@ containing a value of this type.
         public static final int ic_plusone_tall_off_client=0x7f02001d;
     }
     public static final class id {
-        public static final int action_add_workout=0x7f06003a;
+        public static final int action_add_workout=0x7f06003d;
+        public static final int action_delete=0x7f060039;
         public static final int athleticInfo=0x7f06000c;
         public static final int btnProfileCancel=0x7f060015;
         public static final int btnProfileSave=0x7f060014;
@@ -248,18 +249,20 @@ containing a value of this type.
         public static final int exercise_list_single_row=0x7f060029;
         public static final int firstName=0x7f060009;
         public static final int friendsLayout=0x7f060005;
-        public static final int friends_activity=0x7f060038;
-        public static final int gridview=0x7f060035;
+        public static final int friends_activity=0x7f06003b;
+        public static final int gridview=0x7f060037;
         public static final int height=0x7f06000e;
         public static final int hometown=0x7f06000b;
         public static final int hybrid=0x7f060004;
         public static final int lastName=0x7f06000a;
         public static final int mainLayout=0x7f060007;
+        public static final int nextMonth=0x7f060036;
         public static final int none=0x7f060000;
         public static final int normal=0x7f060001;
         public static final int pager=0x7f060006;
+        public static final int prevMonth=0x7f060035;
         public static final int profilePhoto=0x7f060008;
-        public static final int profile_activity=0x7f060037;
+        public static final int profile_activity=0x7f06003a;
         public static final int progressBar1=0x7f060030;
         public static final int radioButton1=0x7f060032;
         public static final int radioGender=0x7f060010;
@@ -268,7 +271,7 @@ containing a value of this type.
         public static final int ratingBar1=0x7f060031;
         public static final int satellite=0x7f060002;
         public static final int section_label=0x7f06002a;
-        public static final int settings_activity=0x7f060039;
+        public static final int settings_activity=0x7f06003c;
         public static final int sharedWorkouts=0x7f060013;
         public static final int spinner1=0x7f06002f;
         public static final int sport=0x7f06000d;
@@ -284,7 +287,7 @@ containing a value of this type.
         public static final int workoutComments=0x7f060017;
         public static final int workoutName=0x7f060016;
         public static final int workout_buttons=0x7f060019;
-        public static final int workout_list_single_row=0x7f060036;
+        public static final int workout_list_single_row=0x7f060038;
     }
     public static final class integer {
         public static final int google_play_services_version=0x7f080000;
@@ -303,8 +306,9 @@ containing a value of this type.
         public static final int workouts_list_row=0x7f03000a;
     }
     public static final class menu {
-        public static final int main=0x7f0b0000;
-        public static final int workouts=0x7f0b0001;
+        public static final int delete=0x7f0b0000;
+        public static final int main=0x7f0b0001;
+        public static final int workouts=0x7f0b0002;
     }
     public static final class string {
         /**  Workouts 
@@ -450,6 +454,7 @@ containing a value of this type.
         public static final int profile_title=0x7f07001c;
         public static final int profile_weight=0x7f07003e;
         public static final int save_profile_message=0x7f070048;
+        public static final int server_url=0x7f07004a;
         public static final int settings_title=0x7f07001e;
         public static final int start_workout_button=0x7f070024;
         public static final int stop_workout_button=0x7f070025;
