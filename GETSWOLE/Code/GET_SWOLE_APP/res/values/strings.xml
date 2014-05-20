@@ -70,6 +70,6 @@
     <string name="cancel_profile_message">Canceled Profile</string>
     
     <!-- GCM Strings -->
-    <string name="server_url">https://localhost:8888</string>
+    <string name="server_url">http://getswoleandroidapp.appspot.com</string>
 
 </resources>
