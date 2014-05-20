@@ -56,32 +56,32 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + WORKOUT_SCHEDULED_DATES + " TEXT, "
             + WORKOUT_START_DATE + " DATETIME, "
             + WORKOUT_FREQUENCY_LIST + " BLOB, "
-            + WORKOUT_NOTES + " TEXT, " + ");";  
+            + WORKOUT_NOTES + " TEXT );";  
     
     public static final String CREATE_TABLE_WORKOUT_INSTANCE = "CREATE TABLE IF NOT EXISTS "
             + TABLE_NAME_WORKOUT_INSTANCE + " ("
             + WORKOUT_INSTANCE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + "FOREIGN KEY (" + WORKOUT_INSTANCE_WORKOUT + ") REFERENCES " + TABLE_NAME_WORKOUT + " (" + WORKOUT_ID + ") "
+            + "FOREIGN KEY (" + WORKOUT_INSTANCE_WORKOUT + ") REFERENCES " + TABLE_NAME_WORKOUT + " (" + WORKOUT_ID + "), "
             + WORKOUT_EXERCISE_LIST + " BLOB, "
-            + WORKOUT_INSTANCE_TIME + " DATETIME, " + ");";
+            + WORKOUT_INSTANCE_TIME + " DATETIME );";
     
     public static final String CREATE_TABLE_EXERCISE = "CREATE TABLE IF NOT EXISTS "
             + TABLE_NAME_EXERCISE + " ("
             + EXERCISE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + EXERCISE_NAME + " TEXT, "
-            + EXERCISE_REPS + " INT, "
-            + EXERCISE_WEIGHT + " INT, "
-            + EXERCISE_REPS_GOAL + " INT, "
-            + EXERCISE_WEIGHT_GOAL + " INT, "
-            + EXERCISE_REST + " INT, "
-            + EXERCISE_NOTES + " TEXT, " + ");";  
+            + EXERCISE_REPS + " INTEGER, "
+            + EXERCISE_WEIGHT + " INTEGER, "
+            + EXERCISE_REPS_GOAL + " INTEGER, "
+            + EXERCISE_WEIGHT_GOAL + " INTEGER, "
+            + EXERCISE_REST + " INTEGER, "
+            + EXERCISE_NOTES + " TEXT );";  
     
     public static final String CREATE_TABLE_FREQUENCY = "CREATE TABLE IF NOT EXISTS "
             + TABLE_NAME_FREQUENCY + " ("
             + FREQUENCY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + FREQUENCY_DAY + " INT, "
+            + FREQUENCY_DAY + " INTEGER, "
             + FREQUENCY_START_DATE + " DATETIME, "
-            + FREQUENCY_END_DATE + " DATETIME, " + ");";
+            + FREQUENCY_END_DATE + " DATETIME );";
     
 	public static final String[] TABLE_NAMES = {
 									DatabaseHelper.TABLE_NAME_WORKOUT, 
