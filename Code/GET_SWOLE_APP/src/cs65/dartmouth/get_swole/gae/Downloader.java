@@ -14,15 +14,15 @@ import android.util.Log;
 
 public class Downloader {
 
-	Context mContext;
-	String mServerUrl;
+	static Context mContext;
+	static String mServerUrl;
 	
 	public Downloader (Context context, String serverURL) {
 		mContext = context;
 		mServerUrl = serverURL;
 	}
 	
-	public boolean getFriends() throws IOException {
+	public static String getFriends() throws IOException {
 		
 		// Get Shared Preferences
 		SharedPreferences GCMPreferences = mContext.getSharedPreferences(MainActivity.class.getSimpleName(), Context.MODE_PRIVATE);
@@ -44,10 +44,10 @@ public class Downloader {
 			hashmap.put("getFriends", "getFriendsRequest");
 	
 			// Post
-			ServerUtilities.post(mServerUrl, hashmap);
+			return ServerUtilities.post(mServerUrl, hashmap);
 		}
 		
-		return true;
+		return "";
 		
 	}
 	
