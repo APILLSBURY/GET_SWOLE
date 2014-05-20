@@ -103,7 +103,7 @@ public final class Datastore {
 				return;
 			
 			// Clear Profile
-			List<ProfileObject> oldRecord = getProfiles(regId);
+			List<ProfileObject> oldRecord = getProfiles(regId, "check");
 			
 			for (ProfileObject entry : oldRecord) {
 				deleteProfile(regId, entry.firstName + entry.lastName);
@@ -133,16 +133,18 @@ public final class Datastore {
 
 	}
 	
-	public static List<ProfileObject> getProfiles(String regId) {
+	public static List<ProfileObject> getProfiles(String regId, String check) {
 		
-		logger.log(Level.INFO, "getProfile");
+		logger.log(Level.INFO, "getProfiles");
+		
+		
 		// Get existing data from datastore
 		
 		// Create new arraylist
 		List<ProfileObject> result = new ArrayList<ProfileObject>();
 		
 		// Set up query and return history
-		if (regId != null) {
+		if (check != null) {
 			
 			Query regQuery = new Query(ENTITY_KIND_PROFILE);
 			regQuery.setAncestor(getRegDeviceKey(regId));
@@ -154,9 +156,7 @@ public final class Datastore {
 			
 		}
 		
-		else if (regId == null) {
-			
-			logger.log(Level.INFO, "regId is null in getHistoryEntry");
+		else if (check == null) {
 			
 			Query query = new Query(ENTITY_KIND_DEVICE);
 			query.setKeysOnly();
@@ -165,15 +165,22 @@ public final class Datastore {
 			
 			for (Entity entity : entities) {
 				
-				Query entityQuery = new Query(ENTITY_KIND_PROFILE);
+				logger.log(Level.INFO, "regId: " + "Device(\"" + regId + "\")" + "\ndevice: " + entity.getKey().toString());
 				
-				query.setAncestor(entity.getKey());
-				
-				Iterable<Entity> profileEntities = datastore.prepare(entityQuery).asIterable(DEFAULT_FETCH_OPTIONS);
-				
-				for (Entity historyEntity : profileEntities) {
+				// Only want other people's profiles
+				if (!((entity.getKey().toString()).equals("Device(\"" + regId + "\")"))) {
 					
-					result.add(EntityConverter.fromEntitytoProfile(historyEntity));
+					Query entityQuery = new Query(ENTITY_KIND_PROFILE);
+					
+					query.setAncestor(entity.getKey());
+					
+					Iterable<Entity> profileEntities = datastore.prepare(entityQuery).asIterable(DEFAULT_FETCH_OPTIONS);
+				
+					for (Entity profileEntity : profileEntities) {
+						
+						result.add(EntityConverter.fromEntitytoProfile(profileEntity));
+					}
+
 				}
 				
 			}
