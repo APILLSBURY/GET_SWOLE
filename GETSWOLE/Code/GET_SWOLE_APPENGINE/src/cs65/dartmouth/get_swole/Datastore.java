@@ -28,6 +28,7 @@ public final class Datastore {
 	
 	private static final String ENTITY_KIND_DEVICE = "Device";
 	private static final String ENTITY_KIND_PROFILE = "Profile";
+	private static final String ENTITY_KIND_FRIENDS = "Friends";
 	private static final String ENTITY_KIND_WORKOUT = "Workout";
 	private static final String DEVICE_REG_ID_PROPERTY = "regId";
 
