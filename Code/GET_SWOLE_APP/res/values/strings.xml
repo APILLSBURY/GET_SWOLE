@@ -14,7 +14,7 @@
     <color name="background_holo_dark">#aaa</color>
     
     <!-- Workouts -->
-    <string name="add_button">+</string>
+    <string name="add_button">New workout</string>
     <string name="add_exercise_button">New Exercise</string>
     <string name="start_workout_button">START!</string>
     <string name="stop_workout_button">Finish</string>

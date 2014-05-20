@@ -128,12 +128,26 @@ public class WorkoutEditActivity extends Activity {
 		dbWrapper.open();
 		dbWrapper.deleteEntry(workout);
 		dbWrapper.close();
+			
+		Intent intent = new Intent(this, MainActivity.class);
+		startActivity(intent);
 		
 		finish();
+		
 	    return false;
 	}
 		
 		
+	@Override 
+	public void onBackPressed() {
+		// Don't really want to do this...
+		Intent intent = new Intent(this, MainActivity.class);
+		startActivity(intent);
+		
+		finish();
+		
+	}
+	
 	public void onStartWorkout() {
 		
 		Bundle b = new Bundle();

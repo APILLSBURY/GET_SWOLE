@@ -81,10 +81,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		if (getActionBar().getSelectedNavigationIndex() == 0)  // we are on workouts, so we want to display the + button in the corner
-			getMenuInflater().inflate(R.menu.workouts, menu);
-		
-		else getMenuInflater().inflate(R.menu.main, menu);
+		getMenuInflater().inflate(R.menu.main, menu);
 		
 		return true;
 	}
