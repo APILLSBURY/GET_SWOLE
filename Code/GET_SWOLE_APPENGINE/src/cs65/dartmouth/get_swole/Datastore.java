@@ -166,21 +166,19 @@ public final class Datastore {
 			for (Entity entity : entities) {
 				
 				logger.log(Level.INFO, "regId: " + "Device(\"" + regId + "\")" + "\ndevice: " + entity.getKey().toString());
+					
+				Query entityQuery = new Query(ENTITY_KIND_PROFILE);
+					
+				query.setAncestor(entity.getKey());
+					
+				Iterable<Entity> profileEntities = datastore.prepare(entityQuery).asIterable(DEFAULT_FETCH_OPTIONS);
 				
-				// Only want other people's profiles
-				if (!((entity.getKey().toString()).equals("Device(\"" + regId + "\")"))) {
+				for (Entity profileEntity : profileEntities) {
+					ProfileObject currProfile = EntityConverter.fromEntitytoProfile(profileEntity);
 					
-					Query entityQuery = new Query(ENTITY_KIND_PROFILE);
-					
-					query.setAncestor(entity.getKey());
-					
-					Iterable<Entity> profileEntities = datastore.prepare(entityQuery).asIterable(DEFAULT_FETCH_OPTIONS);
-				
-					for (Entity profileEntity : profileEntities) {
-						
-						result.add(EntityConverter.fromEntitytoProfile(profileEntity));
-					}
-
+					// Make sure it is not the current Profile
+					if (!currProfile.regId.equals(regId))
+						result.add(currProfile);
 				}
 				
 			}
