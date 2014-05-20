@@ -25,7 +25,7 @@ public class ScheduleFragment extends Fragment {
 
 	    gridview.setOnItemClickListener(new OnItemClickListener() {
 	        public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-	            Toast.makeText(container.getContext(), "" + position, Toast.LENGTH_SHORT).show();
+	            Toast.makeText(container.getContext(), "positiong=" + position + ", id=" + id, Toast.LENGTH_SHORT).show();
 	        }
 	    });
 		
@@ -70,14 +70,16 @@ public class ScheduleFragment extends Fragment {
 
 	    // references to our images
 	    private Integer[] mThumbIds = {
-	            R.drawable.ic_launcher,  R.drawable.ic_launcher,  R.drawable.ic_launcher,  R.drawable.ic_launcher,  R.drawable.ic_launcher, 
-	            R.drawable.ic_launcher, R.drawable.ic_launcher, 
-	            R.drawable.ic_launcher,  R.drawable.ic_launcher,  R.drawable.ic_launcher,  R.drawable.ic_launcher,  R.drawable.ic_launcher, 
-	            R.drawable.ic_launcher, R.drawable.ic_launcher, 
-	            R.drawable.ic_launcher,  R.drawable.ic_launcher,  R.drawable.ic_launcher,  R.drawable.ic_launcher,  R.drawable.ic_launcher, 
-	            R.drawable.ic_launcher, R.drawable.ic_launcher, 
-	            R.drawable.ic_launcher,  R.drawable.ic_launcher,  R.drawable.ic_launcher,  R.drawable.ic_launcher,  R.drawable.ic_launcher, 
-	            R.drawable.ic_launcher, R.drawable.ic_launcher 
+	            R.drawable.ic_launcher,  R.drawable.ic_launcher,  R.drawable.ic_launcher,
+	            R.drawable.ic_launcher,  R.drawable.ic_launcher,  R.drawable.ic_launcher,
+	            R.drawable.ic_launcher,  R.drawable.ic_launcher,  R.drawable.ic_launcher,
+	            R.drawable.ic_launcher,  R.drawable.ic_launcher,  R.drawable.ic_launcher,
+	            R.drawable.ic_launcher,  R.drawable.ic_launcher,  R.drawable.ic_launcher,
+	            R.drawable.ic_launcher,  R.drawable.ic_launcher,  R.drawable.ic_launcher,
+	            R.drawable.ic_launcher,  R.drawable.ic_launcher,  R.drawable.ic_launcher,
+	            R.drawable.ic_launcher,  R.drawable.ic_launcher,  R.drawable.ic_launcher,
+	            R.drawable.ic_launcher,  R.drawable.ic_launcher,  R.drawable.ic_launcher,
+	            R.drawable.ic_launcher,  R.drawable.ic_launcher,  R.drawable.ic_launcher
 	    };
 	}
 	

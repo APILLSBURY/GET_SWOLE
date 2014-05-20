@@ -28,8 +28,6 @@ public class WorkoutInstance extends GetSwoleClass {
 		exerciseList.add(e);
 	}
 	
-
-	
 	//BYTE ARRAY METHODS
 	public byte[] getExerciseListByteArray() {
 		int[] intArray = new int[exerciseList.size()];

@@ -88,7 +88,9 @@ public class Workout extends GetSwoleClass {
 		for (int i = 0; i < scheduledDates.size(); i++) {
 			s += DatabaseWrapper.DATE_FORMAT.format(scheduledDates.get(i)) + "&";
 		}
-		s = s.substring(0, s.length() - 1); //remove the trailing "&"
+		if (s.length() >= 1) {
+			s = s.substring(0, s.length() - 1); //remove the trailing "&"
+		}
 		return s;
 	}
 	
