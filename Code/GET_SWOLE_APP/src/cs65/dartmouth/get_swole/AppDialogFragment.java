@@ -182,11 +182,11 @@ public class AppDialogFragment extends DialogFragment {
 				public void onClick(DialogInterface dialog, int which) {
 					
 					Exercise e = new Exercise(exerciseName.getText().toString());
-					e.setReps(Integer.parseInt(exerciseReps.getText().toString()));
-					e.setRepsGoal(Integer.parseInt(exerciseRepsGoal.getText().toString()));
-					e.setWeight(Integer.parseInt(exerciseWeight.getText().toString()));
-					e.setWeightGoal(Integer.parseInt(exerciseWeightGoal.getText().toString()));
-					e.setRest(Integer.parseInt(exerciseRest.getText().toString()));
+					if (!exerciseReps.getText().toString().isEmpty()) e.setReps(Integer.parseInt(exerciseReps.getText().toString()));		
+					if (!exerciseRepsGoal.getText().toString().isEmpty()) e.setRepsGoal(Integer.parseInt(exerciseRepsGoal.getText().toString()));
+					if (!exerciseWeight.getText().toString().isEmpty()) e.setWeight(Integer.parseInt(exerciseWeight.getText().toString()));
+					if (!exerciseWeightGoal.getText().toString().isEmpty()) e.setWeightGoal(Integer.parseInt(exerciseWeightGoal.getText().toString()));
+					if (!exerciseRest.getText().toString().isEmpty()) e.setRest(Integer.parseInt(exerciseRest.getText().toString()));
 					e.setNotes(exerciseNotes.getText().toString());
 										
 					if (id == -1L) // if we are creating a new exercise						
