@@ -331,11 +331,11 @@ public class ProfileActivity extends Activity {
 		
 		// Load Name
 		
-		mKey = getString(R.string.profile_first_name);
+		mKey = getString(R.string.preference_key_profile_first_name);
 		String mValue = mPrefs.getString(mKey, "");
 		((EditText) findViewById(R.id.firstName)).setText(mValue);
 		
-		mKey = getString(R.string.profile_last_name);
+		mKey = getString(R.string.preference_key_profile_last_name);
 		mValue = mPrefs.getString(mKey, "");
 		((EditText) findViewById(R.id.lastName)).setText(mValue);
 		
