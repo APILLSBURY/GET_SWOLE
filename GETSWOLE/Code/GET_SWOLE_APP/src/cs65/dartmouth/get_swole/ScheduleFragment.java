@@ -30,7 +30,15 @@ public class ScheduleFragment extends Fragment {
 	    });
 		
 		return v;
-		
+	}
+	
+	private void onPrevClicked(View v) {
+		return;
+	}
+	
+	
+	private void onNextClicked(View v) {
+		return;
 	}
 	
 	public class ImageAdapter extends BaseAdapter {
