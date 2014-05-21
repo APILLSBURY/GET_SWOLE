@@ -39,6 +39,7 @@ public class AppDialogFragment extends DialogFragment {
 	public static final int DIALOG_ID_TIME = 4;
 	public static final int DIALOG_ID_EDIT_EXERCISE = 5; // for adding new exercises, or editing already existing
 	public static final int DIALOG_ID_ADD_EXISTING_EXERCISE = 6;
+	public static final int DIALOG_ID_DO_EXERCISE = 7;
 	
 	private static final String DIALOG_ID_KEY = "dialog_id";
 	
@@ -52,10 +53,11 @@ public class AppDialogFragment extends DialogFragment {
 	}
 	
 	
-	public static AppDialogFragment newInstance(Exercise e) {
+	public static AppDialogFragment newInstance(Exercise e, boolean edit) {
 		AppDialogFragment frag = new AppDialogFragment();
 		Bundle args = new Bundle();
-		args.putInt(DIALOG_ID_KEY, DIALOG_ID_EDIT_EXERCISE);
+		if (edit) args.putInt(DIALOG_ID_KEY, DIALOG_ID_EDIT_EXERCISE);
+		else args.putInt(DIALOG_ID_KEY,  DIALOG_ID_DO_EXERCISE);
 		if (e != null) args.putLong(EXERCISE_ID, e.getId());
 		frag.setArguments(args);
 		return frag;
@@ -69,7 +71,9 @@ public class AppDialogFragment extends DialogFragment {
 		
 		// For use by time/date setting dialogs
 		Calendar c = Calendar.getInstance();
-
+		LayoutInflater inflater;
+		View v;
+		
 		AlertDialog.Builder b;
 		
 		switch (dialogId) {	
@@ -151,8 +155,8 @@ public class AppDialogFragment extends DialogFragment {
 			b = new AlertDialog.Builder(parent);
 
 			 // Get the layout inflater
-		    LayoutInflater inflater = getActivity().getLayoutInflater();
-		    View v = inflater.inflate(R.layout.dialog_edit_exercise, null);
+		    inflater = getActivity().getLayoutInflater();
+		    v = inflater.inflate(R.layout.dialog_edit_exercise, null);
 		    b.setView(v);		
 
 		    // Text views
@@ -226,9 +230,9 @@ public class AppDialogFragment extends DialogFragment {
 			// Create custom dialog
 			b = new AlertDialog.Builder(parent);
 
-		    LayoutInflater inflater2 = getActivity().getLayoutInflater();
-		    View v2 = inflater2.inflate(R.layout.dialog_existing_exercise, null);    
-		    Spinner exerciseSpinner = (Spinner) v2.findViewById(R.id.exercise_spinner);
+		    inflater = getActivity().getLayoutInflater();
+		    v = inflater .inflate(R.layout.dialog_existing_exercise, null);    
+		    final Spinner exerciseSpinner = (Spinner) v.findViewById(R.id.exercise_spinner);
 		    
 		    DatabaseWrapper dbWrapper = new DatabaseWrapper(parent);
 		    dbWrapper.open();
@@ -240,36 +244,87 @@ public class AppDialogFragment extends DialogFragment {
 		    ExerciseArrayAdapter exerciseArrayAdapter = new ExerciseArrayAdapter(parent, R.layout.exercises_list_row, exercises);
 
 		    exerciseSpinner.setAdapter(exerciseArrayAdapter);
-		    exerciseSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-		    	@Override
-		    	public void onItemSelected(AdapterView<?> arg0, View view, int position, long id) {
-		    		
-		    		// We want to add this exercise to the workout's list of exercises
-		    		((WorkoutEditActivity) parent).onUseExistingExercise(exercises.get(position));
-            		
-		    	}
-		    	@Override
-		    	public void onNothingSelected(AdapterView<?> arg0) {
-		    		// nothing
-		    	};
-		    });
-		    	    
-		    b.setView(v2);	
+		    
+		    b.setView(v);	
 		    
 		    b.setPositiveButton(getString(R.string.positive), new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
-				
+					// We want to add this exercise to the workout's list of exercises
+				    int position = exerciseSpinner.getSelectedItemPosition();
+		    		((WorkoutEditActivity) parent).onUseExistingExercise(exercises.get(position));
 				}
 		    });
 		    
 		    b.setNegativeButton(getString(R.string.negative), new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
+					// do nothing
 				}
 		    });
 		    
 		    return b.create();
+		case DIALOG_ID_DO_EXERCISE:
+			// Create custom dialog
+			b = new AlertDialog.Builder(parent);
+
+			 // Get the layout inflater
+		    inflater = getActivity().getLayoutInflater();
+		  	v = inflater.inflate(R.layout.dialog_edit_exercise, null);
+		    b.setView(v);		
+
+		    // Text views 
+		    final EditText exerciseName2 = (EditText) v.findViewById(R.id.exerciseName);
+			final EditText exerciseReps2 = (EditText) v.findViewById(R.id.exerciseReps);
+			final EditText exerciseWeight2 = (EditText) v.findViewById(R.id.exerciseWeight);
+			final EditText exerciseRepsGoal2 = (EditText) v.findViewById(R.id.exerciseRepsGoal);
+			final EditText exerciseWeightGoal2 = (EditText) v.findViewById(R.id.exerciseWeightGoal);
+			final EditText exerciseRest2 = (EditText) v.findViewById(R.id.exerciseRest);
+			final EditText exerciseNotes2 = (EditText) v.findViewById(R.id.exerciseNotes);
+			
+			// Id of exercise entry that we are loading up, could not be there
+		    final long id2 = getArguments().getLong(EXERCISE_ID, -1L); // cannot be -1 if doing an exercise
+			
+			DatabaseWrapper dbWrapper2 = new DatabaseWrapper(getActivity());
+			dbWrapper2.open();
+			Exercise e = (Exercise) dbWrapper2.getEntryById(id2, Exercise.class);
+			dbWrapper2.close();
+			
+			exerciseName2.setText(e.getName());
+			exerciseReps2.setText(e.getReps() + "");
+			exerciseWeight2.setText(e.getWeight() + "");
+			exerciseRepsGoal2.setText(e.getRepsGoal() + "");
+			exerciseWeightGoal2.setText(e.getWeightGoal() + "");
+			exerciseRest2.setText(e.getRest() + "");
+			exerciseNotes2.setText(e.getNotes());
+			
+		    
+			b.setPositiveButton(getString(R.string.positive), new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					
+					Exercise e = new Exercise(exerciseName2.getText().toString());
+					if (!exerciseReps2.getText().toString().isEmpty()) e.setReps(Integer.parseInt(exerciseReps2.getText().toString()));
+					if (!exerciseRepsGoal2.getText().toString().isEmpty()) e.setRepsGoal(Integer.parseInt(exerciseRepsGoal2.getText().toString()));
+					if (!exerciseWeight2.getText().toString().isEmpty()) e.setWeight(Integer.parseInt(exerciseWeight2.getText().toString()));
+					if (!exerciseWeightGoal2.getText().toString().isEmpty()) e.setWeightGoal(Integer.parseInt(exerciseWeightGoal2.getText().toString()));
+					if (!exerciseRest2.getText().toString().isEmpty()) e.setRest(Integer.parseInt(exerciseRest2.getText().toString()));
+					e.setNotes(exerciseNotes2.getText().toString());
+										
+					((WorkoutDoActivity) parent).onDoExercise(e);
+					
+				}
+			});
+			
+			b.setNegativeButton(getString(R.string.negative), new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					// do nothing
+				}
+			});
+			
+			return b.create();
+			
 		default:
 			return null;		
 		

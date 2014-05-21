@@ -101,7 +101,7 @@ public class WorkoutEditActivity extends Activity {
                     // Open dialog to edit this exercise
             	Exercise e = exercises.get(position);
             	DialogFragment fragment;
-            	fragment = AppDialogFragment.newInstance(e);
+            	fragment = AppDialogFragment.newInstance(e, true);
     	        fragment.show(getFragmentManager(), getString(R.string.dialog_fragment_tag_edit_exercise));
             		
             }
@@ -129,6 +129,7 @@ public class WorkoutEditActivity extends Activity {
 		dbWrapper.deleteEntry(workout);
 		dbWrapper.close();
 			
+		// Update the main activity that things might have changed in the database - this workout was deleted
 		 Intent i = new Intent();
         i.setAction("UPDATE_NOTIFY");
         i.putExtra("message", "update");
@@ -136,16 +137,15 @@ public class WorkoutEditActivity extends Activity {
         
 		finish();
 	
-		finish();
 		
 	    return false;
 	}
 		
 		
 	@Override 
-	public void onBackPressed() {
-		// send intent to update in mainactivity
+	public void onBackPressed() { 
 		
+		// Update the main activity that things might have changed in the database - like if this is a new workout
         Intent i = new Intent();
         i.setAction("UPDATE_NOTIFY");
         i.putExtra("message", "update");
@@ -157,6 +157,12 @@ public class WorkoutEditActivity extends Activity {
 	
 	public void onStartWorkout() {
 		
+		// Update the main activity that things might have changed in the database - like if this is a new workout
+        Intent i = new Intent();
+        i.setAction("UPDATE_NOTIFY");
+        i.putExtra("message", "update");
+        sendBroadcast(i);
+        
 		Bundle b = new Bundle();
 		b.putLong(Globals.ID_TAG, workout.getId());
 		
@@ -168,6 +174,7 @@ public class WorkoutEditActivity extends Activity {
 		finish();
 	}
 	
+	// DEALING WITH EXERCISES
 	public void onAddNewExercise(Exercise e) {
         
         dbWrapper.open();
