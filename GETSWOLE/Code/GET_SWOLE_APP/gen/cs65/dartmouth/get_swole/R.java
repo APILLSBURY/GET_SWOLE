@@ -237,8 +237,8 @@ containing a value of this type.
         public static final int list_item_background=0x7f020028;
     }
     public static final class id {
-        public static final int action_add_workout=0x7f060049;
-        public static final int action_delete=0x7f060045;
+        public static final int action_add_workout=0x7f060048;
+        public static final int action_delete=0x7f060044;
         public static final int athleticInfo=0x7f06000a;
         public static final int beginTimer=0x7f06002e;
         public static final int btnProfileCancel=0x7f060015;
@@ -264,11 +264,11 @@ containing a value of this type.
         public static final int exercise_list_single_row_title=0x7f060030;
         public static final int exercise_spinner=0x7f06002c;
         public static final int firstName=0x7f060007;
-        public static final int friendProfilePhoto=0x7f060041;
-        public static final int friend_list_row_summary=0x7f060043;
-        public static final int friend_list_row_title=0x7f060042;
+        public static final int friendProfilePhoto=0x7f060040;
+        public static final int friend_list_row_summary=0x7f060042;
+        public static final int friend_list_row_title=0x7f060041;
         public static final int friendsLayout=0x7f06000c;
-        public static final int friends_activity=0x7f060047;
+        public static final int friends_activity=0x7f060046;
         public static final int gridview=0x7f06003f;
         public static final int header=0x7f06003b;
         public static final int height=0x7f06000e;
@@ -282,7 +282,7 @@ containing a value of this type.
         public static final int pager=0x7f06000d;
         public static final int previous=0x7f06003c;
         public static final int profilePhoto=0x7f060006;
-        public static final int profile_activity=0x7f060046;
+        public static final int profile_activity=0x7f060045;
         public static final int progressBar1=0x7f060036;
         public static final int radioButton1=0x7f060038;
         public static final int radioGender=0x7f060010;
@@ -291,12 +291,11 @@ containing a value of this type.
         public static final int ratingBar1=0x7f060037;
         public static final int satellite=0x7f060002;
         public static final int section_label=0x7f060031;
-        public static final int settings_activity=0x7f060048;
+        public static final int settings_activity=0x7f060047;
         public static final int sharedWorkouts=0x7f060013;
         public static final int spinner1=0x7f060035;
         public static final int sport=0x7f06000b;
         public static final int terrain=0x7f060003;
-        public static final int text=0x7f060040;
         public static final int textView1=0x7f06001e;
         public static final int textView2=0x7f060020;
         public static final int textView3=0x7f060022;
@@ -310,7 +309,7 @@ containing a value of this type.
         public static final int workoutComments=0x7f060017;
         public static final int workoutName=0x7f060016;
         public static final int workout_buttons=0x7f060019;
-        public static final int workout_list_single_row=0x7f060044;
+        public static final int workout_list_single_row=0x7f060043;
     }
     public static final class integer {
         public static final int google_play_services_version=0x7f080000;
@@ -493,6 +492,7 @@ containing a value of this type.
         public static final int profile_weight=0x7f070046;
         public static final int save_profile_message=0x7f070052;
         /**  GCM Strings 
+<string name="server_url">http://getswoleandroidapp.appspot.com</string>
          */
         public static final int server_url=0x7f070054;
         public static final int settings_title=0x7f07001f;
