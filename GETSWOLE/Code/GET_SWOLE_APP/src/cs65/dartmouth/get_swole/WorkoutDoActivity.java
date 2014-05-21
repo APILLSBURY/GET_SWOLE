@@ -7,9 +7,11 @@ import android.app.DialogFragment;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import cs65.dartmouth.get_swole.classes.Exercise;
@@ -33,13 +35,16 @@ public class WorkoutDoActivity extends Activity {
 		
 		// Display		
 		TextView nameView = (TextView) findViewById(R.id.workoutName);
-				
+		LinearLayout buttonLayout = (LinearLayout) findViewById(R.id.workout_buttons);
+		LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+		
 		// Set the buttons to have the correct names and callbacks
-		Button button1 = (Button) findViewById(R.id.button1);
-		Button button2 = (Button) findViewById(R.id.button2);
+		Button button1 = new Button(this);
+		Button button2 = new Button(this);
 		
 		// set the button text/callbacks
 		button1.setText(getString(R.string.timer));
+		button1.setLayoutParams(params);
 		button1.setOnClickListener(new OnClickListener() {
 		     @Override
 		     public void onClick(View v) {
@@ -49,13 +54,17 @@ public class WorkoutDoActivity extends Activity {
 	     	        fragment.show(getFragmentManager(), getString(R.string.dialog_fragment_tag_timer)); */
 		     }
 		});
-		button2.setText(getString(R.string.stop_workout_button));			
+		button2.setText(getString(R.string.stop_workout_button));	
+		button2.setLayoutParams(params);
 		button2.setOnClickListener(new OnClickListener() {
 		     @Override
 		     public void onClick(View v) {
 		           onFinishWorkout();
 		     }
 		});
+		
+		buttonLayout.addView(button1);
+		buttonLayout.addView(button2);
 					
 		// Initialize all instance variables
 		workoutInstance = new WorkoutInstance();

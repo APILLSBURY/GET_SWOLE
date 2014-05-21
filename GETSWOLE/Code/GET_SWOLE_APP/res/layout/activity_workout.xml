@@ -2,7 +2,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/friendsLayout"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+    android:layout_height="fill_parent" 
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true">
 
     <TextView
         android:id="@+id/workoutName"
@@ -37,16 +39,7 @@
          android:layout_height="wrap_content"
          android:layout_below="@+id/exerciseListView"
          android:orientation="vertical" >
-             
-        <Button
-            android:id="@+id/button1"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />
-    
-         <Button
-            android:id="@+id/button2"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />
+            
     </LinearLayout>
     
 

@@ -82,4 +82,10 @@ public class Exercise extends GetSwoleClass {
 	public String toString() {
 		return name + ": " + reps + " reps at " + weight;
 	}
+	
+	public boolean equals(Exercise e) {
+		// all attributes must have equal values
+		return (name.equals(e.getName()) && reps==e.getReps() && weight == e.getWeight() && repsGoal == e.getRepsGoal() 
+				&& weightGoal == e.getWeightGoal() && rest == e.getRest() && notes.equals(e.getNotes()));
+	}
 }

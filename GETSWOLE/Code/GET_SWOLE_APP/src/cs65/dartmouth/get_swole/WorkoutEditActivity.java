@@ -27,7 +27,8 @@ public class WorkoutEditActivity extends Activity {
 	Workout workout;
 	ExerciseArrayAdapter mAdapter;
 	DatabaseWrapper dbWrapper = new DatabaseWrapper(this);
-
+	Button button2;
+	LinearLayout buttonLayout;
 	
 	/**
 	 * onCreate()
@@ -39,14 +40,19 @@ public class WorkoutEditActivity extends Activity {
 		setContentView(R.layout.activity_workout);
 		
 		// Display	
-		LinearLayout buttonLayout = (LinearLayout) findViewById(R.id.workout_buttons);
+		buttonLayout = (LinearLayout) findViewById(R.id.workout_buttons);
+		LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+		TextView nameView = (TextView) findViewById(R.id.workoutName);
+
 		
 		// Set the buttons to have the correct names and callbacks
-		Button button1 = (Button) findViewById(R.id.button1);
-		Button button2 = (Button) findViewById(R.id.button2);
-		
+		Button button1 = new Button(this);
+		button2 = new Button(this); // need to know whether we need to display this
+		Button button3 = new Button(this); 
+
 		// set the button text
-		button1.setText(getString(R.string.add_exercise_button));			
+		button1.setText(getString(R.string.add_exercise_button));
+		button1.setLayoutParams(params);
 		button1.setOnClickListener(new OnClickListener() {
     	     @Override
     	     public void onClick(View v) {
@@ -55,7 +61,9 @@ public class WorkoutEditActivity extends Activity {
     	 			fragment.show(getFragmentManager(), getString(R.string.dialog_fragment_tag_edit_exercise));
     	     }
     	});
+		
 		button2.setText(getString(R.string.existing_exercise));
+		button2.setLayoutParams(params);
 		button2.setOnClickListener(new OnClickListener() {
     	     @Override
     	     public void onClick(View v) {
@@ -64,11 +72,8 @@ public class WorkoutEditActivity extends Activity {
     	     }
     	});
 		
-		Button button3 = new Button(this);
 		button3.setText(getString(R.string.start_workout_button));
-		LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 		button3.setLayoutParams(params);
-		
 		button3.setOnClickListener(new OnClickListener() {
    	     @Override
    	     public void onClick(View v) {
@@ -77,7 +82,9 @@ public class WorkoutEditActivity extends Activity {
    	     }
 		});
 		
+		buttonLayout.addView(button1);
 		buttonLayout.addView(button3);
+		// don't add the second button yet
 		
 		// Get the id of the workout from the intent - if it is not there, then we are making a new workout
 		long id = getIntent().getExtras().getLong(Globals.ID_TAG, -1L);
@@ -94,7 +101,6 @@ public class WorkoutEditActivity extends Activity {
 		
 		dbWrapper.close();
 	
-		TextView nameView = (TextView) findViewById(R.id.workoutName);
 		nameView.setText(workout.getName());	
 		exercises = workout.getExerciseList();
 		
@@ -193,6 +199,8 @@ public class WorkoutEditActivity extends Activity {
 		exercises.add(savedExercise);
         dbWrapper.updateExerciseList(workout);
         dbWrapper.close();
+        
+        buttonLayout.addView(button2);
         
         mAdapter.notifyDataSetChanged();
 	}
