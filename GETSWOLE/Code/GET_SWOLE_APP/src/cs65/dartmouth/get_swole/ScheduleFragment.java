@@ -65,6 +65,8 @@ public class ScheduleFragment extends ListFragment {
 		TextView title = (TextView) view.findViewById(R.id.title);
 		title.setText(android.text.format.DateFormat.format("MMMM yyyy", month));
 
+		
+		//set up the previous button
 		RelativeLayout previous = (RelativeLayout) view.findViewById(R.id.previous);
 
 		previous.setOnClickListener(new OnClickListener() {
@@ -76,6 +78,8 @@ public class ScheduleFragment extends ListFragment {
 			}
 		});
 
+		
+		//set up the next button
 		RelativeLayout next = (RelativeLayout) view.findViewById(R.id.next);
 		next.setOnClickListener(new OnClickListener() {
 
@@ -87,6 +91,8 @@ public class ScheduleFragment extends ListFragment {
 			}
 		});
 
+		
+		//set up the gridview
 		gridview.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 				((CalendarAdapter) parent.getAdapter()).setSelected(v);
@@ -106,36 +112,11 @@ public class ScheduleFragment extends ListFragment {
 			}
 		});
 		
-		return view;
-	}
-
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-		
-		context = getActivity();
-		
+		//set up the listview
 		dbWrapper = new DatabaseWrapper(context);
-		dbWrapper.open();
-		workouts = dbWrapper.getAllEntries(Workout.class);
-		dbWrapper.close();
-				
-		workoutsAdapter = new WorkoutsAdapter(context, R.layout.workouts_list_row, workouts);
+		configureListView();
 		
-		setListAdapter(workoutsAdapter);
-				
-		// Define the listener interface
-        OnItemClickListener listener = new OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            	
-            	Workout w = workouts.get(position);
-            	showToast("workout " + w.getName() + " clicked"); 
-            }
-        };
-
-        // Get the ListView and wired the listener
-        ListView listView = getListView();
-        listView.setOnItemClickListener(listener);
+		return view;
 	}
 	
 	protected void setNextMonth() {
@@ -188,4 +169,33 @@ public class ScheduleFragment extends ListFragment {
 			adapter.notifyDataSetChanged();
 		}
 	};
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		configureListView();
+	}
+	
+	private void configureListView() {
+		dbWrapper.open();
+		workouts = dbWrapper.getAllEntries(Workout.class);
+		dbWrapper.close();
+				
+		workoutsAdapter = new WorkoutsAdapter(context, R.layout.workouts_list_row, workouts);
+		
+		setListAdapter(workoutsAdapter);
+		
+		// Define the listener interface
+		OnItemClickListener listener = new OnItemClickListener() {
+		    public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+		    	
+		    	Workout w = workouts.get(position);
+		    	showToast("workout " + w.getName() + " clicked"); 
+		    }
+		};
+		
+		// Get the ListView and wired the listener
+		ListView listView = (ListView) view.findViewById(android.R.id.list);
+		listView.setOnItemClickListener(listener);
+	}
 }

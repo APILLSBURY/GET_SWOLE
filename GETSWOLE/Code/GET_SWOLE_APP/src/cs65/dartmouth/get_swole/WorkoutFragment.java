@@ -35,7 +35,6 @@ public class WorkoutFragment extends ListFragment {
 				workouts = dbWrapper.getAllEntries(Workout.class);
 				dbWrapper.close();
 				workoutsAdapter.notifyDataSetChanged();
-				
 			}
 		}
 	};
@@ -47,6 +46,30 @@ public class WorkoutFragment extends ListFragment {
 		mContext = getActivity();
 		
 		dbWrapper = new DatabaseWrapper(mContext);
+		configureListView();
+        		
+        // Listen for updates about the list of workouts
+        mMessageIntentFilter = new IntentFilter();
+		mMessageIntentFilter.addAction("UPDATE_NOTIFY");
+					
+	
+	}
+	
+	@Override
+	public void onResume() {
+		getActivity().registerReceiver(mMessageUpdateReceiver, mMessageIntentFilter);
+		configureListView();
+		super.onResume();
+	}
+	
+	@Override
+	public void onPause() {
+
+		getActivity().unregisterReceiver(mMessageUpdateReceiver);
+		super.onPause();
+	}
+ 
+	private void configureListView() {
 		dbWrapper.open();
 		workouts = dbWrapper.getAllEntries(Workout.class);
 		dbWrapper.close();
@@ -73,26 +96,6 @@ public class WorkoutFragment extends ListFragment {
         // Get the ListView and wired the listener
         ListView listView = getListView();
         listView.setOnItemClickListener(listener);
-        		
-        // Listen for updates about the list of workouts
-        mMessageIntentFilter = new IntentFilter();
-		mMessageIntentFilter.addAction("UPDATE_NOTIFY");
-					
-	
 	}
-	
-	@Override
-	public void onResume() {
-		getActivity().registerReceiver(mMessageUpdateReceiver, mMessageIntentFilter);
-		super.onResume();
-	}
-	
-	@Override
-	public void onPause() {
-
-		getActivity().unregisterReceiver(mMessageUpdateReceiver);
-		super.onPause();
-	}
-    
 }
 
