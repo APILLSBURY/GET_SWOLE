@@ -36,8 +36,6 @@ public class ScheduleFragment extends ListFragment {
 	public CalendarAdapter adapter;// adapter instance
 	public Handler handler;	// for grabbing some event values for showing the dot marker.
 	public ArrayList<String> items; // container to store calendar items which needs showing the event marker
-	private ArrayList<String> date;
-	private ArrayList<String> desc;
 	private View view;
 	private Context context;
 	private DatabaseWrapper dbWrapper;
@@ -91,8 +89,21 @@ public class ScheduleFragment extends ListFragment {
 
 		gridview.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+				((CalendarAdapter) parent.getAdapter()).setSelected(v);
+				String selectedGridDate = CalendarAdapter.dayString.get(position);
+				String[] separatedTime = selectedGridDate.split("-");
+				String gridvalueString = separatedTime[2].replaceFirst("^0*", "");// taking last part of date. ie; 2 from 2012-12-02.
+				int gridvalue = Integer.parseInt(gridvalueString);
+				// navigate to next or previous month on clicking offdays.
+				if ((gridvalue > 10) && (position < 8)) {
+					setPreviousMonth();
+					refreshCalendar();
+				} else if ((gridvalue < 7) && (position > 28)) {
+					setNextMonth();
+					refreshCalendar();
+				}
+				((CalendarAdapter) parent.getAdapter()).setSelected(v);
 			}
-
 		});
 		
 		return view;
