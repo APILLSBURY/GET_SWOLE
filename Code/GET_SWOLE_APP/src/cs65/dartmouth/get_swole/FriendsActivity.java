@@ -176,15 +176,15 @@ public class FriendsActivity extends ListActivity {
 			View listItemView = convertView;
 			
 			if (null == convertView) {
-				listItemView = inflater.inflate(android.R.layout.two_line_list_item, parent, false);
+				listItemView = inflater.inflate(R.layout.friends_list_row, parent, false);
 			}
 			
 			// Set up the text of the two views
 			
-			TextView titleView = (TextView) listItemView.findViewById(android.R.id.text1);
+			TextView titleView = (TextView) listItemView.findViewById(R.id.friend_list_row_title);
 			titleView.setTextColor(Color.BLACK);
 			
-			TextView summaryView = (TextView) listItemView.findViewById(android.R.id.text2);
+			TextView summaryView = (TextView) listItemView.findViewById(R.id.friend_list_row_summary);
 			summaryView.setTextColor(Color.BLACK);
 			
 			ProfileObject entry = getItem(position);
