@@ -20,6 +20,8 @@
     <string name="start_workout_button">START!</string>
     <string name="stop_workout_button">Finish</string>
     <string name="workout_notes_hint">Workout instructions, etc.</string>
+    <string name="timer">Timer</string>
+    <string name="enter_time">Enter time (secs):</string>
     
     <!-- Exercises -->
     <string name="exercise_name_title">Name:</string>
@@ -40,7 +42,8 @@
     <string name="dialog_fragment_tag_new_workout">dialog_fragment_new_workout</string>
     <string name="dialog_fragment_tag_edit_exercise">dialog_fragment_edit_exercise</string>
     <string name="dialog_fragment_tag_do_exercise">dialog_fragment_do_exercise</string>
-    
+    <string name="dialog_fragment_tag_timer">dialog_fragment_timer</string>
+    <string name="begin_timer">Start</string>
     <!-- Profile -->
 	<string name="default_profile_photo">default_profile.png</string>
 	<string name="profile_saved_photo_file_name">profile_photo</string>

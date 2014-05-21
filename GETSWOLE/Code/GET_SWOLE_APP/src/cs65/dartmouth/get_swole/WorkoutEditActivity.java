@@ -43,9 +43,7 @@ public class WorkoutEditActivity extends Activity {
 		
 		// Set the buttons to have the correct names and callbacks
 		Button button1 = (Button) findViewById(R.id.button1);
-		Button button2 = new Button(this);
-		LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-		buttonLayout.addView(button2, params);
+		Button button2 = (Button) findViewById(R.id.button2);
 		
 		// set the button text
 		button1.setText(getString(R.string.add_exercise_button));			
