@@ -54,6 +54,7 @@ public class WorkoutInstance extends GetSwoleClass {
 			exercise = (Exercise) db.getEntryById((long) id, Exercise.class);
 			exerciseList.add(exercise);
 		}
+		db.close();
 	}
 	
 	//GETTER METHODS
