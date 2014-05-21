@@ -143,7 +143,7 @@ public final class Datastore {
 		// Create new arraylist
 		List<ProfileObject> result = new ArrayList<ProfileObject>();
 		
-		// Set up query and return history
+		// Set up query 
 		if (check != null) {
 			
 			Query regQuery = new Query(ENTITY_KIND_PROFILE);
@@ -167,7 +167,7 @@ public final class Datastore {
 				
 				logger.log(Level.INFO, "regId: " + "Device(\"" + regId + "\")" + "\ndevice: " + entity.getKey().toString());
 				
-				if (!entity.getKey().toString().equals("Device(\"" + regId + "\")")) {
+				if (entity.getKey().toString().equals("Device(\"" + regId + "\")")) {
 				
 					Query entityQuery = new Query(ENTITY_KIND_PROFILE);
 						
