@@ -36,10 +36,21 @@ public class WorkoutDoActivity extends Activity {
 				
 		// Set the buttons to have the correct names and callbacks
 		Button button1 = (Button) findViewById(R.id.button1);
+		Button button2 = (Button) findViewById(R.id.button2);
 		
-		// set the button text
-		button1.setText(getString(R.string.stop_workout_button));			
+		// set the button text/callbacks
+		button1.setText(getString(R.string.timer));
 		button1.setOnClickListener(new OnClickListener() {
+		     @Override
+		     public void onClick(View v) {
+			        // begin timer
+		    	 	/*
+			    	DialogFragment fragment = AppDialogFragment.newInstance(AppDialogFragment.DIALOG_ID_TIMER);
+	     	        fragment.show(getFragmentManager(), getString(R.string.dialog_fragment_tag_timer)); */
+		     }
+		});
+		button2.setText(getString(R.string.stop_workout_button));			
+		button2.setOnClickListener(new OnClickListener() {
 		     @Override
 		     public void onClick(View v) {
 		           onFinishWorkout();

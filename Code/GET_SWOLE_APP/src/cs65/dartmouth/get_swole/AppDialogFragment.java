@@ -13,13 +13,15 @@ import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 import cs65.dartmouth.get_swole.classes.Exercise;
@@ -40,6 +42,7 @@ public class AppDialogFragment extends DialogFragment {
 	public static final int DIALOG_ID_EDIT_EXERCISE = 5; // for adding new exercises, or editing already existing
 	public static final int DIALOG_ID_ADD_EXISTING_EXERCISE = 6;
 	public static final int DIALOG_ID_DO_EXERCISE = 7;
+	public static final int DIALOG_ID_TIMER = 8;
 	
 	private static final String DIALOG_ID_KEY = "dialog_id";
 	
@@ -325,6 +328,40 @@ public class AppDialogFragment extends DialogFragment {
 			
 			return b.create();
 			
+		case DIALOG_ID_TIMER:
+			
+			// Create custom dialog
+			b = new AlertDialog.Builder(parent);
+
+			 // Get the layout inflater
+		    inflater = getActivity().getLayoutInflater();
+		    v = inflater.inflate(R.layout.dialog_timer, null);
+		    b.setView(v);	
+					    
+		    final EditText entered = (EditText) v.findViewById(R.id.enteredTime);
+		    final TextView time = (TextView) v.findViewById(R.id.time);
+		    final Button start = (Button) v.findViewById(R.id.beginTimer);    
+		    start.setOnClickListener(new View.OnClickListener() {
+		    	
+		    	@Override
+		    	public void onClick(View v) {
+		    		
+		    		int seconds = 30;
+		    		if (!entered.getText().toString().isEmpty())
+		    			seconds = Integer.parseInt(entered.getText().toString());
+		    		
+		    		new CountDownTimer(seconds*1000, 1000) {
+					    @Override
+					    public void onTick(long millisUntilFinished) {
+					       time.setText(""+(millisUntilFinished/1000));
+					    }
+					    @Override
+					    public void onFinish() { }
+					}.start();
+					
+		    	}
+		    });
+		    return b.create();		
 		default:
 			return null;		
 		
