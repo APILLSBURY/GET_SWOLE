@@ -78,7 +78,7 @@ public class WorkoutDoActivity extends Activity {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 	    						
                         // Open dialog to edit this exercise
-                	Exercise e = workoutInstance.getExerciseList().get(position);
+                	Exercise e = workoutInstance.getWorkout().getExerciseList().get(position);
                 	DialogFragment fragment = AppDialogFragment.newInstance(e, false);
         	        fragment.show(getFragmentManager(), getString(R.string.dialog_fragment_tag_do_exercise));
                 		
