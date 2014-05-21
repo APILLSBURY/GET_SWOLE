@@ -83,13 +83,13 @@
 		
     	<activity
             android:name="cs65.dartmouth.get_swole.WorkoutDoActivity"
-            android:label="@string/settings_title" 
+            android:label="@string/app_name" 
             android:screenOrientation="portrait" >
         </activity>
 		
     	<activity
             android:name="cs65.dartmouth.get_swole.WorkoutEditActivity"
-            android:label="@string/settings_title" 
+            android:label="@string/app_name" 
             android:screenOrientation="portrait" >
         </activity>
 		
