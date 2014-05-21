@@ -1,53 +1,77 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/mainLayout"
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    tools:context=".MainActivity" >
-    <LinearLayout
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-	    android:orientation="vertical" >
-		<LinearLayout
-		    android:layout_width="fill_parent"
-		    android:layout_height="wrap_content"
-		    android:orientation="horizontal" >
-		    
-	        <Button
-	               android:id="@+id/prevMonth"
-	               android:layout_width="wrap_content"
-	               android:layout_height="wrap_content"
-	               android:layout_weight="1"
-	               android:onClick="onPrevClicked"
-		           android:layout_gravity="left"
-	               android:text="Prev" />
-	       	
-	       	<TextView 
-		   	    android:id="@+id/sharedWorkouts"
-		   	    android:layout_width="wrap_content"
-		   	    android:layout_height="wrap_content"
-		   	    android:layout_marginLeft="40dp"
-		   	    android:layout_marginRight="40dp"
-		   	    android:text="May"
-		   	    android:textSize="30sp" />
-	       	
-	        <Button
-		         android:id="@+id/nextMonth"
-		         android:layout_width="wrap_content"
-		         android:layout_height="wrap_content"
-		         android:layout_weight="1"
-		         android:layout_gravity="right"
-		         android:onClick="onNextClicked"
-		         android:text="Next" />
-	    </LinearLayout>
-		        	
-		    
-		<GridView
-		    android:id="@+id/gridview"
-		    android:layout_width="fill_parent" 
-		    android:layout_height="fill_parent"
-		    android:numColumns="7"
-		    android:gravity="center"
-		    android:stretchMode="columnWidth" />
-	</LinearLayout>
-</ScrollView>
+    android:background="@drawable/background"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/calendar_top" >
+
+        <RelativeLayout
+            android:id="@+id/previous"
+            android:layout_width="40dip"
+            android:layout_height="30dip"
+            android:layout_alignParentLeft="true" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@drawable/arrow_left" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dip"
+            android:textColor="#000000"
+            android:textSize="18dip"
+            android:textStyle="bold" />
+
+        <RelativeLayout
+            android:id="@+id/next"
+            android:layout_width="40dip"
+            android:layout_height="30dip"
+            android:layout_alignParentRight="true" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@drawable/arrow_right" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <GridView
+        android:id="@+id/gridview"
+        android:layout_below="@+id/header"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:listSelector="@android:color/transparent"
+        android:numColumns="7"
+        android:stretchMode="columnWidth" />
+    
+    <LinearLayout 
+        android:id="@+id/text"
+        android:layout_below="@+id/gridview"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        	<!-- <TextView 
+        	    android:id="@+id/tvView"
+        	    android:layout_width="match_parent"
+        	    android:layout_height="wrap_content"
+        	    android:visibility="gone"
+        	    android:text=""/> -->
+    </LinearLayout>
+
+</RelativeLayout>
