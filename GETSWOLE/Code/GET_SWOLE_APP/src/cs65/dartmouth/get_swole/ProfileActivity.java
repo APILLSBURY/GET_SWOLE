@@ -6,12 +6,14 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.app.ListActivity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -20,19 +22,29 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.MeasureSpec;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 import cs65.dartmouth.get_swole.classes.ProfileObject;
+import cs65.dartmouth.get_swole.classes.Workout;
+import cs65.dartmouth.get_swole.database.DatabaseWrapper;
 import cs65.dartmouth.get_swole.gae.Uploader;
 
 /**
@@ -41,7 +53,7 @@ import cs65.dartmouth.get_swole.gae.Uploader;
  * @date 4/5/14
  * @description This is the main activity for the ProfileActivity UI for My Runs
  */
-public class ProfileActivity extends Activity {
+public class ProfileActivity extends ListActivity {
 	
 	// Tag for logging purposes
 	private static final String TAG = "CJP"; 
@@ -61,6 +73,10 @@ public class ProfileActivity extends Activity {
 //	private boolean isTakenFromCamera;
 	private byte[] pictureArray;
 	
+	// Workout List
+	WorkoutAdapter workoutAdapter;
+	ArrayList<Workout> workouts;
+	
 	// ProfileObject for GCM
 	private ProfileObject profileObj;
 	private Uploader mUploader;
@@ -68,6 +84,13 @@ public class ProfileActivity extends Activity {
 	private String regId;
 	
 	// ********** Main Functions ********** //
+	
+	private void updateWorkoutList() {
+		workoutAdapter.clear();
+		workoutAdapter.addAll(workouts);
+		workoutAdapter.notifyDataSetInvalidated();
+		setListViewHeightBasedOnChildren(getListView());
+	}
 	
 	/**
 	 * onCreate()
@@ -100,6 +123,15 @@ public class ProfileActivity extends Activity {
 		else
 			loadProfile();
 		
+		// Get Workout List and set to adapter
+		DatabaseWrapper dbWrapper = new DatabaseWrapper(mContext);
+		dbWrapper.open();
+		workouts = (ArrayList<Workout>) dbWrapper.getAllEntries(Workout.class);
+		dbWrapper.close();
+		
+		workoutAdapter = new WorkoutAdapter(mContext);
+		setListAdapter(workoutAdapter);
+		
         // ********** LAB 6 - App Engine **********
         
         // Create the serverURL
@@ -107,7 +139,35 @@ public class ProfileActivity extends Activity {
         
         // Set uploader object to be
         mUploader = new Uploader(getApplicationContext(), serverURL);
+        
+	}
+	
+	// http://stackoverflow.com/questions/1661293/why-do-listview-items-not-grow-to-wrap-their-content
+	public void setListViewHeightBasedOnChildren(ListView listView) {
+        ListAdapter listAdapter = listView.getAdapter(); 
+        if (listAdapter == null) {
+            // pre-condition
+            return;
+        }
 
+        int totalHeight = 0;
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            View listItem = listAdapter.getView(i, null, listView);
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        listView.setLayoutParams(params);
+        listView.requestLayout();
+    }     
+	
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		updateWorkoutList();
 	}
 	
 	/**
@@ -681,5 +741,51 @@ public class ProfileActivity extends Activity {
 	    }
 		
 	}
+	
+	// HANDLING LISTVIEW OF WORKOUTS
+	
+    @Override
+	public void onListItemClick(ListView l, View v, int position, long id) {
+        super.onListItemClick(l, v, position, id);
+        
+        Workout entry = workouts.get(position);
+        
+        //Intent entryIntent = new Intent(mContext, FriendProfileActivity.class);
+
+        //entryIntent.putExtra("firstName", entry.firstName); 
+        
+        //startActivity(entryIntent);
+       
+	}
+
+	
+    // ********** Private Classes **********
+    
+    private class WorkoutAdapter extends ArrayAdapter<Workout> {
+    	
+		public WorkoutAdapter(Context context) {
+			super(context, android.R.layout.two_line_list_item);	
+		}
+    	
+		public View getView(int position, View convertView, ViewGroup parent) {
+			
+			LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			
+			View listItemView = convertView;
+			
+			if (null == convertView) {
+				listItemView = inflater.inflate(R.layout.workouts_profile_list_row, parent, false);
+			}
+			
+    	    // Access the textview to set
+    	    TextView workoutView = (TextView) listItemView.findViewById(R.id.workout_list_single_row); 
+    	    workoutView.setTextColor(Color.BLACK);
+    	    Workout workout = workouts.get(position);
+    	    workoutView.setText(workout.getName());
+    	    
+			return listItemView;
+		}
+    	
+    }
 	
 }
