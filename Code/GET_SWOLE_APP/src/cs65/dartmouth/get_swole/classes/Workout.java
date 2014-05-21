@@ -139,6 +139,7 @@ public class Workout extends GetSwoleClass {
 			exercise = (Exercise) db.getEntryById((long) id, Exercise.class);
 			exerciseList.add(exercise);
 		}
+		db.close();
 	}
 	
 	
@@ -167,6 +168,7 @@ public class Workout extends GetSwoleClass {
 			frequency = (Frequency) db.getEntryById((long) intArray[i], Frequency.class);
 			frequencyList.add(frequency);
 		}
+		db.close();
 	}
 	
 
