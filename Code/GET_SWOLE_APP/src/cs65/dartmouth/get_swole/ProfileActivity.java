@@ -6,7 +6,17 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.FileEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -22,6 +32,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -89,7 +100,7 @@ public class ProfileActivity extends ListActivity {
 		workoutAdapter.clear();
 		workoutAdapter.addAll(workouts);
 		workoutAdapter.notifyDataSetInvalidated();
-		setListViewHeightBasedOnChildren(getListView());
+		Utils.setListViewHeightBasedOnChildren(getListView());
 	}
 	
 	/**
@@ -141,27 +152,6 @@ public class ProfileActivity extends ListActivity {
         mUploader = new Uploader(getApplicationContext(), serverURL);
         
 	}
-	
-	// http://stackoverflow.com/questions/1661293/why-do-listview-items-not-grow-to-wrap-their-content
-	public void setListViewHeightBasedOnChildren(ListView listView) {
-        ListAdapter listAdapter = listView.getAdapter(); 
-        if (listAdapter == null) {
-            // pre-condition
-            return;
-        }
-
-        int totalHeight = 0;
-        for (int i = 0; i < listAdapter.getCount(); i++) {
-            View listItem = listAdapter.getView(i, null, listView);
-            listItem.measure(0, 0);
-            totalHeight += listItem.getMeasuredHeight();
-        }
-
-        ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
-        listView.setLayoutParams(params);
-        listView.requestLayout();
-    }     
 	
 	
 	@Override
@@ -391,50 +381,64 @@ public class ProfileActivity extends ListActivity {
 	
 	   	new AsyncTask<String, Void, String>() {
 
-             @Override
-             protected String doInBackground(String... params) {
+            @Override
+            protected String doInBackground(String... params) {
             	 
-            	 String msg = "";
+            	String msg = "";
             	 
-               	 try {
+               	try {
                		 
-	         		 profileObj = new ProfileObject();
+	         		profileObj = new ProfileObject();
 	         		 
-	         		 // Store the regId
-	         		 profileObj.setId(regId);
+	         		// Store the regId
+	         		profileObj.setId(regId);
 	         		 
-	        		 // Get the shared preferences - create or retrieve the activity
-	        		 // preference object
+	         		// Store string of the profile picture
+	         		
+	         		if (pictureArray != null) {
+		         		ByteArrayInputStream inputStream = new ByteArrayInputStream(pictureArray);
+		    			Bitmap bmap = BitmapFactory.decodeStream(inputStream);
+		    			inputStream.close();
+		    			
+		    			// bmap to string
+		    			String photoString = Utils.BitMapToString(bmap);
+		    			
+		    			profileObj.setProfilePicture(photoString);}
+	         		else
+	         			profileObj.setProfilePicture("null");
+	         		 
+	        		// Get the shared preferences - create or retrieve the activity
+	        		// preference object
 	
-	        		 String mKey = getString(R.string.profile_shared_preferences);
-	        		 SharedPreferences mPrefs = getSharedPreferences(mKey, MODE_PRIVATE);
+	        		String mKey = getString(R.string.profile_shared_preferences);
+	        		SharedPreferences mPrefs = getSharedPreferences(mKey, MODE_PRIVATE);
 	        		
-	        		 // Load Name
-	        		 mKey = getString(R.string.preference_key_profile_first_name);
-	        		 String first = mPrefs.getString(mKey, "");
+	        		// Load Name
+	        		mKey = getString(R.string.preference_key_profile_first_name);
+	        		String first = mPrefs.getString(mKey, "");
 	        		
-	        		 mKey = getString(R.string.preference_key_profile_last_name);
-	        		 String last = mPrefs.getString(mKey, "");
+	        		mKey = getString(R.string.preference_key_profile_last_name);
+	        		String last = mPrefs.getString(mKey, "");
 	        		
-	        		 profileObj.setName(first, last);
+	        		profileObj.setName(first, last);
 	        		 
-	        		 // Load Hometown
+	        		// Load Hometown
 	        		 
-	        		 mKey = getString(R.string.preference_key_profile_hometown);
-	        		 profileObj.setHometown(mPrefs.getString(mKey, ""));
+	        		mKey = getString(R.string.preference_key_profile_hometown);
+	        		profileObj.setHometown(mPrefs.getString(mKey, ""));
 
-	        		 // Load Sport
-	        		 mKey = getString(R.string.preference_key_profile_sport);
-	        		 profileObj.setSport(mPrefs.getString(mKey, ""));
+	        		// Load Sport
+	        		mKey = getString(R.string.preference_key_profile_sport);
+	        		profileObj.setSport(mPrefs.getString(mKey, ""));
 	            	 
-		        	 // Upload history of all entries
-	        		 mUploader.uploadProfile(profileObj);
+		        	// Upload history of all entries
+	        		mUploader.uploadProfile(profileObj);
 		        	 
-		        	 msg = "Uploaded the profile";
+		        	msg = "Uploaded the profile";
                 	 
             	 }
             	 catch (IOException ex) {
-            		 msg = "Error: " + ex.getMessage();
+            		msg = "Error: " + ex.getMessage();
             	 }
             	 
             	 return msg;

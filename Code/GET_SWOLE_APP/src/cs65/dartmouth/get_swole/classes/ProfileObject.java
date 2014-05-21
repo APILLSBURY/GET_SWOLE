@@ -6,6 +6,8 @@ import org.json.JSONObject;
 public class ProfileObject {
 	public String regId;
 	
+	public String profilePicture;
+	
 	public String firstName;
 	public String lastName;
 	public String hometown;
@@ -25,6 +27,10 @@ public class ProfileObject {
 	
 	public void setId(String regID) {
 		regId = regID;
+	}
+	
+	public void setProfilePicture(String photoString) {
+		profilePicture = photoString;
 	}
 	
 	public void setName(String first, String last) {
@@ -49,6 +55,10 @@ public class ProfileObject {
 	
 	public String getId() {
 		return regId;
+	}
+	
+	public String getProfilePicture() {
+		return profilePicture;
 	}
 	
 	public String getFirstName() {
@@ -79,6 +89,8 @@ public class ProfileObject {
 			
 			regId = obj.getString("regId");
 			
+			profilePicture = obj.getString("profilePicture");
+			
 			firstName = obj.getString("firstName");
 			lastName = obj.getString("lastName");
 			hometown = obj.getString("hometown");
@@ -98,6 +110,8 @@ public class ProfileObject {
 			JSONObject obj = new JSONObject();
 			
 			obj.put("regId", regId);
+			
+			obj.put("profilePicture", profilePicture);
 			
 			obj.put("firstName", firstName);
 			obj.put("lastName", lastName);

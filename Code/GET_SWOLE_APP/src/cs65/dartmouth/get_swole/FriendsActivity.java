@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +25,7 @@ import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 
 public class FriendsActivity extends ListActivity {
@@ -187,14 +189,20 @@ public class FriendsActivity extends ListActivity {
 			TextView summaryView = (TextView) listItemView.findViewById(R.id.friend_list_row_summary);
 			summaryView.setTextColor(Color.BLACK);
 			
+			// Get Profile
 			ProfileObject entry = getItem(position);
-
 			
-			
-			// Set text on the view.
+			// Set text on the views
 			titleView.setText(entry.firstName + " " + entry.lastName + " (" + entry.sport + ")");
 			summaryView.setText(entry.hometown);
 
+			// Set the profile picture, only if there exists a picture
+			if (!entry.profilePicture.equals("null")) {
+				Bitmap photo = Utils.StringToBitMap(entry.profilePicture);
+				ImageView imageView = (ImageView) findViewById(R.id.friendProfilePhoto);
+				imageView.setImageBitmap(photo);
+			}
+			
 			return listItemView;
 			
 		}
