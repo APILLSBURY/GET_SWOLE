@@ -77,4 +77,9 @@ public class Exercise extends GetSwoleClass {
 	public void setNotes(String n) {
 		notes = n;
 	}
+	
+	@Override
+	public String toString() {
+		return name + ": " + reps + " reps at " + weight;
+	}
 }
