@@ -138,6 +138,19 @@
             android:text="@string/profile_shared_workouts"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/white" />
+        
+        <ListView
+		    android:id="@id/android:list"
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+		    android:drawSelectorOnTop="false"
+		    android:isScrollContainer="false" />
+
+     	<TextView android:id="@id/android:empty"
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:layout_gravity="bottom"/>
+        
 
         <LinearLayout
             android:layout_width="match_parent"
