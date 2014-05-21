@@ -39,6 +39,7 @@
     <string name="dialog_hint_new_workout">Workout Name</string>
     <string name="dialog_fragment_tag_new_workout">dialog_fragment_new_workout</string>
     <string name="dialog_fragment_tag_edit_exercise">dialog_fragment_edit_exercise</string>
+    <string name="dialog_fragment_tag_do_exercise">dialog_fragment_do_exercise</string>
     
     <!-- Profile -->
 	<string name="default_profile_photo">default_profile.png</string>

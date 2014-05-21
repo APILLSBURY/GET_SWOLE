@@ -76,12 +76,11 @@ public class WorkoutDoActivity extends Activity {
 	    	
 	    		@Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-	    			
-	    			
+	    						
                         // Open dialog to edit this exercise
                 	Exercise e = workoutInstance.getExerciseList().get(position);
-                	DialogFragment fragment = AppDialogFragment.newInstance(e);
-        	        fragment.show(getFragmentManager(), getString(R.string.dialog_fragment_tag_edit_exercise));
+                	DialogFragment fragment = AppDialogFragment.newInstance(e, false);
+        	        fragment.show(getFragmentManager(), getString(R.string.dialog_fragment_tag_do_exercise));
                 		
                 }
 	    };
@@ -92,7 +91,11 @@ public class WorkoutDoActivity extends Activity {
     
 	}
 	
-
+	public void onDoExercise(Exercise e) {
+		// We want to add this exercise to the instance's list of exercises
+		workoutInstance.addExercise(e);
+	}
+	
 	public void onFinishWorkout() {
 		
 		// We want to save the workout into the database as a workout instance
