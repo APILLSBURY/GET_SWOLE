@@ -26,7 +26,8 @@ import cs65.dartmouth.get_swole.database.DatabaseWrapper;
 public class WorkoutDoActivity extends Activity {
 	
 	WorkoutInstance workoutInstance;
-	
+	ExerciseArrayAdapter mAdapter;
+
 	/**
 	 * onCreate()
 	 * @param Bundle savedInstanceStates
@@ -64,7 +65,7 @@ public class WorkoutDoActivity extends Activity {
 		nameView.setText(workoutInstance.getWorkout().getName());		
 		
 		// Define a new adapter
-	    ExercisesAdapter mAdapter = new ExercisesAdapter(this, R.layout.exercises_list_row, workoutInstance.getExerciseList());
+	    mAdapter = new ExerciseArrayAdapter(this, R.layout.exercises_list_row, workoutInstance.getExerciseList());
 
 	    // Assign the adapter to ListView
 	    ListView listView = (ListView) findViewById(R.id.exerciseListView);
@@ -102,40 +103,5 @@ public class WorkoutDoActivity extends Activity {
 		
 		finish(); // close the activity
 			
-	}
-	
-	/**
-	 * 
-	 * PRIVATE CLASSES
-	 *
-	 */
-	private class ExercisesAdapter extends ArrayAdapter<Exercise> {
-		
-		private Context context;
-		private List<Exercise> exercises;
-		
-		public ExercisesAdapter(Context context, int resource, List<Exercise> exercises) {
-			super(context, resource, exercises);
-			this.exercises = exercises;
-			this.context = context;	       
-		}
-		
-		
-		@Override 
-		public View getView(int position, View convertView, ViewGroup parent) {
-			
-			// Inflate the layout for a row
-			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		    View rowView = inflater.inflate(R.layout.exercises_list_row, parent, false);
-		    
-		    // Access the textviews to set
-	    	    TextView exerciseView = (TextView) rowView.findViewById(R.id.exercise_list_single_row);    		
-	    	    Exercise e = exercises.get(position);
-	    	    exerciseView.setText(e.getName());
-	    	    
-	    	    return rowView;
-		}
-	    
-		
 	}
 }
