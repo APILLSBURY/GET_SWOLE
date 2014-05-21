@@ -1,6 +1,7 @@
 package cs65.dartmouth.get_swole.classes;
 
 public class Exercise extends GetSwoleClass {
+	
 	private int reps;
 	private int weight;
 	private int repsGoal;

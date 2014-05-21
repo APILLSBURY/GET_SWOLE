@@ -1,19 +1,14 @@
 package cs65.dartmouth.get_swole;
 
 import java.util.Calendar;
-import java.util.List;
 
 import android.app.Activity;
 import android.app.DialogFragment;
-import android.content.Context;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -22,7 +17,6 @@ import cs65.dartmouth.get_swole.classes.Workout;
 import cs65.dartmouth.get_swole.classes.WorkoutInstance;
 import cs65.dartmouth.get_swole.database.DatabaseWrapper;
 
-// NOT DONE
 public class WorkoutDoActivity extends Activity {
 	
 	WorkoutInstance workoutInstance;
@@ -94,6 +88,7 @@ public class WorkoutDoActivity extends Activity {
 	public void onDoExercise(Exercise e) {
 		// We want to add this exercise to the instance's list of exercises
 		workoutInstance.addExercise(e);
+		
 	}
 	
 	public void onFinishWorkout() {
