@@ -17,7 +17,6 @@ import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -241,18 +240,34 @@ public class AppDialogFragment extends DialogFragment {
 		    ExerciseArrayAdapter exerciseArrayAdapter = new ExerciseArrayAdapter(parent, R.layout.exercises_list_row, exercises);
 
 		    exerciseSpinner.setAdapter(exerciseArrayAdapter);
-		    exerciseSpinner.setOnItemClickListener(new OnItemClickListener() {
+		    exerciseSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 		    	@Override
-		    	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		    	public void onItemSelected(AdapterView<?> arg0, View view, int position, long id) {
 		    		
 		    		// We want to add this exercise to the workout's list of exercises
 		    		((WorkoutEditActivity) parent).onUseExistingExercise(exercises.get(position));
             		
 		    	}
+		    	@Override
+		    	public void onNothingSelected(AdapterView<?> arg0) {
+		    		// nothing
+		    	};
 		    });
 		    	    
 		    b.setView(v2);	
-
+		    
+		    b.setPositiveButton(getString(R.string.positive), new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+				
+				}
+		    });
+		    
+		    b.setNegativeButton(getString(R.string.negative), new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+				}
+		    });
 		    
 		    return b.create();
 		default:
