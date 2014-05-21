@@ -65,7 +65,7 @@ public class WorkoutDoActivity extends Activity {
 		nameView.setText(workoutInstance.getWorkout().getName());		
 		
 		// Define a new adapter
-	    mAdapter = new ExerciseArrayAdapter(this, R.layout.exercises_list_row, workoutInstance.getExerciseList());
+	    mAdapter = new ExerciseArrayAdapter(this, R.layout.exercises_list_row, workoutInstance.getWorkout().getExerciseList());
 
 	    // Assign the adapter to ListView
 	    ListView listView = (ListView) findViewById(R.id.exerciseListView);

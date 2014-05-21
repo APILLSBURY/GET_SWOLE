@@ -149,7 +149,7 @@ public class FriendsActivity extends ListActivity {
         
         ProfileObject entry = friends.get(position);
         
-        Intent entryIntent = new Intent(mContext, FriendProfileActivity.class);
+        Intent entryIntent = new Intent(mContext, FriendsActivity.class);
 
         entryIntent.putExtra("firstName", entry.firstName);
         entryIntent.putExtra("lastName", entry.lastName);
