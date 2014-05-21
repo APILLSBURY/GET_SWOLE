@@ -183,7 +183,7 @@ public class AppDialogFragment extends DialogFragment {
 				
 				exerciseName.setText(e.getName());
 				// Need to check if they are empty
-				exerciseReps.setText(e.getReps() + "");
+				if (e.getReps()!= -1) exerciseReps.setText(e.getReps() + "");
 				if (e.getWeight()!= -1) exerciseWeight.setText(e.getWeight() + "");
 				if (e.getRepsGoal() != -1) exerciseRepsGoal.setText(e.getRepsGoal() + "");
 				if (e.getWeightGoal() != -1) exerciseWeightGoal.setText(e.getWeightGoal() + "");

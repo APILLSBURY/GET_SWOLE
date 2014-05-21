@@ -55,13 +55,29 @@ public class WorkoutEditActivity extends Activity {
     	 			fragment.show(getFragmentManager(), getString(R.string.dialog_fragment_tag_edit_exercise));
     	     }
     	});
-		button2.setText(getString(R.string.start_workout_button));
+		button2.setText(getString(R.string.existing_exercise));
 		button2.setOnClickListener(new OnClickListener() {
     	     @Override
     	     public void onClick(View v) {
-    	          onStartWorkout();
+    	    		DialogFragment fragment = AppDialogFragment.newInstance(AppDialogFragment.DIALOG_ID_ADD_EXISTING_EXERCISE);
+    	 			fragment.show(getFragmentManager(), getString(R.string.dialog_fragment_tag_existing_exercise));
     	     }
     	});
+		
+		Button button3 = new Button(this);
+		button3.setText(getString(R.string.start_workout_button));
+		LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+		button3.setLayoutParams(params);
+		
+		button3.setOnClickListener(new OnClickListener() {
+   	     @Override
+   	     public void onClick(View v) {
+	          onStartWorkout();
+
+   	     }
+		});
+		
+		buttonLayout.addView(button3);
 		
 		// Get the id of the workout from the intent - if it is not there, then we are making a new workout
 		long id = getIntent().getExtras().getLong(Globals.ID_TAG, -1L);
@@ -196,8 +212,10 @@ public class WorkoutEditActivity extends Activity {
 	
 	public void onUseExistingExercise(Exercise e) {
 		
+		dbWrapper.open();
 		exercises.add(e);
 		dbWrapper.updateExerciseList(workout);
+		dbWrapper.close();
 		mAdapter.notifyDataSetChanged();
 	}
 	
