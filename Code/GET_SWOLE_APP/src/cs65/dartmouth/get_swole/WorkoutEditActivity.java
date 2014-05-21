@@ -95,7 +95,7 @@ public class WorkoutEditActivity extends Activity {
 		dbWrapper.close();
 	
 		TextView nameView = (TextView) findViewById(R.id.workoutName);
-		nameView.setText(workout.getName());		
+		nameView.setText(workout.getName());	
 		exercises = workout.getExerciseList();
 		
 		// Define a new adapter

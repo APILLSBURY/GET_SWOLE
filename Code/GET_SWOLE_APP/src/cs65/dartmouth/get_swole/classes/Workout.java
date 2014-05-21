@@ -136,7 +136,7 @@ public class Workout extends GetSwoleClass {
 		DatabaseWrapper db = new DatabaseWrapper(c);
 		db.open();
 		for (int i = 0; i < intArray.length; i++) {
-			exercise = (Exercise) db.getEntryById((long) id, Exercise.class);
+			exercise = (Exercise) db.getEntryById((long) intArray[i], Exercise.class);
 			exerciseList.add(exercise);
 		}
 		db.close();
