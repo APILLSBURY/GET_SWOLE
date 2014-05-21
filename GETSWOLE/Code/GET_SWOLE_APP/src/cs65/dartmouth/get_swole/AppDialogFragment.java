@@ -179,11 +179,12 @@ public class AppDialogFragment extends DialogFragment {
 				dbWrapper.close();
 				
 				exerciseName.setText(e.getName());
+				// Need to check if they are empty
 				exerciseReps.setText(e.getReps() + "");
-				exerciseWeight.setText(e.getWeight() + "");
-				exerciseRepsGoal.setText(e.getRepsGoal() + "");
-				exerciseWeightGoal.setText(e.getWeightGoal() + "");
-				exerciseRest.setText(e.getRest() + "");
+				if (e.getWeight()!= -1) exerciseWeight.setText(e.getWeight() + "");
+				if (e.getRepsGoal() != -1) exerciseRepsGoal.setText(e.getRepsGoal() + "");
+				if (e.getWeightGoal() != -1) exerciseWeightGoal.setText(e.getWeightGoal() + "");
+				if (e.getRest() != -1) exerciseRest.setText(e.getRest() + "");
 				exerciseNotes.setText(e.getNotes());
 			}
 			
@@ -291,11 +292,10 @@ public class AppDialogFragment extends DialogFragment {
 			dbWrapper2.close();
 			
 			exerciseName2.setText(e.getName());
-			exerciseReps2.setText(e.getReps() + "");
-			exerciseWeight2.setText(e.getWeight() + "");
-			exerciseRepsGoal2.setText(e.getRepsGoal() + "");
-			exerciseWeightGoal2.setText(e.getWeightGoal() + "");
-			exerciseRest2.setText(e.getRest() + "");
+			if (e.getWeight()!= -1) exerciseWeight2.setText(e.getWeight() + "");
+			if (e.getRepsGoal() != -1) exerciseRepsGoal2.setText(e.getRepsGoal() + "");
+			if (e.getWeightGoal() != -1) exerciseWeightGoal2.setText(e.getWeightGoal() + "");
+			if (e.getRest() != -1) exerciseRest2.setText(e.getRest() + "");
 			exerciseNotes2.setText(e.getNotes());
 			
 		    

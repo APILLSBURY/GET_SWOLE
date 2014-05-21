@@ -6,15 +6,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import cs65.dartmouth.get_swole.R;
-import cs65.dartmouth.get_swole.classes.ProfileObject;
-import cs65.dartmouth.get_swole.gae.Uploader;
-import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -26,15 +18,22 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
-import android.widget.ImageView;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import cs65.dartmouth.get_swole.classes.ProfileObject;
+import cs65.dartmouth.get_swole.gae.Uploader;
 
 /**
  * ProfileActivity.java  -  CS 65 Lab #1
