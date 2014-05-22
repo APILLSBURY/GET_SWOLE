@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    
+
+    <!-- 2 columns -->
+    <TableRow
+        android:id="@+id/tableRowHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dip" >
+ 
+        <TextView
+            android:id="@+id/reps"
+            android:text="@string/exercise_reps_title"
+            android:layout_weight="1"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/weight"
+            android:layout_weight="1"
+            android:text="@string/exercise_weight_title"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    </TableRow>
+ 
+    <!-- just draw a red line -->
+    <View
+        android:layout_height="2dip"
+        android:background="#FF0000" />
+ 
+    <TableRow
+        android:id="@+id/tableRow1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dip" >
+ 
+        <EditText
+            android:id="@+id/reps1"
+            android:layout_weight="1"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/weight1"
+            android:layout_weight="1"
+            android:textAppearance="?android:attr/textAppearanceMedium" 
+            android:inputType="number"/>
+
+    </TableRow>
+    
+    
+    <TableRow
+        android:id="@+id/tableRow2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dip" >
+ 
+        <EditText
+            android:id="@+id/reps2"
+            android:layout_weight="1"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/weight2"
+            android:layout_weight="1"
+            android:textAppearance="?android:attr/textAppearanceMedium" 
+            android:inputType="number"/>
+
+    </TableRow>
+    
+    <TableRow
+        android:id="@+id/tableRow3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dip" >
+ 
+        <EditText
+            android:id="@+id/reps3"
+            android:layout_weight="1"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/weight3"
+            android:layout_weight="1"
+            android:textAppearance="?android:attr/textAppearanceMedium" 
+            android:inputType="number"/>
+
+    </TableRow>
+    
+    <TableRow
+        android:id="@+id/tableRow4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dip" >
+ 
+        <EditText
+            android:id="@+id/reps4"
+            android:layout_weight="1"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/weight4"
+            android:layout_weight="1"
+            android:textAppearance="?android:attr/textAppearanceMedium" 
+            android:inputType="number"/>
+
+    </TableRow>
+    
+    <TableRow
+        android:id="@+id/tableRow5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dip" >
+ 
+        <EditText
+            android:id="@+id/reps5"
+            android:layout_weight="1"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/weight5"
+            android:layout_weight="1"
+            android:textAppearance="?android:attr/textAppearanceMedium" 
+            android:inputType="number"/>
+
+    </TableRow>
+    
+    <TableRow
+        android:id="@+id/tableRow6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dip" >
+ 
+        <EditText
+            android:id="@+id/reps6"
+            android:layout_weight="1"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/weight6"
+            android:layout_weight="1"
+            android:textAppearance="?android:attr/textAppearanceMedium" 
+            android:inputType="number"/>
+
+    </TableRow>
+    
+    <TableRow
+        android:id="@+id/tableRow7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dip" >
+ 
+        <EditText
+            android:id="@+id/reps7"
+            android:layout_weight="1"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/weight7"
+            android:layout_weight="1"
+            android:textAppearance="?android:attr/textAppearanceMedium" 
+            android:inputType="number"/>
+
+    </TableRow>
+    
+    <TableRow
+        android:id="@+id/tableRow8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dip" >
+ 
+        <EditText
+            android:id="@+id/reps8"
+            android:layout_weight="1"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/weight8"
+            android:layout_weight="1"
+            android:textAppearance="?android:attr/textAppearanceMedium" 
+            android:inputType="number"/>
+
+    </TableRow>
+    
+    
+    
+</TableLayout>
