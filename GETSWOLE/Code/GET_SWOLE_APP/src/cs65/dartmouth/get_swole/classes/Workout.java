@@ -103,12 +103,12 @@ public class Workout extends GetSwoleClass {
 			try {
 				if (!dates[i].isEmpty()) {
 					cal.setTime(DatabaseWrapper.DATE_FORMAT.parse(dates[i]));
+					scheduledDates.add(cal);
 				}
 			}
 			catch (Exception e) {
 				Log.e(Globals.TAG, "Couldn't parse the date " + dates[i], e);
 			}
-			scheduledDates.add(cal);
 		}
 	}
 	
