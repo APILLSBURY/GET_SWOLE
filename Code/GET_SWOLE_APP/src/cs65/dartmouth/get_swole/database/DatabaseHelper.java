@@ -44,7 +44,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	
 
 	private static final String DATABASE_NAME = "getswole.db";
-	private static final int DATABASE_VERSION = 1;
+	private static final int DATABASE_VERSION = 2;
 
     // SQL query to create the table for the first time
     // Data types are defined below

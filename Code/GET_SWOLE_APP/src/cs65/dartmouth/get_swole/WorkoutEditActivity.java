@@ -29,6 +29,7 @@ public class WorkoutEditActivity extends Activity {
 	List<Exercise> exercises;	
 	ExerciseArrayAdapter mAdapter;
 	ArrayList<Set> setsToSave;
+
 	
 	DatabaseWrapper dbWrapper = new DatabaseWrapper(this);
 	
@@ -105,6 +106,11 @@ public class WorkoutEditActivity extends Activity {
 			workout = (Workout) dbWrapper.getEntryById(id, Workout.class);		
 		}
 		
+		if (dbWrapper.getAllEntries(Exercise.class).size() > 0) {
+			firstAdded = true;
+	        buttonLayout.addView(button2);
+		}
+		
 		dbWrapper.close();
 	
 		nameView.setText(workout.getName());	
@@ -122,8 +128,7 @@ public class WorkoutEditActivity extends Activity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     // Open dialog to edit this exercise
             	Exercise e = exercises.get(position);
-            	DialogFragment fragment;
-            	fragment = AppDialogFragment.newInstance(e, true);
+            	DialogFragment fragment = AppDialogFragment.newInstance(e, true);
     	        fragment.show(getFragmentManager(), getString(R.string.dialog_fragment_tag_edit_exercise));
             		
             }
@@ -150,40 +155,14 @@ public class WorkoutEditActivity extends Activity {
 		dbWrapper.open();
 		dbWrapper.deleteEntry(workout);
 		dbWrapper.close();
-			
-		// Update the main activity that things might have changed in the database - this workout was deleted
-		 Intent i = new Intent();
-        i.setAction("UPDATE_NOTIFY");
-        i.putExtra("message", "update");
-        sendBroadcast(i);
         
 		finish();
-	
 		
 	    return false;
 	}
-		
-		
-	/*@Override 
-	public void onBackPressed() { 
-		
-		// Update the main activity that things might have changed in the database - like if this is a new workout
-        Intent i = new Intent();
-        i.setAction("UPDATE_NOTIFY");
-        i.putExtra("message", "update");
-        sendBroadcast(i);
-        
-		finish();
-		
-	}*/
+	
 	
 	public void onStartWorkout() {
-		
-		// Update the main activity that things might have changed in the database - like if this is a new workout
-        Intent i = new Intent();
-        i.setAction("UPDATE_NOTIFY");
-        i.putExtra("message", "update");
-        sendBroadcast(i);
         
 		Bundle b = new Bundle();
 		b.putLong(Globals.ID_TAG, workout.getId());
@@ -198,10 +177,10 @@ public class WorkoutEditActivity extends Activity {
 	
 	// DEALING WITH EXERCISES
 	public void onAddNewExercise(Exercise e) {
-        
-		// first we need to check the status of the sets list
-		if (setsToSave != null)
+		
+		if (setsToSave != null) {
 			e.setSetList(setsToSave);
+		}
 		setsToSave = null;
 		
         dbWrapper.open();
@@ -223,12 +202,14 @@ public class WorkoutEditActivity extends Activity {
 	// New exercise does not have a database id yet
 	public void onEditExercise(long oldId, Exercise newExercise) {
 		
-		// FIX THIS
-		// Remove the old exercise of this id from the exercise list of this workout
+		// Remove the old exercise of this id from the exercise list of this workout	
+		Exercise toRemove = null;
 		for (Exercise e : exercises) {
 			if (e.getId() == oldId) 
-				exercises.remove(e);
+				toRemove = e;
 		}
+		
+		exercises.remove(toRemove);	
         
         onAddNewExercise(newExercise);	
         
@@ -262,12 +243,18 @@ public class WorkoutEditActivity extends Activity {
 		mAdapter.notifyDataSetChanged();
 		
 		setsToSave = null;
+				
 	}
 	
 	public void onEditSets(ArrayList<Set> sets) {
 
+		// save the sets into the exercise
 		setsToSave = sets;
 		
+	}
+	
+	public ArrayList<Set> getSetsToSave() {
+		return setsToSave;
 	}
 	
 }
