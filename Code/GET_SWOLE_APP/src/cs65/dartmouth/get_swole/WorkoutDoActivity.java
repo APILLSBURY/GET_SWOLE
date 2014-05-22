@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import cs65.dartmouth.get_swole.classes.Exercise;
+import cs65.dartmouth.get_swole.classes.ExerciseArrayAdapter;
 import cs65.dartmouth.get_swole.classes.Set;
 import cs65.dartmouth.get_swole.classes.Workout;
 import cs65.dartmouth.get_swole.classes.WorkoutInstance;

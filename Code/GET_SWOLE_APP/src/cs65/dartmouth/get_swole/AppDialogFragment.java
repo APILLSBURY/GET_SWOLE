@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 import cs65.dartmouth.get_swole.classes.Exercise;
+import cs65.dartmouth.get_swole.classes.ExerciseArrayAdapter;
 import cs65.dartmouth.get_swole.classes.Set;
 import cs65.dartmouth.get_swole.database.DatabaseWrapper;
 

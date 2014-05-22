@@ -23,21 +23,6 @@ public class WorkoutFragment extends ListFragment {
 	WorkoutsAdapter workoutsAdapter;
 	List<Workout> workouts;
 	Context mContext;
-	//IntentFilter mMessageIntentFilter;
-	
-	/*private BroadcastReceiver mMessageUpdateReceiver = new BroadcastReceiver() {
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			String msg = intent.getStringExtra("message");
-			if (msg != null && msg.equals("update")) {
-				Log.d(Globals.TAG, "Received update");	
-				dbWrapper.open();
-				workouts = dbWrapper.getAllEntries(Workout.class);
-				dbWrapper.close();
-				workoutsAdapter.notifyDataSetChanged();
-			}
-		}
-	};*/
 	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -47,28 +32,16 @@ public class WorkoutFragment extends ListFragment {
 		
 		dbWrapper = new DatabaseWrapper(mContext);
 		configureListView();
-        		
-        // Listen for updates about the list of workouts
-        /*mMessageIntentFilter = new IntentFilter();
-		mMessageIntentFilter.addAction("UPDATE_NOTIFY");*/
 					
 	
 	}
 	
 	@Override
 	public void onResume() {
-		/*getActivity().registerReceiver(mMessageUpdateReceiver, mMessageIntentFilter);*/
 		configureListView();
 		super.onResume();
 	}
 	
-	/*@Override
-	public void onPause() {
-
-		getActivity().unregisterReceiver(mMessageUpdateReceiver);
-		super.onPause();
-	}*/
- 
 	private void configureListView() {
 		dbWrapper.open();
 		workouts = dbWrapper.getAllEntries(Workout.class);
