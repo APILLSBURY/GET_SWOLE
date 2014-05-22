@@ -33,6 +33,7 @@ public class AppDialogFragment extends DialogFragment {
 
 	// For use by edit exercise dialog
 	private static final String EXERCISE_ID = "Exercise_Id";
+	private static final String EXERCISE_POSITION = "Exercise_Position";
 	
 	public static final int DIALOG_ID_NEW_WORKOUT = 2;
 	public static final int DIALOG_ID_DATE = 3;
@@ -41,9 +42,13 @@ public class AppDialogFragment extends DialogFragment {
 	public static final int DIALOG_ID_ADD_EXISTING_EXERCISE = 6;
 	public static final int DIALOG_ID_DO_EXERCISE = 7;
 	public static final int DIALOG_ID_TIMER = 8;
-	public static final int DIALOG_ID_SETS = 9;
+	public static final int DIALOG_ID_EDIT_SETS = 9;
+	public static final int DIALOG_ID_DO_SETS = 10;
 	
 	private static final String DIALOG_ID_KEY = "dialog_id";
+	
+	private static final int [] repIds = {R.id.reps1, R.id.reps2, R.id.reps3, R.id.reps4, R.id.reps5, R.id.reps6, R.id.reps7, R.id.reps8};
+	private static final int [] weightIds = {R.id.weight1, R.id.weight2, R.id.weight3, R.id.weight4, R.id.weight5, R.id.weight6, R.id.weight7, R.id.weight8};
 	
 	public static AppDialogFragment newInstance(int id) {
 		
@@ -55,21 +60,28 @@ public class AppDialogFragment extends DialogFragment {
 	}
 	
 	// For editing exercises
-	public static AppDialogFragment newInstance(Exercise e, boolean edit) {
+	public static AppDialogFragment newInstance(Exercise e, boolean edit, int position) {
 		AppDialogFragment frag = new AppDialogFragment();
 		Bundle args = new Bundle();
 		if (edit) args.putInt(DIALOG_ID_KEY, DIALOG_ID_EDIT_EXERCISE);
-		else args.putInt(DIALOG_ID_KEY,  DIALOG_ID_DO_EXERCISE);
+		else {
+			args.putInt(DIALOG_ID_KEY,  DIALOG_ID_DO_EXERCISE);
+			args.putInt(EXERCISE_POSITION, position);
+		}
 		if (e != null) args.putLong(EXERCISE_ID, e.getId());
 		frag.setArguments(args);
 		return frag;
 	}
 	
-	public static AppDialogFragment newInstanceSets(long id) {
+	public static AppDialogFragment newInstanceSets(long id, boolean edit, int position) {
 		
 		AppDialogFragment frag = new AppDialogFragment();
 		Bundle args = new Bundle();
-		args.putInt(DIALOG_ID_KEY, DIALOG_ID_SETS);
+		if (edit) args.putInt(DIALOG_ID_KEY, DIALOG_ID_EDIT_SETS);
+		else {
+			args.putInt(DIALOG_ID_KEY,  DIALOG_ID_DO_SETS);
+			args.putInt(EXERCISE_POSITION, position);
+		}
 		args.putLong(EXERCISE_ID, id);
 		frag.setArguments(args);
 		return frag;
@@ -177,7 +189,7 @@ public class AppDialogFragment extends DialogFragment {
 					
 					// start the dialog fragment
 					// Display dialog with nothing in it
-    	 			DialogFragment fragment = AppDialogFragment.newInstanceSets(id);
+    	 			DialogFragment fragment = AppDialogFragment.newInstanceSets(id, true, 0);
     	 			fragment.show(getFragmentManager(), getString(R.string.dialog_fragment_tag_edit_sets));
 					
 				}
@@ -290,6 +302,7 @@ public class AppDialogFragment extends DialogFragment {
 			
 			// Id of exercise entry that we are loading up, could not be there
 		    final long id2 = getArguments().getLong(EXERCISE_ID, -1L); // cannot be -1 if doing an exercise
+		    final int position = getArguments().getInt(EXERCISE_POSITION, -1); // can't be -1
 			
 		    Button setsButton2 = (Button) v.findViewById(R.id.editSets);
 		    setsButton2.setOnClickListener(new View.OnClickListener() {
@@ -298,7 +311,7 @@ public class AppDialogFragment extends DialogFragment {
 					
 					// start the dialog fragment
 					// Display dialog with nothing in it
-    	 			DialogFragment fragment = AppDialogFragment.newInstanceSets(id2);
+    	 			DialogFragment fragment = AppDialogFragment.newInstanceSets(id2, false, position);
     	 			fragment.show(getFragmentManager(), getString(R.string.dialog_fragment_tag_edit_sets));
 					
 				}
@@ -326,7 +339,7 @@ public class AppDialogFragment extends DialogFragment {
 					if (!exerciseRest2.getText().toString().isEmpty()) e.setRest(Integer.parseInt(exerciseRest2.getText().toString()));
 					e.setNotes(exerciseNotes2.getText().toString());
 										
-					((WorkoutDoActivity) parent).onDoExercise(e);
+					((WorkoutDoActivity) parent).onDoExercise(e, position);
 					
 				}
 			});
@@ -374,11 +387,7 @@ public class AppDialogFragment extends DialogFragment {
 		    	}
 		    });
 		    return b.create();
-		case DIALOG_ID_SETS:
-		
-			final int [] repIds = {R.id.reps1, R.id.reps2, R.id.reps3, R.id.reps4, R.id.reps5, R.id.reps6, R.id.reps7, R.id.reps8};
-			final int [] weightIds = {R.id.weight1, R.id.weight2, R.id.weight3, R.id.weight4, R.id.weight5, R.id.weight6, R.id.weight7, R.id.weight8};
-			
+		case DIALOG_ID_EDIT_SETS:
 			// Create custom dialog
 			b = new AlertDialog.Builder(parent);
 	
@@ -392,33 +401,33 @@ public class AppDialogFragment extends DialogFragment {
 		    // Id of exercise entry that we are loading up, could not be there
 		    long id3 = getArguments().getLong(EXERCISE_ID, -1L); // cannot be -1 if doing an exercise
 			
-		    if (id3 != -1L) { // then we are editing or doing - fill in the slots if there are things
+	    	ArrayList<Set> sets = null;
+
+		    if (((WorkoutEditActivity) parent).getSetsToSave() != null) {
+	    		// fill slots with info from sets to save
+	    		sets = ((WorkoutEditActivity) parent).getSetsToSave();
+	  	
+	    	}	    
+		    else if (id3 != -1L) { // then we are editing
 		    	
-		    	ArrayList<Set> sets;
-		    	if (((WorkoutEditActivity) parent).getSetsToSave() != null) {
-		    		// fill slots with info from sets to save
-		    		sets = ((WorkoutEditActivity) parent).getSetsToSave();
-		    		
-		    	}
-		    	else { // fill with info from this exercise, last saved
-					dbWrapper.open();
-					Exercise exercise = (Exercise) dbWrapper.getEntryById(id3, Exercise.class);
-					dbWrapper.close();
+	    		// fill with info from this exercise, last saved
+				dbWrapper.open();
+				Exercise exercise = (Exercise) dbWrapper.getEntryById(id3, Exercise.class);
+				dbWrapper.close();
+				
+				sets = exercise.getSetList();
 					
-					sets = exercise.getSetList();
-					
-		    	}
+		    }
 		    	
+		    if (sets != null) {
 		    	for (int i = 0; i < sets.size(); i++) { // assume set size is at most 8
 					if (sets.get(i).getReps() != 0)
-					((EditText) setsView.findViewById(R.id.reps1)).setText(sets.get(i).getReps()); 
+					((EditText) setsView.findViewById(repIds[i])).setText(sets.get(i).getReps() + ""); 
 					if (sets.get(i).getWeight() != 0)
-					((EditText) setsView.findViewById(R.id.weight1)).setText(sets.get(i).getWeight()); 
+					((EditText) setsView.findViewById(weightIds[i])).setText(sets.get(i).getWeight() + ""); 
 				}
-				
 		    }
-		    
-		    
+				  
 		    
 		    // send things back to activity the exercise
 		    b.setPositiveButton(R.string.positive, new DialogInterface.OnClickListener() {
@@ -451,10 +460,77 @@ public class AppDialogFragment extends DialogFragment {
 				
 				@Override
 				public void onClick(DialogInterface arg0, int arg1) {
-					// do nothing	
+					((WorkoutEditActivity) parent).resetSetsToSave();
 				}
 			}); 
 					    
+			return b.create();
+		case DIALOG_ID_DO_SETS:
+			// Create custom dialog
+			b = new AlertDialog.Builder(parent);
+	
+			 // Get the layout inflater
+		    inflater = getActivity().getLayoutInflater();
+		  	final View setsView2 = inflater.inflate(R.layout.dialog_edit_sets, null);
+		    b.setView(setsView2);		
+		    
+		    // get id 
+		    // id might be -1
+		    // Id of exercise entry that we are loading up, could not be there
+		    long id4 = getArguments().getLong(EXERCISE_ID, -1L); // cannot be -1 if doing an exercise
+			    
+		    	
+    		// fill with info from this exercise, last saved
+			dbWrapper.open();
+			Exercise exercise = (Exercise) dbWrapper.getEntryById(id4, Exercise.class);
+			dbWrapper.close();
+			
+			sets = exercise.getSetList();
+			
+							    	
+	    	for (int i = 0; i < sets.size(); i++) { // assume set size is at most 8
+				if (sets.get(i).getReps() != 0)
+				((EditText) setsView2.findViewById(repIds[i])).setText(sets.get(i).getReps() + ""); 
+				if (sets.get(i).getWeight() != 0)
+				((EditText) setsView2.findViewById(weightIds[i])).setText(sets.get(i).getWeight() + ""); 
+			}    
+				  
+		    
+		    // send things back to activity the exercise
+		    b.setPositiveButton(R.string.positive, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					
+					ArrayList<Set> setsToSave = new ArrayList<Set>();
+					// save the information from the text views to edit sets
+					for (int i = 0; i < 7; i++) { // assume entered data is at most 8
+						Set s = null;
+						if (!((EditText) setsView2.findViewById(repIds[i])).getText().toString().isEmpty()) {
+							s = new Set();
+							s.setReps(Integer.parseInt(((EditText) setsView2.findViewById(repIds[i])).getText().toString()));
+						}
+
+						if (!((EditText) setsView2.findViewById(weightIds[i])).getText().toString().isEmpty()){
+							if (s == null) s = new Set();
+							s.setWeight(Integer.parseInt(((EditText) setsView2.findViewById(weightIds[i])).getText().toString()));
+						}
+						
+						if (s != null) setsToSave.add(s);
+					}
+					
+					//((WorkoutDoActivity) parent).onDoSets(setsToSave);
+					
+				}
+			});
+		    
+		    b.setNegativeButton(R.string.negative, new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface arg0, int arg1) {
+					// do nothing	
+				}
+			}); 
+		    
 			return b.create();
 		default:
 			return null;		

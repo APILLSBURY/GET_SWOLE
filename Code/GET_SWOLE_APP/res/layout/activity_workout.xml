@@ -10,7 +10,6 @@
         android:id="@+id/workoutName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Workout Name"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <EditText
@@ -20,7 +19,7 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/workoutName"
         android:hint="@string/workout_notes_hint"
-        android:inputType="textMultiLine" >
+        android:inputType="textCapWords" >
     </EditText>
 
     <ListView
