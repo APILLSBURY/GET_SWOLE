@@ -19,6 +19,13 @@ public class Frequency extends GetSwoleClass {
 		id = -1;
 	}
 	
+	public boolean includesDate(Calendar cal) {
+		long startTime = startDate.getTimeInMillis();
+		long endTime = endDate.getTimeInMillis();
+		long calTime = cal.getTimeInMillis();
+		return (startTime <= calTime && calTime <= endTime && cal.get(Calendar.DAY_OF_WEEK) == day);
+	}
+	
 	
 	//GETTER METHODS
 	public int getDay() {

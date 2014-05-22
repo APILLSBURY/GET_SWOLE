@@ -1,9 +1,10 @@
 package cs65.dartmouth.get_swole.classes;
 
+import java.util.ArrayList;
+
 public class Exercise extends GetSwoleClass {
 	
-	private int reps;
-	private int weight;
+	private ArrayList<Set> setList;
 	private int repsGoal;
 	private int weightGoal;
 	private int rest;
@@ -16,8 +17,7 @@ public class Exercise extends GetSwoleClass {
 	//default undefined numbers to -1
 	public Exercise(String name) {
 		this.name = name;
-		reps = -1;
-		weight = -1;
+		setList = new ArrayList<Set>();
 		repsGoal = -1;
 		weightGoal = -1;
 		rest = -1;
@@ -26,14 +26,42 @@ public class Exercise extends GetSwoleClass {
 	}
 	
 	
-	//GETTER METHODS
-	
-	public int getReps() {
-		return reps;
+	public void addSet(Set set) {
+		setList.add(set);
 	}
 	
-	public int getWeight() {
-		return weight;
+	public void removeSet(Set set) {
+		setList.remove(set);
+	}
+	
+	//DATABASE HELPER TO CONVERT SETLIST TO A STRING
+	public String getSetListString() {
+		String s = "";
+		for (int i = 0; i < setList.size(); i++) {
+			s += setList.get(i).toString() + "&";
+		}
+		if (s.length() >= 1) {
+			s = s.substring(0, s.length() - 1); //remove the trailing "&"
+		}
+		return s;
+	}
+	
+	public void setSetListFromString(String s) {
+		String[] sets = s.split("&");
+		setList.clear();
+		String[] repsByWeight;
+		for (int i = 0; i < sets.length; i++) {
+			if (!sets[i].isEmpty()) {
+				 repsByWeight = sets[i].split("x");
+				 setList.add(new Set(Integer.parseInt(repsByWeight[0]), Integer.parseInt(repsByWeight[1])));
+			}
+		}
+	}
+	
+	
+	//GETTER METHODS
+	public ArrayList<Set> getSetList() {
+		return setList;
 	}
 	
 	public int getRepsGoal() {
@@ -54,12 +82,8 @@ public class Exercise extends GetSwoleClass {
 	
 	
 	//SETTER METHODS
-	public void setReps(int r) {
-		reps = r;
-	}
-	
-	public void setWeight(int w) {
-		weight = w;
+	public void setSetList(ArrayList<Set> s) {
+		setList = s;
 	}
 	
 	public void setRepsGoal(int rg) {
@@ -80,12 +104,10 @@ public class Exercise extends GetSwoleClass {
 	
 	@Override
 	public String toString() {
-		return name + ": " + reps + " reps at " + weight;
-	}
-	
-	public boolean equals(Exercise e) {
-		// all attributes must have equal values
-		return (name.equals(e.getName()) && reps==e.getReps() && weight == e.getWeight() && repsGoal == e.getRepsGoal() 
-				&& weightGoal == e.getWeightGoal() && rest == e.getRest() && notes.equals(e.getNotes()));
+		String s = name + ": ";
+		for (Set set : setList) {
+			s += set.getReps() + " reps at " + set.getWeight() + ", ";
+		}
+		return s.substring(0, s.length() - 2);
 	}
 }

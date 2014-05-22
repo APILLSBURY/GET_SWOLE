@@ -43,8 +43,10 @@ public class CalendarAdapter extends BaseAdapter {
 	private ArrayList<String> items;
 	public static List<String> dayString;
 	private View previousView;
+	private ArrayList<ArrayList<Workout>> workoutsByDay;
 
-	public CalendarAdapter(Context c, GregorianCalendar monthCalendar) {
+	public CalendarAdapter(Context c, GregorianCalendar monthCalendar, ArrayList<ArrayList<Workout>> workoutsByDay) {
+		this.workoutsByDay = workoutsByDay;
 		CalendarAdapter.dayString = new ArrayList<String>();
 		Locale.setDefault(Locale.US);
 		month = monthCalendar;
@@ -82,31 +84,32 @@ public class CalendarAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View v = convertView;
 		TextView dayView;
-		if (convertView == null) { // if it's not recycled, initialize some
-									// attributes
-			LayoutInflater vi = (LayoutInflater) mContext
-					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		if (convertView == null) { // if it's not recycled, initialize some attributes
+			LayoutInflater vi = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			v = vi.inflate(R.layout.calendar_item, null);
-
 		}
 		dayView = (TextView) v.findViewById(R.id.date);
 		// separates daystring into parts.
 		String[] separatedTime = dayString.get(position).split("-");
 		// taking last part of date. ie; 2 from 2012-12-02
-		String gridvalue = separatedTime[2].replaceFirst("^0*", "");
+		String gridvalueString = separatedTime[2].replaceFirst("^0*", "");
+		int gridvalue = Integer.parseInt(gridvalueString);
 		// checking whether the day is in current month or not.
-		if ((Integer.parseInt(gridvalue) > 1) && (position < firstDay)) {
+		if ((gridvalue > 1) && (position < firstDay)) {
 			// setting offdays to white color.
 			dayView.setTextColor(Color.WHITE);
 			dayView.setClickable(false);
 			dayView.setFocusable(false);
-		} else if ((Integer.parseInt(gridvalue) < 7) && (position > 28)) {
+		} else if ((gridvalue < 7) && (position > 28)) {
 			dayView.setTextColor(Color.WHITE);
 			dayView.setClickable(false);
 			dayView.setFocusable(false);
 		} else {
 			// setting curent month's days in blue color.
 			dayView.setTextColor(Color.BLUE);
+			if (!workoutsByDay.get(gridvalue).isEmpty()) {
+				dayView.setTextColor(Color.GREEN);
+			}
 		}
 
 		if (dayString.get(position).equals(curentDateString)) {
@@ -146,7 +149,7 @@ public class CalendarAdapter extends BaseAdapter {
 		view.setBackgroundResource(R.drawable.calendar_cel_selectl);
 		return view;
 	}
-
+	
 	public void refreshDays() {
 		// clear items
 		items.clear();
