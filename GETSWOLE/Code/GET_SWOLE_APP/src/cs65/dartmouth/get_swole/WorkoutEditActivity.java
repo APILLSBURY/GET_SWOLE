@@ -201,7 +201,14 @@ public class WorkoutEditActivity extends Activity {
 	//*
 	// New exercise does not have a database id yet
 	public void onEditExercise(long oldId, Exercise newExercise) {
+			
+		// we need to check whether we actually changed anything
+		dbWrapper.open();
+		Exercise oldExercise = (Exercise) dbWrapper.getEntryById(oldId, Exercise.class);
+		dbWrapper.close();
 		
+		if (oldExercise.equals(newExercise)) return; // then we don't want to do anything
+			
 		// Remove the old exercise of this id from the exercise list of this workout	
 		Exercise toRemove = null;
 		for (Exercise e : exercises) {
