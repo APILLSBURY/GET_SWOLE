@@ -2,6 +2,11 @@ package cs65.dartmouth.get_swole.classes;
 
 import java.util.Calendar;
 
+import android.util.Log;
+
+import cs65.dartmouth.get_swole.CalendarUtility;
+import cs65.dartmouth.get_swole.Globals;
+
 public class Frequency extends GetSwoleClass {
 
 	private int day;
@@ -20,10 +25,10 @@ public class Frequency extends GetSwoleClass {
 	}
 	
 	public boolean includesDate(Calendar cal) {
-		long startTime = startDate.getTimeInMillis();
-		long endTime = endDate.getTimeInMillis();
-		long calTime = cal.getTimeInMillis();
-		return (startTime <= calTime && calTime <= endTime && cal.get(Calendar.DAY_OF_WEEK) == day);
+		Log.d(Globals.TAG, "cal date = " + cal.get(Calendar.DATE) + CalendarUtility.testDateEquality(startDate, cal) + ", " + CalendarUtility.testDateEquality(endDate, cal));
+		return (CalendarUtility.testDateEquality(startDate, cal) == CalendarUtility.LESS_THAN 
+					&& CalendarUtility.testDateEquality(endDate, cal) == CalendarUtility.GREATER_THAN 
+					&& cal.get(Calendar.DAY_OF_WEEK) == day);
 	}
 	
 	
