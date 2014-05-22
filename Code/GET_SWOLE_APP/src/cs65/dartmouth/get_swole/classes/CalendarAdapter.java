@@ -5,6 +5,7 @@ package cs65.dartmouth.get_swole.classes;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
@@ -44,9 +45,12 @@ public class CalendarAdapter extends BaseAdapter {
 	public static List<String> dayString;
 	private View previousView;
 	private ArrayList<ArrayList<Workout>> workoutsByDay;
+	private ArrayList<ArrayList<WorkoutInstance>> workoutInstancesByDay;
 
-	public CalendarAdapter(Context c, GregorianCalendar monthCalendar, ArrayList<ArrayList<Workout>> workoutsByDay) {
+	public CalendarAdapter(Context c, GregorianCalendar monthCalendar, ArrayList<ArrayList<Workout>> workoutsByDay, 
+							ArrayList<ArrayList<WorkoutInstance>> workoutInstancesByDay) {
 		this.workoutsByDay = workoutsByDay;
+		this.workoutInstancesByDay = workoutInstancesByDay;
 		CalendarAdapter.dayString = new ArrayList<String>();
 		Locale.setDefault(Locale.US);
 		month = monthCalendar;
@@ -59,6 +63,12 @@ public class CalendarAdapter extends BaseAdapter {
 		refreshDays();
 	}
 
+	public void setWorkoutsByDay(ArrayList<ArrayList<Workout>> workoutsByDay, 
+			ArrayList<ArrayList<WorkoutInstance>> workoutInstancesByDay) {
+		this.workoutsByDay = workoutsByDay;
+		this.workoutInstancesByDay = workoutInstancesByDay;
+	}
+	
 	public void setItems(ArrayList<String> items) {
 		for (int i = 0; i != items.size(); i++) {
 			if (items.get(i).length() == 1) {
@@ -107,8 +117,14 @@ public class CalendarAdapter extends BaseAdapter {
 		} else {
 			// setting curent month's days in blue color.
 			dayView.setTextColor(Color.BLUE);
-			if (!workoutsByDay.get(gridvalue).isEmpty()) {
+			if (!workoutsByDay.get(gridvalue).isEmpty() || !workoutInstancesByDay.get(gridvalue).isEmpty()) {
 				dayView.setTextColor(Color.GREEN);
+			}
+			Calendar currDate = Calendar.getInstance();
+			if (gridvalue == currDate.get(Calendar.DATE)
+					&& month.get(Calendar.MONTH) == currDate.get(Calendar.MONTH)
+					&& month.get(Calendar.YEAR) == currDate.get(Calendar.YEAR)) {
+				dayView.setTextColor(Color.RED);
 			}
 		}
 
@@ -118,7 +134,7 @@ public class CalendarAdapter extends BaseAdapter {
 		} else {
 			v.setBackgroundResource(R.drawable.list_item_background);
 		}
-		dayView.setText(gridvalue);
+		dayView.setText(gridvalue + "");
 
 		// create date string for comparison
 		String date = dayString.get(position);

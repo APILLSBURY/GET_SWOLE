@@ -264,6 +264,13 @@ public class DatabaseWrapper {
 							DatabaseHelper.WORKOUT_ID + " = " + workout.getId(), null);
 	}
 	
+	public int updateFrequencyList(Workout workout) {
+		ContentValues values = new ContentValues();
+		values.put(DatabaseHelper.WORKOUT_FREQUENCY_LIST, workout.getFrequencyListByteArray());
+		return database.update(DatabaseHelper.TABLE_NAME_WORKOUT, values, 
+							DatabaseHelper.WORKOUT_ID + " = " + workout.getId(), null);
+	}
+	
 
 	private GetSwoleClass getEntryFromClass(Cursor cursor, Class<? extends GetSwoleClass> c) {
 		int index = getClassIndex(c);
@@ -311,7 +318,7 @@ public class DatabaseWrapper {
 		workoutInstance.setExerciseListFromByteArray(cursor.getBlob(cursor.getColumnIndex(DatabaseHelper.WORKOUT_INSTANCE_EXERCISE_LIST)), context);
 		Calendar c = Calendar.getInstance();
 		try {
-			c.setTime(DATE_FORMAT.parse(cursor.getString(cursor.getColumnIndex(DatabaseHelper.WORKOUT_START_DATE))));
+			c.setTime(DATE_FORMAT.parse(cursor.getString(cursor.getColumnIndex(DatabaseHelper.WORKOUT_INSTANCE_TIME))));
 		}
 		catch (Exception pe) {
 			Log.e(Globals.TAG, "Parse Exception converting string "

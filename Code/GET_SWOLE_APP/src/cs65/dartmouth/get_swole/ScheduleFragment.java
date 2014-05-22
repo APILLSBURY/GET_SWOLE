@@ -13,12 +13,14 @@ import java.util.Locale;
 import cs65.dartmouth.get_swole.classes.CalendarAdapter;
 import cs65.dartmouth.get_swole.classes.Frequency;
 import cs65.dartmouth.get_swole.classes.Workout;
+import cs65.dartmouth.get_swole.classes.WorkoutInstance;
 import cs65.dartmouth.get_swole.classes.WorkoutsAdapter;
 import cs65.dartmouth.get_swole.database.DatabaseWrapper;
 import android.support.v4.app.ListFragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -43,6 +45,7 @@ public class ScheduleFragment extends ListFragment {
 	private DatabaseWrapper dbWrapper;
 	private WorkoutsAdapter workoutsAdapter;
 	private ArrayList<ArrayList<Workout>> workoutsByDay;
+	private ArrayList<ArrayList<WorkoutInstance>> workoutInstancesByDay;
 	private int selectedGridvalue = 1;
 	
 	
@@ -59,8 +62,8 @@ public class ScheduleFragment extends ListFragment {
 
 		items = new ArrayList<String>();
 
-		workoutsByDay = getWorkoutsByDay();
-		adapter = new CalendarAdapter(context, month, workoutsByDay);
+		getWorkoutsByDay();
+		adapter = new CalendarAdapter(context, month, workoutsByDay, workoutInstancesByDay);
 
 		GridView gridview = (GridView) view.findViewById(R.id.gridview);
 		gridview.setAdapter(adapter);
@@ -135,7 +138,8 @@ public class ScheduleFragment extends ListFragment {
 		else {
 			month.set(GregorianCalendar.MONTH, month.get(GregorianCalendar.MONTH) + 1);
 		}
-
+		getWorkoutsByDay();
+		adapter.setWorkoutsByDay(workoutsByDay, workoutInstancesByDay);
 	}
 
 	protected void setPreviousMonth() {
@@ -147,7 +151,8 @@ public class ScheduleFragment extends ListFragment {
 			month.set(GregorianCalendar.MONTH,
 					month.get(GregorianCalendar.MONTH) - 1);
 		}
-
+		getWorkoutsByDay();
+		adapter.setWorkoutsByDay(workoutsByDay, workoutInstancesByDay);
 	}
 
 	protected void showToast(String string) {
@@ -180,7 +185,9 @@ public class ScheduleFragment extends ListFragment {
 	@Override
 	public void onResume() {
 		super.onResume();
+		getWorkoutsByDay();
 		configureListView(workoutsByDay.get(selectedGridvalue));
+		refreshCalendar();
 	}
 	
 	private void configureListView(ArrayList<Workout> workouts) {
@@ -202,43 +209,84 @@ public class ScheduleFragment extends ListFragment {
 		listView.setOnItemClickListener(listener);
 	}
 	
-	private ArrayList<ArrayList<Workout>> getWorkoutsByDay() {
+	private void getWorkoutsByDay() {
 		dbWrapper.open();
 		List<Workout> allWorkouts = dbWrapper.getAllEntries(Workout.class);
+		List<WorkoutInstance> allWorkoutInstances = dbWrapper.getAllEntries(WorkoutInstance.class);
 		dbWrapper.close();
 		workoutsByDay = new ArrayList<ArrayList<Workout>>();
+		workoutsByDay.add(null); //add a null value for day 0
+		workoutInstancesByDay = new ArrayList<ArrayList<WorkoutInstance>>();
+		workoutInstancesByDay.add(null); //add a null value for day 0
 		ArrayList<Workout> dailyWorkouts;
+		ArrayList<WorkoutInstance> dailyWorkoutInstances;
 		ArrayList<Calendar> scheduledDates;
 		ArrayList<Frequency> frequencyList;
-		int daysInMonth = month.getActualMaximum(GregorianCalendar.DATE);
+		int daysInMonth = month.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
+		Log.d(Globals.TAG, "daysInMonth=" + daysInMonth);
 		GregorianCalendar currDay = (GregorianCalendar) month.clone();
 		currDay.set(GregorianCalendar.DATE, currDay.getActualMinimum(GregorianCalendar.DATE)); //set to first of month
 		
-		for (int i = 0; i < daysInMonth; i++) {
-			dailyWorkouts = new ArrayList<Workout>();
-			for (Workout w : allWorkouts) {
-				scheduledDates = w.getScheduledDates();
-				for (Calendar c : scheduledDates) {
-					if (areSameDay(c, currDay)) {
-						dailyWorkouts.add(w);
-					}
-				}
-				frequencyList = w.getFrequencyList();
-				for (Frequency f : frequencyList) {
-					if (f.includesDate(currDay)) {
-						dailyWorkouts.add(w);
+		boolean end = false;
+		while (!end) {
+			dailyWorkoutInstances = new ArrayList<WorkoutInstance>();
+			//show completed workouts
+			if (CalendarUtility.testDateEquality(currDay, Calendar.getInstance()) == CalendarUtility.LESS_THAN) {
+				for (WorkoutInstance wi : allWorkoutInstances) {
+					if (CalendarUtility.testDateEquality(currDay, wi.getTime()) == CalendarUtility.EQUALS) {
+						dailyWorkoutInstances.add(wi);
 					}
 				}
 			}
-			workoutsByDay.add(i, dailyWorkouts);
-			currDay.set(GregorianCalendar.DATE, currDay.get(GregorianCalendar.DATE + 1));
+			workoutInstancesByDay.add(dailyWorkoutInstances);
+			//show upcoming scheduled workouts
+			dailyWorkouts = new ArrayList<Workout>();
+			if (CalendarUtility.testDateEquality(currDay, Calendar.getInstance()) == CalendarUtility.GREATER_THAN) {
+				for (Workout w : allWorkouts) {
+					
+					
+					//THIS IS FOR TESTING ONLY
+					if (w.getFrequencyList().isEmpty()) {
+						Frequency freq = new Frequency(Calendar.THURSDAY);
+						Calendar start = Calendar.getInstance();
+						start.set(Calendar.DATE, 3);
+						Calendar endCal = Calendar.getInstance();
+						endCal.set(Calendar.DATE, 15);
+						endCal.set(Calendar.MONTH, endCal.get(Calendar.MONTH) + 1);
+						freq.setStartDate(start);
+						freq.setEndDate(endCal);
+						dbWrapper.open();
+						freq = dbWrapper.createEntry(freq);
+						w.addFrequency(freq);
+						dbWrapper.updateFrequencyList(w);
+						dbWrapper.close();
+					}
+					
+					
+					scheduledDates = w.getScheduledDates();
+					for (Calendar c : scheduledDates) {
+						if (CalendarUtility.testDateEquality(c, currDay) == CalendarUtility.EQUALS) {
+							dailyWorkouts.add(w);
+						}
+					}
+					frequencyList = w.getFrequencyList();
+					for (Frequency f : frequencyList) {
+						if (f.includesDate(currDay)) {
+							Log.d(Globals.TAG, "date " + currDay.get(GregorianCalendar.DATE) + " is in frequency!");
+							dailyWorkouts.add(w);
+						}
+					}
+				}
+			}
+			workoutsByDay.add(dailyWorkouts);
+			
+			Log.d(Globals.TAG, "currDay = " + currDay.get(GregorianCalendar.DATE));
+			if ((currDay.get(GregorianCalendar.DATE) + 1) > daysInMonth) {
+				end = true;
+			}
+			else {
+				currDay.set(GregorianCalendar.DATE, currDay.get(GregorianCalendar.DATE) + 1);
+			}
 		}
-		return workoutsByDay;
-	}
-	
-	private boolean areSameDay (Calendar cal1, Calendar cal2) {
-		return (cal1.get(Calendar.DATE) == cal2.get(Calendar.DATE) 
-					&& cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH) 
-					&& cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR));
 	}
 }
