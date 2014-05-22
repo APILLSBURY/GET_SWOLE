@@ -207,7 +207,10 @@ public class WorkoutEditActivity extends Activity {
 		Exercise oldExercise = (Exercise) dbWrapper.getEntryById(oldId, Exercise.class);
 		dbWrapper.close();
 		
-		if (oldExercise.equals(newExercise)) return; // then we don't want to do anything
+		if (oldExercise.equals(newExercise)) {
+			setsToSave = null;
+			return; // then we don't want to do anything
+		}
 			
 		// Remove the old exercise of this id from the exercise list of this workout	
 		Exercise toRemove = null;
