@@ -1,5 +1,6 @@
 package cs65.dartmouth.get_swole;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
@@ -18,17 +19,22 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import cs65.dartmouth.get_swole.classes.Exercise;
+import cs65.dartmouth.get_swole.classes.Set;
 import cs65.dartmouth.get_swole.classes.Workout;
 import cs65.dartmouth.get_swole.database.DatabaseWrapper;
 
 public class WorkoutEditActivity extends Activity {
 	
-	List<Exercise> exercises;	
 	Workout workout;
+	List<Exercise> exercises;	
 	ExerciseArrayAdapter mAdapter;
+	ArrayList<Set> setsToSave;
+	
 	DatabaseWrapper dbWrapper = new DatabaseWrapper(this);
+	
 	Button button2;
 	LinearLayout buttonLayout;
+	boolean firstAdded;
 	
 	/**
 	 * onCreate()
@@ -158,7 +164,7 @@ public class WorkoutEditActivity extends Activity {
 	}
 		
 		
-	@Override 
+	/*@Override 
 	public void onBackPressed() { 
 		
 		// Update the main activity that things might have changed in the database - like if this is a new workout
@@ -169,7 +175,7 @@ public class WorkoutEditActivity extends Activity {
         
 		finish();
 		
-	}
+	}*/
 	
 	public void onStartWorkout() {
 		
@@ -193,6 +199,11 @@ public class WorkoutEditActivity extends Activity {
 	// DEALING WITH EXERCISES
 	public void onAddNewExercise(Exercise e) {
         
+		// first we need to check the status of the sets list
+		if (setsToSave != null)
+			e.setSetList(setsToSave);
+		setsToSave = null;
+		
         dbWrapper.open();
         
         Exercise savedExercise = dbWrapper.createEntry(e);
@@ -200,14 +211,19 @@ public class WorkoutEditActivity extends Activity {
         dbWrapper.updateExerciseList(workout);
         dbWrapper.close();
         
-        buttonLayout.addView(button2);
+        if (!firstAdded) {
+	        buttonLayout.addView(button2);
+	        firstAdded = true;
+        }
         
         mAdapter.notifyDataSetChanged();
 	}
 	
+	//*
 	// New exercise does not have a database id yet
 	public void onEditExercise(long oldId, Exercise newExercise) {
 		
+		// FIX THIS
 		// Remove the old exercise of this id from the exercise list of this workout
 		for (Exercise e : exercises) {
 			if (e.getId() == oldId) 
@@ -218,6 +234,7 @@ public class WorkoutEditActivity extends Activity {
         
 	}
 	
+	//*
 	public void onUseExistingExercise(Exercise e) {
 		
 		dbWrapper.open();
@@ -227,6 +244,7 @@ public class WorkoutEditActivity extends Activity {
 		mAdapter.notifyDataSetChanged();
 	}
 	
+	//*
 	public void onDeleteExercise(long id) {
 		// Delete this exercise from THIS WORKOUT'S LIST. Not the exercise database
 		Exercise toRemove = null;
@@ -242,6 +260,14 @@ public class WorkoutEditActivity extends Activity {
 		dbWrapper.close();
 		
 		mAdapter.notifyDataSetChanged();
+		
+		setsToSave = null;
+	}
+	
+	public void onEditSets(ArrayList<Set> sets) {
+
+		setsToSave = sets;
+		
 	}
 	
 }

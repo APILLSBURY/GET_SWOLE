@@ -258,7 +258,7 @@ public class ScheduleFragment extends ListFragment {
 						dbWrapper.open();
 						freq = dbWrapper.createEntry(freq);
 						w.addFrequency(freq);
-						dbWrapper.updateFrequencyList(w);
+						dbWrapper.updateScheduling(w);
 						dbWrapper.close();
 					}
 					
