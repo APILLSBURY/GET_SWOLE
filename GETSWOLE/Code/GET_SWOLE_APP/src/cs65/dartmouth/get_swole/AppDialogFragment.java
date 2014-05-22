@@ -33,10 +33,6 @@ public class AppDialogFragment extends DialogFragment {
 	// For use by edit exercise dialog
 	private static final String EXERCISE_ID = "Exercise_Id";
 	
-	public static final int DIALOG_ID_PHOTO_PICKER = 1;
-	public static final int ID_PHOTO_FROM_CAMERA = 0;
-	public static final int ID_PHOTO_FROM_GALLERY = 1;
-	
 	public static final int DIALOG_ID_NEW_WORKOUT = 2;
 	public static final int DIALOG_ID_DATE = 3;
 	public static final int DIALOG_ID_TIME = 4;
@@ -72,6 +68,7 @@ public class AppDialogFragment extends DialogFragment {
 		
 		AppDialogFragment frag = new AppDialogFragment();
 		Bundle args = new Bundle();
+		args.putInt(DIALOG_ID_KEY, DIALOG_ID_SETS);
 		args.putLong(EXERCISE_ID, id);
 		frag.setArguments(args);
 		return frag;
@@ -92,18 +89,6 @@ public class AppDialogFragment extends DialogFragment {
 		DatabaseWrapper dbWrapper = new DatabaseWrapper(parent);
 		
 		switch (dialogId) {	
-		/*
-		case DIALOG_ID_PHOTO_PICKER: // we are choosing a picture for the profile picture 
-			b = new AlertDialog.Builder(parent);
-			b.setTitle();
-			// The click listener will use intents upon selection
-			DialogInterface.OnClickListener dListener = new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int item) {
-					// Add callback
-				}
-			};
-			b.setItems(R.array.profile_photo_picker_items, dListener);
-			return b.create();*/
 			
 		case DIALOG_ID_DATE:
 			// Create date picker dialog
@@ -389,7 +374,7 @@ public class AppDialogFragment extends DialogFragment {
 		    });
 		    return b.create();
 		case DIALOG_ID_SETS:
-			
+		
 			final int [] repIds = {R.id.reps1, R.id.reps2, R.id.reps3, R.id.reps4, R.id.reps5, R.id.reps6, R.id.reps7, R.id.reps8};
 			final int [] weightIds = {R.id.weight1, R.id.weight2, R.id.weight3, R.id.weight4, R.id.weight5, R.id.weight6, R.id.weight7, R.id.weight8};
 			
@@ -406,23 +391,39 @@ public class AppDialogFragment extends DialogFragment {
 		    // Id of exercise entry that we are loading up, could not be there
 		    long id3 = getArguments().getLong(EXERCISE_ID, -1L); // cannot be -1 if doing an exercise
 			
-		    if (id3 != -1L) { // then we are editing or doing - fill in the slots
-				dbWrapper.open();
-				Exercise exercise = (Exercise) dbWrapper.getEntryById(id3, Exercise.class);
-				dbWrapper.close();
-				
-				ArrayList<Set> sets = exercise.getSetList();
-				
-				for (int i = 0; i < sets.size(); i++) { // assume set size is at most 8
-					((EditText) setsView.findViewById(repIds[i])).setText(sets.get(i).getReps()); 
-					((EditText) setsView.findViewById(weightIds[i])).setText(sets.get(i).getWeight()); 
+		    if (id3 != -1L) { // then we are editing or doing - fill in the slots if there are things
+		    	
+		    	ArrayList<Set> sets;
+		    	if (((WorkoutEditActivity) parent).getSetsToSave() != null) {
+		    		// fill slots with info from sets to save
+		    		sets = ((WorkoutEditActivity) parent).getSetsToSave();
+		    		
+		    	}
+		    	else { // fill with info from this exercise, last saved
+					dbWrapper.open();
+					Exercise exercise = (Exercise) dbWrapper.getEntryById(id3, Exercise.class);
+					dbWrapper.close();
+					
+					sets = exercise.getSetList();
+					
+		    	}
+		    	
+		    	for (int i = 0; i < sets.size(); i++) { // assume set size is at most 8
+					if (sets.get(i).getReps() != 0)
+					((EditText) setsView.findViewById(R.id.reps1)).setText(sets.get(i).getReps()); 
+					if (sets.get(i).getWeight() != 0)
+					((EditText) setsView.findViewById(R.id.weight1)).setText(sets.get(i).getWeight()); 
 				}
 				
 		    }
+		    
+		    
+		    
 		    // send things back to activity the exercise
 		    b.setPositiveButton(R.string.positive, new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
+					
 					ArrayList<Set> setsToSave = new ArrayList<Set>();
 					// save the information from the text views to edit sets
 					for (int i = 0; i < 7; i++) { // assume entered data is at most 8
