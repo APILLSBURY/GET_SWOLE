@@ -5,11 +5,13 @@ package cs65.dartmouth.get_swole;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 
 import cs65.dartmouth.get_swole.classes.CalendarAdapter;
+import cs65.dartmouth.get_swole.classes.Frequency;
 import cs65.dartmouth.get_swole.classes.Workout;
 import cs65.dartmouth.get_swole.classes.WorkoutsAdapter;
 import cs65.dartmouth.get_swole.database.DatabaseWrapper;
@@ -40,13 +42,16 @@ public class ScheduleFragment extends ListFragment {
 	private Context context;
 	private DatabaseWrapper dbWrapper;
 	private WorkoutsAdapter workoutsAdapter;
-	private List<Workout> workouts;
+	private ArrayList<ArrayList<Workout>> workoutsByDay;
+	private int selectedGridvalue = 1;
 	
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
 		context = getActivity();
 		this.view = inflater.inflate(R.layout.fragment_schedule, null, false);
+		dbWrapper = new DatabaseWrapper(context);
+		
 		Locale.setDefault(Locale.US);
 
 		month = (GregorianCalendar) GregorianCalendar.getInstance();
@@ -54,7 +59,8 @@ public class ScheduleFragment extends ListFragment {
 
 		items = new ArrayList<String>();
 
-		adapter = new CalendarAdapter(context, month);
+		workoutsByDay = getWorkoutsByDay();
+		adapter = new CalendarAdapter(context, month, workoutsByDay);
 
 		GridView gridview = (GridView) view.findViewById(R.id.gridview);
 		gridview.setAdapter(adapter);
@@ -104,29 +110,30 @@ public class ScheduleFragment extends ListFragment {
 				if ((gridvalue > 10) && (position < 8)) {
 					setPreviousMonth();
 					refreshCalendar();
-				} else if ((gridvalue < 7) && (position > 28)) {
+				}
+				else if ((gridvalue < 7) && (position > 28)) {
 					setNextMonth();
 					refreshCalendar();
 				}
-				((CalendarAdapter) parent.getAdapter()).setSelected(v);
+				else {
+					selectedGridvalue = gridvalue;
+					configureListView(workoutsByDay.get(selectedGridvalue));
+				}
 			}
 		});
 		
 		//set up the listview
-		dbWrapper = new DatabaseWrapper(context);
-		configureListView();
+		configureListView(workoutsByDay.get(selectedGridvalue));
 		
 		return view;
 	}
 	
 	protected void setNextMonth() {
-		if (month.get(GregorianCalendar.MONTH) == month
-				.getActualMaximum(GregorianCalendar.MONTH)) {
-			month.set((month.get(GregorianCalendar.YEAR) + 1),
-					month.getActualMinimum(GregorianCalendar.MONTH), 1);
-		} else {
-			month.set(GregorianCalendar.MONTH,
-					month.get(GregorianCalendar.MONTH) + 1);
+		if (month.get(GregorianCalendar.MONTH) == month.getActualMaximum(GregorianCalendar.MONTH)) {
+			month.set((month.get(GregorianCalendar.YEAR) + 1), month.getActualMinimum(GregorianCalendar.MONTH), 1);
+		}
+		else {
+			month.set(GregorianCalendar.MONTH, month.get(GregorianCalendar.MONTH) + 1);
 		}
 
 	}
@@ -173,13 +180,10 @@ public class ScheduleFragment extends ListFragment {
 	@Override
 	public void onResume() {
 		super.onResume();
-		configureListView();
+		configureListView(workoutsByDay.get(selectedGridvalue));
 	}
 	
-	private void configureListView() {
-		dbWrapper.open();
-		workouts = dbWrapper.getAllEntries(Workout.class);
-		dbWrapper.close();
+	private void configureListView(ArrayList<Workout> workouts) {
 				
 		workoutsAdapter = new WorkoutsAdapter(context, R.layout.workouts_list_row, workouts);
 		
@@ -188,8 +192,7 @@ public class ScheduleFragment extends ListFragment {
 		// Define the listener interface
 		OnItemClickListener listener = new OnItemClickListener() {
 		    public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-		    	
-		    	Workout w = workouts.get(position);
+				Workout w = (Workout) parent.getItemAtPosition(position);
 		    	showToast("workout " + w.getName() + " clicked"); 
 		    }
 		};
@@ -197,5 +200,45 @@ public class ScheduleFragment extends ListFragment {
 		// Get the ListView and wired the listener
 		ListView listView = (ListView) view.findViewById(android.R.id.list);
 		listView.setOnItemClickListener(listener);
+	}
+	
+	private ArrayList<ArrayList<Workout>> getWorkoutsByDay() {
+		dbWrapper.open();
+		List<Workout> allWorkouts = dbWrapper.getAllEntries(Workout.class);
+		dbWrapper.close();
+		workoutsByDay = new ArrayList<ArrayList<Workout>>();
+		ArrayList<Workout> dailyWorkouts;
+		ArrayList<Calendar> scheduledDates;
+		ArrayList<Frequency> frequencyList;
+		int daysInMonth = month.getActualMaximum(GregorianCalendar.DATE);
+		GregorianCalendar currDay = (GregorianCalendar) month.clone();
+		currDay.set(GregorianCalendar.DATE, currDay.getActualMinimum(GregorianCalendar.DATE)); //set to first of month
+		
+		for (int i = 0; i < daysInMonth; i++) {
+			dailyWorkouts = new ArrayList<Workout>();
+			for (Workout w : allWorkouts) {
+				scheduledDates = w.getScheduledDates();
+				for (Calendar c : scheduledDates) {
+					if (areSameDay(c, currDay)) {
+						dailyWorkouts.add(w);
+					}
+				}
+				frequencyList = w.getFrequencyList();
+				for (Frequency f : frequencyList) {
+					if (f.includesDate(currDay)) {
+						dailyWorkouts.add(w);
+					}
+				}
+			}
+			workoutsByDay.add(i, dailyWorkouts);
+			currDay.set(GregorianCalendar.DATE, currDay.get(GregorianCalendar.DATE + 1));
+		}
+		return workoutsByDay;
+	}
+	
+	private boolean areSameDay (Calendar cal1, Calendar cal2) {
+		return (cal1.get(Calendar.DATE) == cal2.get(Calendar.DATE) 
+					&& cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH) 
+					&& cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR));
 	}
 }
