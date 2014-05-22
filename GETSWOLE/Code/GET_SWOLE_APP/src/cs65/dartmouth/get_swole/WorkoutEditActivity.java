@@ -24,6 +24,7 @@ import cs65.dartmouth.get_swole.classes.Set;
 import cs65.dartmouth.get_swole.classes.Workout;
 import cs65.dartmouth.get_swole.database.DatabaseWrapper;
 
+// POTENTIALLY DONE!
 public class WorkoutEditActivity extends Activity {
 	
 	Workout workout;
@@ -129,7 +130,8 @@ public class WorkoutEditActivity extends Activity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     // Open dialog to edit this exercise
             	Exercise e = exercises.get(position);
-            	DialogFragment fragment = AppDialogFragment.newInstance(e, true);
+            	setsToSave = e.getSetList();
+            	DialogFragment fragment = AppDialogFragment.newInstance(e, true, 0);
     	        fragment.show(getFragmentManager(), getString(R.string.dialog_fragment_tag_edit_exercise));
             		
             }
@@ -179,10 +181,11 @@ public class WorkoutEditActivity extends Activity {
 	// DEALING WITH EXERCISES
 	public void onAddNewExercise(Exercise e) {
 		
+		// might be doing this again
 		if (setsToSave != null) {
 			e.setSetList(setsToSave);
 		}
-		setsToSave = null;
+		resetSetsToSave();
 		
         dbWrapper.open();
         
@@ -203,13 +206,18 @@ public class WorkoutEditActivity extends Activity {
 	// New exercise does not have a database id yet
 	public void onEditExercise(long oldId, Exercise newExercise) {
 			
+		if (setsToSave != null) {
+			newExercise.setSetList(setsToSave);
+		}
+		resetSetsToSave();
+		
 		// we need to check whether we actually changed anything
 		dbWrapper.open();
 		Exercise oldExercise = (Exercise) dbWrapper.getEntryById(oldId, Exercise.class);
 		dbWrapper.close();
 		
 		if (oldExercise.equals(newExercise)) {
-			setsToSave = null;
+			resetSetsToSave();
 			return; // then we don't want to do anything
 		}
 			
@@ -253,7 +261,7 @@ public class WorkoutEditActivity extends Activity {
 		
 		mAdapter.notifyDataSetChanged();
 		
-		setsToSave = null;
+		resetSetsToSave();
 				
 	}
 	
@@ -266,6 +274,10 @@ public class WorkoutEditActivity extends Activity {
 	
 	public ArrayList<Set> getSetsToSave() {
 		return setsToSave;
+	}
+
+	public void resetSetsToSave() {
+		setsToSave = null;
 	}
 	
 }

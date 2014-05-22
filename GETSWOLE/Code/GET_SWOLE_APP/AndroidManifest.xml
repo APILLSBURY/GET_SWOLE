@@ -96,6 +96,10 @@
             android:name="cs65.dartmouth.get_swole.ExerciseProgressActivity"
             android:label="@string/title_activity_exercise_progress" >
         </activity>
+        <activity
+            android:name="cs65.dartmouth.get_swole.ViewWorkoutInstanceActivity"
+            android:label="@string/title_activity_view_workout_instance" >
+        </activity>
     </application>
 
 </manifest>

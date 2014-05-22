@@ -26,6 +26,7 @@ public class WorkoutDoActivity extends Activity {
 	
 	WorkoutInstance workoutInstance;
 	ExerciseArrayAdapter mAdapter;
+	ArrayList<ArrayList<Set>> doneSets;
 
 	/**
 	 * onCreate()
@@ -81,6 +82,8 @@ public class WorkoutDoActivity extends Activity {
 
 		nameView.setText(workoutInstance.getWorkout().getName());		
 		
+		doneSets = new ArrayList<ArrayList<Set>>(workoutInstance.getWorkout().getExerciseList().size());
+		
 		// Define a new adapter
 	    mAdapter = new ExerciseArrayAdapter(this, R.layout.exercises_list_row, workoutInstance.getWorkout().getExerciseList());
 
@@ -94,9 +97,10 @@ public class WorkoutDoActivity extends Activity {
 	    		@Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 	    						
-                        // Open dialog to edit this exercise
+                     // Open dialog to edit this exercise
                 	Exercise e = workoutInstance.getWorkout().getExerciseList().get(position);
-                	DialogFragment fragment = AppDialogFragment.newInstance(e, false);
+                	doneSets.set(position, e.getSetList());
+                	DialogFragment fragment = AppDialogFragment.newInstance(e, false, position);
         	        fragment.show(getFragmentManager(), getString(R.string.dialog_fragment_tag_do_exercise));
                 		
                 }
@@ -107,13 +111,11 @@ public class WorkoutDoActivity extends Activity {
     
 	}
 	
-	public void onDoExercise(Exercise e) {
+	// NEEDS EDITING
+	public void onDoExercise(Exercise e, int position) {
 		// We want to add this exercise to the instance's list of exercises
+		// Need to check the done sets list 
 		workoutInstance.addExercise(e);
-		
-	}
-	
-	public void onDoSets(ArrayList<Set> sets) {
 		
 	}
 	
@@ -127,5 +129,13 @@ public class WorkoutDoActivity extends Activity {
 		
 		finish(); // close the activity
 			
+	}
+	
+	public void setDoneSets(ArrayList<Set> sets, int position) {
+		doneSets.set(position, sets);
+	}
+	
+	public ArrayList<Set> getDoneSets(int position) {
+		return doneSets.get(position);
 	}
 }
