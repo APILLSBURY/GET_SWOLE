@@ -264,13 +264,16 @@ public class DatabaseWrapper {
 							DatabaseHelper.WORKOUT_ID + " = " + workout.getId(), null);
 	}
 	
-	public int updateFrequencyList(Workout workout) {
+	public int updateScheduling(Workout workout) {
+		//update frequency list
 		ContentValues values = new ContentValues();
 		values.put(DatabaseHelper.WORKOUT_FREQUENCY_LIST, workout.getFrequencyListByteArray());
+		values.put(DatabaseHelper.WORKOUT_SCHEDULED_DATES, workout.getScheduledDatesString());
 		return database.update(DatabaseHelper.TABLE_NAME_WORKOUT, values, 
 							DatabaseHelper.WORKOUT_ID + " = " + workout.getId(), null);
 	}
 	
+
 
 	private GetSwoleClass getEntryFromClass(Cursor cursor, Class<? extends GetSwoleClass> c) {
 		int index = getClassIndex(c);
