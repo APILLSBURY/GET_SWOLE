@@ -29,8 +29,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final String TABLE_NAME_EXERCISE = "exerciseTable";
 	public static final String EXERCISE_ID = "_id";
 	public static final String EXERCISE_NAME = "name";
-	public static final String EXERCISE_REPS = "reps";
-	public static final String EXERCISE_WEIGHT = "weight";
+	public static final String EXERCISE_SET_LIST = "setlist";
 	public static final String EXERCISE_REPS_GOAL = "repsgoal";
 	public static final String EXERCISE_WEIGHT_GOAL = "weightgoal";
 	public static final String EXERCISE_REST = "rest";
@@ -71,8 +70,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + TABLE_NAME_EXERCISE + " ("
             + EXERCISE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + EXERCISE_NAME + " TEXT, "
-            + EXERCISE_REPS + " INTEGER, "
-            + EXERCISE_WEIGHT + " INTEGER, "
+            + EXERCISE_SET_LIST + " TEXT, "
             + EXERCISE_REPS_GOAL + " INTEGER, "
             + EXERCISE_WEIGHT_GOAL + " INTEGER, "
             + EXERCISE_REST + " INTEGER, "
