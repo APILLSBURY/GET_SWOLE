@@ -1,5 +1,6 @@
 package cs65.dartmouth.get_swole;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import android.app.Activity;
@@ -15,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import cs65.dartmouth.get_swole.classes.Exercise;
+import cs65.dartmouth.get_swole.classes.Set;
 import cs65.dartmouth.get_swole.classes.Workout;
 import cs65.dartmouth.get_swole.classes.WorkoutInstance;
 import cs65.dartmouth.get_swole.database.DatabaseWrapper;
@@ -101,13 +103,16 @@ public class WorkoutDoActivity extends Activity {
 
 	    // Get the ListView and wired the listener
 	    listView.setOnItemClickListener(mListener);
-		
     
 	}
 	
 	public void onDoExercise(Exercise e) {
 		// We want to add this exercise to the instance's list of exercises
 		workoutInstance.addExercise(e);
+		
+	}
+	
+	public void onDoSets(ArrayList<Set> sets) {
 		
 	}
 	

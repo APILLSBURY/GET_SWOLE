@@ -110,4 +110,14 @@ public class Exercise extends GetSwoleClass {
 		}
 		return s.substring(0, s.length() - 2);
 	}
+	
+	public boolean equals(Exercise e) {
+		
+		if (e.getSetList().size() != setList.size()) return false;
+		for (int i = 0; i < setList.size(); i++) { // compare sets
+			if (!e.getSetList().get(i).equals(setList.get(i))) return false;
+		}
+		
+		return (repsGoal == e.getRepsGoal() && weightGoal == e.getWeightGoal() && rest == e.getRest() && notes.equals(e.getNotes()));
+	}
 }

@@ -25,8 +25,8 @@
     
     <!-- Exercises -->
     <string name="exercise_name_title">Name:</string>
-    <string name="exercise_reps_title">Reps:</string>
-    <string name="exercise_weight_title">Weight:</string>
+    <string name="exercise_reps_title">Reps</string>
+    <string name="exercise_weight_title">Weight</string>
     <string name="exercise_reps_goal_title">Reps Goal:</string>
     <string name="exercise_weight_goal_title">Weight Goal:</string>
     <string name="exercise_rest_title">Rest (secs):</string>
@@ -45,7 +45,9 @@
     <string name="dialog_fragment_tag_do_exercise">dialog_fragment_do_exercise</string>
     <string name="dialog_fragment_tag_timer">dialog_fragment_timer</string>
     <string name="dialog_fragment_tag_existing_exercise">dialog_fragment_existing_exercise</string>
+    <string name="dialog_fragment_tag_edit_sets">dialog_fragment_edit_sets</string>
     <string name="begin_timer">Start</string>
+    <string name="edit_sets">Edit sets</string>
     <!-- Profile -->
 	<string name="default_profile_photo">default_profile.png</string>
 	<string name="profile_saved_photo_file_name">profile_photo</string>

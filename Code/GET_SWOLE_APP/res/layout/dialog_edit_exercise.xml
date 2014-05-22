@@ -28,37 +28,19 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
 
-	    <TextView
-	        android:id="@+id/textView2"
-	        android:layout_width="wrap_content"
-	        android:layout_height="38dp"
-	        android:text="@string/exercise_reps_title"
-	        android:textAppearance="?android:attr/textAppearanceSmall" />
-	    
-	    <EditText
-	        android:id="@+id/exerciseReps"
-	        android:inputType="number"
-	        android:layout_width="match_parent"
-	        android:layout_height="fill_parent"/>
+         <Button
+             android:id="@+id/editSets"
+             style="?android:attr/buttonStyleSmall"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="@string/edit_sets" />
+
 	 </LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
-	    
-	    <TextView
-	        android:id="@+id/textView3"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:text="@string/exercise_weight_title"
-	        android:textAppearance="?android:attr/textAppearanceSmall" />
-	
-	    <EditText
-	        android:id="@+id/exerciseWeight"
-	        android:inputType="number"
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content" />
 	</LinearLayout>
 
      <LinearLayout
