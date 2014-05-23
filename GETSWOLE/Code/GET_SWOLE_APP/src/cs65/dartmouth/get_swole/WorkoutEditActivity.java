@@ -15,6 +15,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -38,6 +39,7 @@ public class WorkoutEditActivity extends Activity {
 	Button button2;
 	LinearLayout buttonLayout;
 	boolean firstAdded;
+	EditText commentBox;
 	
 	/**
 	 * onCreate()
@@ -49,6 +51,7 @@ public class WorkoutEditActivity extends Activity {
 		setContentView(R.layout.activity_workout);
 		
 		// Display	
+		commentBox = (EditText) findViewById(R.id.workoutComments);
 		buttonLayout = (LinearLayout) findViewById(R.id.workout_buttons);
 		LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 		TextView nameView = (TextView) findViewById(R.id.workoutName);
@@ -165,8 +168,23 @@ public class WorkoutEditActivity extends Activity {
 	}
 	
 	
+	public void saveComments() {
+		 // Save the comment box data
+		dbWrapper.open();
+		workout.setNotes(commentBox.getText().toString());
+		dbWrapper.updateWorkoutNotes(workout);
+		dbWrapper.close();
+	}
+	
+	@Override
+	public void onBackPressed() {
+		saveComments();
+	}
+	
 	public void onStartWorkout() {
-        
+       
+		saveComments();
+		
 		Bundle b = new Bundle();
 		b.putLong(Globals.ID_TAG, workout.getId());
 		

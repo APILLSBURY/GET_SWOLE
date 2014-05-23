@@ -26,7 +26,7 @@ public class WorkoutDoActivity extends Activity {
 	
 	WorkoutInstance workoutInstance;
 	ExerciseArrayAdapter mAdapter;
-	ArrayList<ArrayList<Set>> doneSets;
+	ArrayList<ArrayList<Set>> doneSets; // the sets of the exercises as they are completed/edited
 
 	/**
 	 * onCreate()
@@ -83,6 +83,9 @@ public class WorkoutDoActivity extends Activity {
 		nameView.setText(workoutInstance.getWorkout().getName());		
 		
 		doneSets = new ArrayList<ArrayList<Set>>(workoutInstance.getWorkout().getExerciseList().size());
+		for (int i = 0; i < workoutInstance.getWorkout().getExerciseList().size(); i++) {
+			doneSets.add(new ArrayList<Set>());
+		}
 		
 		// Define a new adapter
 	    mAdapter = new ExerciseArrayAdapter(this, R.layout.exercises_list_row, workoutInstance.getWorkout().getExerciseList());
@@ -99,7 +102,7 @@ public class WorkoutDoActivity extends Activity {
 	    						
                      // Open dialog to edit this exercise
                 	Exercise e = workoutInstance.getWorkout().getExerciseList().get(position);
-                	doneSets.set(position, e.getSetList());
+                	//doneSets.set(position, e.getSetList());
                 	DialogFragment fragment = AppDialogFragment.newInstance(e, false, position);
         	        fragment.show(getFragmentManager(), getString(R.string.dialog_fragment_tag_do_exercise));
                 		
@@ -112,9 +115,14 @@ public class WorkoutDoActivity extends Activity {
 	}
 	
 	// NEEDS EDITING
-	public void onDoExercise(Exercise e, int position) {
+	public void onDoExercise(Exercise e, int position) { // position is its position in the exercise list of the workout 
 		// We want to add this exercise to the instance's list of exercises
 		// Need to check the done sets list 
+		if (doneSets.get(position).size() != 0) { // some sets were done here 
+			ArrayList<Set> sets = doneSets.get(position);
+			e.setSetList(sets);
+		}
+		
 		workoutInstance.addExercise(e);
 		
 	}

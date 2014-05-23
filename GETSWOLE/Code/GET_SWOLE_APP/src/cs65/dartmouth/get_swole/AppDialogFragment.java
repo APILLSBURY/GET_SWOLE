@@ -477,17 +477,24 @@ public class AppDialogFragment extends DialogFragment {
 		    // get id 
 		    // id might be -1
 		    // Id of exercise entry that we are loading up, could not be there
-		    long id4 = getArguments().getLong(EXERCISE_ID, -1L); // cannot be -1 if doing an exercise
-			    
-		    	
-    		// fill with info from this exercise, last saved
-			dbWrapper.open();
-			Exercise exercise = (Exercise) dbWrapper.getEntryById(id4, Exercise.class);
-			dbWrapper.close();
-			
-			sets = exercise.getSetList();
-			
-							    	
+		    long id4 = getArguments().getLong(EXERCISE_ID, -1L); // cannot be -1 if doing an exercise			    
+		    final int pos = getArguments().getInt(EXERCISE_POSITION, -1);
+		    
+		    // if we have already done sets of this exercise, bring up those...
+		    sets = ((WorkoutDoActivity) parent).getDoneSets(pos);
+		    if (sets.isEmpty()) { // bring up from database
+		    
+		    	// fill with info from this exercise, last saved
+				dbWrapper.open();
+				Exercise exercise = (Exercise) dbWrapper.getEntryById(id4, Exercise.class);
+				dbWrapper.close();
+				
+				sets = exercise.getSetList();	    
+		    
+		    }
+		    
+    		
+								    	
 	    	for (int i = 0; i < sets.size(); i++) { // assume set size is at most 8
 				if (sets.get(i).getReps() != 0)
 				((EditText) setsView2.findViewById(repIds[i])).setText(sets.get(i).getReps() + ""); 
@@ -518,7 +525,7 @@ public class AppDialogFragment extends DialogFragment {
 						if (s != null) setsToSave.add(s);
 					}
 					
-					//((WorkoutDoActivity) parent).onDoSets(setsToSave);
+					((WorkoutDoActivity) parent).setDoneSets(setsToSave, pos);
 					
 				}
 			});
