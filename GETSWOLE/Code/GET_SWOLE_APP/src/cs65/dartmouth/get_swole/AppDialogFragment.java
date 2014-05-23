@@ -44,6 +44,8 @@ public class AppDialogFragment extends DialogFragment {
 	public static final int DIALOG_ID_TIMER = 8;
 	public static final int DIALOG_ID_EDIT_SETS = 9;
 	public static final int DIALOG_ID_DO_SETS = 10;
+	public static final int DIALOG_ID_VIEW_EXERCISE = 11;
+	public static final int DIALOG_ID_VIEW_SETS = 12;
 	
 	private static final String DIALOG_ID_KEY = "dialog_id";
 	
@@ -539,6 +541,8 @@ public class AppDialogFragment extends DialogFragment {
 			}); 
 		    
 			return b.create();
+		case DIALOG_ID_VIEW_EXERCISE:
+		case DIALOG_ID_VIEW_SETS:
 		default:
 			return null;		
 		
