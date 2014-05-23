@@ -2,25 +2,24 @@ package cs65.dartmouth.get_swole;
 
 import java.util.List;
 
-import cs65.dartmouth.get_swole.classes.Workout;
-import cs65.dartmouth.get_swole.classes.WorkoutsAdapter;
-import cs65.dartmouth.get_swole.database.DatabaseWrapper;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListView;
+import cs65.dartmouth.get_swole.classes.GetSwoleClass;
+import cs65.dartmouth.get_swole.classes.Workout;
+import cs65.dartmouth.get_swole.classes.WorkoutsAdapter;
+import cs65.dartmouth.get_swole.database.DatabaseWrapper;
 
 public class ProgressMainFragment extends ListFragment {
 	
 	DatabaseWrapper dbWrapper;
 	WorkoutsAdapter workoutsAdapter;
-	List<Workout> workouts;
+	List<GetSwoleClass> workouts;
 	Context mContext;
 	
 	@Override
@@ -54,7 +53,7 @@ public class ProgressMainFragment extends ListFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             	
             	Bundle b = new Bundle();
-            	Workout w = workouts.get(position);
+            	GetSwoleClass w = workouts.get(position);
             	b.putLong(Globals.ID_TAG, w.getId());
             	
             	Intent intent = new Intent(getActivity(), ExerciseProgressActivity.class);

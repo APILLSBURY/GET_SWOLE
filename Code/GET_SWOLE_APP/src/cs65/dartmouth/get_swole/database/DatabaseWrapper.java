@@ -257,6 +257,13 @@ public class DatabaseWrapper {
 		return null;
 	}
 	
+	public int updateWorkoutNotes(Workout workout) {
+		ContentValues values = new ContentValues();
+		values.put(DatabaseHelper.WORKOUT_NOTES, workout.getNotes());
+		return database.update(DatabaseHelper.TABLE_NAME_WORKOUT, values, 
+							DatabaseHelper.WORKOUT_ID + " = " + workout.getId(), null);
+	}
+	
 	public int updateExerciseList(Workout workout) {
 		ContentValues values = new ContentValues();
 		values.put(DatabaseHelper.WORKOUT_EXERCISE_LIST, workout.getExerciseListByteArray());

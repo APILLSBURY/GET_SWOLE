@@ -1,5 +1,5 @@
 //THIS CODE IS BASED OFF OF CODE FROM https://github.com/mukesh4u/Android-Calendar-Sync
-
+// COMMENTED OUT CONFIGURE LIST VIEW
 package cs65.dartmouth.get_swole;
 
 import java.text.DateFormat;
@@ -10,16 +10,10 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 
-import cs65.dartmouth.get_swole.classes.CalendarAdapter;
-import cs65.dartmouth.get_swole.classes.Frequency;
-import cs65.dartmouth.get_swole.classes.Workout;
-import cs65.dartmouth.get_swole.classes.WorkoutInstance;
-import cs65.dartmouth.get_swole.classes.WorkoutsAdapter;
-import cs65.dartmouth.get_swole.database.DatabaseWrapper;
-import android.support.v4.app.ListFragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,6 +26,13 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import cs65.dartmouth.get_swole.classes.CalendarAdapter;
+import cs65.dartmouth.get_swole.classes.Frequency;
+import cs65.dartmouth.get_swole.classes.GetSwoleClass;
+import cs65.dartmouth.get_swole.classes.Workout;
+import cs65.dartmouth.get_swole.classes.WorkoutInstance;
+import cs65.dartmouth.get_swole.classes.WorkoutsAdapter;
+import cs65.dartmouth.get_swole.database.DatabaseWrapper;
 
 public class ScheduleFragment extends ListFragment {
 	
@@ -120,13 +121,13 @@ public class ScheduleFragment extends ListFragment {
 				}
 				else {
 					selectedGridvalue = gridvalue;
-					configureListView(workoutsByDay.get(selectedGridvalue));
+					//configureListView(workoutsByDay.get(selectedGridvalue));
 				}
 			}
 		});
 		
 		//set up the listview
-		configureListView(workoutsByDay.get(selectedGridvalue));
+		//configureListView(workoutsByDay.get(selectedGridvalue));
 		
 		return view;
 	}
@@ -186,11 +187,11 @@ public class ScheduleFragment extends ListFragment {
 	public void onResume() {
 		super.onResume();
 		getWorkoutsByDay();
-		configureListView(workoutsByDay.get(selectedGridvalue));
+		//configureListView(workoutsByDay.get(selectedGridvalue));
 		refreshCalendar();
 	}
 	
-	private void configureListView(ArrayList<Workout> workouts) {
+	private void configureListView(ArrayList<GetSwoleClass> workouts) {
 				
 		workoutsAdapter = new WorkoutsAdapter(context, R.layout.workouts_list_row, workouts);
 		
