@@ -108,7 +108,8 @@ public class WorkoutEditActivity extends Activity {
 			workout = dbWrapper.createEntry(w);
 		}
 		else {
-			workout = (Workout) dbWrapper.getEntryById(id, Workout.class);		
+			workout = (Workout) dbWrapper.getEntryById(id, Workout.class);	
+			commentBox.setText(workout.getNotes());
 		}
 		
 		if (dbWrapper.getAllEntries(Exercise.class).size() > 0) {
@@ -134,7 +135,7 @@ public class WorkoutEditActivity extends Activity {
                     // Open dialog to edit this exercise
             	Exercise e = exercises.get(position);
             	setsToSave = e.getSetList();
-            	DialogFragment fragment = AppDialogFragment.newInstance(e, true, 0);
+            	DialogFragment fragment = AppDialogFragment.newInstance(e, 0, 0);
     	        fragment.show(getFragmentManager(), getString(R.string.dialog_fragment_tag_edit_exercise));
             		
             }

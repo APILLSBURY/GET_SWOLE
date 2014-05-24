@@ -27,13 +27,16 @@
     <string name="exercise_name_title">Name:</string>
     <string name="exercise_reps_title">Reps</string>
     <string name="exercise_weight_title">Weight</string>
-    <string name="exercise_reps_goal_title">Reps Goal:</string>
-    <string name="exercise_weight_goal_title">Weight Goal:</string>
+    <string name="exercise_reps_goal_title">Max Reps Goal:</string>
+    <string name="exercise_weight_goal_title">Max Weight Goal:</string>
     <string name="exercise_rest_title">Rest (secs):</string>
     <string name="exercise_notes_title">Notes:</string>
     <string name="exercise_notes_hint">about this exercise.</string>
     <string name="existing_exercise">Add existing exercise</string>
 
+    <!-- Progress -->
+    <string name="progress_display_settings">Display:</string>
+    
     <!-- Dialogs -->
     <string name="positive">OK</string>
     <string name="negative">Cancel</string>
@@ -43,9 +46,11 @@
     <string name="dialog_fragment_tag_new_workout">dialog_fragment_new_workout</string>
     <string name="dialog_fragment_tag_edit_exercise">dialog_fragment_edit_exercise</string>
     <string name="dialog_fragment_tag_do_exercise">dialog_fragment_do_exercise</string>
+    <string name="dialog_framgnet_tag_view_exercise">dialog_fragment_view_exercise</string>
     <string name="dialog_fragment_tag_timer">dialog_fragment_timer</string>
     <string name="dialog_fragment_tag_existing_exercise">dialog_fragment_existing_exercise</string>
     <string name="dialog_fragment_tag_edit_sets">dialog_fragment_edit_sets</string>
+    <string name="dialog_fragment_tag_view_sets">dialog_fragment_view_sets</string>
     <string name="begin_timer">Start</string>
     <string name="edit_sets">Edit sets</string>
     <!-- Profile -->
@@ -80,5 +85,6 @@
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_view_workout_instance">ViewWorkoutInstanceActivity</string>
+    <string name="title_activity_progress_view">ProgressViewActivity</string>
 
 </resources>

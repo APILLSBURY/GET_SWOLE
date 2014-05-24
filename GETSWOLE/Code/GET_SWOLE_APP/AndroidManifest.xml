@@ -93,12 +93,16 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="cs65.dartmouth.get_swole.ExerciseProgressActivity"
+            android:name="cs65.dartmouth.get_swole.ProgressExerciseListActivity"
             android:label="@string/title_activity_exercise_progress" >
         </activity>
         <activity
             android:name="cs65.dartmouth.get_swole.ViewWorkoutInstanceActivity"
             android:label="@string/title_activity_view_workout_instance" >
+        </activity>
+        <activity
+            android:name="cs65.dartmouth.get_swole.ProgressViewActivity"
+            android:label="@string/title_activity_progress_view" >
         </activity>
     </application>
 
