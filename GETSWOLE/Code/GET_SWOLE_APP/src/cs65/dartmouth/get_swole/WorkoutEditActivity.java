@@ -25,7 +25,6 @@ import cs65.dartmouth.get_swole.classes.Set;
 import cs65.dartmouth.get_swole.classes.Workout;
 import cs65.dartmouth.get_swole.database.DatabaseWrapper;
 
-// POTENTIALLY DONE!
 public class WorkoutEditActivity extends Activity {
 	
 	Workout workout;
