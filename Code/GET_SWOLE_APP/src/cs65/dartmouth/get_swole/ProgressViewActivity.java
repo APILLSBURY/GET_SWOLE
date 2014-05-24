@@ -3,12 +3,14 @@ package cs65.dartmouth.get_swole;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GraphView.GraphViewData;
@@ -20,12 +22,13 @@ import cs65.dartmouth.get_swole.classes.WorkoutInstance;
 import cs65.dartmouth.get_swole.database.DatabaseWrapper;
 
 public class ProgressViewActivity extends Activity {
-	GraphView progressChart;
+	LineGraphView progressChart;
 	boolean repsChecked;
 	boolean weightChecked;
 	Exercise exercise; // used to compare goals
 	ArrayList<Exercise> instanceExercises;
 	ArrayList<WorkoutInstance> instanceWorkouts;
+	GraphViewSeries repsDataSeries;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +66,7 @@ public class ProgressViewActivity extends Activity {
 		
 		// Create the graph
 		FrameLayout graphLayout = (FrameLayout) findViewById(R.id.graphLayout);
-		progressChart = new LineGraphView(this, exercise.getName());
+		initializeGraph();
 		
 		// Will add data series based on preferences
 		refreshGraphView();
@@ -89,12 +92,32 @@ public class ProgressViewActivity extends Activity {
 			}
 		});
 		
-		
+		TextView name = (TextView) findViewById(R.id.exerciseTitleProgress);
+		name.setText(exercise.getName());
+	}
+	
+	private void initializeGraph() {
+		progressChart = new LineGraphView(this, exercise.getName());
+		progressChart.getGraphViewStyle().setGridColor(Color.GREEN);
+		progressChart.getGraphViewStyle().setHorizontalLabelsColor(Color.DKGRAY);
+		progressChart.getGraphViewStyle().setVerticalLabelsColor(Color.DKGRAY);
+		progressChart.getGraphViewStyle().setTextSize(20);
+		progressChart.setBackgroundColor(Color.BLACK);
 	}
 	
 	// Based on checkbox preferences and exercise instances
 	public void refreshGraphView() {
+
+		GraphViewData[] repsData;
+		
 		if (repsChecked) {
+		
+			repsData = new GraphViewData [] {
+					new GraphViewData(1, 2),
+					new GraphViewData(2, 3),
+					new GraphViewData(3,3)
+			};
+			/*
 			int dataIndex = 0;
 			GraphViewData [] repsData = new GraphViewData[instanceWorkouts.size()];
 			
@@ -104,9 +127,21 @@ public class ProgressViewActivity extends Activity {
 					if (maxReps != -1) repsData[dataIndex++] = new GraphViewData(instanceWorkouts.get(i).getTime().getTimeInMillis(), maxReps);
 				}
 			}
+			*/
 			
-			progressChart.addSeries(new GraphViewSeries(repsData));
 		}
+		else {
+			repsData = new GraphViewData [] {};
+		}
+		
+		if (repsDataSeries == null)  {
+			repsDataSeries = new GraphViewSeries(repsData);
+			progressChart.addSeries(repsDataSeries);
+
+		}
+		else repsDataSeries.resetData(repsData);
+		
+		/*
 		if (weightChecked) {
 			int dataIndex = 0;
 			GraphViewData [] weightData = new GraphViewData[instanceWorkouts.size()];
@@ -119,7 +154,7 @@ public class ProgressViewActivity extends Activity {
 			}
 			
 			progressChart.addSeries(new GraphViewSeries(weightData));
-		}
+		}*/
 	}
 
 	@Override
