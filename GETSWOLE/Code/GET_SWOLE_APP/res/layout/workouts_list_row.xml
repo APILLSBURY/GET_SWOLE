@@ -2,13 +2,27 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical" 
+    android:background="@color/get_swole_blue">
 
-    <TextView
-        android:id="@+id/workout_list_single_row"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Large Text"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent" >
+	    <TextView
+	        android:id="@+id/workout_list_single_row_title"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="Large Text"
+	        android:textSize="35sp"/>
+
+	    <TextView
+	        android:id="@+id/workout_list_single_row_details"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="TextView"
+	        android:textSize="20sp"
+	        android:layout_marginLeft="20dp" />
+            
+    </LinearLayout>
+
 </LinearLayout>
