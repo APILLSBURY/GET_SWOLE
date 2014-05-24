@@ -179,6 +179,7 @@ public class WorkoutEditActivity extends Activity {
 	@Override
 	public void onBackPressed() {
 		saveComments();
+		super.onBackPressed();
 	}
 	
 	public void onStartWorkout() {
