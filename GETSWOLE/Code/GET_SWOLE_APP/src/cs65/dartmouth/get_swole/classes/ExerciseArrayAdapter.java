@@ -1,4 +1,4 @@
-package cs65.dartmouth.get_swole;
+package cs65.dartmouth.get_swole.classes;
 
 import java.util.List;
 
@@ -8,7 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-import cs65.dartmouth.get_swole.classes.Exercise;
+import cs65.dartmouth.get_swole.R;
+import cs65.dartmouth.get_swole.R.id;
+import cs65.dartmouth.get_swole.R.layout;
 
 /**
  * 
