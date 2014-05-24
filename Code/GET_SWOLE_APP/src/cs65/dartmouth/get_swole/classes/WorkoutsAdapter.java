@@ -29,9 +29,11 @@ public class WorkoutsAdapter extends ArrayAdapter<GetSwoleClass> {
 	    View rowView = inflater.inflate(R.layout.workouts_list_row, parent, false);
 	    
 	    // Access the textviews to set
-	    TextView workoutView = (TextView) rowView.findViewById(R.id.workout_list_single_row);    		
+	    TextView workoutView = (TextView) rowView.findViewById(R.id.workout_list_single_row_title);    	
+	    TextView workoutDetails = (TextView) rowView.findViewById(R.id.workout_list_single_row_details);
 	    GetSwoleClass gWorkout = workouts.get(position);
 	    workoutView.setText(gWorkout.getName());
+	    workoutDetails.setText(((Workout) gWorkout).getNotes()) ;
 	    
 	    return rowView;
 	}

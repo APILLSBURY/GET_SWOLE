@@ -1,3 +1,5 @@
+// USING GRAPHVIEW LIBRARY
+
 package cs65.dartmouth.get_swole;
 
 import java.awt.Checkbox;
@@ -16,6 +18,7 @@ import android.widget.TextView;
 
 import com.jjoe64.graphview.CustomLabelFormatter;
 import com.jjoe64.graphview.GraphView.GraphViewData;
+import com.jjoe64.graphview.GraphView.LegendAlign;
 import com.jjoe64.graphview.GraphViewSeries;
 import com.jjoe64.graphview.LineGraphView;
 
@@ -115,11 +118,12 @@ public class ProgressViewActivity extends Activity {
 	
 	private void initializeGraph() {
 		progressChart = new LineGraphView(this, exercise.getName());
-		progressChart.getGraphViewStyle().setGridColor(Color.GREEN);
+		progressChart.getGraphViewStyle().setGridColor(Color.CYAN);
 		progressChart.getGraphViewStyle().setHorizontalLabelsColor(Color.DKGRAY);
 		progressChart.getGraphViewStyle().setVerticalLabelsColor(Color.DKGRAY);
-		progressChart.getGraphViewStyle().setTextSize(20);
-		progressChart.setBackgroundColor(Color.BLACK);
+		progressChart.getGraphViewStyle().setTextSize(30);
+		progressChart.setBackgroundColor(Color.LTGRAY);
+		progressChart.getGraphViewStyle().setNumVerticalLabels(5);
 		progressChart.setCustomLabelFormatter(new CustomLabelFormatter() 
 	    {
 	        @Override
@@ -131,7 +135,12 @@ public class ProgressViewActivity extends Activity {
 	            }
 	            return null; // let graphview generate Y-axis label for us
 	        }
-	    });
+	    });		
+		progressChart.setShowLegend(true);
+		progressChart.setLegendAlign(LegendAlign.BOTTOM);
+		progressChart.setLegendWidth(400);
+		
+		
 	}
 	
 	// Based on checkbox preferences and exercise instances
@@ -151,12 +160,12 @@ public class ProgressViewActivity extends Activity {
 				}
 			}			
 			repsData = clamp(tempRepsData, dataIndex);
-			
+						
 		}
 		else repsData = new GraphViewData [] {};
 		
 		if (repsDataSeries == null)  {
-			repsDataSeries = new GraphViewSeries(repsData);
+			repsDataSeries = new GraphViewSeries(getString(R.string.progress_reps_line), null, repsData);
 			progressChart.addSeries(repsDataSeries);
 		}
 		else repsDataSeries.resetData(repsData);		
@@ -177,7 +186,7 @@ public class ProgressViewActivity extends Activity {
 		else weightData = new GraphViewData [] {};
 
 		if (weightDataSeries == null) {
-			weightDataSeries = new GraphViewSeries(weightData);
+			weightDataSeries = new GraphViewSeries(getString(R.string.progress_weight_line), null, weightData);
 			progressChart.addSeries(weightDataSeries);
 		}
 		else weightDataSeries.resetData(weightData);
