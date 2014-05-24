@@ -359,6 +359,7 @@ public class AppDialogFragment extends DialogFragment {
 				public void onClick(DialogInterface dialog, int which) {
 					
 					Exercise e = new Exercise(exerciseName2.getText().toString());
+					e.setId(id2);
 					// the information from the sets dialog has already been sent back
 					if (!exerciseRepsGoal2.getText().toString().isEmpty()) e.setRepsGoal(Integer.parseInt(exerciseRepsGoal2.getText().toString()));
 					if (!exerciseWeightGoal2.getText().toString().isEmpty()) e.setWeightGoal(Integer.parseInt(exerciseWeightGoal2.getText().toString()));
