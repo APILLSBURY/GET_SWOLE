@@ -56,7 +56,7 @@ public class ProgressMainFragment extends ListFragment {
             	GetSwoleClass w = workouts.get(position);
             	b.putLong(Globals.ID_TAG, w.getId());
             	
-            	Intent intent = new Intent(getActivity(), ExerciseProgressActivity.class);
+            	Intent intent = new Intent(getActivity(), ProgressExerciseListActivity.class);
             	intent.putExtras(b);
             	
             	getActivity().startActivity(intent);   

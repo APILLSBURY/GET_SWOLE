@@ -281,6 +281,25 @@ public class DatabaseWrapper {
 	}
 	
 
+	public ArrayList<WorkoutInstance> getAllInstances(long wId) {
+		ArrayList<WorkoutInstance> instances = new ArrayList<WorkoutInstance>();
+		
+		Cursor cursor = database.query(DatabaseHelper.TABLE_NAME_WORKOUT_INSTANCE,
+				WORKOUT_INSTANCE_COLUMNS, null, null, null, null, null);
+
+		cursor.moveToFirst();
+		while (!cursor.isAfterLast()) {
+			WorkoutInstance wi = cursorToEntry(cursor, new WorkoutInstance());
+			if (wId == wi.getWorkout().getId()) { // if this instance was of this workout
+				instances.add(wi);
+			}
+			cursor.moveToNext();
+		}
+		// Make sure to close the cursor
+		cursor.close();
+		
+		return instances;
+	}
 
 	private GetSwoleClass getEntryFromClass(Cursor cursor, Class<? extends GetSwoleClass> c) {
 		int index = getClassIndex(c);

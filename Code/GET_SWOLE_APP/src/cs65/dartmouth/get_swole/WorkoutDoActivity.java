@@ -12,6 +12,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -27,7 +28,8 @@ public class WorkoutDoActivity extends Activity {
 	WorkoutInstance workoutInstance;
 	ExerciseArrayAdapter mAdapter;
 	ArrayList<ArrayList<Set>> doneSets; // the sets of the exercises as they are completed/edited
-
+	EditText commentBox;
+	
 	/**
 	 * onCreate()
 	 * @param Bundle savedInstanceStates
@@ -41,6 +43,7 @@ public class WorkoutDoActivity extends Activity {
 		TextView nameView = (TextView) findViewById(R.id.workoutName);
 		LinearLayout buttonLayout = (LinearLayout) findViewById(R.id.workout_buttons);
 		LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+		commentBox = (EditText) findViewById(R.id.workoutComments);
 		
 		// Set the buttons to have the correct names and callbacks
 		Button button1 = new Button(this);
@@ -81,6 +84,7 @@ public class WorkoutDoActivity extends Activity {
 		dbWrapper.close();
 
 		nameView.setText(workoutInstance.getWorkout().getName());		
+		commentBox.setText(workoutInstance.getWorkout().getNotes());
 		
 		doneSets = new ArrayList<ArrayList<Set>>(workoutInstance.getWorkout().getExerciseList().size());
 		for (int i = 0; i < workoutInstance.getWorkout().getExerciseList().size(); i++) {
@@ -103,7 +107,7 @@ public class WorkoutDoActivity extends Activity {
                      // Open dialog to edit this exercise
                 	Exercise e = workoutInstance.getWorkout().getExerciseList().get(position);
                 	//doneSets.set(position, e.getSetList());
-                	DialogFragment fragment = AppDialogFragment.newInstance(e, false, position);
+                	DialogFragment fragment = AppDialogFragment.newInstance(e, 1, position);
         	        fragment.show(getFragmentManager(), getString(R.string.dialog_fragment_tag_do_exercise));
                 		
                 }

@@ -40,8 +40,7 @@ public class ViewWorkoutInstanceActivity extends Activity {
         OnItemClickListener mListener = new OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     // Open dialog to edit this exercise
-            	Exercise e = instance.getExerciseList().get(position);
-            	DialogFragment fragment = AppDialogFragment.newInstance(e, true, 0);
+            	DialogFragment fragment = AppDialogFragment.newInstance(instance, 2, position);
     	        fragment.show(getFragmentManager(), getString(R.string.dialog_fragment_tag_edit_exercise));
             		
             }
