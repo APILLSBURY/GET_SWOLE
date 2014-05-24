@@ -80,6 +80,22 @@ public class Exercise extends GetSwoleClass {
 		return notes;
 	}
 	
+	public int getMaxReps() {
+		int max = -1;
+		for (Set s : setList) {
+			if (max < 0 || s.getReps() > max) max = s.getReps();
+		}
+		
+		return max;
+	}
+	
+	public int getMaxWeight() {
+		int max = -1;
+		for (Set s : setList) {
+			if (max < 0 || s.getWeight() > max) max = s.getWeight();
+		}
+		return max;
+	}
 	
 	//SETTER METHODS
 	public void setSetList(ArrayList<Set> s) {
