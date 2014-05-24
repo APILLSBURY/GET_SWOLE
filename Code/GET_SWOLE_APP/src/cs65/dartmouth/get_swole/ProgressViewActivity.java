@@ -101,8 +101,10 @@ public class ProgressViewActivity extends Activity {
 		progressChart.getGraphViewStyle().setGridColor(Color.GREEN);
 		progressChart.getGraphViewStyle().setHorizontalLabelsColor(Color.DKGRAY);
 		progressChart.getGraphViewStyle().setVerticalLabelsColor(Color.DKGRAY);
-		progressChart.getGraphViewStyle().setTextSize(20);
+		progressChart.getGraphViewStyle().setTextSize(40);
 		progressChart.setBackgroundColor(Color.BLACK);
+		progressChart.getGraphViewStyle().setNumHorizontalLabels(5);
+		progressChart.getGraphViewStyle().setNumVerticalLabels(5);
 	}
 	
 	// Based on checkbox preferences and exercise instances
@@ -141,8 +143,8 @@ public class ProgressViewActivity extends Activity {
 		}
 		else repsDataSeries.resetData(repsData);
 		
-		/*
-		if (weightChecked) {
+		
+		/*if (weightChecked) {
 			int dataIndex = 0;
 			GraphViewData [] weightData = new GraphViewData[instanceWorkouts.size()];
 			
