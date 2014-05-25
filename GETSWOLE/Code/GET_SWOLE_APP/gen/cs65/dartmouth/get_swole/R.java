@@ -553,13 +553,14 @@ containing a value of this type.
         public static final int progress_weight_line=0x7f070035;
         public static final int save_profile_message=0x7f07005d;
         /**  GCM Strings 
-<string name="server_url">http://getswoleandroidapp.appspot.com</string>
          */
         public static final int server_url=0x7f07005f;
         public static final int settings_title=0x7f07001f;
         public static final int start_workout_button=0x7f070025;
         public static final int stop_workout_button=0x7f070026;
         public static final int timer=0x7f070028;
+        /**  <string name="server_url">http://10.0.1.16:8888</string>
+         */
         public static final int title_activity_exercise_progress=0x7f070060;
         public static final int title_activity_progress_view=0x7f070064;
         public static final int title_activity_view_workout_instance=0x7f070063;
