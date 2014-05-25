@@ -100,10 +100,12 @@ public class FriendProfileActivity extends ListActivity {
      	sportEditText.setFocusable(false);
      	
      	// Update the photo
-		Bitmap photo = Utils.StringToBitMap(pictureString);
-		ImageView imageView = (ImageView) findViewById(R.id.profilePhoto);
-		
-		imageView.setImageBitmap(photo);
+     	if (!pictureString.equals("null")) {
+			Bitmap photo = Utils.StringToBitMap(pictureString);
+			ImageView imageView = (ImageView) findViewById(R.id.profilePhoto);
+			
+			imageView.setImageBitmap(photo);
+     	}
      	
      	// Fetch all workouts
      	workouts = new ArrayList<Workout>();
@@ -113,6 +115,22 @@ public class FriendProfileActivity extends ListActivity {
         workoutsAdapter = new WorkoutsAdapter(mContext);
         setListAdapter(workoutsAdapter);
      	
+	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		updateWorkouts();
+	}
+	
+	@Override
+	public void onPause() {
+		super.onPause();
+	}
+	
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
 	}
 	
 	// Fetch all workouts
