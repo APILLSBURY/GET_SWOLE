@@ -2,9 +2,9 @@
 
 package cs65.dartmouth.get_swole;
 
-import java.awt.Checkbox;
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import android.app.Activity;
@@ -13,12 +13,12 @@ import android.os.Bundle;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.jjoe64.graphview.CustomLabelFormatter;
 import com.jjoe64.graphview.GraphView.GraphViewData;
-import com.jjoe64.graphview.GraphView.LegendAlign;
 import com.jjoe64.graphview.GraphViewSeries;
 import com.jjoe64.graphview.LineGraphView;
 
@@ -27,11 +27,13 @@ import cs65.dartmouth.get_swole.classes.WorkoutInstance;
 import cs65.dartmouth.get_swole.database.DatabaseWrapper;
 
 public class ProgressViewActivity extends Activity {
+	static final String [] MONTHS = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+	final DateFormat dateTimeFormatter = DateFormat.getDateTimeInstance();        
+    final GraphViewData [] empty_data = new GraphViewData[] {};
+    
 	LineGraphView progressChart;
-	CheckBox weightCheckbox;
-	CheckBox repsCheckbox;
-	boolean repsChecked;
-	boolean weightChecked;
+	ToggleButton toggleButton;
+	boolean repsChecked = true;
 	
 	Exercise exercise; // used to compare goals
 	ArrayList<Exercise> instanceExercises;
@@ -39,8 +41,7 @@ public class ProgressViewActivity extends Activity {
 	GraphViewSeries repsDataSeries;
 	GraphViewSeries weightDataSeries;
 	
-	final DateFormat dateTimeFormatter = DateFormat.getDateTimeInstance();        
-    
+	
     
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +61,7 @@ public class ProgressViewActivity extends Activity {
 		dbWrapper.close();
 
 		// We need to grab the exercises from these instances
+		int numExercises = 0;
 		instanceExercises = new ArrayList<Exercise>();
 		for (WorkoutInstance wi : instanceWorkouts) {
 			
@@ -67,6 +69,7 @@ public class ProgressViewActivity extends Activity {
 			for (Exercise e : wi.getExerciseList()) {
 				if (e.getId() == eId) {
 					instanceExercises.add(e);
+					numExercises++;
 					added = true;
 					break;
 				}			
@@ -77,40 +80,33 @@ public class ProgressViewActivity extends Activity {
 		}
 		
 		// Create the graph
-		FrameLayout graphLayout = (FrameLayout) findViewById(R.id.graphLayout);
-		initializeGraph();
-		
-		// Will add data series based on preferences
-		refreshGraphView();
-		
-		graphLayout.addView(progressChart);
-		
-		// Set callbacks for checked buttons
-		repsCheckbox = (CheckBox) findViewById(R.id.checkBoxReps);
-		weightCheckbox = (CheckBox) findViewById(R.id.checkBoxWeight);
-		repsCheckbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				if (!isChecked && !weightChecked) repsCheckbox.setChecked(true);
-				else {
-					repsChecked = isChecked;	
-					refreshGraphView();
-				}
-			}
+		LinearLayout graphLayout = (LinearLayout) findViewById(R.id.graphBox);
+					
+		if (numExercises < 2) { // not enough data
+			TextView notEnoughText = new TextView(this);
+			notEnoughText.setText(getString(R.string.not_enough_data));
+			notEnoughText.setTextColor(Color.RED);
+			notEnoughText.setTextSize(30);
+			graphLayout.addView(notEnoughText);
+		}
+		else { // display the graph
 			
-		});
-		weightCheckbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				if (!isChecked && !repsChecked) weightCheckbox.setChecked(true);
-				else {
-					weightChecked = isChecked;
+			initializeGraph(); // creates the graph
+			refreshGraphView(); // updates the data
+			graphLayout.addView(progressChart);
+			
+			// Set callbacks for checked buttons
+			toggleButton = (ToggleButton) findViewById(R.id.repsToWeight);
+			toggleButton.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+				@Override
+				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+					repsChecked = !repsChecked;	
 					refreshGraphView();
 				}
-			}
-		});
-		repsCheckbox.setChecked(true);
-		weightCheckbox.setChecked(true);
+				
+			});
+		}
+		
 		
 		TextView name = (TextView) findViewById(R.id.exerciseTitleProgress);
 		name.setText(exercise.getName());
@@ -118,12 +114,9 @@ public class ProgressViewActivity extends Activity {
 	
 	private void initializeGraph() {
 		progressChart = new LineGraphView(this, exercise.getName());
-		progressChart.getGraphViewStyle().setGridColor(Color.CYAN);
+		progressChart.getGraphViewStyle().setGridColor(Color.rgb(100, 20, 0));
 		progressChart.getGraphViewStyle().setHorizontalLabelsColor(Color.DKGRAY);
 		progressChart.getGraphViewStyle().setVerticalLabelsColor(Color.DKGRAY);
-		progressChart.getGraphViewStyle().setTextSize(30);
-		progressChart.setBackgroundColor(Color.LTGRAY);
-		progressChart.getGraphViewStyle().setNumVerticalLabels(5);
 		progressChart.setCustomLabelFormatter(new CustomLabelFormatter() 
 	    {
 	        @Override
@@ -131,15 +124,22 @@ public class ProgressViewActivity extends Activity {
 	        {
 	            if (isValueX)
 	            {
-	                return dateTimeFormatter.format(new Date((long) value));
+	               Calendar c = Calendar.getInstance();
+	               c.setTimeInMillis((long) value);
+	               return MONTHS[c.get(Calendar.MONTH)];
 	            }
-	            return null; // let graphview generate Y-axis label for us
+	            return null;
 	        }
 	    });		
-		progressChart.setShowLegend(true);
-		progressChart.setLegendAlign(LegendAlign.BOTTOM);
-		progressChart.setLegendWidth(400);
-		
+		//progressChart.setShowLegend(true);
+		//progressChart.setLegendAlign(legendAlign
+		progressChart.setScrollable(true);
+		// optional - activate scaling / zooming
+		progressChart.setScalable(true);
+		repsDataSeries = new GraphViewSeries(getString(R.string.progress_reps_line), null, empty_data);
+		weightDataSeries = new GraphViewSeries(getString(R.string.progress_weight_line), null, empty_data);
+		progressChart.addSeries(repsDataSeries);
+		progressChart.addSeries(weightDataSeries);
 		
 	}
 	
@@ -160,17 +160,26 @@ public class ProgressViewActivity extends Activity {
 				}
 			}			
 			repsData = clamp(tempRepsData, dataIndex);
-						
+			
+			
+			// DUMMY DATA
+			Calendar later = Calendar.getInstance();
+			Calendar before = Calendar.getInstance();
+			later.set(2014, 6, 5);
+			before.set(2014,  4, 30);
+			
+			repsData = new GraphViewData[] {
+					new GraphViewData(Calendar.getInstance().getTimeInMillis(), 4),
+					new GraphViewData(later.getTimeInMillis(), 5),
+					new GraphViewData(before.getTimeInMillis(), 3)
+			};
+			
+			repsDataSeries.resetData(repsData);	
+			weightDataSeries.resetData(empty_data);
+			
 		}
-		else repsData = new GraphViewData [] {};
+		else { // weight is checked
 		
-		if (repsDataSeries == null)  {
-			repsDataSeries = new GraphViewSeries(getString(R.string.progress_reps_line), null, repsData);
-			progressChart.addSeries(repsDataSeries);
-		}
-		else repsDataSeries.resetData(repsData);		
-		
-		if (weightChecked) {
 			int dataIndex = 0;
 			GraphViewData [] tempWeightData = new GraphViewData[instanceWorkouts.size()];
 			
@@ -181,15 +190,11 @@ public class ProgressViewActivity extends Activity {
 				}
 			}
 			
-			weightData = clamp(tempWeightData, dataIndex);
+			weightData = clamp(tempWeightData, dataIndex);	
+			weightDataSeries.resetData(weightData);
+			repsDataSeries.resetData(empty_data);
 		}
-		else weightData = new GraphViewData [] {};
 
-		if (weightDataSeries == null) {
-			weightDataSeries = new GraphViewSeries(getString(R.string.progress_weight_line), null, weightData);
-			progressChart.addSeries(weightDataSeries);
-		}
-		else weightDataSeries.resetData(weightData);
 	}
 
 	// might be to large with empty spaces
