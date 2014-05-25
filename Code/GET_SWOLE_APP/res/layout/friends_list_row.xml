@@ -12,7 +12,7 @@
         android:layout_marginBottom="1dp"
         android:layout_weight="0.50"
         android:contentDescription="@string/default_profile_photo"
-        android:src="@drawable/default_profile" />
+        android:src="@drawable/default_profile"/>
     
     <LinearLayout
         android:layout_width="match_parent"
