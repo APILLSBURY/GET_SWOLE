@@ -1,5 +1,6 @@
 package cs65.dartmouth.get_swole;
 
+import java.awt.List;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -8,7 +9,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.logging.Level;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -16,8 +20,12 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.FileEntity;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.impl.client.DefaultHttpClient;
-
+import org.json.JSONException;
+import org.json.JSONObject;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -39,12 +47,15 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.MeasureSpec;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
@@ -87,6 +98,7 @@ public class ProfileActivity extends ListActivity {
 	// Workout List
 	WorkoutAdapter workoutAdapter;
 	ArrayList<Workout> workouts;
+	public Map<String, String> workoutCheck = new HashMap<String, String>();
 	
 	// ProfileObject for GCM
 	private ProfileObject profileObj;
@@ -151,6 +163,11 @@ public class ProfileActivity extends ListActivity {
         // Set uploader object to be
         mUploader = new Uploader(getApplicationContext(), serverURL);
         
+        // Instantiate profile object
+		profileObj = new ProfileObject();
+ 		// Store the regId
+ 		profileObj.setId(regId);
+        
 	}
 	
 	
@@ -195,7 +212,7 @@ public class ProfileActivity extends ListActivity {
 		// Note: Code taking from Camera example in class
 		
 		// Initialize camera intent
-		Intent camera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+		Intent camera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE_SECURE);
 		
 		// Construct temporary image path and name to save the taken image
 		mImageCaptureUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(), "tmp_" + String.valueOf(System.currentTimeMillis()) + ".jpg"));
@@ -203,6 +220,9 @@ public class ProfileActivity extends ListActivity {
 		camera.putExtra("return-data", true);
 		
 		Log.d(TAG, mImageCaptureUri.getPath());
+		
+		// Save current path of file
+		
 	
 		try {
 			// Start a camera capturing activity
@@ -364,14 +384,164 @@ public class ProfileActivity extends ListActivity {
 		// Save ProfileActivity
 		saveProfile();
 		
+		// Upload picture
+		// uploadProfilePicture(); // NOT WORKING CURRENTLY
+		
 		// Save Profile on the Datastore
 		uploadProfile();
+		
+		// Upload Workouts
+		uploadWorkouts();
 		
 		// Send toast message
 		Toast.makeText(getApplicationContext(), getString(R.string.save_profile_message), Toast.LENGTH_SHORT).show();
 		
 		finish();
 		
+	}
+	
+	public void onSavePhotoClicked(View v) {
+		// Save picture to blobstore
+		uploadProfilePicture();
+		
+		// Send toast message
+		Toast.makeText(getApplicationContext(), "Profile photo was uploaded to the web", Toast.LENGTH_SHORT).show();
+	}
+	
+	/**
+	 * uploadeProfilePicture()
+	 */
+	public void uploadProfilePicture() {
+		
+		new AsyncTask<String, Void, String>() {
+
+            @Override
+            protected String doInBackground(String... params) {
+            	 
+	        	String msg = "";
+	
+					try {
+						
+						if (pictureArray != null) {
+						
+							// Code for sending picture from:
+				 			// http://stackoverflow.com/questions/22168930/store-image-to-blobstore-from-android-client-and-retrieve-blobkey-and-upload-url
+				 			
+				 			Log.d(Globals.TAG, "Trying to upload the photo now");
+				 			
+				 			// Upload photo
+				 			HttpClient httpClient = new DefaultHttpClient();    
+				 			//This will invoke PostProfilePictureServlet servlet           
+				 			HttpGet httpGet = new HttpGet(getString(R.string.server_url) + "/post_picture"); 
+				 			HttpResponse response = httpClient.execute(httpGet);
+				 			HttpEntity urlEntity = response.getEntity();
+				 			InputStream in = urlEntity.getContent();
+				 			String str = "";
+				 			while (true) {
+				 			    int ch = in.read();
+				 			    if (ch == -1)
+				 			        break;
+				 			    str += (char) ch;
+				 			}
+				 			
+				 			Log.d(Globals.TAG, "1");
+				 			
+				 			// Make a file for picture
+				 			// Code from lecture on camera
+				 			try {
+				 			
+				 				// Grab profile_photo_file_name and save it from picture Array
+				 				FileOutputStream fos = openFileOutput(getString(R.string.profile_saved_photo_file_name), MODE_PRIVATE);
+				 				fos.write(pictureArray);
+				 				fos.flush();
+				 				fos.close();
+				 				
+				 			}
+				 			catch (IOException ioe) {
+				 				ioe.printStackTrace();
+				 			}
+				 			
+				 			Log.d(Globals.TAG, "2");
+				 			
+				 			// Save image to generated url
+				 			HttpPost httppost = new HttpPost(str);
+				 			File f = new File(getString(R.string.profile_saved_photo_file_name)); // should be getting the image path
+				 			FileBody fileBody = new FileBody(f);
+				 			
+				 			MultipartEntityBuilder regEntity = MultipartEntityBuilder.create();        
+				 			
+				 			Log.d(Globals.TAG, "3");
+				 			
+				 			regEntity.addPart("file", fileBody);
+				 			
+				 			Log.d(Globals.TAG, "4");
+				 			
+				 			httppost.setEntity(regEntity.build());
+				 			
+				 			Log.d(Globals.TAG, "5");
+				 			
+				 			response = httpClient.execute(httppost); //Here "uploaded" servlet is automatically       invoked
+				 			
+				 			// Can save the image but cannot get the blobkey
+				 			
+				 			Log.d(Globals.TAG, "6");
+				 			
+				 			urlEntity = response.getEntity(); //Response will be returned by "uploaded" servlet in JSON format
+				 			
+				 			in = urlEntity.getContent();
+				 			
+				 			Log.d(Globals.TAG, "7");
+				 			
+				 			str = "";
+				 			while (true) {
+				 			    int ch = in.read();
+				 			    if (ch == -1)
+				 			        break;
+				 			    str += (char) ch;
+				 			}
+				 			
+				 			Log.d(Globals.TAG, "Result JSON:\n" + str);
+				 			
+				 			JSONObject resultJson;
+				 			
+							try {
+								resultJson = new JSONObject(str);
+								String blobKey = resultJson.getString("blobKey");
+								profileObj.setBlobKey(blobKey);
+								String servingUrl = resultJson.getString("servingUrl");
+								profileObj.setServingUrl(servingUrl);
+								Log.d(Globals.TAG, "Should have saved blobkey and servingurl to profile object");
+							} 
+							
+							catch (JSONException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+				 			
+							// Should have loaded image to blobstore
+							Log.d(Globals.TAG, "Image should be saved in the blobstore");
+							
+						}		
+						
+						msg = "Uploaded the profile picture";
+	       	 
+					}
+				
+		       	 	catch (IOException ex) {
+		       	 		msg = "Error: " + ex.getMessage();
+		       	 	}
+		       	 
+		       	 return msg;
+	
+	        }
+
+	        @Override
+	        protected void onPostExecute(String res) {
+	        	Toast.makeText(mContext, res, Toast.LENGTH_SHORT).show();
+	        }
+        
+		}.execute();
+		       	
 	}
 	
 	/**
@@ -387,52 +557,11 @@ public class ProfileActivity extends ListActivity {
             	String msg = "";
             	 
                	try {
-               		 
-	         		profileObj = new ProfileObject();
-	         		 
-	         		// Store the regId
-	         		profileObj.setId(regId);
-	         		 
-	         		// Store string of the profile picture
-	         		
-	         		if (pictureArray != null) {
-		         		ByteArrayInputStream inputStream = new ByteArrayInputStream(pictureArray);
-		    			Bitmap bmap = BitmapFactory.decodeStream(inputStream);
-		    			inputStream.close();
-		    			
-		    			// bmap to string
-		    			String photoString = Utils.BitMapToString(bmap);
-		    			
-		    			profileObj.setProfilePicture(photoString);}
-	         		else
-	         			profileObj.setProfilePicture("null");
-	         		 
-	        		// Get the shared preferences - create or retrieve the activity
-	        		// preference object
-	
-	        		String mKey = getString(R.string.profile_shared_preferences);
-	        		SharedPreferences mPrefs = getSharedPreferences(mKey, MODE_PRIVATE);
-	        		
-	        		// Load Name
-	        		mKey = getString(R.string.preference_key_profile_first_name);
-	        		String first = mPrefs.getString(mKey, "");
-	        		
-	        		mKey = getString(R.string.preference_key_profile_last_name);
-	        		String last = mPrefs.getString(mKey, "");
-	        		
-	        		profileObj.setName(first, last);
-	        		 
-	        		// Load Hometown
-	        		 
-	        		mKey = getString(R.string.preference_key_profile_hometown);
-	        		profileObj.setHometown(mPrefs.getString(mKey, ""));
-
-	        		// Load Sport
-	        		mKey = getString(R.string.preference_key_profile_sport);
-	        		profileObj.setSport(mPrefs.getString(mKey, ""));
-	            	 
+               	
 		        	// Upload history of all entries
 	        		mUploader.uploadProfile(profileObj);
+	        		
+	        		Log.d(Globals.TAG, "Profile should have been uploaded!");
 		        	 
 		        	msg = "Uploaded the profile";
                 	 
@@ -451,9 +580,61 @@ public class ProfileActivity extends ListActivity {
              }
 
          }.execute();
-    	
 		
+	}
+	
+	/**
+	 * uploadWorkouts()
+	 */
+	public void uploadWorkouts() {
+		
+	   	new AsyncTask<String, Void, String>() {
 
+            @Override
+            protected String doInBackground(String... params) {
+            	 
+            	String msg = "";
+            	 
+               	try {
+               		
+               		// Make list to upload
+               		ArrayList<Workout> uploadWorkouts = new ArrayList<Workout>();
+               		
+               		// Add all workouts that are meant to be uploaded
+               		for (String workoutListed : workoutCheck.keySet()) {
+               			
+               			// Loop through workouts to find workout
+               			for (Workout workoutData : workouts) {
+               				
+               				// If workout is listed and found the workout, add the workout to the list to upload
+               				if (workoutListed.equals(workoutData.getName()))
+               					workoutData.setRegId(regId); // regId before adding to the list (for the datastore)
+               					uploadWorkouts.add(workoutData);
+
+               			}
+               			
+               		}
+               		
+		        	// Upload history of all entries
+	        		mUploader.uploadWorkouts(uploadWorkouts);
+		        	 
+		        	msg = "Uploaded the workouts";
+                	 
+            	 }
+            	 catch (IOException ex) {
+            		msg = "Error: " + ex.getMessage();
+            	 }
+            	 
+            	 return msg;
+
+             }
+
+             @Override
+             protected void onPostExecute(String res) {
+            	 
+             }
+
+         }.execute();
 		
 	}
 	
@@ -577,22 +758,28 @@ public class ProfileActivity extends ListActivity {
 		// Save Name Information
 		
 		mKey = getString(R.string.preference_key_profile_first_name);
-		String mValue = (String) ((EditText) findViewById(R.id.firstName)).getText().toString();
-		mEditor.putString(mKey, mValue);
+		String first = (String) ((EditText) findViewById(R.id.firstName)).getText().toString();
+		mEditor.putString(mKey, first);
 		
 		mKey = getString(R.string.preference_key_profile_last_name);
-		mValue = (String) ((EditText) findViewById(R.id.lastName)).getText().toString();
-		mEditor.putString(mKey, mValue);
+		String last = (String) ((EditText) findViewById(R.id.lastName)).getText().toString();
+		mEditor.putString(mKey, last);
+		
+		profileObj.setName(first, last);
 		
 		// Save Hometown
 		mKey = getString(R.string.preference_key_profile_hometown);
-		mValue = (String) ((EditText) findViewById(R.id.hometown)).getText().toString();
+		String mValue = (String) ((EditText) findViewById(R.id.hometown)).getText().toString();
 		mEditor.putString(mKey, mValue);
+		
+		profileObj.setHometown(mValue);
 		
 		// Save Sport
 		mKey = getString(R.string.preference_key_profile_sport);
 		mValue = (String) ((EditText) findViewById(R.id.sport)).getText().toString();
 		mEditor.putString(mKey, mValue);
+		
+		profileObj.setSport(mValue);
 		
 		// Save Gender
 
@@ -600,6 +787,14 @@ public class ProfileActivity extends ListActivity {
 		RadioGroup mRadioGroup = (RadioGroup) findViewById(R.id.radioGender);
 		int mIntValue = mRadioGroup.indexOfChild(findViewById(mRadioGroup.getCheckedRadioButtonId()));
 		mEditor.putInt(mKey, mIntValue);
+		
+		// Save the workouts checked
+		if (!workoutCheck.isEmpty()) {
+			Set<String> workoutSet = workoutCheck.keySet();
+			for (String workoutString : workoutSet) {
+				mEditor.putString(workoutString, workoutCheck.get(workoutString));
+			}
+		}
 		
 		// Commit all the changes into the shared preference
 		mEditor.commit();
@@ -752,13 +947,36 @@ public class ProfileActivity extends ListActivity {
 	public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
         
+        // Get the workout
         Workout entry = workouts.get(position);
         
-        //Intent entryIntent = new Intent(mContext, FriendProfileActivity.class);
+        // Get checkbox
+        CheckBox checkBox = (CheckBox) v.findViewById(R.id.checkBox1);
+		
+		Log.d(Globals.TAG, entry.getName());
+		
+		
+		if (workoutCheck.get(entry.getName()) == null) {
+	        //Toast.makeText(mContext, entry.getName(), Toast.LENGTH_SHORT).show();
+	        
+	        // Set the workout as checked
+	        checkBox.setChecked(true);
+			
+			// Define hashmap, so that when onSaveClicked is called, info is not lost
+			workoutCheck.put(entry.getName(), "check");
+	        
+		}
+		else {
+	        //Toast.makeText(mContext, entry.getName() + " unchecked", Toast.LENGTH_SHORT).show();
+			
+			// Set the workout as unchecked
+	        checkBox.setChecked(false);
 
-        //entryIntent.putExtra("firstName", entry.firstName); 
-        
-        //startActivity(entryIntent);
+			// Define hashmap, so that when onSaveClicked is called, info is not lost
+			workoutCheck.remove(entry.getName());
+			
+		}
+		
        
 	}
 
@@ -786,6 +1004,22 @@ public class ProfileActivity extends ListActivity {
     	    workoutView.setTextColor(Color.BLACK);
     	    Workout workout = workouts.get(position);
     	    workoutView.setText(workout.getName());
+    	    
+            // Get checkbox if necessary
+            CheckBox checkBox = (CheckBox) listItemView.findViewById(R.id.checkBox1);
+            
+            // Get Shared Preferences
+    		String mKey = getString(R.string.profile_shared_preferences);
+    		SharedPreferences mPrefs = getSharedPreferences(mKey, MODE_PRIVATE);
+            
+    		mKey = workout.getName();
+    		String mValue = mPrefs.getString(mKey, "");
+    		
+    		// Check it if it is checked
+    		if (!mValue.equals("")) {
+    			checkBox.setChecked(true);
+    			workoutCheck.put(workout.getName(), "check"); // make sure that the hashmap has that info too
+    		}
     	    
 			return listItemView;
 		}

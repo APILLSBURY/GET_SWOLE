@@ -24,6 +24,7 @@ import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 
 public class FriendProfileActivity extends Activity {
@@ -32,6 +33,7 @@ public class FriendProfileActivity extends Activity {
 	Downloader mDownloader;
 	
 	// Information
+	String profilePicture;
 	String firstName;
 	String lastName;
 	String hometown;
@@ -56,6 +58,7 @@ public class FriendProfileActivity extends Activity {
         mDownloader = new Downloader(mContext, serverURL);
      
         // Get Extras
+
         firstName = getIntent().getExtras().getString("firstName");
         lastName = getIntent().getExtras().getString("lastName");
         hometown = getIntent().getExtras().getString("hometown");

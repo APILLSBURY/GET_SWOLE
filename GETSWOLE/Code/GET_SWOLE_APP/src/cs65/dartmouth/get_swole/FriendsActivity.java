@@ -1,5 +1,6 @@
 package cs65.dartmouth.get_swole;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -12,6 +13,8 @@ import cs65.dartmouth.get_swole.gae.Downloader;
 import cs65.dartmouth.get_swole.gae.Uploader;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +29,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 
 public class FriendsActivity extends ListActivity {
@@ -153,10 +157,11 @@ public class FriendsActivity extends ListActivity {
         
         Intent entryIntent = new Intent(mContext, FriendProfileActivity.class);
 
-        entryIntent.putExtra("firstName", entry.firstName);
-        entryIntent.putExtra("lastName", entry.lastName);
-        entryIntent.putExtra("hometown", entry.hometown);
-        entryIntent.putExtra("sport", entry.sport);  
+        //entryIntent.putExtra("profilePicture", entry.profilePicture);
+        entryIntent.putExtra("firstName", entry.getFirstName());
+        entryIntent.putExtra("lastName", entry.getLastName());
+        entryIntent.putExtra("hometown", entry.getHometown());
+        entryIntent.putExtra("sport", entry.getSport());  
         
         startActivity(entryIntent);
        
@@ -193,15 +198,38 @@ public class FriendsActivity extends ListActivity {
 			ProfileObject entry = getItem(position);
 			
 			// Set text on the views
-			titleView.setText(entry.firstName + " " + entry.lastName + " (" + entry.sport + ")");
-			summaryView.setText(entry.hometown);
+			titleView.setText(entry.getFirstName() + " " + entry.getLastName() + " (" + entry.getSport() + ")");
+			summaryView.setText(entry.getHometown());
 
 			// Set the profile picture, only if there exists a picture
-			if (!entry.profilePicture.equals("null")) {
-				Bitmap photo = Utils.StringToBitMap(entry.profilePicture);
-				ImageView imageView = (ImageView) findViewById(R.id.friendProfilePhoto);
-				imageView.setImageBitmap(photo);
-			}
+			//if (!entry.profilePicture.equals("null")) {
+				//Log.d(Globals.TAG, "TRANSFERED:\n" + entry.profilePicture);
+				//Bitmap photo = Utils.StringToBitMap(entry.profilePicture);
+				//Log.d(Globals.TAG, "Photo to string" + photo.toString());
+				
+				//Log.d(Globals.TAG, "Height: " + photo.getHeight() + " Width: "+ photo.getWidth());
+				
+				//ImageView imageView = (ImageView) listItemView.findViewById(R.id.friendProfilePhoto);
+				
+				//imageView.setImageBitmap(photo);
+			//}
+			
+			// Load profile photo from internal storage
+//			try {
+//
+//				byte [] pictureArray = Base64.decode(entry.profilePicture, Base64.DEFAULT);
+//				ByteArrayInputStream inputStream = new ByteArrayInputStream(pictureArray);
+//				Bitmap bmap = BitmapFactory.decodeStream(inputStream);
+//				imageView.setImageBitmap(bmap);
+//				inputStream.close();
+//			
+//			} 
+//			
+//			catch (Exception ex) {
+//				
+//				// Default profile photo if no photo saved before.
+//				imageView.setImageResource(R.drawable.default_profile);
+//			}
 			
 			return listItemView;
 			

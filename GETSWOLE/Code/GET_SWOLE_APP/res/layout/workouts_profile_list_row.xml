@@ -8,7 +8,8 @@
         android:id="@+id/checkBox1"
         android:layout_width="45dp"
         android:layout_height="50dp"
-        android:layout_marginLeft="10dp" />
+        android:layout_marginLeft="10dp" 
+        android:focusable="false"/>
 
     <TextView
         android:id="@+id/workout_list_single_row"
