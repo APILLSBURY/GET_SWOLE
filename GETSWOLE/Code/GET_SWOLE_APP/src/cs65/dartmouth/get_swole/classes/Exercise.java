@@ -1,10 +1,12 @@
 package cs65.dartmouth.get_swole.classes;
 
-import java.util.ArrayList;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class Exercise extends GetSwoleClass {
 	
-	private ArrayList<Set> setList;
+	private int reps;
+	private int weight;
 	private int repsGoal;
 	private int weightGoal;
 	private int rest;
@@ -17,7 +19,8 @@ public class Exercise extends GetSwoleClass {
 	//default undefined numbers to -1
 	public Exercise(String name) {
 		this.name = name;
-		setList = new ArrayList<Set>();
+		reps = -1;
+		weight = -1;
 		repsGoal = -1;
 		weightGoal = -1;
 		rest = -1;
@@ -26,42 +29,14 @@ public class Exercise extends GetSwoleClass {
 	}
 	
 	
-	public void addSet(Set set) {
-		setList.add(set);
-	}
-	
-	public void removeSet(Set set) {
-		setList.remove(set);
-	}
-	
-	//DATABASE HELPER TO CONVERT SETLIST TO A STRING
-	public String getSetListString() {
-		String s = "";
-		for (int i = 0; i < setList.size(); i++) {
-			s += setList.get(i).toString() + "&";
-		}
-		if (s.length() >= 1) {
-			s = s.substring(0, s.length() - 1); //remove the trailing "&"
-		}
-		return s;
-	}
-	
-	public void setSetListFromString(String s) {
-		String[] sets = s.split("&");
-		setList.clear();
-		String[] repsByWeight;
-		for (int i = 0; i < sets.length; i++) {
-			if (!sets[i].isEmpty()) {
-				 repsByWeight = sets[i].split("x");
-				 setList.add(new Set(Integer.parseInt(repsByWeight[0]), Integer.parseInt(repsByWeight[1])));
-			}
-		}
-	}
-	
-	
 	//GETTER METHODS
-	public ArrayList<Set> getSetList() {
-		return setList;
+	
+	public int getReps() {
+		return reps;
+	}
+	
+	public int getWeight() {
+		return weight;
 	}
 	
 	public int getRepsGoal() {
@@ -80,26 +55,14 @@ public class Exercise extends GetSwoleClass {
 		return notes;
 	}
 	
-	public int getMaxReps() {
-		int max = -1;
-		for (Set s : setList) {
-			if (max < 0 || s.getReps() > max) max = s.getReps();
-		}
-		
-		return max;
-	}
-	
-	public int getMaxWeight() {
-		int max = -1;
-		for (Set s : setList) {
-			if (max < 0 || s.getWeight() > max) max = s.getWeight();
-		}
-		return max;
-	}
 	
 	//SETTER METHODS
-	public void setSetList(ArrayList<Set> s) {
-		setList = s;
+	public void setReps(int r) {
+		reps = r;
+	}
+	
+	public void setWeight(int w) {
+		weight = w;
 	}
 	
 	public void setRepsGoal(int rg) {
@@ -120,20 +83,48 @@ public class Exercise extends GetSwoleClass {
 	
 	@Override
 	public String toString() {
-		String s = name + ": ";
-		for (Set set : setList) {
-			s += set.getReps() + " reps at " + set.getWeight() + ", ";
-		}
-		return s.substring(0, s.length() - 2);
+		return name + ": " + reps + " reps at " + weight;
 	}
 	
-	public boolean equals(Exercise e) {
-		
-		if (e.getSetList().size() != setList.size()) return false;
-		for (int i = 0; i < setList.size(); i++) { // compare sets
-			if (!e.getSetList().get(i).equals(setList.get(i))) return false;
+	// GCM JSONOBJECT HANDLING
+	
+	public JSONObject fromJSONObject(JSONObject obj) {	
+		try {
+			
+			this.name = obj.getString("name");
+			reps = obj.getInt("reps");
+			weight = obj.getInt("weight");
+			repsGoal = obj.getInt("repsGoal");
+			weightGoal = obj.getInt("weightGoal");
+			rest = obj.getInt("rest");
+			notes = obj.getString("notes");
+
 		}
-		
-		return (repsGoal == e.getRepsGoal() && weightGoal == e.getWeightGoal() && rest == e.getRest() && notes.equals(e.getNotes()));
+		catch (JSONException e) {
+			return null;
+		}
+		return obj;
 	}
+				
+	public JSONObject toJSONObject() {
+		
+		try {
+			
+			JSONObject obj = new JSONObject();
+			
+			obj.put("name", this.name);
+			obj.put("reps", reps);
+			obj.put("weight", weight);
+			obj.put("repsGoal", repsGoal);
+			obj.put("weightGoal", weightGoal);
+			obj.put("rest", rest);
+			obj.put("notes", notes);
+			
+			return obj;
+		}
+		catch (JSONException e) {
+			return null;
+		}
+	}
+	
 }
