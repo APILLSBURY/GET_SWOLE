@@ -15,6 +15,8 @@ import android.content.Context;
 import android.util.Log;
 
 public class Workout extends GetSwoleClass {
+	private String regId;
+	
 	private ArrayList<Exercise> exerciseList;
 	private Calendar startDate;
 	private ArrayList<Calendar> scheduledDates;
@@ -171,25 +173,6 @@ public class Workout extends GetSwoleClass {
 		db.close();
 	}
 	
-
-	//JSON maker
-	public JSONObject toJSONObject(Context c) {
-		JSONObject obj = new JSONObject();
-		try {
-			obj.put(DatabaseHelper.WORKOUT_ID, id);
-			obj.put(DatabaseHelper.WORKOUT_EXERCISE_LIST, exerciseList);
-			obj.put(DatabaseHelper.WORKOUT_START_DATE, startDate);
-			obj.put(DatabaseHelper.WORKOUT_EXERCISE_LIST, scheduledDates);
-			obj.put(DatabaseHelper.WORKOUT_EXERCISE_LIST, frequencyList);
-			obj.put(DatabaseHelper.WORKOUT_NOTES, notes);
-		}
-		catch (JSONException e) {
-			Log.e(Globals.TAG, "Couldn't make JSON object", e);
-		}
-		return obj;
-	}
-	
-	
 	//GETTER METHODS
 	public ArrayList<Exercise> getExerciseList() {
 		return exerciseList;
@@ -213,6 +196,10 @@ public class Workout extends GetSwoleClass {
 	
 	public String getNotes() {
 		return notes;
+	}
+	
+	public String getRegId() {
+		return regId;
 	}
 	
 	
@@ -240,4 +227,41 @@ public class Workout extends GetSwoleClass {
 	public void setNotes(String n) {
 		notes = n;
 	}
+	
+	public void setRegId(String regID) {
+		regId = regID;
+	}
+	
+	// GCM JSONOBJECT HANDLING
+	
+	public JSONObject fromJSONObject(JSONObject obj) {	
+		try {
+			
+			regId = obj.getString("regId");
+			
+
+		}
+		catch (JSONException e) {
+			return null;
+		}
+		return obj;
+	}
+				
+	public JSONObject toJSONObject() {
+		
+		try {
+			
+			JSONObject obj = new JSONObject();
+			
+			obj.put("regId", regId);
+			
+
+			
+			return obj;
+		}
+		catch (JSONException e) {
+			return null;
+		}
+	}
+	
 }
