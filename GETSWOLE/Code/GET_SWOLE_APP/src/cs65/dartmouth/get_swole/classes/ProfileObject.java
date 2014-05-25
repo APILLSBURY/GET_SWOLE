@@ -4,19 +4,24 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class ProfileObject {
-	public String regId;
+	private String regId;
 	
-	public String profilePicture;
+	private String blobKey;
+	private String servingUrl;
 	
-	public String firstName;
-	public String lastName;
-	public String hometown;
-	public String sport;
+	private String firstName;
+	private String lastName;
+	private String hometown;
+	private String sport;
 	
-	public String bio;
+	private String bio;
 
 	public ProfileObject() {
 		regId = "";
+		
+		blobKey = "";
+		servingUrl = "";
+		
 		firstName = "";
 		lastName = "";
 		hometown = "";
@@ -29,8 +34,12 @@ public class ProfileObject {
 		regId = regID;
 	}
 	
-	public void setProfilePicture(String photoString) {
-		profilePicture = photoString;
+	public void setBlobKey(String key) {
+		blobKey = key;
+	}
+	
+	public void setServingUrl(String url) {
+		servingUrl = url;
 	}
 	
 	public void setName(String first, String last) {
@@ -57,8 +66,12 @@ public class ProfileObject {
 		return regId;
 	}
 	
-	public String getProfilePicture() {
-		return profilePicture;
+	public String getBlobKey() {
+		return blobKey;
+	}
+	
+	public String getServingUrl() {
+		return servingUrl;
 	}
 	
 	public String getFirstName() {
@@ -89,7 +102,8 @@ public class ProfileObject {
 			
 			regId = obj.getString("regId");
 			
-			profilePicture = obj.getString("profilePicture");
+			blobKey = obj.getString("blobKey");
+			servingUrl = obj.getString("servingUrl");
 			
 			firstName = obj.getString("firstName");
 			lastName = obj.getString("lastName");
@@ -111,7 +125,8 @@ public class ProfileObject {
 			
 			obj.put("regId", regId);
 			
-			obj.put("profilePicture", profilePicture);
+			obj.put("blobKey", blobKey);
+			obj.put("servingUrl", servingUrl);
 			
 			obj.put("firstName", firstName);
 			obj.put("lastName", lastName);
