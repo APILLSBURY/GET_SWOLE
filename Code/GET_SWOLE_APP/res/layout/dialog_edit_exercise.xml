@@ -1,0 +1,124 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+	    <TextView
+	        android:id="@+id/textView1"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/exercise_name_title"
+	        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+	    <EditText
+	        android:id="@+id/exerciseName"
+	        android:inputType="textCapWords"
+	        android:layout_width="276dp"
+	        android:layout_height="wrap_content" />
+    
+    </LinearLayout>
+    
+     <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+         <Button
+             android:id="@+id/editSets"
+             style="?android:attr/buttonStyleSmall"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="@string/edit_sets" />
+
+	 </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+	</LinearLayout>
+
+     <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+	    
+	    <TextView
+	        android:id="@+id/textView4"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/exercise_reps_goal_title"
+	        android:textAppearance="?android:attr/textAppearanceSmall" />
+	
+	    <EditText
+	        android:id="@+id/exerciseRepsGoal"
+	        android:inputType="number"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"/>
+	 </LinearLayout>
+
+      <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+	    
+	    <TextView
+	        android:id="@+id/textView5"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/exercise_weight_goal_title"
+	        android:textAppearance="?android:attr/textAppearanceSmall" />
+	
+	    <EditText
+	        android:id="@+id/exerciseWeightGoal"
+	        android:inputType="number"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content" />
+	 </LinearLayout>
+
+      
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+	    
+	    <TextView
+	        android:id="@+id/textView6"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/exercise_rest_title"
+	        android:textAppearance="?android:attr/textAppearanceSmall" />
+	    
+	    <EditText
+	        android:id="@+id/exerciseRest"
+	        android:inputType="number"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"/>
+	 </LinearLayout>
+
+     <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+	    
+	    <TextView
+	        android:id="@+id/textView7"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/exercise_notes_title"
+	        android:textAppearance="?android:attr/textAppearanceSmall" />
+	    
+	    <EditText
+	        android:id="@+id/exerciseNotes"
+	        android:layout_width="match_parent"
+	        android:inputType="textShortMessage"
+	        android:layout_height="wrap_content"/>
+	 </LinearLayout>
+    
+</LinearLayout>
+
