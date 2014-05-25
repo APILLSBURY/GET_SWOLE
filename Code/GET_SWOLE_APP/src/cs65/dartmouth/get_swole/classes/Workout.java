@@ -5,6 +5,7 @@ import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -178,6 +179,20 @@ public class Workout extends GetSwoleClass {
 		return exerciseList;
 	}
 	
+	public String getExerciseListJSONString() {
+		// Exercise list (convert to JSONArray)
+		JSONArray jsonArray = new JSONArray();
+		
+		// Loop through the exercises and turn to JSONObjects
+		for (Exercise exercise : exerciseList) {
+			jsonArray.put(exercise.toJSONObject());
+		}
+		
+		// Convert the jsonArray to string
+		return jsonArray.toString();
+
+	}
+	
 	public Calendar getStartDate() {
 		return startDate;
 	}
@@ -212,6 +227,24 @@ public class Workout extends GetSwoleClass {
 		exerciseList = el;
 	}
 	
+	public void setExerciseList(String jsonString) {
+		
+		// Exercise list (convert from JSONArray to a real exercise list)
+		JSONArray jsonArray;
+		try {
+			jsonArray = new JSONArray(jsonString);
+			for (int i = 0; i < jsonArray.length(); i++) {
+				Exercise exercise = new Exercise();
+				exercise.fromJSONObject(jsonArray.getJSONObject(i));
+				exerciseList.add(exercise);
+			}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	
 	public void setStartDate(Calendar sd) {
 		startDate = sd;
 	}
@@ -238,7 +271,11 @@ public class Workout extends GetSwoleClass {
 		try {
 			
 			regId = obj.getString("regId");
+			this.name = obj.getString("name");
+			notes = obj.getString("notes");
 			
+			// Exercise list (convert from JSONArray to a real exercise list)
+			setExerciseList(obj.getString("exerciseList"));
 
 		}
 		catch (JSONException e) {
@@ -254,8 +291,9 @@ public class Workout extends GetSwoleClass {
 			JSONObject obj = new JSONObject();
 			
 			obj.put("regId", regId);
-			
-
+			obj.put("name", this.name);
+			obj.put("notes", notes);
+			obj.put("exerciseList", getExerciseListJSONString());
 			
 			return obj;
 		}
