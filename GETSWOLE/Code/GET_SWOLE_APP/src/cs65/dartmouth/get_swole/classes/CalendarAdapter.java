@@ -44,13 +44,10 @@ public class CalendarAdapter extends BaseAdapter {
 	private ArrayList<String> items;
 	public static List<String> dayString;
 	private View previousView;
-	private ArrayList<ArrayList<Workout>> workoutsByDay;
-	private ArrayList<ArrayList<WorkoutInstance>> workoutInstancesByDay;
+	private ArrayList<ArrayList<GetSwoleClass>> workoutsByDay;
 
-	public CalendarAdapter(Context c, GregorianCalendar monthCalendar, ArrayList<ArrayList<Workout>> workoutsByDay, 
-							ArrayList<ArrayList<WorkoutInstance>> workoutInstancesByDay) {
+	public CalendarAdapter(Context c, GregorianCalendar monthCalendar, ArrayList<ArrayList<GetSwoleClass>> workoutsByDay) {
 		this.workoutsByDay = workoutsByDay;
-		this.workoutInstancesByDay = workoutInstancesByDay;
 		CalendarAdapter.dayString = new ArrayList<String>();
 		Locale.setDefault(Locale.US);
 		month = monthCalendar;
@@ -63,10 +60,8 @@ public class CalendarAdapter extends BaseAdapter {
 		refreshDays();
 	}
 
-	public void setWorkoutsByDay(ArrayList<ArrayList<Workout>> workoutsByDay, 
-			ArrayList<ArrayList<WorkoutInstance>> workoutInstancesByDay) {
+	public void setWorkoutsByDay(ArrayList<ArrayList<GetSwoleClass>> workoutsByDay) {
 		this.workoutsByDay = workoutsByDay;
-		this.workoutInstancesByDay = workoutInstancesByDay;
 	}
 	
 	public void setItems(ArrayList<String> items) {
@@ -117,7 +112,7 @@ public class CalendarAdapter extends BaseAdapter {
 		} else {
 			// setting curent month's days in blue color.
 			dayView.setTextColor(Color.BLUE);
-			if (!workoutsByDay.get(gridvalue).isEmpty() || !workoutInstancesByDay.get(gridvalue).isEmpty()) {
+			if (!workoutsByDay.get(gridvalue).isEmpty()) {
 				dayView.setTextColor(Color.GREEN);
 			}
 			Calendar currDate = Calendar.getInstance();
