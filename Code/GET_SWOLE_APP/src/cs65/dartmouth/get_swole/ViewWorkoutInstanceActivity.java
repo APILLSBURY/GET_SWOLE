@@ -2,6 +2,7 @@ package cs65.dartmouth.get_swole;
 
 import android.app.Activity;
 import android.app.DialogFragment;
+import android.app.FragmentManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -13,7 +14,7 @@ import cs65.dartmouth.get_swole.classes.ExerciseArrayAdapter;
 import cs65.dartmouth.get_swole.classes.WorkoutInstance;
 import cs65.dartmouth.get_swole.database.DatabaseWrapper;
 
-public class ViewWorkoutInstanceActivity extends Activity {
+public class ViewWorkoutInstanceActivity extends Activity implements OnItemClickListener {
 
 	WorkoutInstance instance;
 	ExerciseArrayAdapter mAdapter;
@@ -36,18 +37,8 @@ public class ViewWorkoutInstanceActivity extends Activity {
         ListView listView = (ListView) findViewById(R.id.completedExerciseListView);
         listView.setAdapter(mAdapter);
 
-        // Define the listener interface
-        OnItemClickListener mListener = new OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    // Open dialog to edit this exercise
-            	DialogFragment fragment = AppDialogFragment.newInstance(instance, 2, position);
-    	        fragment.show(getFragmentManager(), getString(R.string.dialog_fragment_tag_edit_exercise));
-            		
-            }
-        };
-
         // Get the ListView and wired the listener
-        listView.setOnItemClickListener(mListener); 
+        listView.setOnItemClickListener(this); 
         
 	}
 
@@ -56,6 +47,13 @@ public class ViewWorkoutInstanceActivity extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.view_workout_instance, menu);
 		return true;
+	}
+
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        // Open dialog to edit this exercise
+		DialogFragment fragment = AppDialogFragment.newInstance(instance, 2, position);
+    	fragment.show(getFragmentManager(), getString(R.string.dialog_fragment_tag_edit_exercise));
 	}
 
 }
