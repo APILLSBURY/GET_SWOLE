@@ -36,6 +36,7 @@
 
     <!-- Schedule -->
     <string name="schedule_new">Schedule Workout</string>
+    
     <!-- Progress -->
     <string name="progress_display_settings">Display:</string>
     <string name="progress_reps_line">Your Max Reps</string>
@@ -67,6 +68,12 @@
         <item>Just for this date.</item>
         <item>Set repeating event.</item>
     </string-array>	
+    <string name="friend_view_download">What do you want to do with this workout?</string>
+    <string-array name="friend_view_download_options">
+        <item>View workout.</item>
+        <item>Download workout.</item>
+        
+    </string-array>
     <!-- Profile -->
 	<string name="default_profile_photo">default_profile.png</string>
 	<string name="profile_saved_photo_file_name">profile_photo</string>

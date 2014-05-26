@@ -2,18 +2,17 @@ package cs65.dartmouth.get_swole;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.v4.app.DialogFragment;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,6 +56,7 @@ public class AppDialogFragment extends DialogFragment {
 	public static final int DIALOG_ID_SCHEDULE_NEW = 13;
 	public static final int DIALOG_ID_SCHEDULE_UPDATE = 14;
 	public static final int DIALOG_ID_SCHEDULE_NEW_PICK = 15;
+	public static final int DIALOG_ID_VIEW_DOWNLOAD_WORKOUT = 16;
 	
 	private static final String DIALOG_ID_KEY = "dialog_id";
 	
@@ -729,6 +729,24 @@ public class AppDialogFragment extends DialogFragment {
 			
 			
 		case DIALOG_ID_SCHEDULE_UPDATE:
+		case DIALOG_ID_VIEW_DOWNLOAD_WORKOUT:
+			b = new AlertDialog.Builder(parent);
+			b.setTitle(R.string.friend_view_download);
+			// The click listener will use intents upon selection
+			DialogInterface.OnClickListener mListener = new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int item) {
+					if (item == 0) {
+						// we want to view the workout
+					}
+					else {
+						// we want to download the workout
+						
+					}
+				}
+			};
+			b.setItems(R.array.friend_view_download_options, mListener);
+			return b.create();
+			
 		default:
 			return null;		
 		

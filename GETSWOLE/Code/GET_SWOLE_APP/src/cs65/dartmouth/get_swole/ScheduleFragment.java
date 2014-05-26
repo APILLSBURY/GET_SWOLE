@@ -10,11 +10,11 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 
-import android.app.DialogFragment;
-import android.app.ListFragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -293,6 +293,7 @@ public class ScheduleFragment extends ListFragment {
 		}
 	}
 	
+	/*
 	public void onScheduleNew() {
 		// Get the selected day 
 		Calendar selectedDay = Calendar.getInstance(); // update this
@@ -309,5 +310,5 @@ public class ScheduleFragment extends ListFragment {
 	
 	public void setCurrentFrequency(Frequency f) {
 		frequencyToSave = f;
-	}
+	}*/
 }
