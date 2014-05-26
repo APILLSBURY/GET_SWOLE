@@ -198,7 +198,7 @@ public class AppDialogFragment extends DialogFragment {
 		            	intent.putExtras(bundle);
 		            	
 		            	getActivity().startActivity(intent);   
-		            	getDialog().cancel(); // is this right?
+		            	getDialog().cancel();
 		            
 					}
 					
