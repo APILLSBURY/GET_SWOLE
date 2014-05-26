@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -103,9 +104,10 @@ public class WorkoutEditActivity extends Activity {
 		
 		dbWrapper.open();
 		
-		if (id == -1) { // we are creating a new workout, it is added to the database
+		if (id == -1L) { // we are creating a new workout, it is added to the database
 			Workout w = new Workout(getIntent().getExtras().getString(Globals.NAME_TAG));	
 			workout = dbWrapper.createEntry(w);
+			Log.d(Globals.TAG, "here");
 		}
 		else {
 			workout = (Workout) dbWrapper.getEntryById(id, Workout.class);	
@@ -186,7 +188,7 @@ public class WorkoutEditActivity extends Activity {
 	public void onStartWorkout() {
        
 		if (workout.getExerciseList().isEmpty()){
-			Toast.makeText(this, "How can you start a workout with no exercises?", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, "Add some exercises!", Toast.LENGTH_SHORT).show();
 		}
 		else {
 			saveComments();
