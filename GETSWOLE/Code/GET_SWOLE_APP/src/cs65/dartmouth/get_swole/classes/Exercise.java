@@ -5,6 +5,10 @@ import java.util.ArrayList;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import cs65.dartmouth.get_swole.Globals;
+
+import android.util.Log;
+
 public class Exercise extends GetSwoleClass {
 	
 	private ArrayList<Set> setList;
@@ -45,21 +49,27 @@ public class Exercise extends GetSwoleClass {
 	public String getSetListString() {
 		String s = "";
 		for (int i = 0; i < setList.size(); i++) {
-			s += setList.get(i).toString() + "&";
+			s += setList.get(i).toString() + "AND";
 		}
 		if (s.length() >= 1) {
 			s = s.substring(0, s.length() - 1); //remove the trailing "&"
 		}
+		Log.d(Globals.TAG, "savedSetListString = " + s);
 		return s;
 	}
 	
 	public void setSetListFromString(String s) {
-		String[] sets = s.split("&");
+		Log.d(Globals.TAG, "s = " + s);
+		String[] sets = s.split("AND");
+		for (int j = 0; j < sets.length; j++) {
+			Log.d(Globals.TAG, "sets[" + j + "] = " + sets[j]);
+		}
 		setList.clear();
 		String[] repsByWeight;
 		for (int i = 0; i < sets.length; i++) {
 			if (!sets[i].isEmpty()) {
 				 repsByWeight = sets[i].split("x");
+				 Log.d(Globals.TAG, "repsByWeight = " + repsByWeight[0] + ", " + repsByWeight[1]);
 				 setList.add(new Set(Integer.parseInt(repsByWeight[0]), Integer.parseInt(repsByWeight[1])));
 			}
 		}
