@@ -18,6 +18,7 @@ import android.widget.ToggleButton;
 
 import com.jjoe64.graphview.CustomLabelFormatter;
 import com.jjoe64.graphview.GraphView.GraphViewData;
+import com.jjoe64.graphview.GraphView.LegendAlign;
 import com.jjoe64.graphview.GraphViewSeries;
 import com.jjoe64.graphview.GraphViewSeries.GraphViewSeriesStyle;
 import com.jjoe64.graphview.LineGraphView;
@@ -38,8 +39,7 @@ public class ProgressViewActivity extends Activity {
 	Exercise exercise; // used to compare goals
 	ArrayList<Exercise> instanceExercises; // this and instance workouts are the same size
 	ArrayList<WorkoutInstance> instanceWorkouts;
-	GraphViewData[] repsData, weightData;
-	GraphViewData[] repsGoal, weightGoal;
+	GraphViewSeries repsDataSeries, weightDataSeries, repsGoalSeries, weightGoalSeries;
 	
     
 	@Override
@@ -130,15 +130,19 @@ public class ProgressViewActivity extends Activity {
 	            return null;
 	        }
 	    });		
-		//progressChart.setShowLegend(true);
-		//progressChart.setLegendAlign(legendAlign
+		progressChart.setShowLegend(true);
+		progressChart.setLegendAlign(LegendAlign.BOTTOM);
 		
 	}
 	
 	public void configureData() {
-		// reps goal data
-		repsGoal = new GraphViewData[2];
-		//repsGoal[]
+		// reps goal data - just a straight line
+		if (exercise.getMaxReps() != -1) {
+			GraphViewData [] repsGoal = new GraphViewData[2];
+			repsGoal[0] = new GraphViewData(instanceWorkouts.get(0).getTime().getTimeInMillis(), exercise.getMaxReps());
+			repsGoal[1] = new GraphViewData(instanceWorkouts.get(instanceWorkouts.size()-1).getTime().getTimeInMillis(), exercise.getMaxReps());
+			repsGoalSeries = new GraphViewSeries(getString(R.string.progress_goal_line),  new GraphViewSeriesStyle(Color.RED, 4), repsGoal);
+		}
 		
 		// reps instance data
 		int dataIndex = 0;
@@ -151,11 +155,18 @@ public class ProgressViewActivity extends Activity {
 					tempRepsData[dataIndex++] = new GraphViewData(instanceWorkouts.get(i).getTime().getTimeInMillis(), maxReps);
 			}
 		}			
-		repsData = clamp(tempRepsData, dataIndex);
+		GraphViewData [] repsData = clamp(tempRepsData, dataIndex);	
+		repsDataSeries = new GraphViewSeries(getString(R.string.progress_actual_line), new GraphViewSeriesStyle(Color.BLUE, 4), repsData);
+
 		
 		// weight goal data
-		weightGoal = new GraphViewData[2];
-		
+		if (exercise.getMaxWeight() != -1) {
+			GraphViewData [] weightGoal = new GraphViewData[2];
+			weightGoal[0] = new GraphViewData(instanceWorkouts.get(0).getTime().getTimeInMillis(), exercise.getMaxWeight());
+			weightGoal[1] = new GraphViewData(instanceWorkouts.get(instanceWorkouts.size()-1).getTime().getTimeInMillis(), exercise.getMaxWeight());
+			weightGoalSeries = new GraphViewSeries(getString(R.string.progress_goal_line), new GraphViewSeriesStyle(Color.RED, 4), weightGoal);
+		}
+
 		// weight instance data
 		dataIndex = 0;
 		GraphViewData [] tempWeightData = new GraphViewData[instanceWorkouts.size()];
@@ -168,7 +179,9 @@ public class ProgressViewActivity extends Activity {
 			}
 		}
 		
-		weightData = clamp(tempWeightData, dataIndex);	
+		GraphViewData [] weightData = clamp(tempWeightData, dataIndex);	
+		weightDataSeries = new GraphViewSeries(getString(R.string.progress_actual_line), new GraphViewSeriesStyle(Color.BLUE, 4), weightData);
+
 	}
 	
 	// Based on checkbox preferences and exercise instances
@@ -178,14 +191,16 @@ public class ProgressViewActivity extends Activity {
 		
 		if (repsChecked) {
 			
-			GraphViewSeries repsDataSeries = new GraphViewSeries(getString(R.string.progress_reps_line), new GraphViewSeriesStyle(Color.RED, 4), repsData);
 			progressChart.addSeries(repsDataSeries);
+			if (repsGoalSeries != null)
+				progressChart.addSeries(repsGoalSeries);
 		
 			
 		}
 		else { // weight is checked		
-			GraphViewSeries weightDataSeries = new GraphViewSeries(getString(R.string.progress_weight_line), new GraphViewSeriesStyle(Color.BLUE, 4), weightData);
 			progressChart.addSeries(weightDataSeries);
+			if (weightGoalSeries != null)
+				progressChart.addSeries(weightGoalSeries);
 		}
 
 	}
