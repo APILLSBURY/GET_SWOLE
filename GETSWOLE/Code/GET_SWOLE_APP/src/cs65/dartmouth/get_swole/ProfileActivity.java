@@ -786,46 +786,46 @@ public class ProfileActivity extends ListActivity {
 
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-	    // Inflate the menu items for use in the action bar
-	    getMenuInflater().inflate(R.menu.clear_profile, menu);
-	    return super.onCreateOptionsMenu(menu);
-	}
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-	    // Handle presses on the action bar items
-	    if (item.getItemId() == R.id.clear_profile) {
-	    	clearProfile();
-	    	return true;
-	    }
-	    else
-	    	return false;
-	    }
-	
-	public void clearProfile() {
-		// Getting the shared preferences editor
-
-		String mKey = getString(R.string.profile_shared_preferences);
-		SharedPreferences mPrefs = getSharedPreferences(mKey, MODE_PRIVATE);
-		
-		SharedPreferences.Editor mEditor = mPrefs.edit();
-		mEditor.clear();
-		mEditor.commit();
-		
-		// Clear workout check
-		workoutCheck.clear();
-		updateWorkoutList();
-		
-		// Reload profile and uncheck gender
-		loadProfile();
-		
-		Toast.makeText(mContext, "Cleared Fields", Toast.LENGTH_SHORT).show();
-		
-		//finish();
-		
-	}
+//	@Override
+//	public boolean onCreateOptionsMenu(Menu menu) {
+//	    // Inflate the menu items for use in the action bar
+//	    getMenuInflater().inflate(R.menu.clear_profile, menu);
+//	    return super.onCreateOptionsMenu(menu);
+//	}
+//	
+//	@Override
+//	public boolean onOptionsItemSelected(MenuItem item) {
+//	    // Handle presses on the action bar items
+//	    if (item.getItemId() == R.id.clear_profile) {
+//	    	clearProfile();
+//	    	return true;
+//	    }
+//	    else
+//	    	return false;
+//	    }
+//	
+//	public void clearProfile() {
+//		// Getting the shared preferences editor
+//
+//		String mKey = getString(R.string.profile_shared_preferences);
+//		SharedPreferences mPrefs = getSharedPreferences(mKey, MODE_PRIVATE);
+//		
+//		SharedPreferences.Editor mEditor = mPrefs.edit();
+//		mEditor.clear();
+//		mEditor.commit();
+//		
+//		// Clear workout check
+//		workoutCheck.clear();
+//		updateWorkoutList();
+//		
+//		// Reload profile and uncheck gender
+//		loadProfile();
+//		
+//		Toast.makeText(mContext, "Cleared Fields", Toast.LENGTH_SHORT).show();
+//		
+//		//finish();
+//		
+//	}
 	
 	/**
 	 * savePhoto()

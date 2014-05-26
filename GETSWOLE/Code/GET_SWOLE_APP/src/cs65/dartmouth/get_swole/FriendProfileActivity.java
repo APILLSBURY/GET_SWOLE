@@ -350,7 +350,6 @@ public class FriendProfileActivity extends ListActivity {
 		
         Workout entry = workouts.get(position);
         
-        Toast.makeText(mContext, entry.getExerciseList().toString(), Toast.LENGTH_LONG).show();
        
 	}
 
