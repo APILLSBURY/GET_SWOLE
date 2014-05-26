@@ -9,11 +9,10 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
-
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.DialogFragment;
+import android.app.DialogFragment;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -46,9 +45,9 @@ public class ScheduleFragment extends ListFragment {
 	private Context context;
 	private DatabaseWrapper dbWrapper;
 	private WorkoutsAdapter workoutsAdapter;
-	private ArrayList<ArrayList<Workout>> workoutsByDay;
-	private ArrayList<ArrayList<WorkoutInstance>> workoutInstancesByDay;
-	private int selectedGridvalue = 1;
+	private ArrayList<ArrayList<GetSwoleClass>> workoutsByDay;
+	private int selectedGridvalue;
+	private Calendar selectedDay;
 	
 	private Frequency frequencyToSave;
 	
@@ -62,12 +61,14 @@ public class ScheduleFragment extends ListFragment {
 
 		month = (GregorianCalendar) GregorianCalendar.getInstance();
 		itemmonth = (GregorianCalendar) month.clone();
+		selectedDay = (Calendar) month.clone();
+		selectedGridvalue = selectedDay.get(Calendar.DATE);
 
 		items = new ArrayList<String>();
 
 		getWorkoutsByDay();
-		adapter = new CalendarAdapter(context, month, workoutsByDay, workoutInstancesByDay);
-
+		adapter = new CalendarAdapter(context, month, workoutsByDay);
+		
 		GridView gridview = (GridView) view.findViewById(R.id.gridview);
 		gridview.setAdapter(adapter);
 
@@ -99,7 +100,6 @@ public class ScheduleFragment extends ListFragment {
 			public void onClick(View v) {
 				setNextMonth();
 				refreshCalendar();
-
 			}
 		});
 
@@ -123,13 +123,14 @@ public class ScheduleFragment extends ListFragment {
 				}
 				else {
 					selectedGridvalue = gridvalue;
-					//configureListView(workoutsByDay.get(selectedGridvalue));
+					selectedDay.set(Calendar.DATE, selectedGridvalue);
+					configureListView(workoutsByDay.get(selectedGridvalue));
 				}
 			}
 		});
 		
 		//set up the listview
-		//configureListView(workoutsByDay.get(selectedGridvalue));
+		configureListView(workoutsByDay.get(selectedGridvalue));
 		
 		return view;
 	}
@@ -142,7 +143,7 @@ public class ScheduleFragment extends ListFragment {
 			month.set(GregorianCalendar.MONTH, month.get(GregorianCalendar.MONTH) + 1);
 		}
 		getWorkoutsByDay();
-		adapter.setWorkoutsByDay(workoutsByDay, workoutInstancesByDay);
+		adapter.setWorkoutsByDay(workoutsByDay);
 	}
 
 	protected void setPreviousMonth() {
@@ -155,7 +156,7 @@ public class ScheduleFragment extends ListFragment {
 					month.get(GregorianCalendar.MONTH) - 1);
 		}
 		getWorkoutsByDay();
-		adapter.setWorkoutsByDay(workoutsByDay, workoutInstancesByDay);
+		adapter.setWorkoutsByDay(workoutsByDay);
 	}
 
 	protected void showToast(String string) {
@@ -189,20 +190,20 @@ public class ScheduleFragment extends ListFragment {
 	public void onResume() {
 		super.onResume();
 		getWorkoutsByDay();
-		//configureListView(workoutsByDay.get(selectedGridvalue));
+		configureListView(workoutsByDay.get(selectedGridvalue));
 		refreshCalendar();
 	}
 	
 	private void configureListView(ArrayList<GetSwoleClass> workouts) {
 				
-		workoutsAdapter = new WorkoutsAdapter(context, R.layout.workouts_list_row, workouts);
+		workoutsAdapter = new WorkoutsAdapter(context, R.layout.workouts_list_row_small, workouts);
 		
 		setListAdapter(workoutsAdapter);
 		
 		// Define the listener interface
 		OnItemClickListener listener = new OnItemClickListener() {
 		    public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-				Workout w = (Workout) parent.getItemAtPosition(position);
+				GetSwoleClass w = (GetSwoleClass) parent.getItemAtPosition(position);
 		    	showToast("workout " + w.getName() + " clicked"); 
 		    }
 		};
@@ -217,12 +218,9 @@ public class ScheduleFragment extends ListFragment {
 		List<Workout> allWorkouts = dbWrapper.getAllEntries(Workout.class);
 		List<WorkoutInstance> allWorkoutInstances = dbWrapper.getAllEntries(WorkoutInstance.class);
 		dbWrapper.close();
-		workoutsByDay = new ArrayList<ArrayList<Workout>>();
+		workoutsByDay = new ArrayList<ArrayList<GetSwoleClass>>();
 		workoutsByDay.add(null); //add a null value for day 0
-		workoutInstancesByDay = new ArrayList<ArrayList<WorkoutInstance>>();
-		workoutInstancesByDay.add(null); //add a null value for day 0
-		ArrayList<Workout> dailyWorkouts;
-		ArrayList<WorkoutInstance> dailyWorkoutInstances;
+		ArrayList<GetSwoleClass> dailyWorkouts;
 		ArrayList<Calendar> scheduledDates;
 		ArrayList<Frequency> frequencyList;
 		int daysInMonth = month.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
@@ -232,19 +230,19 @@ public class ScheduleFragment extends ListFragment {
 		
 		boolean end = false;
 		while (!end) {
-			dailyWorkoutInstances = new ArrayList<WorkoutInstance>();
-			//show completed workouts
-			if (CalendarUtility.testDateEquality(currDay, Calendar.getInstance()) == CalendarUtility.LESS_THAN) {
+			dailyWorkouts = new ArrayList<GetSwoleClass>();
+			
+			//add completed workouts
+			if (CalendarUtility.testDateEquality(currDay, Calendar.getInstance()) != CalendarUtility.GREATER_THAN) {
 				for (WorkoutInstance wi : allWorkoutInstances) {
 					if (CalendarUtility.testDateEquality(currDay, wi.getTime()) == CalendarUtility.EQUALS) {
-						dailyWorkoutInstances.add(wi);
+						dailyWorkouts.add(wi);
 					}
 				}
 			}
-			workoutInstancesByDay.add(dailyWorkoutInstances);
-			//show upcoming scheduled workouts
-			dailyWorkouts = new ArrayList<Workout>();
-			if (CalendarUtility.testDateEquality(currDay, Calendar.getInstance()) == CalendarUtility.GREATER_THAN) {
+			
+			//add upcoming scheduled workouts
+			if (CalendarUtility.testDateEquality(currDay, Calendar.getInstance()) != CalendarUtility.LESS_THAN) {
 				for (Workout w : allWorkouts) {
 					
 					
@@ -264,7 +262,7 @@ public class ScheduleFragment extends ListFragment {
 						dbWrapper.updateScheduling(w);
 						dbWrapper.close();
 					}
-					
+					//END TEST
 					
 					scheduledDates = w.getScheduledDates();
 					for (Calendar c : scheduledDates) {
@@ -293,15 +291,10 @@ public class ScheduleFragment extends ListFragment {
 		}
 	}
 	
-	/*
-	public void onScheduleNew() {
-		// Get the selected day 
-		Calendar selectedDay = Calendar.getInstance(); // update this
-		
+	public void onScheduleNew(View v) {
 		// open up the dialog knowing this day
 		DialogFragment fragment = AppDialogFragment.newInstanceScheduleNew(selectedDay);
-		fragment.show(getFragmentManager(), getString(R.string.dialog_fragment_tag_schedule_new));	
-			
+		fragment.show(getActivity().getFragmentManager(), getString(R.string.dialog_fragment_tag_schedule_new));
 	}
 		
 	public Frequency getCurrentFrequency() {
@@ -310,5 +303,5 @@ public class ScheduleFragment extends ListFragment {
 	
 	public void setCurrentFrequency(Frequency f) {
 		frequencyToSave = f;
-	}*/
+	}
 }

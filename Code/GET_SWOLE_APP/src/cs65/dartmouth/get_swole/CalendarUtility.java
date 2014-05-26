@@ -5,6 +5,7 @@ package cs65.dartmouth.get_swole;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Locale;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -14,6 +15,8 @@ public class CalendarUtility {
 	public static final int GREATER_THAN = 1;
 	public static final int EQUALS = 0;
 	public static final int LESS_THAN = -1;
+	
+	public static final SimpleDateFormat HOURS_MINUTES_DATE_FORMAT = new SimpleDateFormat("HH:mm", Locale.getDefault());
 	
 	public static String getDate(long milliSeconds) {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
