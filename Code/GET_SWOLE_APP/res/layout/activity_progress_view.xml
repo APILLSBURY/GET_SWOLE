@@ -17,8 +17,8 @@
 	        android:id="@+id/repsToWeight"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:textOn="@string/exercise_weight_title"
-	        android:textOff="@string/exercise_reps_title"/>
+	        android:textOn="@string/exercise_reps_title"
+	        android:textOff="@string/exercise_weight_title"/>
 	    
 	    <LinearLayout 
 	        android:id="@+id/graphBox"

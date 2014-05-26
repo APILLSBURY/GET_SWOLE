@@ -114,7 +114,7 @@ public class DatabaseWrapper {
 		return newWorkout;
 	}
 
-	
+	//ERROR?
 	//create a workout instance entry
 	public WorkoutInstance createEntry(WorkoutInstance workoutInstance) {
 		ContentValues values = new ContentValues();
@@ -127,7 +127,7 @@ public class DatabaseWrapper {
 		}
 		
 		long insertId = database.insert(DatabaseHelper.TABLE_NAME_WORKOUT_INSTANCE, null, values); //ILLEGAL STATE EXCEPTION
-		workoutInstance.setId(insertId);
+		//workoutInstance.setId(insertId);
 		Cursor cursor = database.query(DatabaseHelper.TABLE_NAME_WORKOUT_INSTANCE,
 				WORKOUT_INSTANCE_COLUMNS, DatabaseHelper.WORKOUT_INSTANCE_ID + " = " + insertId, null,
 				null, null, null);
@@ -339,7 +339,7 @@ public class DatabaseWrapper {
 		return workout;
 	}
 	
-	
+	// ERROR?
 	private WorkoutInstance cursorToEntry(Cursor cursor, WorkoutInstance workoutInstance) {
 		workoutInstance.setId(cursor.getLong(cursor.getColumnIndex(DatabaseHelper.WORKOUT_INSTANCE_ID)));
 		long workoutId = cursor.getLong(cursor.getColumnIndex(DatabaseHelper.WORKOUT_INSTANCE_WORKOUT));

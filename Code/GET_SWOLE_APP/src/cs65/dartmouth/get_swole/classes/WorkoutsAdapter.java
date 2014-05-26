@@ -14,11 +14,13 @@ public class WorkoutsAdapter extends ArrayAdapter<GetSwoleClass> {
 	
 	private Context context;
 	private List<GetSwoleClass> workouts;
+	private int resource;
 	
 	public WorkoutsAdapter(Context context, int resource, List<GetSwoleClass> workouts) {
 		super(context, resource, workouts);
 		this.workouts = workouts;
-		this.context = context;	       
+		this.context = context;	   
+		this.resource = resource;
 	}
 	
 	@Override 
@@ -26,14 +28,14 @@ public class WorkoutsAdapter extends ArrayAdapter<GetSwoleClass> {
 		
 		// Inflate the layout for a row
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-	    View rowView = inflater.inflate(R.layout.workouts_list_row, parent, false);
+	    View rowView = inflater.inflate(resource, parent, false);
 	    
 	    // Access the textviews to set
 	    TextView workoutView = (TextView) rowView.findViewById(R.id.workout_list_single_row_title);    	
-	    TextView workoutDetails = (TextView) rowView.findViewById(R.id.workout_list_single_row_details);
+	    //TextView workoutDetails = (TextView) rowView.findViewById(R.id.workout_list_single_row_details);
 	    GetSwoleClass gWorkout = workouts.get(position);
 	    workoutView.setText(gWorkout.getName());
-	    workoutDetails.setText(((Workout) gWorkout).getNotes()) ;
+	    //workoutDetails.setText(((Workout) gWorkout).getNotes()) ;
 	    
 	    return rowView;
 	}
