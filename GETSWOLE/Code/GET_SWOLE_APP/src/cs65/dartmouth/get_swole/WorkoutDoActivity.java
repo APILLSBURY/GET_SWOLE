@@ -129,7 +129,6 @@ public class WorkoutDoActivity extends Activity {
     
 	}
 	
-	// NEEDS EDITING
 	public void onDoExercise(Exercise e, int position) { // position is its position in the exercise list of the workout 
 		// We want to add this exercise to the instance's list of exercises
 		// Need to check the done sets list
@@ -140,10 +139,7 @@ public class WorkoutDoActivity extends Activity {
 			e =dbWrapper.createEntry(e);
 		}
 		dbWrapper.close();
-		
-		//Log.d(Globals.TAG, e.getSetListString());
-		
-		// NEEDS UPDATING - overwrite the existing exercise that this position
+				
 		workoutInstance.getExerciseList().set(position, e);
 	}
 	
@@ -155,27 +151,9 @@ public class WorkoutDoActivity extends Activity {
 		}
 		workoutInstance.setExerciseList(finalList);
 		
-		/*// TESTING ////
-		String s = "";
-		for (Exercise e : finalList) {
-			s += e.getSetListString() + ", ";
-		}
-		Log.d(Globals.TAG, s);
-		//////////////*/
-		
-		Log.d(Globals.TAG, "Going to be saved " + workoutInstance.getExerciseList().get(0).getSetListString());
-
 		// We want to save the workout into the database as a workout instance
-		
 		dbWrapper.open();
-		WorkoutInstance saved = dbWrapper.createEntry(workoutInstance);
-		
-		// TEST
-		WorkoutInstance test = (WorkoutInstance) dbWrapper.getEntryById(saved.getId(), WorkoutInstance.class);
-		Log.d(Globals.TAG, "What was saved " + test.getExerciseList().get(0).getSetListString());
-		
-		///////
-		
+		WorkoutInstance saved = dbWrapper.createEntry(workoutInstance);	
 		dbWrapper.close();	
 		finish(); // close the activity
 			
@@ -187,5 +165,9 @@ public class WorkoutDoActivity extends Activity {
 	
 	public ArrayList<Set> getDoneSets(int position) {
 		return doneSets.get(position);
+	}
+	
+	public ArrayList<Exercise> getDoneExercises() {
+		return workoutInstance.getExerciseList();
 	}
 }

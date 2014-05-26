@@ -32,10 +32,14 @@ public class WorkoutsAdapter extends ArrayAdapter<GetSwoleClass> {
 	    
 	    // Access the textviews to set
 	    TextView workoutView = (TextView) rowView.findViewById(R.id.workout_list_single_row_title);    	
-	    //TextView workoutDetails = (TextView) rowView.findViewById(R.id.workout_list_single_row_details);
 	    GetSwoleClass gWorkout = workouts.get(position);
 	    workoutView.setText(gWorkout.getName());
-	    //workoutDetails.setText(((Workout) gWorkout).getNotes()) ;
+	    
+	    if (resource == R.layout.workouts_list_row) {
+	    	// then we want to display the comments
+		    TextView workoutDetails = (TextView) rowView.findViewById(R.id.workout_list_single_row_details);
+		    workoutDetails.setText(((Workout) gWorkout).getNotes()) ;  	
+	    }
 	    
 	    return rowView;
 	}
