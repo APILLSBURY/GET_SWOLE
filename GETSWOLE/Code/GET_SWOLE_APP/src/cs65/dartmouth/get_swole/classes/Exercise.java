@@ -1,6 +1,7 @@
 package cs65.dartmouth.get_swole.classes;
 
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -59,7 +60,7 @@ public class Exercise extends GetSwoleClass {
 	
 	public void setSetListFromString(String s) {
 		Log.d(Globals.TAG, "s = " + s);
-		String[] sets = s.split("AND");
+		String[] sets = s.split(Pattern.quote("AND"));
 		setList.clear();
 		String[] repsByWeight;
 		for (int i = 0; i < sets.length; i++) {
