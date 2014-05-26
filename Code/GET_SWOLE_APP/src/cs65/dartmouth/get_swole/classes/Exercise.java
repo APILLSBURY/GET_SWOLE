@@ -54,16 +54,12 @@ public class Exercise extends GetSwoleClass {
 		if (s.length() >= 1) {
 			s = s.substring(0, s.length() - 1); //remove the trailing "&"
 		}
-		Log.d(Globals.TAG, "savedSetListString = " + s);
 		return s;
 	}
 	
 	public void setSetListFromString(String s) {
 		Log.d(Globals.TAG, "s = " + s);
 		String[] sets = s.split("AND");
-		for (int j = 0; j < sets.length; j++) {
-			Log.d(Globals.TAG, "sets[" + j + "] = " + sets[j]);
-		}
 		setList.clear();
 		String[] repsByWeight;
 		for (int i = 0; i < sets.length; i++) {
