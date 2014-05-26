@@ -12,6 +12,7 @@ public class Exercise extends GetSwoleClass {
 	private int weightGoal;
 	private int rest;
 	private boolean exerciseInstance;
+	private long oldId;
 	private String notes;
 	
 	public Exercise() {
@@ -27,6 +28,7 @@ public class Exercise extends GetSwoleClass {
 		rest = -1;
 		exerciseInstance = false;
 		notes = "";
+		oldId = -1;
 		id = -1;
 	}
 	
@@ -85,6 +87,10 @@ public class Exercise extends GetSwoleClass {
 		return exerciseInstance;
 	}
 	
+	public long getOldId() {
+		return oldId;
+	}
+	
 	public String getNotes() {
 		return notes;
 	}
@@ -134,6 +140,10 @@ public class Exercise extends GetSwoleClass {
 		else {
 			exerciseInstance = true;
 		}
+	}
+	
+	public void setOldId(long oid) {
+		oldId = oid;
 	}
 	
 	public void setNotes(String n) {
