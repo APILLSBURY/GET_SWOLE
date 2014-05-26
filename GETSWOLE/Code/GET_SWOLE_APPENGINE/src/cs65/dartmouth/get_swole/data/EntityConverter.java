@@ -26,6 +26,13 @@ public class EntityConverter {
 		profile.setName((String) entity.getProperty("firstName"), (String) entity.getProperty("lastName"));
 		profile.setHometown((String) entity.getProperty("hometown"));
 		profile.setSport((String) entity.getProperty("sport"));
+		
+		profile.setGender(Integer.parseInt(entity.getProperty("gender").toString()));
+		profile.setHeight(0, Double.parseDouble(entity.getProperty("height").toString()));
+		profile.setWeight(Double.parseDouble(entity.getProperty("weight").toString()));
+		profile.setBio( ((Text) entity.getProperty("bio")).getValue().toString());
+		profile.setEmail((String) entity.getProperty("email"));
+		profile.setPhone((String) entity.getProperty("phone"));
 	
 		return profile;
 	}
@@ -43,6 +50,13 @@ public class EntityConverter {
 		entity.setProperty("lastName", entry.getLastName());
 		entity.setProperty("hometown", entry.getHometown());
 		entity.setProperty("sport", entry.getSport());
+		
+		entity.setProperty("gender", entry.getGender());
+		entity.setProperty("height", entry.getHeight());
+		entity.setProperty("weight", entry.getWeight());
+		entity.setProperty("bio", new Text(entry.getBio()));
+		entity.setProperty("email", entry.getEmail());
+		entity.setProperty("phone", entry.getPhone());
 		
 		return entity;
 		
