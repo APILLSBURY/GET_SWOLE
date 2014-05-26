@@ -5,7 +5,8 @@ public class Set {
 	private int weight;
 	
 	public Set() {
-		
+		reps = 0;
+		weight = 0;
 	}
 	public Set(int reps, int weight) {
 		this.reps = reps;

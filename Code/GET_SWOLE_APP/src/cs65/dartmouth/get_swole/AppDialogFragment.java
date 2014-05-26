@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -364,23 +365,34 @@ public class AppDialogFragment extends DialogFragment {
 				}
 			});
 		    
-			dbWrapper.open();
-			Exercise e = (Exercise) dbWrapper.getEntryById(id2, Exercise.class);
-			dbWrapper.close();
+		    Exercise e;
+		    
+		    // if we have edited the edittexts here in this activity, we'd like to fill them with this, not the original exercise
+		    if ( ((WorkoutDoActivity) parent).getDoneExercises().get(position) != null) { // we have entered information here before
+		    	
+		    	e = ((WorkoutDoActivity) parent).getDoneExercises().get(position);
+		    }
+		    else { // fill with original 
+				dbWrapper.open();
+				e = (Exercise) dbWrapper.getEntryById(id2, Exercise.class);
+				dbWrapper.close();
+		    }
 			
 			exerciseName2.setText(e.getName());
 			if (e.getRepsGoal() != -1) exerciseRepsGoal2.setText(e.getRepsGoal() + "");
 			if (e.getWeightGoal() != -1) exerciseWeightGoal2.setText(e.getWeightGoal() + "");
 			if (e.getRest() != -1) exerciseRest2.setText(e.getRest() + "");
 			exerciseNotes2.setText(e.getNotes());
-			
 		    
 			b.setPositiveButton(getString(R.string.positive), new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					
 					Exercise e = new Exercise(exerciseName2.getText().toString());
-					e.setId(id2);
+					// set the id of this exercise to be the id of the original exercise
+					e.setOldId(id2);
+					// set the tag that this is an exercise instance
+					e.setExerciseInstance(true);
 					// the information from the sets dialog has already been sent back
 					if (!exerciseRepsGoal2.getText().toString().isEmpty()) e.setRepsGoal(Integer.parseInt(exerciseRepsGoal2.getText().toString()));
 					if (!exerciseWeightGoal2.getText().toString().isEmpty()) e.setWeightGoal(Integer.parseInt(exerciseWeightGoal2.getText().toString()));

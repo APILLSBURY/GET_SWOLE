@@ -19,6 +19,7 @@ import android.widget.ToggleButton;
 import com.jjoe64.graphview.CustomLabelFormatter;
 import com.jjoe64.graphview.GraphView.GraphViewData;
 import com.jjoe64.graphview.GraphViewSeries;
+import com.jjoe64.graphview.GraphViewSeries.GraphViewSeriesStyle;
 import com.jjoe64.graphview.LineGraphView;
 
 import cs65.dartmouth.get_swole.classes.Exercise;
@@ -35,10 +36,11 @@ public class ProgressViewActivity extends Activity {
 	boolean repsChecked = true;
 	
 	Exercise exercise; // used to compare goals
-	ArrayList<Exercise> instanceExercises;
+	ArrayList<Exercise> instanceExercises; // this and instance workouts are the same size
 	ArrayList<WorkoutInstance> instanceWorkouts;
-	GraphViewSeries repsDataSeries;
-	GraphViewSeries weightDataSeries;
+	//GraphViewSeries repsDataSeries;
+	//GraphViewSeries weightDataSeries;
+	GraphViewData[] repsData, weightData;
 	
     
 	@Override
@@ -55,17 +57,8 @@ public class ProgressViewActivity extends Activity {
 		exercise = (Exercise) dbWrapper.getEntryById(eId, Exercise.class);
 		
 		// We need to get all workoutinstances of this workout 
-		instanceWorkouts = dbWrapper.getAllInstances(wId);
+		instanceWorkouts = dbWrapper.getAllInstancesWorkout(wId);
 		dbWrapper.close();
-
-		// TESTING 
-		String log = "";
-		for (WorkoutInstance instance : instanceWorkouts) {
-			log += instance.getExerciseList().get(0).getSetListString() + ", ";
-		}
-		Log.d(Globals.TAG, "Workout instances: " + log);
-		
-		////
 		
 		// We need to grab the exercises from these instances
 		int numExercises = 0;
@@ -74,7 +67,7 @@ public class ProgressViewActivity extends Activity {
 			
 			boolean added = false;
 			for (Exercise e : wi.getExerciseList()) {
-				if (e.getId() == eId) {
+				if (e.getOldId() == eId) {
 					instanceExercises.add(e);
 					numExercises++;
 					added = true;
@@ -85,12 +78,6 @@ public class ProgressViewActivity extends Activity {
 				instanceExercises.add(null); // place holder so that instance exercises is the same size as instance workouts
 			}	
 		}
-		
-		String s = "";
-		for (Exercise e : instanceExercises) {
-			if (e != null) s += e.getSetListString()+", ";
-		}
-		Log.d(Globals.TAG, "Exercise instances of this workout: " + s);
 		
 		// Create the graph
 		LinearLayout graphLayout = (LinearLayout) findViewById(R.id.graphBox);
@@ -105,6 +92,7 @@ public class ProgressViewActivity extends Activity {
 		else { // display the graph
 			
 			initializeGraph(); // creates the graph
+			getExerciseInstanceData();
 			refreshGraphView(); // updates the data
 			graphLayout.addView(progressChart);
 			
@@ -120,16 +108,16 @@ public class ProgressViewActivity extends Activity {
 			});
 		}
 		
-		
 		TextView name = (TextView) findViewById(R.id.exerciseTitleProgress);
 		name.setText(exercise.getName());
 	}
 	
 	private void initializeGraph() {
-		progressChart = new LineGraphView(this, exercise.getName());
-		progressChart.getGraphViewStyle().setGridColor(Color.rgb(100, 20, 0));
+		progressChart = new LineGraphView(this, exercise.getName() + " Progress");
+		progressChart.getGraphViewStyle().setGridColor(Color.DKGRAY);
 		progressChart.getGraphViewStyle().setHorizontalLabelsColor(Color.DKGRAY);
 		progressChart.getGraphViewStyle().setVerticalLabelsColor(Color.DKGRAY);
+		progressChart.setBackgroundColor(Color.BLACK);
 		progressChart.setCustomLabelFormatter(new CustomLabelFormatter() 
 	    {
 	        @Override
@@ -146,66 +134,58 @@ public class ProgressViewActivity extends Activity {
 	    });		
 		//progressChart.setShowLegend(true);
 		//progressChart.setLegendAlign(legendAlign
-		progressChart.setScrollable(true);
-		// optional - activate scaling / zooming
-		progressChart.setScalable(true);
-		repsDataSeries = new GraphViewSeries(getString(R.string.progress_reps_line), null, empty_data);
-		weightDataSeries = new GraphViewSeries(getString(R.string.progress_weight_line), null, empty_data);
-		progressChart.addSeries(repsDataSeries);
-		progressChart.addSeries(weightDataSeries);
 		
+	}
+	
+	public void getExerciseInstanceData() {
+		
+		int dataIndex = 0;
+		GraphViewData[] tempRepsData = new GraphViewData[instanceWorkouts.size()];
+		
+		for (int i = 0 ; i < instanceWorkouts.size(); i++) {
+			if (instanceExercises.get(i) != null) { // we did this exercise during this workout
+				int maxReps = instanceExercises.get(i).getMaxReps();
+				if (maxReps != -1) // we did some reps of this exercise
+					tempRepsData[dataIndex++] = new GraphViewData(instanceWorkouts.get(i).getTime().getTimeInMillis(), maxReps);
+			}
+		}			
+		repsData = clamp(tempRepsData, dataIndex);
+		
+		dataIndex = 0;
+		GraphViewData [] tempWeightData = new GraphViewData[instanceWorkouts.size()];
+		
+		for (int i = 0; i < instanceWorkouts.size(); i++) {
+			if (instanceExercises.get(i) != null) { // we did this exercise during this workout 
+				int maxWeight = instanceExercises.get(i).getMaxWeight();
+				if (maxWeight != -1) 
+					tempWeightData[dataIndex++] = new GraphViewData(instanceWorkouts.get(i).getTime().getTimeInMillis(), maxWeight);
+			}
+		}
+		
+		weightData = clamp(tempWeightData, dataIndex);	
 	}
 	
 	// Based on checkbox preferences and exercise instances
 	public void refreshGraphView() {
-
-		GraphViewData[] repsData, weightData;
+		
+		progressChart.removeAllSeries();
 		
 		if (repsChecked) {
-			int dataIndex = 0;
-			GraphViewData[] tempRepsData = new GraphViewData[instanceWorkouts.size()];
 			
-			for (int i = 0 ; i < instanceWorkouts.size(); i++) {
-				if (instanceExercises.get(i) != null) { // we did this exercise during this workout
-					int maxReps = instanceExercises.get(i).getMaxReps();
-					if (maxReps != -1) // we did some reps of this exercise
-						tempRepsData[dataIndex++] = new GraphViewData(instanceWorkouts.get(i).getTime().getTimeInMillis(), maxReps);
-				}
-			}			
-			repsData = clamp(tempRepsData, dataIndex);
+			GraphViewSeries repsDataSeries = new GraphViewSeries(getString(R.string.progress_reps_line), new GraphViewSeriesStyle(Color.RED, 4), repsData);
+			progressChart.addSeries(repsDataSeries);
 			
 			
-			// DUMMY DATA
-			/*Calendar later = Calendar.getInstance();
-			Calendar before = Calendar.getInstance();
-			later.set(2014, 6, 5);
-			before.set(2014,  4, 30);
-			
-			repsData = new GraphViewData[] {
-					new GraphViewData(Calendar.getInstance().getTimeInMillis(), 4),
-					new GraphViewData(later.getTimeInMillis(), 5),
-					new GraphViewData(before.getTimeInMillis(), 3)
-			};*/
-			
-			repsDataSeries.resetData(repsData);	
-			weightDataSeries.resetData(empty_data);
+			//repsDataSeries.resetData(repsData);	
+			//weightDataSeries.resetData(weightData);
 			
 		}
-		else { // weight is checked
-		
-			int dataIndex = 0;
-			GraphViewData [] tempWeightData = new GraphViewData[instanceWorkouts.size()];
-			
-			for (int i = 0; i < instanceWorkouts.size(); i++) {
-				if (instanceExercises.get(i) != null) {
-					int maxWeight = instanceExercises.get(i).getMaxWeight();
-					if (maxWeight != -1) tempWeightData[dataIndex++] = new GraphViewData(instanceWorkouts.get(i).getTime().getTimeInMillis(), maxWeight);
-				}
-			}
-			
-			weightData = clamp(tempWeightData, dataIndex);	
-			weightDataSeries.resetData(weightData);
-			repsDataSeries.resetData(empty_data);
+		else { // weight is checked		
+			GraphViewSeries weightDataSeries = new GraphViewSeries(getString(R.string.progress_weight_line), new GraphViewSeriesStyle(Color.BLUE, 4), weightData);
+			progressChart.addSeries(weightDataSeries);
+
+			//weightDataSeries.resetData(weightData);
+			//repsDataSeries.resetData(empty_data);
 		}
 
 	}

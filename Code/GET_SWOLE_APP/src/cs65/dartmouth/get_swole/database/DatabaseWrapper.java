@@ -285,7 +285,8 @@ public class DatabaseWrapper {
 	}
 	
 
-	public ArrayList<WorkoutInstance> getAllInstances(long wId) {
+	// Get all instances of a workout given the workout id
+	public ArrayList<WorkoutInstance> getAllInstancesWorkout(long wId) {
 		ArrayList<WorkoutInstance> instances = new ArrayList<WorkoutInstance>();
 		
 		Cursor cursor = database.query(DatabaseHelper.TABLE_NAME_WORKOUT_INSTANCE,
@@ -304,6 +305,7 @@ public class DatabaseWrapper {
 		
 		return instances;
 	}
+
 
 	private GetSwoleClass getEntryFromClass(Cursor cursor, Class<? extends GetSwoleClass> c) {
 		int index = getClassIndex(c);
