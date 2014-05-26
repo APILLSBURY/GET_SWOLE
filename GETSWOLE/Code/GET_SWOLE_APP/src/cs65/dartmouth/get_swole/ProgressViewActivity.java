@@ -5,12 +5,11 @@ package cs65.dartmouth.get_swole;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.widget.CheckBox;
+import android.util.Log;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
@@ -41,7 +40,6 @@ public class ProgressViewActivity extends Activity {
 	GraphViewSeries repsDataSeries;
 	GraphViewSeries weightDataSeries;
 	
-	
     
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +58,15 @@ public class ProgressViewActivity extends Activity {
 		instanceWorkouts = dbWrapper.getAllInstances(wId);
 		dbWrapper.close();
 
+		// TESTING 
+		String log = "";
+		for (WorkoutInstance instance : instanceWorkouts) {
+			log += instance.getExerciseList().get(0).getSetListString() + ", ";
+		}
+		Log.d(Globals.TAG, "Workout instances: " + log);
+		
+		////
+		
 		// We need to grab the exercises from these instances
 		int numExercises = 0;
 		instanceExercises = new ArrayList<Exercise>();
@@ -78,6 +85,12 @@ public class ProgressViewActivity extends Activity {
 				instanceExercises.add(null); // place holder so that instance exercises is the same size as instance workouts
 			}	
 		}
+		
+		String s = "";
+		for (Exercise e : instanceExercises) {
+			if (e != null) s += e.getSetListString()+", ";
+		}
+		Log.d(Globals.TAG, "Exercise instances of this workout: " + s);
 		
 		// Create the graph
 		LinearLayout graphLayout = (LinearLayout) findViewById(R.id.graphBox);
@@ -126,7 +139,7 @@ public class ProgressViewActivity extends Activity {
 	            {
 	               Calendar c = Calendar.getInstance();
 	               c.setTimeInMillis((long) value);
-	               return MONTHS[c.get(Calendar.MONTH)];
+	               return MONTHS[c.get(Calendar.MONTH)]+c.get(Calendar.DAY_OF_MONTH);
 	            }
 	            return null;
 	        }
@@ -163,7 +176,7 @@ public class ProgressViewActivity extends Activity {
 			
 			
 			// DUMMY DATA
-			Calendar later = Calendar.getInstance();
+			/*Calendar later = Calendar.getInstance();
 			Calendar before = Calendar.getInstance();
 			later.set(2014, 6, 5);
 			before.set(2014,  4, 30);
@@ -172,7 +185,7 @@ public class ProgressViewActivity extends Activity {
 					new GraphViewData(Calendar.getInstance().getTimeInMillis(), 4),
 					new GraphViewData(later.getTimeInMillis(), 5),
 					new GraphViewData(before.getTimeInMillis(), 3)
-			};
+			};*/
 			
 			repsDataSeries.resetData(repsData);	
 			weightDataSeries.resetData(empty_data);

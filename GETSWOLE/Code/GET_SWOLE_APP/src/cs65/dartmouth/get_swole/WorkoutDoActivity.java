@@ -6,6 +6,7 @@ import java.util.Calendar;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
@@ -75,14 +76,21 @@ public class WorkoutDoActivity extends Activity {
 					
 		// Initialize all instance variables
 		workoutInstance = new WorkoutInstance();
-		workoutInstance.setTime(Calendar.getInstance());
-		
+		workoutInstance.setTime(Calendar.getInstance());		
 		long id = getIntent().getExtras().getLong(Globals.ID_TAG, -1L);
 		DatabaseWrapper dbWrapper = new DatabaseWrapper(this);
 		dbWrapper.open();
 		workoutInstance.setWorkout((Workout) dbWrapper.getEntryById(id, Workout.class));
 		dbWrapper.close();
+		
+		// create an exercise list for the workoutinstance
+		ArrayList<Exercise> wiExercises = new ArrayList<Exercise>();
+		for (int i = 0; i < workoutInstance.getWorkout().getExerciseList().size(); i++) {
+			wiExercises.add(null); // placeholder, we will get rid of them later
+		}
 
+		workoutInstance.setExerciseList(wiExercises);
+		
 		nameView.setText(workoutInstance.getWorkout().getName());		
 		commentBox.setText(workoutInstance.getWorkout().getNotes());
 		
@@ -127,18 +135,43 @@ public class WorkoutDoActivity extends Activity {
 			e.setSetList(sets);
 		}
 		
-		workoutInstance.addExercise(e);
+		//Log.d(Globals.TAG, e.getSetListString());
+		
+		// NEEDS UPDATING - overwrite the existing exercise that this position
+		workoutInstance.getExerciseList().set(position, e);
 		
 	}
 	
 	public void onFinishWorkout() {
+		// Need to get rid of the null spaces in the workout instance exercise list
+		ArrayList<Exercise> finalList = new ArrayList<Exercise>();
+		for (Exercise e : workoutInstance.getExerciseList()) {
+			if (e != null) finalList.add(e);
+		}
+		workoutInstance.setExerciseList(finalList);
 		
+		/*// TESTING ////
+		String s = "";
+		for (Exercise e : finalList) {
+			s += e.getSetListString() + ", ";
+		}
+		Log.d(Globals.TAG, s);
+		//////////////*/
+		
+		Log.d(Globals.TAG, "Going to be saved " + workoutInstance.getExerciseList().get(0).getSetListString());
+
 		// We want to save the workout into the database as a workout instance
 		DatabaseWrapper dbWrapper = new DatabaseWrapper(this);
 		dbWrapper.open();
-		dbWrapper.createEntry(workoutInstance);
-		dbWrapper.close();
+		WorkoutInstance saved = dbWrapper.createEntry(workoutInstance);
 		
+		// TEST
+		WorkoutInstance test = (WorkoutInstance) dbWrapper.getEntryById(saved.getId(), WorkoutInstance.class);
+		Log.d(Globals.TAG, "What was saved " + test.getExerciseList().get(0).getSetListString());
+		
+		///////
+		
+		dbWrapper.close();	
 		finish(); // close the activity
 			
 	}

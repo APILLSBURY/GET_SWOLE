@@ -83,4 +83,8 @@ public class WorkoutInstance extends GetSwoleClass {
 	public void setExerciseList(ArrayList<Exercise> el) {
 		exerciseList = el;
 	}
+	
+	public String toString() {
+		return workout.getName() + " on " + time.get(Calendar.MONTH) + "/" + time.get(Calendar.DAY_OF_MONTH);
+	}
 }

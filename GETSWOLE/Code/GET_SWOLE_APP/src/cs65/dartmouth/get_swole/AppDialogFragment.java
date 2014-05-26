@@ -2,6 +2,7 @@ package cs65.dartmouth.get_swole;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import android.app.Activity;
@@ -9,7 +10,6 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,18 +17,22 @@ import android.os.CountDownTimer;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 import cs65.dartmouth.get_swole.classes.Exercise;
 import cs65.dartmouth.get_swole.classes.ExerciseArrayAdapter;
 import cs65.dartmouth.get_swole.classes.GetSwoleClass;
 import cs65.dartmouth.get_swole.classes.Set;
+import cs65.dartmouth.get_swole.classes.Workout;
 import cs65.dartmouth.get_swole.classes.WorkoutInstance;
+import cs65.dartmouth.get_swole.classes.WorkoutsAdapter;
 import cs65.dartmouth.get_swole.database.DatabaseWrapper;
 
 public class AppDialogFragment extends DialogFragment {
@@ -37,10 +41,11 @@ public class AppDialogFragment extends DialogFragment {
 	private static final String EXERCISE_ID = "Exercise_Id";
 	private static final String EXERCISE_POSITION = "Exercise_Position";
 	private static final String WORKOUT_INSTANCE_ID = "WorkoutInstance_Id";
+	private static final String WORKOUT_ID = "Workout_Id";
+	private static final String DATE = "Date";
 	
 	public static final int DIALOG_ID_NEW_WORKOUT = 2;
 	public static final int DIALOG_ID_DATE = 3;
-	public static final int DIALOG_ID_TIME = 4;
 	public static final int DIALOG_ID_EDIT_EXERCISE = 5; // for adding new exercises, or editing already existing
 	public static final int DIALOG_ID_ADD_EXISTING_EXERCISE = 6;
 	public static final int DIALOG_ID_DO_EXERCISE = 7;
@@ -49,8 +54,9 @@ public class AppDialogFragment extends DialogFragment {
 	public static final int DIALOG_ID_DO_SETS = 10;
 	public static final int DIALOG_ID_VIEW_EXERCISE = 11;
 	public static final int DIALOG_ID_VIEW_SETS = 12;
-	public static final int DIALOG_ID_SCHEDULE_ADD = 13;
-	public static final int DIALOG_ID_SCHEDULE_CHANGE = 14;
+	public static final int DIALOG_ID_SCHEDULE_NEW = 13;
+	public static final int DIALOG_ID_SCHEDULE_UPDATE = 14;
+	public static final int DIALOG_ID_SCHEDULE_NEW_PICK = 15;
 	
 	private static final String DIALOG_ID_KEY = "dialog_id";
 	
@@ -113,6 +119,29 @@ public class AppDialogFragment extends DialogFragment {
 		return frag;
 	}
 	
+	public static AppDialogFragment newInstanceSchedule(GetSwoleClass workout, long date, int dialogId) {
+
+		AppDialogFragment frag = new AppDialogFragment();
+		Bundle args = new Bundle();
+		
+		args.putInt(DIALOG_ID_KEY, DIALOG_ID_SCHEDULE_NEW_PICK);
+		args.putLong(WORKOUT_ID, workout.getId());
+		
+		frag.setArguments(args);
+		return frag;
+	}
+	
+	public static AppDialogFragment newInstanceScheduleNew(Calendar date) {
+		AppDialogFragment frag = new AppDialogFragment();
+		Bundle args = new Bundle();
+		
+		args.putInt(DIALOG_ID_KEY,  DIALOG_ID_SCHEDULE_NEW);
+		args.putLong(DATE, date.getTimeInMillis());
+		
+		frag.setArguments(args);
+		return frag;
+	}
+	
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		
@@ -136,21 +165,13 @@ public class AppDialogFragment extends DialogFragment {
 			            @Override
 			            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 			            	// Add callback
+			            	// add this frequency to the database
+			            	
+			            	
 			            }
 	 
 	        }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH)); 
 			return dpDialog;
-			
-		case DIALOG_ID_TIME:
-			// Create time picker dialog
-			Dialog tpDialog = new TimePickerDialog(parent, 
-					new TimePickerDialog.OnTimeSetListener() {
-						@Override
-						public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-							// Add callback
-						}
-			}, c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), false);
-			return tpDialog;
 		
 		case DIALOG_ID_NEW_WORKOUT:
 			// Create custom dialog
@@ -519,9 +540,7 @@ public class AppDialogFragment extends DialogFragment {
 				sets = exercise.getSetList();	    
 		    
 		    }
-		    
-    		
-								    	
+		    							    	
 	    	for (int i = 0; i < sets.size(); i++) { // assume set size is at most 8
 				if (sets.get(i).getReps() != 0)
 				((EditText) setsView2.findViewById(repIds[i])).setText(sets.get(i).getReps() + ""); 
@@ -530,7 +549,6 @@ public class AppDialogFragment extends DialogFragment {
 			}    
 				  
 		    
-		    // send things back to activity the exercise
 		    b.setPositiveButton(R.string.positive, new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
@@ -652,8 +670,65 @@ public class AppDialogFragment extends DialogFragment {
 			});
 		    
 			return b.create();
-		case DIALOG_ID_SCHEDULE_ADD:
-		case DIALOG_ID_SCHEDULE_CHANGE:
+		case DIALOG_ID_SCHEDULE_NEW:
+			// Create custom dialog
+			b = new AlertDialog.Builder(parent);
+	
+			 // Get the layout inflater
+		    inflater = getActivity().getLayoutInflater();
+		  	View workoutView = inflater.inflate(R.layout.dialog_schedule_new, null);
+		    b.setView(workoutView);		
+		    ListView workoutList = (ListView) workoutView.findViewById(R.id.scheduleNewListView);
+		    
+		    final long dateSelected = getArguments().getLong(DATE);
+		    
+		    // we need to set an adapter and callback
+		    dbWrapper.open();
+		    final List<GetSwoleClass> workouts = dbWrapper.getAllEntries(Workout.class);
+		    
+		    WorkoutsAdapter workoutsAdapter = new WorkoutsAdapter(parent, R.layout.workouts_list_row_small, workouts);
+			
+			workoutList.setAdapter(workoutsAdapter);
+					
+			// Define the listener interface - start a new dialog to choose whether to schedule today or frequently
+	        OnItemClickListener listener = new OnItemClickListener() {
+	            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+	            	
+	            	GetSwoleClass workout = workouts.get(position);
+	            	
+	            	// open a dialog to display 
+    	 			DialogFragment fragment = AppDialogFragment.newInstanceSchedule(workout, dateSelected, DIALOG_ID_SCHEDULE_NEW_PICK);
+    	 			fragment.show(getFragmentManager(), getString(R.string.dialog_fragment_tag_when_to_schedule_new));
+    	 			
+	            }
+	        };
+	        
+	        // Get the ListView and wired the listener
+	        workoutList.setOnItemClickListener(listener);
+	        
+		    
+			return b.create();	
+		case DIALOG_ID_SCHEDULE_NEW_PICK:
+			
+			b = new AlertDialog.Builder(parent);
+			b.setTitle(R.string.schedule_pick_when);
+			// The click listener will use intents upon selection
+			DialogInterface.OnClickListener dListener = new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int item) {
+					if (item == 0) {
+						// we want to schedule just for today
+					}
+					else {
+						// schedule frequency
+						
+					}
+				}
+			};
+			b.setItems(R.array.schedule_pick_options, dListener);
+			return b.create();
+			
+			
+		case DIALOG_ID_SCHEDULE_UPDATE:
 		default:
 			return null;		
 		

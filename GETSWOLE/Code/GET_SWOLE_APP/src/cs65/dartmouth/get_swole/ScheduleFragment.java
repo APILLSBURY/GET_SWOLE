@@ -10,6 +10,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 
+import android.app.DialogFragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -49,6 +50,7 @@ public class ScheduleFragment extends ListFragment {
 	private ArrayList<ArrayList<WorkoutInstance>> workoutInstancesByDay;
 	private int selectedGridvalue = 1;
 	
+	private Frequency frequencyToSave;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
@@ -281,7 +283,7 @@ public class ScheduleFragment extends ListFragment {
 			}
 			workoutsByDay.add(dailyWorkouts);
 			
-			Log.d(Globals.TAG, "currDay = " + currDay.get(GregorianCalendar.DATE));
+			//Log.d(Globals.TAG, "currDay = " + currDay.get(GregorianCalendar.DATE));
 			if ((currDay.get(GregorianCalendar.DATE) + 1) > daysInMonth) {
 				end = true;
 			}
@@ -289,5 +291,22 @@ public class ScheduleFragment extends ListFragment {
 				currDay.set(GregorianCalendar.DATE, currDay.get(GregorianCalendar.DATE) + 1);
 			}
 		}
+	}
+	
+	public void onScheduleNew() {
+		// Get the selected day 
+		Calendar selectedDay = Calendar.getInstance();
+		
+		// open up the dialog knowing this day
+		DialogFragment frag = AppDialogFragment.newInstanceScheduleNew(selectedDay);
+		frag.show(getFragmentManager(), getString(R.string.dialog_fragment_tag_schedule_new));
+	}
+		
+	public Frequency getCurrentFrequency() {
+		return frequencyToSave;
+	}
+	
+	public void setCurrentFrequency(Frequency f) {
+		frequencyToSave = f;
 	}
 }

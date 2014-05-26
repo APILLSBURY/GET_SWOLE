@@ -34,6 +34,8 @@
     <string name="exercise_notes_hint">about this exercise.</string>
     <string name="existing_exercise">Add existing exercise</string>
 
+    <!-- Schedule -->
+    <string name="schedule_new">Schedule Workout</string>
     <!-- Progress -->
     <string name="progress_display_settings">Display:</string>
     <string name="progress_reps_line">Your Max Reps</string>
@@ -58,7 +60,13 @@
     <string name="dialog_fragment_tag_view_sets">dialog_fragment_view_sets</string>
     <string name="begin_timer">Start</string>
     <string name="edit_sets">Edit sets</string>
-
+    <string name="dialog_fragment_tag_schedule_new">dialog_fragment_schedule_new</string>
+    <string name="dialog_fragment_tag_when_to_schedule_new">dialog_fragment_when_to_schedule_new</string>
+    <string name="schedule_pick_when">Schedule this workout:</string>
+    <string-array name="schedule_pick_options">
+        <item>Just for this date.</item>
+        <item>Set repeating event.</item>
+    </string-array>	
     <!-- Profile -->
 	<string name="default_profile_photo">default_profile.png</string>
 	<string name="profile_saved_photo_file_name">profile_photo</string>
