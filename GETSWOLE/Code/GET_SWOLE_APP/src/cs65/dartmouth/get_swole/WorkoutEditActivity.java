@@ -107,7 +107,6 @@ public class WorkoutEditActivity extends Activity {
 		if (id == -1L) { // we are creating a new workout, it is added to the database
 			Workout w = new Workout(getIntent().getExtras().getString(Globals.NAME_TAG));	
 			workout = dbWrapper.createEntry(w);
-			Log.d(Globals.TAG, "here");
 		}
 		else {
 			workout = (Workout) dbWrapper.getEntryById(id, Workout.class);	
