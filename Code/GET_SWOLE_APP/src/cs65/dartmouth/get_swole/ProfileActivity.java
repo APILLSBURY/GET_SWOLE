@@ -1,6 +1,5 @@
 package cs65.dartmouth.get_swole;
 
-import java.awt.List;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -51,6 +50,8 @@ import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.MeasureSpec;
 import android.view.ViewGroup;
@@ -380,6 +381,24 @@ public class ProfileActivity extends ListActivity {
 	 */
 	public void onSaveClicked(View v) {
 		
+		// Check that necessary fields are inputted (name)
+		
+		// Check name
+		String mKey = getString(R.string.preference_key_profile_first_name);
+		String first = (String) ((EditText) findViewById(R.id.firstName)).getText().toString();
+		
+		mKey = getString(R.string.preference_key_profile_last_name);
+		String last = (String) ((EditText) findViewById(R.id.lastName)).getText().toString();
+		
+		// Send toast that you must enter at least your name for a profile
+		if (first.equals("") && last.equals("")) {
+			// Send toast message
+			Toast.makeText(getApplicationContext(), "Must enter your name!", Toast.LENGTH_SHORT).show();
+			onPause();
+			onResume();
+			return;
+		}
+		
 		// Save ProfileActivity
 		saveProfile();
 		
@@ -576,8 +595,40 @@ public class ProfileActivity extends ListActivity {
 			radioBtn.setChecked(true);
 			
 		}
+		// uncheck them all
+		else {
+	
+			((RadioGroup) findViewById(R.id.radioGender)).clearCheck();
+		}
 		
-		Log.d(TAG, "LOADED OTHER");
+		// Load Height
+		mKey = getString(R.string.preference_key_profile_height_feet);
+		mValue = mPrefs.getString(mKey, "");
+		((EditText) findViewById(R.id.feetinput)).setText(mValue);
+		
+		mKey = getString(R.string.preference_key_profile_height_in);
+		mValue = mPrefs.getString(mKey, "");
+		((EditText) findViewById(R.id.inchinput)).setText(mValue);
+		
+		// Load Weight
+		mKey = getString(R.string.preference_key_profile_weight);
+		mValue = mPrefs.getString(mKey, "");
+		((EditText) findViewById(R.id.weightinput)).setText(mValue);
+		
+		// Load Bio
+		mKey = getString(R.string.preference_key_profile_bio);
+		mValue = mPrefs.getString(mKey, "");
+		((EditText) findViewById(R.id.bioInputText)).setText(mValue);
+		
+		// Load Email
+		mKey = getString(R.string.preference_key_profile_email);
+		mValue = mPrefs.getString(mKey, "");
+		((EditText) findViewById(R.id.email)).setText(mValue);
+		
+		// Load Phone
+		mKey = getString(R.string.preference_key_profile_phone);
+		mValue = mPrefs.getString(mKey, "");
+		((EditText) findViewById(R.id.phone)).setText(mValue);
 		
 		// Grab existing Image, code help from TA
 		try {
@@ -658,7 +709,68 @@ public class ProfileActivity extends ListActivity {
 		int mIntValue = mRadioGroup.indexOfChild(findViewById(mRadioGroup.getCheckedRadioButtonId()));
 		mEditor.putInt(mKey, mIntValue);
 		
-		// Save the workouts checked
+		profileObj.setGender(mIntValue);
+		
+		// Save Height
+		
+		mKey = getString(R.string.preference_key_profile_height_feet);
+		String feetString = (String) ((EditText) findViewById(R.id.feetinput)).getText().toString();
+		mEditor.putString(mKey, feetString);
+		
+		mKey = getString(R.string.preference_key_profile_height_in);
+		String inString = (String) ((EditText) findViewById(R.id.inchinput)).getText().toString();
+		mEditor.putString(mKey, inString);
+		
+		if ((!feetString.equals("") && !inString.equals(""))) {
+			double feet = Double.parseDouble(((String) ((EditText) findViewById(R.id.feetinput)).getText().toString()));
+			double in = Double.parseDouble((String) ((EditText) findViewById(R.id.inchinput)).getText().toString());
+			profileObj.setHeight(feet, in);
+		}
+		else if (!feetString.equals("") && inString.equals("")) {
+			double feet = Double.parseDouble(((String) ((EditText) findViewById(R.id.feetinput)).getText().toString()));
+			profileObj.setHeight(feet, 0);
+		}
+		else if (feetString.equals("") && !inString.equals("")) {
+			double in = Double.parseDouble((String) ((EditText) findViewById(R.id.inchinput)).getText().toString());
+			profileObj.setHeight(0, in);
+		}
+		
+		// Save Weight
+		
+		mKey = getString(R.string.preference_key_profile_weight);
+		mValue = (String) ((EditText) findViewById(R.id.weightinput)).getText().toString();
+		mEditor.putString(mKey, mValue);
+		
+		if (!mValue.equals("")) {
+			double weight = Double.parseDouble(((String) ((EditText) findViewById(R.id.weightinput)).getText().toString()));
+			profileObj.setWeight(weight);
+		}
+		
+		// Save Bio
+		
+		mKey = getString(R.string.preference_key_profile_bio);
+		mValue = (String) ((EditText) findViewById(R.id.bioInputText)).getText().toString();
+		mEditor.putString(mKey, mValue);
+		
+		profileObj.setBio(mValue);
+		
+		// Save Email
+		
+		mKey = getString(R.string.preference_key_profile_email);
+		mValue = (String) ((EditText) findViewById(R.id.email)).getText().toString();
+		mEditor.putString(mKey, mValue);
+		
+		profileObj.setEmail(mValue);
+		
+		// Save Phone
+		
+		mKey = getString(R.string.preference_key_profile_phone);
+		mValue = (String) ((EditText) findViewById(R.id.phone)).getText().toString();
+		mEditor.putString(mKey, mValue);
+		
+		profileObj.setPhone(mValue);
+		
+		// Save Workouts Shared (checked)
 		if (!workoutCheck.isEmpty()) {
 			Set<String> workoutSet = workoutCheck.keySet();
 			for (String workoutString : workoutSet) {
@@ -674,6 +786,47 @@ public class ProfileActivity extends ListActivity {
 
 	}
 
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    // Inflate the menu items for use in the action bar
+	    getMenuInflater().inflate(R.menu.clear_profile, menu);
+	    return super.onCreateOptionsMenu(menu);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    // Handle presses on the action bar items
+	    if (item.getItemId() == R.id.clear_profile) {
+	    	clearProfile();
+	    	return true;
+	    }
+	    else
+	    	return false;
+	    }
+	
+	public void clearProfile() {
+		// Getting the shared preferences editor
+
+		String mKey = getString(R.string.profile_shared_preferences);
+		SharedPreferences mPrefs = getSharedPreferences(mKey, MODE_PRIVATE);
+		
+		SharedPreferences.Editor mEditor = mPrefs.edit();
+		mEditor.clear();
+		mEditor.commit();
+		
+		// Clear workout check
+		workoutCheck.clear();
+		updateWorkoutList();
+		
+		// Reload profile and uncheck gender
+		loadProfile();
+		
+		Toast.makeText(mContext, "Cleared Fields", Toast.LENGTH_SHORT).show();
+		
+		//finish();
+		
+	}
+	
 	/**
 	 * savePhoto()
 	 * @description Save profile photo into internal storage
