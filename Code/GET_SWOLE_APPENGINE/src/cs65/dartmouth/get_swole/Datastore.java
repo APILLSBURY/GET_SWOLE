@@ -180,7 +180,7 @@ public final class Datastore {
 					
 					for (Entity profileEntity : profileEntities) {
 						
-						//if (!profileEntity.getParent().toString().equals("Device(\"" + regId + "\")"))
+						if (!profileEntity.getParent().toString().equals("Device(\"" + regId + "\")"))
 							result.add(EntityConverter.fromEntitytoProfile(profileEntity));
 					}
 				}
@@ -288,7 +288,7 @@ public final class Datastore {
 			
 			for (Entity entity : entities) {
 				
-				//if (entity.getKey().toString().equals("Device(\"" + regId + "\")")) {
+				if (entity.getKey().toString().equals("Device(\"" + regId + "\")")) {
 				
 					Query entityQuery = new Query(ENTITY_KIND_WORKOUT);
 						
@@ -299,11 +299,11 @@ public final class Datastore {
 					for (Entity workoutEntity : workoutEntities) {
 						
 						// Should only return workouts of the same regId
-						//if (workoutEntity.getParent().equals(regId))
+						if (workoutEntity.getParent().toString().equals("Device(\"" + regId + "\")"))
 							result.add(EntityConverter.fromEntitytoWorkout(workoutEntity));
 					}
 				}
-			//}
+			}
 			
 		}
 		
