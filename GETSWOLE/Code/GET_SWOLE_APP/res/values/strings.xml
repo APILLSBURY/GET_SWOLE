@@ -38,11 +38,8 @@
     <string name="schedule_new">Schedule Workout</string>
     
     <!-- Progress -->
-    <string name="progress_display_settings">Display:</string>
-    <string name="progress_reps_line">Your Max Reps</string>
-    <string name="progress_weight_line">Your Max Weight</string>
-    <string name="progress_goal_reps_line">Reps Goal</string>
-    <string name="progress_goal_weight_lin">Weight Goal</string>
+    <string name="progress_goal_line">Goal</string>
+    <string name="progress_actual_line">Actual</string>
     <string name="not_enough_data">Not enough data on this exercise.</string>
     
     <!-- Dialogs -->

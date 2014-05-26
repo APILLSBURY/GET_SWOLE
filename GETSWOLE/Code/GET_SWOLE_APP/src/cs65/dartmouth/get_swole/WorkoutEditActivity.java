@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import cs65.dartmouth.get_swole.classes.Exercise;
 import cs65.dartmouth.get_swole.classes.ExerciseArrayAdapter;
 import cs65.dartmouth.get_swole.classes.Set;
@@ -184,17 +185,22 @@ public class WorkoutEditActivity extends Activity {
 	
 	public void onStartWorkout() {
        
-		saveComments();
-		
-		Bundle b = new Bundle();
-		b.putLong(Globals.ID_TAG, workout.getId());
-		
-		Intent intent = new Intent(this, WorkoutDoActivity.class);
-		intent.putExtras(b);
-		
-		startActivity(intent);
-		
-		finish();
+		if (workout.getExerciseList().isEmpty()){
+			Toast.makeText(this, "How can you start a workout with no exercises?", Toast.LENGTH_SHORT).show();
+		}
+		else {
+			saveComments();
+			
+			Bundle b = new Bundle();
+			b.putLong(Globals.ID_TAG, workout.getId());
+			
+			Intent intent = new Intent(this, WorkoutDoActivity.class);
+			intent.putExtras(b);
+			
+			startActivity(intent);
+			
+			finish();
+		}
 	}
 	
 	// DEALING WITH EXERCISES
@@ -236,7 +242,6 @@ public class WorkoutEditActivity extends Activity {
 		dbWrapper.close();
 		
 		if (oldExercise.equals(newExercise)) {
-			resetSetsToSave();
 			return; // then we don't want to do anything
 		}
 			
