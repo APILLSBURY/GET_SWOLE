@@ -734,13 +734,15 @@ public class AppDialogFragment extends DialogFragment {
 			b = new AlertDialog.Builder(parent);
 			b.setTitle(R.string.friend_view_download);
 			// The click listener will use intents upon selection
-			b.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+			b.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
-					// do nothing
+					// Save the workout
+					// method that cameron writes, 
+					((FriendProfileActivity) parent).downloadWorkout();
 				}
 			});
-			b.setNegativeButton(R.string.negative, new DialogInterface.OnClickListener() {
+			b.setNegativeButton("No", new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					// 
