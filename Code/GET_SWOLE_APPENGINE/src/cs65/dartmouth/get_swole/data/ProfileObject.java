@@ -16,7 +16,12 @@ public class ProfileObject {
 	private String hometown;
 	private String sport;
 	
-	private String bio;
+	private int gender;
+	private double height; // stored in inches
+	private double weight; // stored in lb
+	private String bio; 
+	private String email;
+	private String phone;
 
 	public ProfileObject() {
 		regId = "";
@@ -28,7 +33,13 @@ public class ProfileObject {
 		lastName = "";
 		hometown = "";
 		sport = "";
+		
+		gender = -1;
+		height = -1.0;
+		weight = -1.0;
 		bio = "";
+		email = "";
+		phone = "";
 	}
 	
 	// Setting methods
@@ -67,9 +78,28 @@ public class ProfileObject {
 		sport = sp;
 	}
 	
+	public void setGender(int ge) {
+		gender = ge;
+	}
+	
+	public void setHeight(double feet, double in) {
+		height = (double) (feet * 12 + in);
+	}
+	
+	public void setWeight(double we) {
+		weight = we;
+	}
 	
 	public void setBio(String info) {
 		bio = info;
+	}
+	
+	public void setEmail(String em) {
+		email = em;
+	}
+	
+	public void setPhone(String ph) {
+		phone = ph;
 	}
 	
 	// Getting methods
@@ -106,9 +136,28 @@ public class ProfileObject {
 		return sport;
 	}
 	
+	public int getGender() {
+		return gender;
+	}
+	
+	public double getHeight() {
+		return height;
+	}
+	
+	public double getWeight() {
+		return weight;
+	}
 	
 	public String getBio() {
 		return bio;
+	}
+	
+	public String getEmail() {
+		return email;
+	}
+	
+	public String getPhone() {
+		return phone;
 	}
 	
 	// GCM JSONOBJECT HANDLING
@@ -125,6 +174,13 @@ public class ProfileObject {
 			lastName = obj.getString("lastName");
 			hometown = obj.getString("hometown");
 			sport = obj.getString("sport");
+			
+			gender = obj.getInt("gender");
+			height = obj.getDouble("height");
+			weight = obj.getDouble("weight");
+			bio = obj.getString("bio");
+			email = obj.getString("email");
+			phone = obj.getString("phone");
 
 		}
 		catch (JSONException e) {
@@ -148,6 +204,13 @@ public class ProfileObject {
 			obj.put("lastName", lastName);
 			obj.put("hometown", hometown);
 			obj.put("sport", sport);
+			
+			obj.put("gender", gender);
+			obj.put("height", height);
+			obj.put("weight", weight);
+			obj.put("bio", bio);
+			obj.put("email", email);
+			obj.put("phone", phone);
 			
 			return obj;
 		}
