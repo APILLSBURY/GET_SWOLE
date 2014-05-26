@@ -8,4 +8,7 @@ public class Globals {
 	public static final String ID_TAG = "Id";
 	public static final String NAME_TAG = "WorkoutName";
 	public static final String ID_TAG_WORKOUT = "WorkoutID";
+	
+	public static final String [] genders = {"Male", "Female"};
+	
 }
