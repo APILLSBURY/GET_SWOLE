@@ -26,6 +26,7 @@ import cs65.dartmouth.get_swole.database.DatabaseWrapper;
 
 public class WorkoutDoActivity extends Activity {
 	
+	DatabaseWrapper dbWrapper;
 	WorkoutInstance workoutInstance;
 	ExerciseArrayAdapter mAdapter;
 	ArrayList<ArrayList<Set>> doneSets; // the sets of the exercises as they are completed/edited
@@ -39,6 +40,8 @@ public class WorkoutDoActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_workout);	
+		
+		dbWrapper = new DatabaseWrapper(this);
 		
 		// Display		
 		TextView nameView = (TextView) findViewById(R.id.workoutName);
@@ -129,17 +132,19 @@ public class WorkoutDoActivity extends Activity {
 	// NEEDS EDITING
 	public void onDoExercise(Exercise e, int position) { // position is its position in the exercise list of the workout 
 		// We want to add this exercise to the instance's list of exercises
-		// Need to check the done sets list 
+		// Need to check the done sets list
+		dbWrapper.open(); 
 		if (doneSets.get(position).size() != 0) { // some sets were done here 
 			ArrayList<Set> sets = doneSets.get(position);
 			e.setSetList(sets);
+			e =dbWrapper.createEntry(e);
 		}
+		dbWrapper.close();
 		
 		//Log.d(Globals.TAG, e.getSetListString());
 		
 		// NEEDS UPDATING - overwrite the existing exercise that this position
 		workoutInstance.getExerciseList().set(position, e);
-		
 	}
 	
 	public void onFinishWorkout() {
@@ -161,7 +166,7 @@ public class WorkoutDoActivity extends Activity {
 		Log.d(Globals.TAG, "Going to be saved " + workoutInstance.getExerciseList().get(0).getSetListString());
 
 		// We want to save the workout into the database as a workout instance
-		DatabaseWrapper dbWrapper = new DatabaseWrapper(this);
+		
 		dbWrapper.open();
 		WorkoutInstance saved = dbWrapper.createEntry(workoutInstance);
 		
