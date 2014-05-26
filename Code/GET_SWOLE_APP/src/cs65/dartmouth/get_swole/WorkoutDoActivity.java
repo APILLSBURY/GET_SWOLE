@@ -78,13 +78,13 @@ public class WorkoutDoActivity extends Activity {
 		buttonLayout.addView(button2);
 					
 		// Initialize all instance variables
-		workoutInstance = new WorkoutInstance();
-		workoutInstance.setTime(Calendar.getInstance());		
 		long id = getIntent().getExtras().getLong(Globals.ID_TAG, -1L);
-		DatabaseWrapper dbWrapper = new DatabaseWrapper(this);
 		dbWrapper.open();
-		workoutInstance.setWorkout((Workout) dbWrapper.getEntryById(id, Workout.class));
+		workoutInstance = new WorkoutInstance((Workout) dbWrapper.getEntryById(id, Workout.class));
 		dbWrapper.close();
+		workoutInstance.setTime(Calendar.getInstance());		
+		DatabaseWrapper dbWrapper = new DatabaseWrapper(this);
+		workoutInstance.setWorkout((Workout) dbWrapper.getEntryById(id, Workout.class));
 		
 		// create an exercise list for the workoutinstance
 		ArrayList<Exercise> wiExercises = new ArrayList<Exercise>();
@@ -136,7 +136,8 @@ public class WorkoutDoActivity extends Activity {
 		if (doneSets.get(position).size() != 0) { // some sets were done here 
 			ArrayList<Set> sets = doneSets.get(position);
 			e.setSetList(sets);
-			e =dbWrapper.createEntry(e);
+			e.setExerciseInstance(true);
+			e = dbWrapper.createEntry(e);
 		}
 		dbWrapper.close();
 				
