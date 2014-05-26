@@ -11,26 +11,33 @@ import cs65.dartmouth.get_swole.classes.ProfileObject;
 import cs65.dartmouth.get_swole.classes.Workout;
 import cs65.dartmouth.get_swole.gae.Downloader;
 import cs65.dartmouth.get_swole.gae.Uploader;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.app.Activity;
+import android.app.DialogFragment;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Typeface;
 
 public class FriendProfileActivity extends ListActivity {
 	
@@ -44,6 +51,12 @@ public class FriendProfileActivity extends ListActivity {
 	String lastName;
 	String hometown;
 	String sport;
+	int gender;
+	double height;
+	double weight;
+	String bio;
+	String email;
+	String phone;
 	
 	ArrayList<Workout> workouts;
 	WorkoutsAdapter workoutsAdapter;
@@ -75,29 +88,146 @@ public class FriendProfileActivity extends ListActivity {
         mDownloader = new Downloader(mContext, serverURL);
      
         // Get Extras
-        friendRegId = getIntent().getExtras().getString("regId");
-        pictureString = getIntent().getExtras().getString("pictureString");
-        firstName = getIntent().getExtras().getString("firstName");
-        lastName = getIntent().getExtras().getString("lastName");
-        hometown = getIntent().getExtras().getString("hometown");
-        sport = getIntent().getExtras().getString("sport");
+        Bundle extras = getIntent().getExtras();
+        
+        friendRegId = extras.getString("regId");
+        pictureString = extras.getString("pictureString");
+        firstName = extras.getString("firstName");
+        lastName = extras.getString("lastName");
+        hometown = extras.getString("hometown");
+        sport = extras.getString("sport");
+        gender = extras.getInt("gender");
+        height = extras.getDouble("height");
+        weight = extras.getDouble("weight");
+        bio = extras.getString("bio");
+        email = extras.getString("email");
+        phone = extras.getString("phone");
         
         // Set Values
-     	EditText firstNameEditText = (EditText) findViewById(R.id.firstName);
-     	firstNameEditText.setText(firstName);
-     	firstNameEditText.setFocusable(false);
+     	TextView nameTextView = (TextView) findViewById(R.id.name);
+        if (firstName.equals("") && lastName.equals(""))
+        	nameTextView.setVisibility(View.GONE);
+        else 
+        	nameTextView.setText(firstName + " " + lastName);
+        nameTextView.setFocusable(false);
      	
-     	EditText lastNameEditText = (EditText) findViewById(R.id.lastName);
-     	lastNameEditText.setText(lastName);
-     	lastNameEditText.setFocusable(false);
+     	TextView hometownTextView = (TextView) findViewById(R.id.hometown);
+        if (hometown.equals("")) 
+        	hometownTextView.setVisibility(View.GONE);
+        else
+        	hometownTextView.setText(hometown);
+     	hometownTextView.setFocusable(false);
      	
-     	EditText hometownEditText = (EditText) findViewById(R.id.hometown);
-     	hometownEditText.setText(hometown);
-     	hometownEditText.setFocusable(false);
+     	TextView sportTextView = (TextView) findViewById(R.id.sport);
+        if (sport.equals("")) 
+        	sportTextView.setVisibility(View.GONE);
+        else
+        	sportTextView.setText(sport);
+     	sportTextView.setFocusable(false);
      	
-     	EditText sportEditText = (EditText) findViewById(R.id.sport);
-     	sportEditText.setText(sport);
-     	sportEditText.setFocusable(false);
+     	// Bio Information
+ 		TextView bioTextView = (TextView) findViewById(R.id.bio);   
+ 		EditText bioTextInput = (EditText) findViewById(R.id.bioInputText);
+     	TextView genderTextInput = (TextView) findViewById(R.id.genderInput);
+     	TextView heightTextInput = (TextView) findViewById(R.id.heightinput);
+     	TextView weightTextInput = (TextView) findViewById(R.id.weightinput);
+     	if (gender == -1 && height == -1 && weight == -1 && bio.equals("")) {
+     		bioTextView.setVisibility(View.GONE);
+     		
+     		TextView genderTextView = (TextView) findViewById(R.id.gender);
+     		genderTextView.setVisibility(View.GONE);
+     		genderTextInput.setVisibility(View.GONE);
+     		
+     		TextView heightTextView = (TextView) findViewById(R.id.height);
+     		heightTextView.setVisibility(View.GONE);
+     		heightTextInput.setVisibility(View.GONE);
+     		
+     		TextView weightTextView = (TextView) findViewById(R.id.weight);
+     		weightTextView.setVisibility(View.GONE);
+     		weightTextInput.setVisibility(View.GONE);
+     		
+     		bioTextView.setVisibility(View.GONE);
+     		bioTextInput.setVisibility(View.GONE);
+     	}
+     	else {
+     	
+	     	if (gender != -1)
+	     		genderTextInput.setText(Globals.genders[gender]);
+	     	else {
+	     		TextView genderTextView = (TextView) findViewById(R.id.gender);
+	     		genderTextView.setVisibility(View.GONE);
+	     		genderTextInput.setVisibility(View.GONE);
+	     	}
+	     	genderTextInput.setFocusable(false);
+	
+	     	if (height != -1) {
+	     		heightTextInput.setText((int) height / 12 + "'" + (int) height % 12 + "''");
+	     	}
+	     	else {
+	     		TextView heightTextView = (TextView) findViewById(R.id.height);
+	     		heightTextView.setVisibility(View.GONE);
+	     		heightTextInput.setVisibility(View.GONE);
+	     	}
+	     	heightTextInput.setFocusable(false);
+	     	
+	
+	     	if (weight != -1)
+	     		weightTextInput.setText(weight + " lb");
+	     	else {
+	     		TextView weightTextView = (TextView) findViewById(R.id.weight);
+	     		weightTextView.setVisibility(View.GONE);
+	     		weightTextInput.setVisibility(View.GONE);
+	     	}
+	     	weightTextInput.setFocusable(false);
+	     	
+	     	if (!bio.equals(""))
+	     		bioTextInput.setText(bio);
+	     	else
+	     		bioTextInput.setVisibility(View.GONE);
+	     	bioTextInput.setFocusable(false);
+     	}
+     	
+     	// Contact Information
+     	
+ 		TextView contactTextView = (TextView) findViewById(R.id.contactInfo);     	
+     	TextView emailTextInput = (TextView) findViewById(R.id.email);	
+ 		TextView phoneTextInput = (TextView) findViewById(R.id.phone);
+ 		
+     	// Set email listener
+ 		emailTextInput.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+                sendEmail();
+              }
+          });
+     	
+     	// Set phone listener
+ 		phoneTextInput.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+              phoneCall();
+            }
+        });
+ 		
+     	if (email.equals("") && phone.equals("")) {
+     		contactTextView.setVisibility(View.GONE);
+     		emailTextInput.setVisibility(View.GONE);
+     		phoneTextInput.setVisibility(View.GONE);
+     	}
+     	else if (!email.equals("") && phone.equals("")) {
+     		phoneTextInput.setVisibility(View.GONE);
+     		emailTextInput.setText(email);
+     		emailTextInput.setFocusable(false);
+     	}
+     	else if (email.equals("") && !phone.equals("")) {
+     		emailTextInput.setVisibility(View.GONE);
+     		phoneTextInput.setText(phone);
+     		phoneTextInput.setFocusable(false);
+     	}
+     	else {
+     		emailTextInput.setText(email);
+     		emailTextInput.setFocusable(false);
+     		phoneTextInput.setText(phone);
+     		phoneTextInput.setFocusable(false);
+     	}
      	
      	// Update the photo
      	if (!pictureString.equals("null")) {
@@ -131,6 +261,32 @@ public class FriendProfileActivity extends ListActivity {
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
+	}
+	
+	// Email intent
+	public void sendEmail() {
+		if (!email.equals("")) {
+			/* Create the Intent */
+
+			final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+
+			/* Fill it with Data */
+			emailIntent.setType("plain/text");
+			emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{email} );
+			emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "");
+			emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "");
+
+			/* Send it off to the Activity-Chooser */
+			startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+		}
+	}
+	
+	// Phone call intent
+	public void phoneCall() {
+		if (!phone.equals("")) {
+			String number = "tel:" + phone.trim();
+			startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse(number)));
+		}
 	}
 	
 	// Fetch all workouts

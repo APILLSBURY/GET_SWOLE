@@ -3,6 +3,7 @@ package cs65.dartmouth.get_swole;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -139,7 +140,7 @@ public class FriendsActivity extends ListActivity {
 				if (!friends.isEmpty()) {
 //					for (ProfileObject friend : friends)
 //						Toast.makeText(getApplicationContext(), friend.getFirstName() + " " + friend.getLastName(), Toast.LENGTH_SHORT).show();
-					
+			        orderFriends();
 					updateFriendProfiles();
 				}
 				
@@ -148,6 +149,33 @@ public class FriendsActivity extends ListActivity {
 
 		}.execute();	
 	}
+	
+    public void orderFriends() {
+    	
+        String[] names = new String[friends.size()];
+        
+        for (int i = 0; i < friends.size(); i++) {
+        	names[i] = friends.get(i).getFirstName() + " " + friends.get(i).getLastName();
+        }
+        
+        Arrays.sort(names);
+        
+        // Names are now sorted alphabetically, now need to remake friends arraylist
+        
+        ArrayList<ProfileObject> newFriendsList = new ArrayList<ProfileObject>();
+        
+        for (String name : names) {
+        	for (ProfileObject friend : friends) {
+        		
+        		if (name.equals(friend.getFirstName() + " " + friend.getLastName()))
+        			newFriendsList.add(friend);
+        	}
+        }
+        
+        // Update with the new list
+        friends = newFriendsList;
+    	
+    }
 	
     @Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
@@ -163,6 +191,13 @@ public class FriendsActivity extends ListActivity {
         entryIntent.putExtra("lastName", entry.getLastName());
         entryIntent.putExtra("hometown", entry.getHometown());
         entryIntent.putExtra("sport", entry.getSport());  
+        
+        entryIntent.putExtra("gender", entry.getGender());
+        entryIntent.putExtra("height", entry.getHeight());
+        entryIntent.putExtra("weight", entry.getWeight());
+        entryIntent.putExtra("bio", entry.getBio());
+        entryIntent.putExtra("email", entry.getEmail());
+        entryIntent.putExtra("phone", entry.getPhone());
         
         startActivity(entryIntent);
        
@@ -199,7 +234,10 @@ public class FriendsActivity extends ListActivity {
 			ProfileObject entry = getItem(position);
 			
 			// Set text on the views
-			titleView.setText(entry.getFirstName() + " " + entry.getLastName() + " (" + entry.getSport() + ")");
+			if (!entry.getSport().equals(""))
+				titleView.setText(entry.getFirstName() + " " + entry.getLastName() + " (" + entry.getSport() + ")");
+			else
+				titleView.setText(entry.getFirstName() + " " + entry.getLastName() );
 			summaryView.setText(entry.getHometown());
 
 			// Set the profile picture, only if there exists a picture
