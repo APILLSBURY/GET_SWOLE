@@ -21,6 +21,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -100,6 +101,18 @@ public class ScheduleFragment extends ListFragment {
 			public void onClick(View v) {
 				setNextMonth();
 				refreshCalendar();
+			}
+		});
+		
+		
+		//set up the schedule button
+		Button scheduleButton = (Button) view.findViewById(R.id.scheduleWorkoutsToday);
+		scheduleButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				DialogFragment fragment = AppDialogFragment.newInstanceScheduleNew(selectedDay);
+				fragment.show(getActivity().getFragmentManager(), getString(R.string.dialog_fragment_tag_schedule_new));
 			}
 		});
 
@@ -293,8 +306,6 @@ public class ScheduleFragment extends ListFragment {
 	
 	public void onScheduleNew(View v) {
 		// open up the dialog knowing this day
-		DialogFragment fragment = AppDialogFragment.newInstanceScheduleNew(selectedDay);
-		fragment.show(getActivity().getFragmentManager(), getString(R.string.dialog_fragment_tag_schedule_new));
 	}
 		
 	public Frequency getCurrentFrequency() {
