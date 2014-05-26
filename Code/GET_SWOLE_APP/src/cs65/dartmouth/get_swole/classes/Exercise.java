@@ -59,14 +59,12 @@ public class Exercise extends GetSwoleClass {
 	}
 	
 	public void setSetListFromString(String s) {
-		Log.d(Globals.TAG, "s = " + s);
 		String[] sets = s.split(",");
 		setList.clear();
 		String[] repsByWeight;
 		for (int i = 0; i < sets.length; i++) {
 			if (!sets[i].isEmpty()) {
 				 repsByWeight = sets[i].split("x");
-				 Log.d(Globals.TAG, "repsByWeight = " + repsByWeight[0] + ", " + repsByWeight[1]);
 				 setList.add(new Set(Integer.parseInt(repsByWeight[0]), Integer.parseInt(repsByWeight[1])));
 			}
 		}
@@ -214,5 +212,6 @@ public class Exercise extends GetSwoleClass {
 			return null;
 		}
 	}
+	
 	
 }

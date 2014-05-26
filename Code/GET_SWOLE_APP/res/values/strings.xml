@@ -75,6 +75,7 @@
         <item>Download workout.</item>
     </string-array>
     <string name="schedule_choose_workout">Choose a workout:</string>
+    
     <!-- Profile -->
 	<string name="default_profile_photo">default_profile.png</string>
 	<string name="profile_saved_photo_file_name">profile_photo</string>
