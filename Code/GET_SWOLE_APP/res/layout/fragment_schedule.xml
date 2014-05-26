@@ -69,7 +69,6 @@
 	    android:layout_below="@android:id/list"
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
-	    android:onClick="onScheduleNew"
 	    android:text="@string/schedule_new"/>
 
 </RelativeLayout>
