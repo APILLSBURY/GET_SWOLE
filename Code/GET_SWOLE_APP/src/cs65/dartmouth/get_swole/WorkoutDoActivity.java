@@ -137,8 +137,8 @@ public class WorkoutDoActivity extends Activity {
 			ArrayList<Set> sets = doneSets.get(position);
 			e.setSetList(sets);
 			e.setExerciseInstance(true);
-			e = dbWrapper.createEntry(e);
 		}
+		e = dbWrapper.createEntry(e);
 		dbWrapper.close();
 				
 		workoutInstance.getExerciseList().set(position, e);

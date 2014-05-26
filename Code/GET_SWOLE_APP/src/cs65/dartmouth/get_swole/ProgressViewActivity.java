@@ -39,6 +39,7 @@ public class ProgressViewActivity extends Activity {
 	ArrayList<Exercise> instanceExercises; // this and instance workouts are the same size
 	ArrayList<WorkoutInstance> instanceWorkouts;
 	GraphViewData[] repsData, weightData;
+	GraphViewData[] repsGoal, weightGoal;
 	
     
 	@Override
@@ -90,7 +91,7 @@ public class ProgressViewActivity extends Activity {
 		else { // display the graph
 			
 			initializeGraph(); // creates the graph
-			getExerciseInstanceData();
+			configureData();
 			refreshGraphView(); // updates the data
 			graphLayout.addView(progressChart);
 			
@@ -134,8 +135,12 @@ public class ProgressViewActivity extends Activity {
 		
 	}
 	
-	public void getExerciseInstanceData() {
+	public void configureData() {
+		// reps goal data
+		repsGoal = new GraphViewData[2];
+		//repsGoal[]
 		
+		// reps instance data
 		int dataIndex = 0;
 		GraphViewData[] tempRepsData = new GraphViewData[instanceWorkouts.size()];
 		
@@ -148,6 +153,10 @@ public class ProgressViewActivity extends Activity {
 		}			
 		repsData = clamp(tempRepsData, dataIndex);
 		
+		// weight goal data
+		weightGoal = new GraphViewData[2];
+		
+		// weight instance data
 		dataIndex = 0;
 		GraphViewData [] tempWeightData = new GraphViewData[instanceWorkouts.size()];
 		
