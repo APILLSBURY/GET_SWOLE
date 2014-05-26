@@ -206,42 +206,43 @@ containing a value of this type.
         public static final int background=0x7f020002;
         public static final int badge=0x7f020003;
         public static final int calendar_bg_orange=0x7f020004;
-        public static final int calendar_cel_selectl=0x7f020005;
-        public static final int calendar_cell=0x7f020006;
-        public static final int calendar_top=0x7f020007;
-        public static final int common_signin_btn_icon_dark=0x7f020008;
-        public static final int common_signin_btn_icon_disabled_dark=0x7f020009;
-        public static final int common_signin_btn_icon_disabled_focus_dark=0x7f02000a;
-        public static final int common_signin_btn_icon_disabled_focus_light=0x7f02000b;
-        public static final int common_signin_btn_icon_disabled_light=0x7f02000c;
-        public static final int common_signin_btn_icon_focus_dark=0x7f02000d;
-        public static final int common_signin_btn_icon_focus_light=0x7f02000e;
-        public static final int common_signin_btn_icon_light=0x7f02000f;
-        public static final int common_signin_btn_icon_normal_dark=0x7f020010;
-        public static final int common_signin_btn_icon_normal_light=0x7f020011;
-        public static final int common_signin_btn_icon_pressed_dark=0x7f020012;
-        public static final int common_signin_btn_icon_pressed_light=0x7f020013;
-        public static final int common_signin_btn_text_dark=0x7f020014;
-        public static final int common_signin_btn_text_disabled_dark=0x7f020015;
-        public static final int common_signin_btn_text_disabled_focus_dark=0x7f020016;
-        public static final int common_signin_btn_text_disabled_focus_light=0x7f020017;
-        public static final int common_signin_btn_text_disabled_light=0x7f020018;
-        public static final int common_signin_btn_text_focus_dark=0x7f020019;
-        public static final int common_signin_btn_text_focus_light=0x7f02001a;
-        public static final int common_signin_btn_text_light=0x7f02001b;
-        public static final int common_signin_btn_text_normal_dark=0x7f02001c;
-        public static final int common_signin_btn_text_normal_light=0x7f02001d;
-        public static final int common_signin_btn_text_pressed_dark=0x7f02001e;
-        public static final int common_signin_btn_text_pressed_light=0x7f02001f;
-        public static final int default_profile=0x7f020020;
-        public static final int dot=0x7f020021;
-        public static final int dot1=0x7f020022;
-        public static final int ic_launcher=0x7f020023;
-        public static final int ic_plusone_medium_off_client=0x7f020024;
-        public static final int ic_plusone_small_off_client=0x7f020025;
-        public static final int ic_plusone_standard_off_client=0x7f020026;
-        public static final int ic_plusone_tall_off_client=0x7f020027;
-        public static final int list_item_background=0x7f020028;
+        public static final int calendar_bg_orange_big=0x7f020005;
+        public static final int calendar_cel_selectl=0x7f020006;
+        public static final int calendar_cell=0x7f020007;
+        public static final int calendar_top=0x7f020008;
+        public static final int common_signin_btn_icon_dark=0x7f020009;
+        public static final int common_signin_btn_icon_disabled_dark=0x7f02000a;
+        public static final int common_signin_btn_icon_disabled_focus_dark=0x7f02000b;
+        public static final int common_signin_btn_icon_disabled_focus_light=0x7f02000c;
+        public static final int common_signin_btn_icon_disabled_light=0x7f02000d;
+        public static final int common_signin_btn_icon_focus_dark=0x7f02000e;
+        public static final int common_signin_btn_icon_focus_light=0x7f02000f;
+        public static final int common_signin_btn_icon_light=0x7f020010;
+        public static final int common_signin_btn_icon_normal_dark=0x7f020011;
+        public static final int common_signin_btn_icon_normal_light=0x7f020012;
+        public static final int common_signin_btn_icon_pressed_dark=0x7f020013;
+        public static final int common_signin_btn_icon_pressed_light=0x7f020014;
+        public static final int common_signin_btn_text_dark=0x7f020015;
+        public static final int common_signin_btn_text_disabled_dark=0x7f020016;
+        public static final int common_signin_btn_text_disabled_focus_dark=0x7f020017;
+        public static final int common_signin_btn_text_disabled_focus_light=0x7f020018;
+        public static final int common_signin_btn_text_disabled_light=0x7f020019;
+        public static final int common_signin_btn_text_focus_dark=0x7f02001a;
+        public static final int common_signin_btn_text_focus_light=0x7f02001b;
+        public static final int common_signin_btn_text_light=0x7f02001c;
+        public static final int common_signin_btn_text_normal_dark=0x7f02001d;
+        public static final int common_signin_btn_text_normal_light=0x7f02001e;
+        public static final int common_signin_btn_text_pressed_dark=0x7f02001f;
+        public static final int common_signin_btn_text_pressed_light=0x7f020020;
+        public static final int default_profile=0x7f020021;
+        public static final int dot=0x7f020022;
+        public static final int dot1=0x7f020023;
+        public static final int ic_launcher=0x7f020024;
+        public static final int ic_plusone_medium_off_client=0x7f020025;
+        public static final int ic_plusone_small_off_client=0x7f020026;
+        public static final int ic_plusone_standard_off_client=0x7f020027;
+        public static final int ic_plusone_tall_off_client=0x7f020028;
+        public static final int list_item_background=0x7f020029;
     }
     public static final class id {
         public static final int action_add_workout=0x7f06007d;
@@ -410,7 +411,7 @@ containing a value of this type.
         public static final int workouts=0x7f0c0006;
     }
     public static final class string {
-        public static final int action_settings=0x7f070079;
+        public static final int action_settings=0x7f07007b;
         /**  Workouts 
          */
         public static final int add_button=0x7f070023;
@@ -439,9 +440,9 @@ containing a value of this type.
         [CHAR LIMIT=70] 
          */
         public static final int auth_client_using_bad_version_title=0x7f070014;
-        public static final int begin_timer=0x7f070047;
-        public static final int cancel_profile_message=0x7f070075;
-        public static final int clear_profile=0x7f070076;
+        public static final int begin_timer=0x7f070048;
+        public static final int cancel_profile_message=0x7f070077;
+        public static final int clear_profile=0x7f070078;
         /**  Button in confirmation dialog to enable Google Play services.  Clicking it
         will direct user to application settings of Google Play services where they
         can enable it [CHAR LIMIT=40] 
@@ -515,21 +516,21 @@ containing a value of this type.
         public static final int common_signin_button_text_long=0x7f070013;
         /**  Profile 
          */
-        public static final int default_profile_photo=0x7f07004d;
-        public static final int delete=0x7f07003c;
-        public static final int dialog_fragment_tag_do_exercise=0x7f070041;
-        public static final int dialog_fragment_tag_edit_exercise=0x7f070040;
-        public static final int dialog_fragment_tag_edit_sets=0x7f070045;
-        public static final int dialog_fragment_tag_existing_exercise=0x7f070044;
-        public static final int dialog_fragment_tag_new_workout=0x7f07003f;
-        public static final int dialog_fragment_tag_schedule_new=0x7f070049;
-        public static final int dialog_fragment_tag_timer=0x7f070043;
-        public static final int dialog_fragment_tag_view_sets=0x7f070046;
-        public static final int dialog_fragment_tag_when_to_schedule_new=0x7f07004a;
-        public static final int dialog_framgnet_tag_view_exercise=0x7f070042;
-        public static final int dialog_hint_new_workout=0x7f07003e;
-        public static final int dialog_title_new_workout=0x7f07003d;
-        public static final int edit_sets=0x7f070048;
+        public static final int default_profile_photo=0x7f07004f;
+        public static final int delete=0x7f07003d;
+        public static final int dialog_fragment_tag_do_exercise=0x7f070042;
+        public static final int dialog_fragment_tag_edit_exercise=0x7f070041;
+        public static final int dialog_fragment_tag_edit_sets=0x7f070046;
+        public static final int dialog_fragment_tag_existing_exercise=0x7f070045;
+        public static final int dialog_fragment_tag_new_workout=0x7f070040;
+        public static final int dialog_fragment_tag_schedule_new=0x7f07004a;
+        public static final int dialog_fragment_tag_timer=0x7f070044;
+        public static final int dialog_fragment_tag_view_sets=0x7f070047;
+        public static final int dialog_fragment_tag_when_to_schedule_new=0x7f07004b;
+        public static final int dialog_framgnet_tag_view_exercise=0x7f070043;
+        public static final int dialog_hint_new_workout=0x7f07003f;
+        public static final int dialog_title_new_workout=0x7f07003e;
+        public static final int edit_sets=0x7f070049;
         public static final int enter_time=0x7f070029;
         /**  Exercises 
          */
@@ -543,53 +544,53 @@ containing a value of this type.
         public static final int exercise_weight_title=0x7f07002c;
         public static final int existing_exercise=0x7f070032;
         public static final int friend_title=0x7f07001e;
-        public static final int friend_view_download=0x7f07004c;
+        public static final int friend_view_download=0x7f07004d;
         public static final int friends_title=0x7f07001d;
-        public static final int hello_world=0x7f07007a;
+        public static final int hello_world=0x7f07007c;
         /**  Location client code resources (prefix with location_client) 
          */
         public static final int location_client_powered_by_google=0x7f07001a;
-        public static final int negative=0x7f07003b;
+        public static final int negative=0x7f07003c;
         public static final int not_enough_data=0x7f070039;
         /**  Dialogs 
          */
         public static final int positive=0x7f07003a;
-        public static final int preference_key_profile_bio=0x7f07006e;
-        public static final int preference_key_profile_email=0x7f07006f;
-        public static final int preference_key_profile_first_name=0x7f070066;
-        public static final int preference_key_profile_gender=0x7f07006a;
-        public static final int preference_key_profile_height_feet=0x7f07006b;
-        public static final int preference_key_profile_height_in=0x7f07006c;
-        public static final int preference_key_profile_hometown=0x7f070068;
-        public static final int preference_key_profile_last_name=0x7f070067;
-        public static final int preference_key_profile_phone=0x7f070070;
-        public static final int preference_key_profile_sport=0x7f070069;
-        public static final int preference_key_profile_weight=0x7f07006d;
-        public static final int profile_about=0x7f070062;
-        public static final int profile_athletic_information=0x7f070052;
-        public static final int profile_bio=0x7f07005c;
-        public static final int profile_bio_input=0x7f07005d;
-        public static final int profile_contact=0x7f07005f;
-        public static final int profile_email=0x7f070060;
-        public static final int profile_first_name=0x7f07004f;
-        public static final int profile_friend_bio=0x7f07005e;
-        public static final int profile_friend_workouts=0x7f070064;
-        public static final int profile_ft=0x7f070058;
-        public static final int profile_gender=0x7f070054;
-        public static final int profile_gender_female=0x7f070056;
-        public static final int profile_gender_male=0x7f070055;
-        public static final int profile_height=0x7f070057;
-        public static final int profile_hometown=0x7f070051;
-        public static final int profile_in=0x7f070059;
-        public static final int profile_last_name=0x7f070050;
-        public static final int profile_lb=0x7f07005b;
-        public static final int profile_phone=0x7f070061;
-        public static final int profile_saved_photo_file_name=0x7f07004e;
-        public static final int profile_shared_preferences=0x7f070065;
-        public static final int profile_shared_workouts=0x7f070063;
-        public static final int profile_sport=0x7f070053;
+        public static final int preference_key_profile_bio=0x7f070070;
+        public static final int preference_key_profile_email=0x7f070071;
+        public static final int preference_key_profile_first_name=0x7f070068;
+        public static final int preference_key_profile_gender=0x7f07006c;
+        public static final int preference_key_profile_height_feet=0x7f07006d;
+        public static final int preference_key_profile_height_in=0x7f07006e;
+        public static final int preference_key_profile_hometown=0x7f07006a;
+        public static final int preference_key_profile_last_name=0x7f070069;
+        public static final int preference_key_profile_phone=0x7f070072;
+        public static final int preference_key_profile_sport=0x7f07006b;
+        public static final int preference_key_profile_weight=0x7f07006f;
+        public static final int profile_about=0x7f070064;
+        public static final int profile_athletic_information=0x7f070054;
+        public static final int profile_bio=0x7f07005e;
+        public static final int profile_bio_input=0x7f07005f;
+        public static final int profile_contact=0x7f070061;
+        public static final int profile_email=0x7f070062;
+        public static final int profile_first_name=0x7f070051;
+        public static final int profile_friend_bio=0x7f070060;
+        public static final int profile_friend_workouts=0x7f070066;
+        public static final int profile_ft=0x7f07005a;
+        public static final int profile_gender=0x7f070056;
+        public static final int profile_gender_female=0x7f070058;
+        public static final int profile_gender_male=0x7f070057;
+        public static final int profile_height=0x7f070059;
+        public static final int profile_hometown=0x7f070053;
+        public static final int profile_in=0x7f07005b;
+        public static final int profile_last_name=0x7f070052;
+        public static final int profile_lb=0x7f07005d;
+        public static final int profile_phone=0x7f070063;
+        public static final int profile_saved_photo_file_name=0x7f070050;
+        public static final int profile_shared_preferences=0x7f070067;
+        public static final int profile_shared_workouts=0x7f070065;
+        public static final int profile_sport=0x7f070055;
         public static final int profile_title=0x7f07001c;
-        public static final int profile_weight=0x7f07005a;
+        public static final int profile_weight=0x7f07005c;
         /**  Progress 
          */
         public static final int progress_display_settings=0x7f070034;
@@ -597,29 +598,31 @@ containing a value of this type.
         public static final int progress_goal_weight_lin=0x7f070038;
         public static final int progress_reps_line=0x7f070035;
         public static final int progress_weight_line=0x7f070036;
-        public static final int save_profile_message=0x7f070074;
+        public static final int save_profile_message=0x7f070076;
+        public static final int schedule_choose_workout=0x7f07004e;
         /**  Schedule 
          */
         public static final int schedule_new=0x7f070033;
-        public static final int schedule_pick_when=0x7f07004b;
+        public static final int schedule_pick_when=0x7f07004c;
         /**  GCM Strings 
 <string name="server_url">http://getswoleandroidapp.appspot.com</string>
          */
-        public static final int server_url=0x7f070077;
+        public static final int server_url=0x7f070079;
         public static final int settings_title=0x7f07001f;
         public static final int start_workout_button=0x7f070025;
         public static final int stop_workout_button=0x7f070026;
         public static final int timer=0x7f070028;
-        public static final int title_activity_exercise_progress=0x7f070078;
-        public static final int title_activity_progress_view=0x7f07007c;
-        public static final int title_activity_view_workout_instance=0x7f07007b;
+        public static final int title_activity_exercise_progress=0x7f07007a;
+        public static final int title_activity_progress_view=0x7f07007e;
+        public static final int title_activity_view_workout_instance=0x7f07007d;
         public static final int title_section1=0x7f070020;
         public static final int title_section2=0x7f070021;
         public static final int title_section3=0x7f070022;
-        public static final int ui_button_cancel_title=0x7f070073;
-        public static final int ui_button_save_picture=0x7f070072;
-        public static final int ui_button_save_title=0x7f070071;
+        public static final int ui_button_cancel_title=0x7f070075;
+        public static final int ui_button_save_picture=0x7f070074;
+        public static final int ui_button_save_title=0x7f070073;
         public static final int workout_notes_hint=0x7f070027;
+        public static final int yes=0x7f07003b;
     }
     public static final class style {
         /** 
