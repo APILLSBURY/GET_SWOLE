@@ -50,7 +50,7 @@ public class Exercise extends GetSwoleClass {
 	public String getSetListString() {
 		String s = "";
 		for (int i = 0; i < setList.size(); i++) {
-			s += setList.get(i).toString() + "AND";
+			s += setList.get(i).toString() + ",";
 		}
 		if (s.length() >= 1) {
 			s = s.substring(0, s.length() - 1); //remove the trailing "&"
@@ -60,7 +60,7 @@ public class Exercise extends GetSwoleClass {
 	
 	public void setSetListFromString(String s) {
 		Log.d(Globals.TAG, "s = " + s);
-		String[] sets = s.split(Pattern.quote("AND"));
+		String[] sets = s.split(",");
 		setList.clear();
 		String[] repsByWeight;
 		for (int i = 0; i < sets.length; i++) {
