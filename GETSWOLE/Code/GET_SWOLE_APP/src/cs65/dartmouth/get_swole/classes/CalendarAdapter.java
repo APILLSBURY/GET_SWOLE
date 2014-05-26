@@ -111,15 +111,15 @@ public class CalendarAdapter extends BaseAdapter {
 			dayView.setFocusable(false);
 		} else {
 			// setting curent month's days in blue color.
-			dayView.setTextColor(Color.BLUE);
+			dayView.setTextColor(Color.BLACK);
 			if (!workoutsByDay.get(gridvalue).isEmpty()) {
-				dayView.setTextColor(Color.GREEN);
+				dayView.setTextColor(mContext.getResources().getColor(R.color.get_swole_orange));
 			}
 			Calendar currDate = Calendar.getInstance();
 			if (gridvalue == currDate.get(Calendar.DATE)
 					&& month.get(Calendar.MONTH) == currDate.get(Calendar.MONTH)
 					&& month.get(Calendar.YEAR) == currDate.get(Calendar.YEAR)) {
-				dayView.setTextColor(Color.RED);
+				dayView.setBackground(mContext.getResources().getDrawable(R.drawable.calendar_bg_orange_big));
 			}
 		}
 
