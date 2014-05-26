@@ -32,6 +32,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final String EXERCISE_SET_LIST = "setlist";
 	public static final String EXERCISE_REPS_GOAL = "repsgoal";
 	public static final String EXERCISE_WEIGHT_GOAL = "weightgoal";
+	public static final String EXERCISE_EXERCISE_INSTANCE = "exerciseinstance";
 	public static final String EXERCISE_REST = "rest";
 	public static final String EXERCISE_NOTES = "notes";
 	
@@ -73,6 +74,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + EXERCISE_SET_LIST + " TEXT, "
             + EXERCISE_REPS_GOAL + " INTEGER, "
             + EXERCISE_WEIGHT_GOAL + " INTEGER, "
+            + EXERCISE_EXERCISE_INSTANCE + " BOOLEAN, "
             + EXERCISE_REST + " INTEGER, "
             + EXERCISE_NOTES + " TEXT );";  
     

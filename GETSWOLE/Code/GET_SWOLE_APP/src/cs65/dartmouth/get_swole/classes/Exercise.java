@@ -11,6 +11,7 @@ public class Exercise extends GetSwoleClass {
 	private int repsGoal;
 	private int weightGoal;
 	private int rest;
+	private boolean exerciseInstance;
 	private String notes;
 	
 	public Exercise() {
@@ -24,6 +25,7 @@ public class Exercise extends GetSwoleClass {
 		repsGoal = -1;
 		weightGoal = -1;
 		rest = -1;
+		exerciseInstance = false;
 		notes = "";
 		id = -1;
 	}
@@ -79,6 +81,10 @@ public class Exercise extends GetSwoleClass {
 		return rest;
 	}
 	
+	public boolean getExerciseInstance() {
+		return exerciseInstance;
+	}
+	
 	public String getNotes() {
 		return notes;
 	}
@@ -115,6 +121,19 @@ public class Exercise extends GetSwoleClass {
 	
 	public void setRest(int r) {
 		rest = r;
+	}
+	
+	public void setExerciseInstance(boolean ei) {
+		exerciseInstance = ei;
+	}
+	
+	public void setExerciseInstanceFromInt(int i) {
+		if (i == 0) {
+			exerciseInstance = false;
+		}
+		else {
+			exerciseInstance = true;
+		}
 	}
 	
 	public void setNotes(String n) {

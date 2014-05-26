@@ -44,6 +44,7 @@ public class DatabaseWrapper {
 									DatabaseHelper.EXERCISE_SET_LIST, 
 									DatabaseHelper.EXERCISE_REPS_GOAL, 
 									DatabaseHelper.EXERCISE_WEIGHT_GOAL, 
+									DatabaseHelper.EXERCISE_EXERCISE_INSTANCE, 
 									DatabaseHelper.EXERCISE_REST, 
 									DatabaseHelper.EXERCISE_NOTES };
 
@@ -145,6 +146,7 @@ public class DatabaseWrapper {
 		values.put(DatabaseHelper.EXERCISE_SET_LIST, exercise.getSetListString());
 		values.put(DatabaseHelper.EXERCISE_REPS_GOAL, exercise.getRepsGoal());
 		values.put(DatabaseHelper.EXERCISE_WEIGHT_GOAL, exercise.getWeightGoal());
+		values.put(DatabaseHelper.EXERCISE_EXERCISE_INSTANCE, exercise.getExerciseInstance());
 		values.put(DatabaseHelper.EXERCISE_REST, exercise.getRest());
 		values.put(DatabaseHelper.EXERCISE_NOTES, exercise.getNotes());
 		
@@ -365,6 +367,7 @@ public class DatabaseWrapper {
 		exercise.setSetListFromString(cursor.getString(cursor.getColumnIndex(DatabaseHelper.EXERCISE_SET_LIST)));
 		exercise.setRepsGoal(cursor.getInt(cursor.getColumnIndex(DatabaseHelper.EXERCISE_REPS_GOAL)));
 		exercise.setWeightGoal(cursor.getInt(cursor.getColumnIndex(DatabaseHelper.EXERCISE_WEIGHT_GOAL)));
+		exercise.setExerciseInstanceFromInt(cursor.getInt(cursor.getColumnIndex(DatabaseHelper.EXERCISE_EXERCISE_INSTANCE)));
 		exercise.setRest(cursor.getInt(cursor.getColumnIndex(DatabaseHelper.EXERCISE_REST)));
 		exercise.setNotes(cursor.getString(cursor.getColumnIndex(DatabaseHelper.EXERCISE_NOTES)));
 		return exercise;
