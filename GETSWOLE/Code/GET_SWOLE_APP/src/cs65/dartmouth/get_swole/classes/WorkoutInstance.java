@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import android.content.Context;
+import cs65.dartmouth.get_swole.CalendarUtility;
 import cs65.dartmouth.get_swole.database.DatabaseWrapper;
 
 public class WorkoutInstance extends GetSwoleClass {
@@ -68,6 +69,11 @@ public class WorkoutInstance extends GetSwoleClass {
 	
 	public ArrayList<Exercise> getExerciseList() {
 		return exerciseList;
+	}
+	
+	@Override
+	public String getName() {
+		return workout.getName() + " completed at " + CalendarUtility.HOURS_MINUTES_DATE_FORMAT.format(time.getTime()); 
 	}
 	
 	
