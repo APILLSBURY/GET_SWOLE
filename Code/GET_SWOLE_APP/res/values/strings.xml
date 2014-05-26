@@ -80,17 +80,26 @@
 	<string name="profile_first_name">First</string>
 	<string name="profile_last_name">Last</string>
 	<string name="profile_hometown">Hometown</string>
-	
 	<string name="profile_athletic_information">Athletic Information:</string>
 	<string name="profile_sport">Sport</string>
-	<string name="profile_height">Height</string>
-	<string name="profile_weight">Weight</string>
-    
+	<string name="profile_gender">Gender:</string>
 	<string name="profile_gender_male">Male</string>
-    
 	<string name="profile_gender_female">Female</string>
-
-    <string name="profile_shared_workouts">Shared Workouts\n(Check all that apply)</string>
+	<string name="profile_height">Height:</string>
+	<string name="profile_ft">ft</string>
+	<string name="profile_in">in</string>
+	<string name="profile_weight">Weight:</string>
+	<string name="profile_lb">lb</string>
+	<string name="profile_bio">Bio Information</string>
+	<string name="profile_bio_input">Write about yourself</string>
+	<string name="profile_friend_bio">Bio</string>
+	
+	<string name="profile_contact">Contact Information</string>
+	<string name="profile_email">Email</string>
+	<string name="profile_phone">Phone</string>
+	<string name="profile_about">About:</string>
+	
+    <string name="profile_shared_workouts">Workouts Shared</string>
     <string name="profile_friend_workouts">Workouts</string>
 	
     <string name="profile_shared_preferences">profile_shared_preferences</string>
@@ -98,9 +107,14 @@
     <string name="preference_key_profile_last_name">profile_last_name</string>
     <string name="preference_key_profile_hometown">profile_hometown</string>
     <string name="preference_key_profile_sport">profile_sport</string>
-    
     <string name="preference_key_profile_gender">profile_gender</string>
-	
+    <string name="preference_key_profile_height_feet">profile_feet</string>    	
+    <string name="preference_key_profile_height_in">profile_in</string>    
+    <string name="preference_key_profile_weight">profile_weight</string>
+    <string name="preference_key_profile_bio">profile_bio</string>  
+    <string name="preference_key_profile_email">profile_email</string>    
+    <string name="preference_key_profile_phone">profile_phone</string>
+        
     <string name="ui_button_save_title">Save</string>
     <string name="ui_button_save_picture">Save Picture</string>
     <string name="ui_button_cancel_title">Cancel</string>
@@ -108,9 +122,11 @@
     <string name="save_profile_message">Saved Profile!</string>
     <string name="cancel_profile_message">Canceled Profile</string>
     
+    <string name="clear_profile">Clear</string>
+    
     <!-- GCM Strings -->
-    <string name="server_url">http://getswoleandroidapp.appspot.com</string>
-    <!--<string name="server_url">http://10.0.1.16:8888</string>-->
+    <!--<string name="server_url">http://getswoleandroidapp.appspot.com</string>-->
+    <string name="server_url">http://10.31.228.171:8888</string>
     
     <string name="title_activity_exercise_progress">ExerciseProgressActivity</string>
     <string name="action_settings">Settings</string>
