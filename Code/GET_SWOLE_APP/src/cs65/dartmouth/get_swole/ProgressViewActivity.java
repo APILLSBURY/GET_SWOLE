@@ -38,8 +38,6 @@ public class ProgressViewActivity extends Activity {
 	Exercise exercise; // used to compare goals
 	ArrayList<Exercise> instanceExercises; // this and instance workouts are the same size
 	ArrayList<WorkoutInstance> instanceWorkouts;
-	//GraphViewSeries repsDataSeries;
-	//GraphViewSeries weightDataSeries;
 	GraphViewData[] repsData, weightData;
 	
     
@@ -117,7 +115,6 @@ public class ProgressViewActivity extends Activity {
 		progressChart.getGraphViewStyle().setGridColor(Color.DKGRAY);
 		progressChart.getGraphViewStyle().setHorizontalLabelsColor(Color.DKGRAY);
 		progressChart.getGraphViewStyle().setVerticalLabelsColor(Color.DKGRAY);
-		progressChart.setBackgroundColor(Color.BLACK);
 		progressChart.setCustomLabelFormatter(new CustomLabelFormatter() 
 	    {
 	        @Override
@@ -174,18 +171,12 @@ public class ProgressViewActivity extends Activity {
 			
 			GraphViewSeries repsDataSeries = new GraphViewSeries(getString(R.string.progress_reps_line), new GraphViewSeriesStyle(Color.RED, 4), repsData);
 			progressChart.addSeries(repsDataSeries);
-			
-			
-			//repsDataSeries.resetData(repsData);	
-			//weightDataSeries.resetData(weightData);
+		
 			
 		}
 		else { // weight is checked		
 			GraphViewSeries weightDataSeries = new GraphViewSeries(getString(R.string.progress_weight_line), new GraphViewSeriesStyle(Color.BLUE, 4), weightData);
 			progressChart.addSeries(weightDataSeries);
-
-			//weightDataSeries.resetData(weightData);
-			//repsDataSeries.resetData(empty_data);
 		}
 
 	}

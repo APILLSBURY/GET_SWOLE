@@ -683,41 +683,31 @@ public class AppDialogFragment extends DialogFragment {
 		    
 			return b.create();
 		case DIALOG_ID_SCHEDULE_NEW:
-			// Create custom dialog
-			b = new AlertDialog.Builder(parent);
-	
-			 // Get the layout inflater
-		    inflater = getActivity().getLayoutInflater();
-		  	View workoutView = inflater.inflate(R.layout.dialog_schedule_new, null);
-		    b.setView(workoutView);		
-		    ListView workoutList = (ListView) workoutView.findViewById(R.id.scheduleNewListView);
-		    
 		    final long dateSelected = getArguments().getLong(DATE);
 		    
-		    // we need to set an adapter and callback
+			
+			// Create custom dialog
+			b = new AlertDialog.Builder(parent);
+			b.setTitle(parent.getString(R.string.schedule_choose_workout));
+			
+			 // we need to set an adapter and callback
 		    dbWrapper.open();
 		    final List<GetSwoleClass> workouts = dbWrapper.getAllEntries(Workout.class);
+		    String [] workoutNames = new String[workouts.size()];
+		    for (int i = 0; i < workouts.size(); i++) {
+		    	workoutNames[i] = workouts.get(i).getName();
+		    }
 		    
-		    WorkoutsAdapter workoutsAdapter = new WorkoutsAdapter(parent, R.layout.workouts_list_row_small, workouts);
-			
-			workoutList.setAdapter(workoutsAdapter);
-					
-			// Define the listener interface - start a new dialog to choose whether to schedule today or frequently
-	        OnItemClickListener listener = new OnItemClickListener() {
-	            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-	            	
-	            	GetSwoleClass workout = workouts.get(position);
-	            	
-	            	// open a dialog to display 
-    	 			DialogFragment fragment = AppDialogFragment.newInstanceSchedule(workout, dateSelected, DIALOG_ID_SCHEDULE_NEW_PICK);
-    	 			fragment.show(getFragmentManager(), getString(R.string.dialog_fragment_tag_when_to_schedule_new));
-    	 			
-	            }
-	        };
-	        
-	        // Get the ListView and wired the listener
-	        workoutList.setOnItemClickListener(listener);
-	        
+			b.setItems(workoutNames, new DialogInterface.OnClickListener() {
+			        public void onClick(DialogInterface dialog, int item) {
+			        	GetSwoleClass workout = workouts.get(item);
+		            	
+		            	// open a dialog to display 
+	    	 			DialogFragment fragment = AppDialogFragment.newInstanceSchedule(workout, dateSelected, DIALOG_ID_SCHEDULE_NEW_PICK);
+	    	 			fragment.show(getFragmentManager(), getString(R.string.dialog_fragment_tag_when_to_schedule_new));
+			        }
+			    }).show();
+	        	        
 		    
 			return b.create();	
 		case DIALOG_ID_SCHEDULE_NEW_PICK:
@@ -739,24 +729,24 @@ public class AppDialogFragment extends DialogFragment {
 			b.setItems(R.array.schedule_pick_options, dListener);
 			return b.create();
 			
-			
 		case DIALOG_ID_SCHEDULE_UPDATE:
 		case DIALOG_ID_VIEW_DOWNLOAD_WORKOUT:
 			b = new AlertDialog.Builder(parent);
 			b.setTitle(R.string.friend_view_download);
 			// The click listener will use intents upon selection
-			DialogInterface.OnClickListener mListener = new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int item) {
-					if (item == 0) {
-						// we want to view the workout
-					}
-					else {
-						// we want to download the workout
-						
-					}
+			b.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					// do nothing
 				}
-			};
-			b.setItems(R.array.friend_view_download_options, mListener);
+			});
+			b.setNegativeButton(R.string.negative, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					// 
+				}
+			});
+			
 			return b.create();
 			
 		default:
