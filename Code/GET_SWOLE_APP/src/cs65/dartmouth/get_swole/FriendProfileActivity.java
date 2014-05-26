@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import cs65.dartmouth.get_swole.classes.ProfileObject;
 import cs65.dartmouth.get_swole.classes.Workout;
+import cs65.dartmouth.get_swole.database.DatabaseWrapper;
 import cs65.dartmouth.get_swole.gae.Downloader;
 import cs65.dartmouth.get_swole.gae.Uploader;
 import android.net.Uri;
@@ -59,6 +60,7 @@ public class FriendProfileActivity extends ListActivity {
 	String phone;
 	
 	ArrayList<Workout> workouts;
+	Workout selectedWorkout;
 	WorkoutsAdapter workoutsAdapter;
 	
 	// Retrieve all profiles
@@ -342,14 +344,25 @@ public class FriendProfileActivity extends ListActivity {
 		
 	}
 	
+	public void downloadWorkout() {
+		DatabaseWrapper wrapper = new DatabaseWrapper(mContext);
+		wrapper.open();
+		
+		wrapper.createEntry(selectedWorkout);
+		
+		wrapper.close();
+	}
+	
 	// HANDLING LISTVIEW OF WORKOUTS
 	
     @Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
 		
-        Workout entry = workouts.get(position);
+        selectedWorkout = workouts.get(position);
         
+        AppDialogFragment name = AppDialogFragment.newInstance(AppDialogFragment.DIALOG_ID_VIEW_DOWNLOAD_WORKOUT);
+        name.show(getFragmentManager(), selectedWorkout.getName());
        
 	}
 
