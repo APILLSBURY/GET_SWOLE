@@ -150,6 +150,15 @@ public class ScheduleFragment extends ListFragment {
 		selectedDay.set(Calendar.MONTH, month.get(Calendar.MONTH));
 		getWorkoutsByDay();
 		adapter.setWorkoutsByDay(workoutsByDay);
+		if (Calendar.getInstance().get(Calendar.MONTH) == month.get(Calendar.MONTH)
+				&& Calendar.getInstance().get(Calendar.YEAR) == month.get(Calendar.YEAR)) {
+			selectedGridvalue = Calendar.getInstance().get(Calendar.DATE);
+			selectedDay.set(Calendar.DATE, selectedGridvalue);
+			configureListView(workoutsByDay.get(selectedGridvalue));
+		}
+		else {
+			configureListView(new ArrayList<GetSwoleClass>());
+		}
 	}
 
 	protected void setPreviousMonth() {
@@ -164,6 +173,15 @@ public class ScheduleFragment extends ListFragment {
 		selectedDay.set(Calendar.MONTH, month.get(Calendar.MONTH));
 		getWorkoutsByDay();
 		adapter.setWorkoutsByDay(workoutsByDay);
+		if (Calendar.getInstance().get(Calendar.MONTH) == month.get(Calendar.MONTH)
+				&& Calendar.getInstance().get(Calendar.YEAR) == month.get(Calendar.YEAR)) {
+			selectedGridvalue = Calendar.getInstance().get(Calendar.DATE);
+			selectedDay.set(Calendar.DATE, selectedGridvalue);
+			configureListView(workoutsByDay.get(selectedGridvalue));
+		}
+		else {
+			configureListView(new ArrayList<GetSwoleClass>());
+		}
 	}
 
 	protected void showToast(String string) {
@@ -291,13 +309,5 @@ public class ScheduleFragment extends ListFragment {
 				currDay.set(GregorianCalendar.DATE, currDay.get(GregorianCalendar.DATE) + 1);
 			}
 		}
-	}
-		
-	public Frequency getCurrentFrequency() {
-		return frequencyToSave;
-	}
-	
-	public void setCurrentFrequency(Frequency f) {
-		frequencyToSave = f;
 	}
 }
