@@ -139,16 +139,11 @@
     <string name="settings_data_management">Data Management</string>
     <string name="settings_delete_workouts">Clear Saved Workouts</string>
     <string name="settings_delete_workouts_summary">Remove all workouts created and download from the database. This will remove all instances and scheduled data for those workouts as well.</string>
-    
     <string name="settings_delete_history">Clear Workout History</string>
     <string name="settings_delete_history_summary">Remove all historical logs and scheduling data associated with each workout stored in the database.</string>
-    
-    <string name="settings_delete_profile">Clear Profile Information</string>
-    <string name="settings_delete_profile_summary">Erase all fields, delete profile picture and remove profile from the social network.</string>
-    
     <string name="settings_delete_all">Clear All Data</string>
-    <string name="settings_delete_all_summary">Remove all data stored in the app and online database. This will remove all saved workouts, exercises and corresponding scheduled dates as well as remove all profile information.</string>
-    
+    <string name="settings_delete_all_summary">Remove all data stored in the app and online database. This will remove all saved workouts, exercises and corresponding scheduled dates.</string>
+
     
     <string name="settings_additional_settings">Additional Settings</string>
     
