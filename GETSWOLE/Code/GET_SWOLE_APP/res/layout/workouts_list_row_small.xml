@@ -14,6 +14,6 @@
         android:layout_height="wrap_content"
         android:text="Large Text"
         android:textSize="20sp"
-        android:textColor="@color/get_swole_blue"/>
+        android:textColor="@color/white"/>
 
 </LinearLayout>

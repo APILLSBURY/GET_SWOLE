@@ -610,11 +610,11 @@ containing a value of this type.
         public static final int schedule_new=0x7f070033;
         public static final int schedule_pick_when=0x7f070050;
         /**  GCM Strings 
+<string name="server_url">http://getswoleandroidapp.appspot.com</string>
          */
         public static final int server_url=0x7f07007d;
         public static final int settings_additional_settings=0x7f070083;
-        /** <string name="server_url">http://10.31.228.171:8888</string>
- Settings 
+        /**  Settings 
          */
         public static final int settings_data_management=0x7f07007e;
         public static final int settings_delete_history=0x7f070081;

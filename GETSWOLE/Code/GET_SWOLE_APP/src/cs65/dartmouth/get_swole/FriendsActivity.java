@@ -225,10 +225,7 @@ public class FriendsActivity extends ListActivity {
 			// Set up the text of the two views
 			
 			TextView titleView = (TextView) listItemView.findViewById(R.id.friend_list_row_title);
-			titleView.setTextColor(Color.BLACK);
-			
 			TextView summaryView = (TextView) listItemView.findViewById(R.id.friend_list_row_summary);
-			summaryView.setTextColor(Color.BLACK);
 			
 			// Get Profile
 			ProfileObject entry = getItem(position);

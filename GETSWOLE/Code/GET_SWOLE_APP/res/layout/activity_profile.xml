@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:focusable="true"
         android:focusableInTouchMode="true"
+        android:layout_alignParentTop="true"
         android:orientation="vertical"
         android:paddingBottom="@dimen/activity_vertical_margin"
         android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -26,7 +27,8 @@
                 android:id="@+id/frame"
                 android:layout_width="110dp"
                 android:layout_height="110dp"
-                android:layout_gravity="center">
+                android:layout_gravity="center"
+                android:background="@color/get_swole_blue">
 
                 <ImageView
                     android:id="@+id/profilePhoto"
@@ -96,15 +98,17 @@
 
         <TextView
             android:id="@+id/bio"
+            android:layout_marginTop="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/get_swole_orange"
+            android:background="@color/get_swole_blue"
             android:text="@string/profile_bio"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/white" />
 
         <EditText
             android:id="@+id/bioInputText"
+            android:layout_marginTop="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -115,7 +119,8 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:orientation="horizontal" 
+            android:layout_marginTop="5dp">
 
             <TextView
                 android:id="@+id/gender"
@@ -149,7 +154,8 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:orientation="horizontal" 
+            android:layout_marginTop="5dp">
 
             <TextView
                 android:id="@+id/height"
@@ -191,7 +197,8 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:orientation="horizontal" 
+            android:layout_marginTop="5dp">
 
             <TextView
                 android:id="@+id/weight"
@@ -220,13 +227,15 @@
             android:id="@+id/contactInfo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/get_swole_orange"
+            android:layout_marginTop="5dp"
+            android:background="@color/get_swole_blue"
             android:text="@string/profile_contact"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/white" />
 
         <EditText
             android:id="@+id/email"
+            android:layout_marginTop="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -235,6 +244,7 @@
 
         <EditText
             android:id="@+id/phone"
+            android:layout_marginTop="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -245,7 +255,8 @@
             android:id="@+id/sharedWorkouts"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/get_swole_orange"
+            android:layout_marginTop="5dp"
+            android:background="@color/get_swole_blue"
             android:text="@string/profile_shared_workouts"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/white" />
@@ -267,7 +278,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:orientation="horizontal" >
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp" >
 
             <Button
                 android:id="@+id/btnProfileSave"
@@ -277,17 +289,6 @@
                 android:onClick="onSaveClicked"
                 android:text="@string/ui_button_save_title" >
             </Button>
-
-            <!--
-            <Button
-                android:id="@+id/btnProfilePictureSave"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:onClick="onSavePhotoClicked"
-                android:text="@string/ui_button_save_picture" >
-            </Button>
-            -->
 
             <Button
                 android:id="@+id/btnProfileCancel"

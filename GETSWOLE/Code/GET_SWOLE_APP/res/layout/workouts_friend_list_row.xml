@@ -16,6 +16,6 @@
         android:layout_marginBottom="5dp"
         android:text="Large Text"
         android:textAppearance="?android:attr/textAppearanceLarge" 
-        android:textColor="@color/get_swole_blue"/>
+        android:textColor="@color/white"/>
     
 </LinearLayout>
