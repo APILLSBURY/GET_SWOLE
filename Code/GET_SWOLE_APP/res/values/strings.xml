@@ -125,8 +125,8 @@
     <string name="clear_profile">Clear</string>
     
     <!-- GCM Strings -->
-    <!--<string name="server_url">http://getswoleandroidapp.appspot.com</string>-->
-    <string name="server_url">http://10.31.228.171:8888</string>
+    <string name="server_url">http://getswoleandroidapp.appspot.com</string>
+    <!--<string name="server_url">http://10.31.228.171:8888</string>-->
     
     <string name="title_activity_exercise_progress">ExerciseProgressActivity</string>
     <string name="action_settings">Settings</string>
