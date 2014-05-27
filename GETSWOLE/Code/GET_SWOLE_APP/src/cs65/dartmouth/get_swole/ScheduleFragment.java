@@ -2,16 +2,16 @@
 // COMMENTED OUT CONFIGURE LIST VIEW
 package cs65.dartmouth.get_swole;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
-import android.content.Context;
-import android.os.Bundle;
+
 import android.app.DialogFragment;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -214,6 +214,17 @@ public class ScheduleFragment extends ListFragment {
 		    public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 				GetSwoleClass w = (GetSwoleClass) parent.getItemAtPosition(position);
 		    	showToast("workout " + w.getName() + " clicked"); 
+		    	if (w instanceof WorkoutInstance) {
+		    		// start a new activity to display this workoutinstance
+		    		Intent intent = new Intent(getActivity(), ViewWorkoutInstanceActivity.class);
+		    		Bundle b = new Bundle();
+		    		b.putLong(Globals.ID_TAG, w.getId());
+		    		intent.putExtras(b);
+		    		startActivity(intent);
+		    	}
+		    	else { // we want to launch a dialog to either change the scheduling or do the workout
+		    		
+		    	}
 		    }
 		};
 		
