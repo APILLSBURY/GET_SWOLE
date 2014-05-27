@@ -265,25 +265,6 @@ public class ScheduleFragment extends ListFragment {
 			if (CalendarUtility.testDateEquality(currDay, Calendar.getInstance()) != CalendarUtility.LESS_THAN) {
 				for (Workout w : allWorkouts) {
 					
-					
-					//THIS IS FOR TESTING ONLY
-					if (w.getFrequencyList().isEmpty()) {
-						Frequency freq = new Frequency(Calendar.THURSDAY);
-						Calendar start = Calendar.getInstance();
-						start.set(Calendar.DATE, 3);
-						Calendar endCal = Calendar.getInstance();
-						endCal.set(Calendar.DATE, 15);
-						endCal.set(Calendar.MONTH, endCal.get(Calendar.MONTH) + 1);
-						freq.setStartDate(start);
-						freq.setEndDate(endCal);
-						dbWrapper.open();
-						freq = dbWrapper.createEntry(freq);
-						w.addFrequency(freq);
-						dbWrapper.updateScheduling(w);
-						dbWrapper.close();
-					}
-					//END TEST
-					
 					scheduledDates = w.getScheduledDates();
 					for (Calendar c : scheduledDates) {
 						if (CalendarUtility.testDateEquality(c, currDay) == CalendarUtility.EQUALS) {
