@@ -48,7 +48,7 @@ public class AppDialogFragment extends DialogFragment {
 	public static final int DIALOG_ID_DATE = 3;
 	public static final int DIALOG_ID_EDIT_EXERCISE = 5; // for adding new exercises, or editing already existing
 	public static final int DIALOG_ID_ADD_EXISTING_EXERCISE = 6;
-	public static final int DIALOG_ID_DO_EXERCISE = 7;
+	//public static final int DIALOG_ID_DO_EXERCISE = 7;
 	public static final int DIALOG_ID_TIMER = 8;
 	public static final int DIALOG_ID_EDIT_SETS = 9;
 	public static final int DIALOG_ID_DO_SETS = 10;
@@ -81,12 +81,12 @@ public class AppDialogFragment extends DialogFragment {
 			args.putInt(DIALOG_ID_KEY, DIALOG_ID_EDIT_EXERCISE);
 			args.putLong(EXERCISE_ID, o.getId());
 		}
-		else if (mode == 1){ // do
+		/*else if (mode == 1){ // do
 			args.putInt(DIALOG_ID_KEY,  DIALOG_ID_DO_EXERCISE);
 			args.putInt(EXERCISE_POSITION, position);
 			args.putLong(EXERCISE_ID, o.getId());
 
-		}
+		}*/
 		else { // view
 			args.putInt(DIALOG_ID_KEY,  DIALOG_ID_VIEW_EXERCISE);
 			args.putInt(EXERCISE_POSITION, position);
@@ -332,6 +332,7 @@ public class AppDialogFragment extends DialogFragment {
 		    });
 		    
 		    return b.create();
+		/*
 		case DIALOG_ID_DO_EXERCISE:
 			// Create custom dialog
 			b = new AlertDialog.Builder(parent);
@@ -411,8 +412,7 @@ public class AppDialogFragment extends DialogFragment {
 				}
 			});
 			
-			return b.create();
-			
+			return b.create();*/		
 		case DIALOG_ID_TIMER:
 			
 			// Create custom dialog

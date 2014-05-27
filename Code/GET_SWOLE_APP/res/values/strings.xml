@@ -55,6 +55,7 @@
     <string name="dialog_framgnet_tag_view_exercise">dialog_fragment_view_exercise</string>
     <string name="dialog_fragment_tag_timer">dialog_fragment_timer</string>
     <string name="dialog_fragment_tag_existing_exercise">dialog_fragment_existing_exercise</string>
+    <string name="dialog_fragment_tag_do_sets">dialog_fragment_do_sets</string>
     <string name="dialog_fragment_tag_edit_sets">dialog_fragment_edit_sets</string>
     <string name="dialog_fragment_tag_view_sets">dialog_fragment_view_sets</string>
     <string name="begin_timer">Start</string>
