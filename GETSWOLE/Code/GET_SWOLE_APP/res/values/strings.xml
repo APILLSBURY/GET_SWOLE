@@ -10,10 +10,6 @@
     <string name="title_section2">Schedule</string>
     <string name="title_section3">Progress</string>
 
-    <!-- Colors -->
-    <color name="white">#FFFFFF</color>
-    <color name="background_holo_dark">#aaa</color>
-
     <!-- Workouts -->
     <string name="add_button">New workout</string>
     <string name="add_exercise_button">New Exercise</string>
