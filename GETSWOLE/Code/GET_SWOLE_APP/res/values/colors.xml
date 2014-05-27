@@ -2,5 +2,7 @@
 <resources>
     <color name="get_swole_orange">#FB793C</color>
     <color name="get_swole_blue">#5AD3FC</color>
-    <color name="get_swole_gray">#DEDEDE</color>
+    <color name="get_swole_light_gray">#DEDEDE</color>
+    <color name="black">#19181A</color>
+    <color name="white">#FFFFFF</color>
 </resources>

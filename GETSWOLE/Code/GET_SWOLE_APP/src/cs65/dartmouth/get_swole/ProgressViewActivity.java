@@ -32,7 +32,6 @@ public class ProgressViewActivity extends Activity {
     final GraphViewData [] empty_data = new GraphViewData[] {};
     
 	LineGraphView progressChart;
-	//ToggleButton toggleButton;
 	TextView currentDisplay;
 	Button toggleViewButton;
 	boolean repsChecked = true;
@@ -124,9 +123,6 @@ public class ProgressViewActivity extends Activity {
 	
 	private void initializeGraph() {
 		progressChart = new LineGraphView(this, exercise.getName() + " Progress");
-		progressChart.getGraphViewStyle().setGridColor(Color.DKGRAY);
-		progressChart.getGraphViewStyle().setHorizontalLabelsColor(Color.DKGRAY);
-		progressChart.getGraphViewStyle().setVerticalLabelsColor(Color.DKGRAY);
 		progressChart.setCustomLabelFormatter(new CustomLabelFormatter() 
 	    {
 	        @Override
@@ -143,6 +139,8 @@ public class ProgressViewActivity extends Activity {
 	    });		
 		progressChart.setShowLegend(true);
 		progressChart.setLegendAlign(LegendAlign.BOTTOM);
+		progressChart.setDrawBackground(true);
+		
 		
 	}
 	

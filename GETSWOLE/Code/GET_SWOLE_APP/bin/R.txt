@@ -17,7 +17,8 @@ int attr uiZoomControls 0x7f01000d
 int attr uiZoomGestures 0x7f01000e
 int attr useViewLifecycle 0x7f01000f
 int attr zOrderOnTop 0x7f010010
-int color background_holo_dark 0x7f05000e
+int color background_holo_dark 0x7f05000f
+int color black 0x7f05000d
 int color common_action_bar_splitter 0x7f050009
 int color common_signin_btn_dark_text_default 0x7f050000
 int color common_signin_btn_dark_text_disabled 0x7f050002
@@ -28,12 +29,12 @@ int color common_signin_btn_light_text_default 0x7f050004
 int color common_signin_btn_light_text_disabled 0x7f050006
 int color common_signin_btn_light_text_focused 0x7f050007
 int color common_signin_btn_light_text_pressed 0x7f050005
-int color common_signin_btn_text_dark 0x7f05000f
-int color common_signin_btn_text_light 0x7f050010
+int color common_signin_btn_text_dark 0x7f050010
+int color common_signin_btn_text_light 0x7f050011
 int color get_swole_blue 0x7f05000b
-int color get_swole_gray 0x7f05000c
+int color get_swole_light_gray 0x7f05000c
 int color get_swole_orange 0x7f05000a
-int color white 0x7f05000d
+int color white 0x7f05000e
 int dimen activity_horizontal_margin 0x7f090000
 int dimen activity_vertical_margin 0x7f090001
 int drawable arrow_left 0x7f020000
@@ -144,7 +145,7 @@ int id previous 0x7f06006d
 int id profilePhoto 0x7f060009
 int id profile_activity 0x7f06007b
 int id progressBar1 0x7f060067
-int id progressDisplay 0x7f06002a
+int id progressDisplay 0x7f060029
 int id progressExerciseListView 0x7f060006
 int id progressViewLayout 0x7f060027
 int id progressWorkoutName 0x7f060005
@@ -162,7 +163,7 @@ int id reps5 0x7f06004f
 int id reps6 0x7f060052
 int id reps7 0x7f060055
 int id reps8 0x7f060058
-int id repsToWeight 0x7f060029
+int id repsToWeight 0x7f06002a
 int id satellite 0x7f060002
 int id scheduleNewListView 0x7f06005b
 int id scheduleWorkoutsToday 0x7f060071
