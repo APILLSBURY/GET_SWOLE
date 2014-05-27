@@ -224,6 +224,32 @@ public class DatabaseWrapper {
 		database.delete(tableName, null, null);
 	}
 	
+	//empty the history, only saving the workout skeletons
+	public void clearHistory() {
+		deleteAllEntries(WorkoutInstance.class);
+		List<Workout> allWorkouts = getAllEntries(Workout.class);
+		for (Workout w : allWorkouts) {
+			w.clearScheduling();
+			updateScheduling(w);
+		}
+		deleteAllEntries(Frequency.class);
+		List<Exercise> allExercises = getAllEntries(Exercise.class);
+		for (Exercise e : allExercises) {
+			if (e.getExerciseInstance()) {
+				deleteEntry(e.getId(), Exercise.class);
+			}
+		}
+	}
+	
+	
+	//empty the database
+	public void clearAll() {
+		deleteAllEntries(Frequency.class);
+		deleteAllEntries(Exercise.class);
+		deleteAllEntries(WorkoutInstance.class);
+		deleteAllEntries(Workout.class);
+	}
+	
 	public List getAllEntries(Class<? extends GetSwoleClass> c) {
 		int index = getClassIndex(c);
 		String tableName =  DatabaseHelper.TABLE_NAMES[index];

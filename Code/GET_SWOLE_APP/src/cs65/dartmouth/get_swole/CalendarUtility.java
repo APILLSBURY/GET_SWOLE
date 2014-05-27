@@ -3,13 +3,8 @@
 package cs65.dartmouth.get_swole;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
-
-import android.content.Context;
-import android.database.Cursor;
-import android.net.Uri;
 
 public class CalendarUtility {
 	public static final int GREATER_THAN = 1;
