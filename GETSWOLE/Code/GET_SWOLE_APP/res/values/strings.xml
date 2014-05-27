@@ -41,6 +41,10 @@
     <string name="progress_goal_line">Goal</string>
     <string name="progress_actual_line">Actual</string>
     <string name="not_enough_data">Not enough data on this exercise.</string>
+    <string name="progress_switch_to_weight">View weight progress</string>
+    <string name="progress_switch_to_reps">View reps progress</string>
+    <string name="progress_now_displaying_weight">Now displaying weight progress.</string>
+    <string name="progress_now_displaying_reps">Now displaying reps progress.</string>
     
     <!-- Dialogs -->
     <string name="positive">OK</string>
