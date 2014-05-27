@@ -64,6 +64,7 @@
     <string name="edit_sets">Edit sets</string>
     <string name="dialog_fragment_tag_schedule_new">dialog_fragment_schedule_new</string>
     <string name="dialog_fragment_tag_when_to_schedule_new">dialog_fragment_when_to_schedule_new</string>
+    <string name="dialog_fragment_tag_schedule_frequency">dialog_fragment_tag_schedule_frequency</string>
     <string name="schedule_pick_when">Schedule this workout:</string>
     <string-array name="schedule_pick_options">
         <item>Just for this date.</item>
@@ -142,8 +143,8 @@
     <string name="settings_delete_profile">Clear Profile Information</string>
     <string name="settings_delete_profile_summary">Erase all fields, delete profile picture and remove profile from the social network.</string>
     
-    <String name="settings_delete_all">Clear All Data</String>
-    <String name="settings_delete_all_summary">Remove all data stored in the app and online database. This will remove all saved workouts, exercises and corresponding scheduled dates as well as remove all profile information.</String>
+    <string name="settings_delete_all">Clear All Data</string>
+    <string name="settings_delete_all_summary">Remove all data stored in the app and online database. This will remove all saved workouts, exercises and corresponding scheduled dates as well as remove all profile information.</string>
     
     
     <string name="settings_additional_settings">Additional Settings</string>
