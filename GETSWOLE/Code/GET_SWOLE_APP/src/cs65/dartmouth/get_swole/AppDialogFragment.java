@@ -947,10 +947,12 @@ public class AppDialogFragment extends DialogFragment {
 				public void onClick(DialogInterface dialog, int which) {
 					dbWrapper.open();
 					if (mode == 0 ) { // we want to clear history of workouts
-						//dbWrapper.clearHistory();	
+						dbWrapper.clearHistory();
+						Toast.makeText(getActivity(), "Workout history cleared", Toast.LENGTH_LONG).show();
 					}
 					else { // mode is 1, delete everything
-						//dbWrapper.clearAll();
+						dbWrapper.clearAll();
+						Toast.makeText(getActivity(), "All workout data cleared", Toast.LENGTH_LONG).show();
 					}
 					dbWrapper.close();
 				}
