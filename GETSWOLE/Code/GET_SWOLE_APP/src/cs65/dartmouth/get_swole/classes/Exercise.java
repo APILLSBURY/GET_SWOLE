@@ -159,9 +159,15 @@ public class Exercise extends GetSwoleClass {
 	public String toString() {
 		String s = name + ": ";
 		for (Set set : setList) {
-			s += set.getReps() + " reps at " + set.getWeight() + ", ";
+			int reps = set.getReps();
+			int weight = set.getWeight();
+			if ((reps == 0) && (weight == 0)) continue;
+			if (reps == 0) s += weight + ", ";
+			else if (weight == 0) s+= reps + " reps, ";
+			else { s += reps + " reps at " + weight + ", ";
+			}
 		}
-		return s.substring(0, s.length() - 2);
+		return s.substring(0, s.length() - 2) + ". Rest: " + rest + "secs";
 	}
 	
 	public boolean equals(Exercise e) {
