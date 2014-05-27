@@ -2,14 +2,12 @@ package cs65.dartmouth.get_swole;
 
 import android.app.Activity;
 import android.app.DialogFragment;
-import android.app.FragmentManager;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
-import cs65.dartmouth.get_swole.classes.Exercise;
+import android.widget.ListView;
+import android.widget.TextView;
 import cs65.dartmouth.get_swole.classes.ExerciseArrayAdapter;
 import cs65.dartmouth.get_swole.classes.WorkoutInstance;
 import cs65.dartmouth.get_swole.database.DatabaseWrapper;
@@ -30,6 +28,11 @@ public class ViewWorkoutInstanceActivity extends Activity implements OnItemClick
 		instance = (WorkoutInstance) dbWrapper.getEntryById(id, WorkoutInstance.class);
 		dbWrapper.close();
 		
+		TextView name = (TextView) findViewById(R.id.completedWorkoutName);
+		name.setText(instance.getWorkout().getName());
+		TextView timestamp = (TextView) findViewById(R.id.timestampWorkout);
+		timestamp.setText("Completed on: " + instance.getTime().toString());
+		
 		// Define a new adapter
         mAdapter = new ExerciseArrayAdapter(this, R.layout.exercises_list_row, instance.getExerciseList());
 
@@ -40,13 +43,6 @@ public class ViewWorkoutInstanceActivity extends Activity implements OnItemClick
         // Get the ListView and wired the listener
         listView.setOnItemClickListener(this); 
         
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.view_workout_instance, menu);
-		return true;
 	}
 
 	@Override
