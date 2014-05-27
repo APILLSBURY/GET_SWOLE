@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     
+    <!-- Metric array for heights -->
+    <string-array name="height_display_name">
+        <item>Feet / Inches</item>
+        <item>Centimeters</item>
+    </string-array>
+    <string-array name="height_display_value">
+        <item>@string/inches</item>
+        <item>@string/centimeters</item>
+    </string-array>
+    
     <!-- Metric array for weights -->
     <string-array name="weight_display_name">
         <item>Pounds</item>

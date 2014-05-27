@@ -21,6 +21,16 @@ import android.widget.ListView;
 
 public class Utils {
 	
+	// Convert inches to centimeters
+	public static double inchesToCentimeters(double inches) {
+		return (double) inches / Globals.INCH_PER_CM;
+	}
+	
+	// Convert centimeters to inches
+	public static double centimetersToInches(double cm) {
+		return (double) cm * Globals.INCH_PER_CM;
+	}
+	
 	// Convert pounds to kilograms
 	public static double poundsToKilos(double pounds) {
 		return (double) pounds / Globals.POUND_PER_KILO;
@@ -31,6 +41,31 @@ public class Utils {
 		return (double) kilos * Globals.POUND_PER_KILO;
 	}
 	
+	// Read from preference, the unit used for displaying inches (taken from MyRuns)
+	public static boolean getHeightUnits(Context context) {
+
+			SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
+
+			String[] weight_display_options = context.getResources().getStringArray(R.array.height_display_name);
+
+			String option = settings.getString(context.getString(R.string.preference_key_height_display), weight_display_options[0]);
+
+			String option_metric = context.getString(R.string.inches);
+
+			if (option.equals(option_metric))
+				return true;
+			else
+				return false;
+		}
+	
+	// Get the height in terms of units
+	public static String getHeightString(Context context, double inches) {
+		if (getHeightUnits(context)) 
+			return ((int) inches / 12) + "'" + ((double) inches % 12) + "''";
+		else
+			return inchesToCentimeters(inches) + "cm";
+	}
+	
 	// Read from preference, the unit used for displaying lbs (taken from MyRuns)
 	public static boolean getWeightUnits(Context context) {
 
@@ -38,7 +73,7 @@ public class Utils {
 
 		String[] weight_display_options = context.getResources().getStringArray(R.array.weight_display_name);
 
-		String option = settings.getString(context.getString(R.string.preference_key_unit_display), weight_display_options[0]);
+		String option = settings.getString(context.getString(R.string.preference_key_weight_display), weight_display_options[0]);
 
 		String option_metric = context.getString(R.string.pounds);
 
