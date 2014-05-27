@@ -20,6 +20,8 @@ import android.widget.ListView;
 
 public class Utils {
 	
+	
+	
 	// Make a listview the same height as the sum of all of its children
 	// http://stackoverflow.com/questions/1661293/why-do-listview-items-not-grow-to-wrap-their-content
 	public static void setListViewHeightBasedOnChildren(ListView listView) {

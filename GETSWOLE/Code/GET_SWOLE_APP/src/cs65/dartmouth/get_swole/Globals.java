@@ -11,4 +11,8 @@ public class Globals {
 	
 	public static final String [] genders = {"Male", "Female"};
 	
+	// Data conversions
+	public static double POUND_PER_KILO = 2.20462;
+	public static double INCH_PER_CM = 2.54;
+	
 }
