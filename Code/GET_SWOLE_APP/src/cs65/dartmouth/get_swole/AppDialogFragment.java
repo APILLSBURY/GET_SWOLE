@@ -42,6 +42,7 @@ public class AppDialogFragment extends DialogFragment {
 
 	// For use by edit exercise dialog
 	private static final String EXERCISE_ID = "Exercise_Id";
+	private static final String MODE = "Mode";
 	private static final String EXERCISE_POSITION = "Exercise_Position";
 	private static final String WORKOUT_INSTANCE_ID = "WorkoutInstance_Id";
 	private static final String WORKOUT_ID = "Workout_Id";
@@ -61,6 +62,7 @@ public class AppDialogFragment extends DialogFragment {
 	public static final int DIALOG_ID_SCHEDULE_NEW_PICK = 12;
 	public static final int DIALOG_ID_VIEW_DOWNLOAD_WORKOUT = 13;
 	public static final int DIALOG_ID_SCHEDULE_FREQUENCY = 14;
+	public static final int DIALOG_ID_ARE_YOU_SURE = 15;
 	
 	private static final String DIALOG_ID_KEY = "dialog_id";
 	
@@ -143,6 +145,15 @@ public class AppDialogFragment extends DialogFragment {
 		args.putInt(DIALOG_ID_KEY,  DIALOG_ID_SCHEDULE_NEW);
 		args.putLong(DATE, date.getTimeInMillis());
 		
+		frag.setArguments(args);
+		return frag;
+	}
+	public static AppDialogFragment newInstanceConfirm(int id) {
+		
+		AppDialogFragment frag = new AppDialogFragment(); 
+		Bundle args = new Bundle();
+		args.putInt(DIALOG_ID_KEY, DIALOG_ID_ARE_YOU_SURE);
+		args.putInt(MODE, id);
 		frag.setArguments(args);
 		return frag;
 	}
@@ -923,10 +934,40 @@ public class AppDialogFragment extends DialogFragment {
 			
 			return b.create();
 			
+		case DIALOG_ID_ARE_YOU_SURE:
+
+			// Get the id so we know which callback to do
+			final int mode = getArguments().getInt(MODE);
+			
+			b = new AlertDialog.Builder(parent);
+			b.setTitle(R.string.are_you_sure);
+			// The click listener will use intents upon selection
+			b.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dbWrapper.open();
+					if (mode == 0 ) { // we want to clear history of workouts
+						dbWrapper.clearHistory();	
+					}
+					else { // mode is 1, delete everything
+						dbWrapper.clearAll();
+					}
+					dbWrapper.close();
+				}
+			});
+			b.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					// do nothing 
+				}
+			});
+			
+			return b.create();
 		default:
 			return null;		
 		
 		}
+		
 	}
 	
 }
