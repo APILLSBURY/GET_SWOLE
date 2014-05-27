@@ -1,5 +1,55 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
-   
+    <PreferenceCategory 
+        android:title="@string/settings_data_management">
+        
+        <PreferenceScreen
+            android:title="@string/settings_delete_workouts"
+            android:summary="@string/settings_delete_workouts_summary">
+            
+            
+        </PreferenceScreen>
+        
+        <PreferenceScreen
+            android:title="@string/settings_delete_history"
+            android:summary="@string/settings_delete_history_summary">
+            
+        </PreferenceScreen>
+        
+    </PreferenceCategory>
+    
+	<PreferenceCategory
+		android:title="@string/settings_additional_settings"> 
+            
+        <!--<ListPreference
+            android:title="@string/settings_unit_preference"
+            android:summary="@string/unit_preference_summary"
+            android:key="@string/preference_key_unit_display"
+            android:entries="@array/unit_display_name"
+            android:entryValues="@array/unit_display_value"
+            android:dialogTitle="@string/dialog_title_unit_preference" />
+        
+        <EditTextPreference
+        	android:key="editcomment_preference"
+            android:title="@string/settings_comment"
+            android:summary="@string/comment_summary"
+            android:dialogTitle="@string/dialog_title_comment_preference" />-->
+        
+    </PreferenceCategory>
+    
+	<PreferenceCategory
+		android:title="@string/settings_misc">
+        
+        <PreferenceScreen
+            android:title="@string/settings_getswole_webpage"
+            android:summary="@string/getswole_webpage">
+            
+            <intent 
+                android:action="android.intent.action.VIEW"
+                android:data="http://getswoleapp.weebly.com" />
+            
+        </PreferenceScreen>
+        
+    </PreferenceCategory>
 
 </PreferenceScreen>

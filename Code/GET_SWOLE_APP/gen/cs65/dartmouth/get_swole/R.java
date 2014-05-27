@@ -411,7 +411,7 @@ containing a value of this type.
         public static final int workouts=0x7f0c0006;
     }
     public static final class string {
-        public static final int action_settings=0x7f07007d;
+        public static final int action_settings=0x7f070086;
         /**  Workouts 
          */
         public static final int add_button=0x7f070023;
@@ -547,7 +547,8 @@ containing a value of this type.
         public static final int friend_title=0x7f07001e;
         public static final int friend_view_download=0x7f07004f;
         public static final int friends_title=0x7f07001d;
-        public static final int hello_world=0x7f07007e;
+        public static final int getswole_webpage=0x7f070084;
+        public static final int hello_world=0x7f070087;
         /**  Location client code resources (prefix with location_client) 
          */
         public static final int location_client_powered_by_google=0x7f07001a;
@@ -607,16 +608,28 @@ containing a value of this type.
         public static final int schedule_new=0x7f070033;
         public static final int schedule_pick_when=0x7f07004e;
         /**  GCM Strings 
-<string name="server_url">http://getswoleandroidapp.appspot.com</string>
          */
         public static final int server_url=0x7f07007b;
+        public static final int settings_additional_settings=0x7f070081;
+        /** <string name="server_url">http://10.31.228.171:8888</string>
+ Settings 
+         */
+        public static final int settings_data_management=0x7f07007c;
+        public static final int settings_delete_history=0x7f07007f;
+        public static final int settings_delete_history_summary=0x7f070080;
+        public static final int settings_delete_workouts=0x7f07007d;
+        public static final int settings_delete_workouts_summary=0x7f07007e;
+        public static final int settings_getswole_webpage=0x7f070083;
+        public static final int settings_misc=0x7f070082;
         public static final int settings_title=0x7f07001f;
         public static final int start_workout_button=0x7f070025;
         public static final int stop_workout_button=0x7f070026;
         public static final int timer=0x7f070028;
-        public static final int title_activity_exercise_progress=0x7f07007c;
-        public static final int title_activity_progress_view=0x7f070080;
-        public static final int title_activity_view_workout_instance=0x7f07007f;
+        /**  Misc 
+         */
+        public static final int title_activity_exercise_progress=0x7f070085;
+        public static final int title_activity_progress_view=0x7f070089;
+        public static final int title_activity_view_workout_instance=0x7f070088;
         public static final int title_section1=0x7f070020;
         public static final int title_section2=0x7f070021;
         public static final int title_section3=0x7f070022;
