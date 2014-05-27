@@ -38,6 +38,9 @@ import cs65.dartmouth.get_swole.gae.ServerUtilities;
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
 
 	// Google Cloud Messaging
+	public static final int WORKOUT_FRAGMENT = 0;
+	public static final int SCHEDULE_FRAGMENT = 1;
+	public static final int PROGRESS_MAIN_FRAGMENT = 2;
     public static final String EXTRA_MESSAGE = "message";
     public static final String PROPERTY_REG_ID = "registration_id";
     private static final String PROPERTY_APP_VERSION = "appVersion";
@@ -55,7 +58,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	 * intensive, it may be best to switch to a
 	 * {@link android.support.v4.app.FragmentStatePagerAdapter}.
 	 */
-	SectionsPagerAdapter mSectionsPagerAdapter;
+	public SectionsPagerAdapter mSectionsPagerAdapter;
 
 	/**
 	 * The {@link ViewPager} that will host the section contents.
@@ -198,7 +201,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 			switch (position) {
 			
 			// WorkoutFragment
-			case 0:
+			case WORKOUT_FRAGMENT:
 			
 				currFragment = new WorkoutFragment();
 				Bundle args1 = new Bundle();
@@ -209,8 +212,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 				return currFragment;
 				
 			// ScheduleFragment
-			case 1:
-				
+			case SCHEDULE_FRAGMENT:
 				currFragment = new ScheduleFragment();
 				Bundle args2 = new Bundle();
 				currFragment.setArguments(args2);
@@ -220,7 +222,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 				return currFragment;
 				
 			// ProgressMainFragment	
-			case 2:
+			case PROGRESS_MAIN_FRAGMENT:
 			
 				currFragment = new ProgressMainFragment();
 				Bundle args3 = new Bundle();

@@ -10,10 +10,12 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 
+import cs65.dartmouth.get_swole.Globals;
 import cs65.dartmouth.get_swole.R;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -87,6 +89,7 @@ public class CalendarAdapter extends BaseAdapter {
 
 	// create a new view for each item referenced by the Adapter
 	public View getView(int position, View convertView, ViewGroup parent) {
+		Log.d(Globals.TAG, "Creating a new view");
 		View v = convertView;
 		TextView dayView;
 		if (convertView == null) { // if it's not recycled, initialize some attributes
@@ -94,6 +97,7 @@ public class CalendarAdapter extends BaseAdapter {
 			v = vi.inflate(R.layout.calendar_item, null);
 		}
 		dayView = (TextView) v.findViewById(R.id.date);
+		v.setBackgroundResource(R.drawable.calendar_cell);
 		// separates daystring into parts.
 		String[] separatedTime = dayString.get(position).split("-");
 		// taking last part of date. ie; 2 from 2012-12-02
@@ -112,22 +116,22 @@ public class CalendarAdapter extends BaseAdapter {
 		} else {
 			// setting curent month's days in blue color.
 			dayView.setTextColor(Color.BLACK);
+			Log.d(Globals.TAG, "Setting color to black- gridvalue = " + gridvalue);
 			if (!workoutsByDay.get(gridvalue).isEmpty()) {
+				Log.d(Globals.TAG, "Setting color to orange");
 				dayView.setTextColor(mContext.getResources().getColor(R.color.get_swole_orange));
 			}
 			Calendar currDate = Calendar.getInstance();
 			if (gridvalue == currDate.get(Calendar.DATE)
 					&& month.get(Calendar.MONTH) == currDate.get(Calendar.MONTH)
 					&& month.get(Calendar.YEAR) == currDate.get(Calendar.YEAR)) {
-				dayView.setBackgroundResource(R.drawable.calendar_bg_orange_big);
+				v.setBackgroundResource(R.drawable.calendar_bg_orange_big);
 			}
 		}
 
 		if (dayString.get(position).equals(curentDateString)) {
 			setSelected(v);
 			previousView = v;
-		} else {
-			v.setBackgroundResource(R.drawable.list_item_background);
 		}
 		dayView.setText(gridvalue + "");
 
@@ -142,13 +146,14 @@ public class CalendarAdapter extends BaseAdapter {
 			monthStr = "0" + monthStr;
 		}
 
+		/*
 		// show icon if date is not empty and it exists in the items array
 		ImageView iw = (ImageView) v.findViewById(R.id.date_icon);
-		if (date.length() > 0 && items != null && items.contains(date)) {
+		if (!workoutsByDay.get(gridvalue).isEmpty()) {
 			iw.setVisibility(View.VISIBLE);
 		} else {
 			iw.setVisibility(View.INVISIBLE);
-		}
+		} */
 		return v;
 	}
 

@@ -155,6 +155,7 @@ public class ScheduleFragment extends ListFragment {
 		else {
 			month.set(GregorianCalendar.MONTH, month.get(GregorianCalendar.MONTH) + 1);
 		}
+		selectedDay.set(Calendar.MONTH, month.get(Calendar.MONTH));
 		getWorkoutsByDay();
 		adapter.setWorkoutsByDay(workoutsByDay);
 	}
@@ -168,6 +169,7 @@ public class ScheduleFragment extends ListFragment {
 			month.set(GregorianCalendar.MONTH,
 					month.get(GregorianCalendar.MONTH) - 1);
 		}
+		selectedDay.set(Calendar.MONTH, month.get(Calendar.MONTH));
 		getWorkoutsByDay();
 		adapter.setWorkoutsByDay(workoutsByDay);
 	}
@@ -176,6 +178,13 @@ public class ScheduleFragment extends ListFragment {
 		Toast.makeText(getActivity().getApplicationContext(), string, Toast.LENGTH_SHORT).show();
 	}
 
+	public void updateCalendar() {
+		getWorkoutsByDay();
+		adapter.setWorkoutsByDay(workoutsByDay);
+		configureListView(workoutsByDay.get(selectedGridvalue));
+		refreshCalendar();
+	}
+	
 	public void refreshCalendar() {
 		TextView title = (TextView) view.findViewById(R.id.title);
 
@@ -202,9 +211,7 @@ public class ScheduleFragment extends ListFragment {
 	@Override
 	public void onResume() {
 		super.onResume();
-		getWorkoutsByDay();
-		configureListView(workoutsByDay.get(selectedGridvalue));
-		refreshCalendar();
+		updateCalendar();
 	}
 	
 	private void configureListView(ArrayList<GetSwoleClass> workouts) {
@@ -281,6 +288,7 @@ public class ScheduleFragment extends ListFragment {
 					for (Calendar c : scheduledDates) {
 						if (CalendarUtility.testDateEquality(c, currDay) == CalendarUtility.EQUALS) {
 							dailyWorkouts.add(w);
+							Log.d(Globals.TAG, "date " + currDay.get(GregorianCalendar.DATE) + " is in scheduled dates!");
 						}
 					}
 					frequencyList = w.getFrequencyList();
@@ -302,10 +310,6 @@ public class ScheduleFragment extends ListFragment {
 				currDay.set(GregorianCalendar.DATE, currDay.get(GregorianCalendar.DATE) + 1);
 			}
 		}
-	}
-	
-	public void onScheduleNew(View v) {
-		// open up the dialog knowing this day
 	}
 		
 	public Frequency getCurrentFrequency() {
