@@ -25,7 +25,7 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/workoutName"
         android:hint="@string/workout_notes_hint"
-        android:inputType="textCapWords" >
+        android:inputType="textCapSentences" >
     </EditText>
 
     <ListView
