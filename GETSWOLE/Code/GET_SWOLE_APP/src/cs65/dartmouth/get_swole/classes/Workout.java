@@ -86,8 +86,7 @@ public class Workout extends GetSwoleClass {
 	public void addFrequency(Frequency f) {
 		frequencyList.add(f);
 	}
-	
-	
+
 	
 	public String getScheduledDatesString() {
 		String s = "";
