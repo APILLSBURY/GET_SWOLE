@@ -22,7 +22,7 @@ public class SettingsActivity extends PreferenceActivity {
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
-
+		
 	    // Load the preferences from an XML resource
         addPreferencesFromResource(R.xml.settings);
 	}

@@ -1,7 +1,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <PreferenceCategory 
-        android:title="@string/settings_data_management">
+       	android:title="@string/settings_data_management">
         
         <PreferenceScreen
             android:title="@string/settings_delete_workouts"
@@ -15,24 +15,24 @@
             
         </PreferenceScreen>
         
-        <!--<PreferenceScreen 
+        <PreferenceScreen 
             android:title="@string/settings_delete_profile"
-            android:summary="@string/settings_delete_profile">
+            android:summary="@string/settings_delete_profile_summary">
             
-        </PreferenceScreen>-->
+        </PreferenceScreen>
         	
         <PreferenceScreen 
-            android:title="@string/settings_delete_history"
-            android:summary="@string/settings_delete_history_summary">
+            android:title="@string/settings_delete_all"
+            android:summary="@string/settings_delete_all_summary">
             
         </PreferenceScreen>
         
     </PreferenceCategory>
     
-	<PreferenceCategory
+	<!--<PreferenceCategory
 		android:title="@string/settings_additional_settings"> 
             
-        <!--<ListPreference
+        <ListPreference
             android:title="@string/settings_unit_preference"
             android:summary="@string/unit_preference_summary"
             android:key="@string/preference_key_unit_display"
@@ -44,9 +44,9 @@
         	android:key="editcomment_preference"
             android:title="@string/settings_comment"
             android:summary="@string/comment_summary"
-            android:dialogTitle="@string/dialog_title_comment_preference" />-->
+            android:dialogTitle="@string/dialog_title_comment_preference" />
         
-    </PreferenceCategory>
+    </PreferenceCategory>-->
     
 	<PreferenceCategory
 		android:title="@string/settings_misc">
@@ -62,5 +62,5 @@
         </PreferenceScreen>
         
     </PreferenceCategory>
-
+    
 </PreferenceScreen>
