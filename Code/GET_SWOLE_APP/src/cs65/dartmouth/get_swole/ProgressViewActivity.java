@@ -9,12 +9,11 @@ import java.util.Calendar;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 
 import com.jjoe64.graphview.CustomLabelFormatter;
 import com.jjoe64.graphview.GraphView.GraphViewData;
@@ -33,7 +32,9 @@ public class ProgressViewActivity extends Activity {
     final GraphViewData [] empty_data = new GraphViewData[] {};
     
 	LineGraphView progressChart;
-	ToggleButton toggleButton;
+	//ToggleButton toggleButton;
+	TextView currentDisplay;
+	Button toggleViewButton;
 	boolean repsChecked = true;
 	
 	Exercise exercise; // used to compare goals
@@ -96,11 +97,21 @@ public class ProgressViewActivity extends Activity {
 			graphLayout.addView(progressChart);
 			
 			// Set callbacks for checked buttons
-			toggleButton = (ToggleButton) findViewById(R.id.repsToWeight);
-			toggleButton.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			toggleViewButton = (Button) findViewById(R.id.repsToWeight);
+			currentDisplay = (TextView) findViewById(R.id.progressDisplay);
+			toggleViewButton.setOnClickListener(new OnClickListener() {
 				@Override
-				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				public void onClick(View v) {
 					repsChecked = !repsChecked;	
+					// change button text
+					if (repsChecked ) {
+						toggleViewButton.setText(getString(R.string.progress_switch_to_weight));
+						currentDisplay.setText(getString(R.string.progress_now_displaying_reps));
+					}
+					else {
+						toggleViewButton.setText(getString(R.string.progress_switch_to_reps));
+						currentDisplay.setText(getString(R.string.progress_now_displaying_weight));
+					}
 					refreshGraphView();
 				}
 				
