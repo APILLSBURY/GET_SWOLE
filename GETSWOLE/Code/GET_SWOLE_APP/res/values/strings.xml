@@ -46,6 +46,7 @@
     <string name="positive">OK</string>
     <string name="yes">Yes</string>
     <string name="negative">Cancel</string>
+    <string name="no">No</string>
     <string name="delete">Delete</string>
     <string name="dialog_title_new_workout">New Workout</string>
     <string name="dialog_hint_new_workout">Workout Name</string>
@@ -90,16 +91,16 @@
 	<string name="profile_in">in</string>
 	<string name="profile_weight">Weight:</string>
 	<string name="profile_lb">lb</string>
-	<string name="profile_bio">Bio Information</string>
+	<string name="profile_bio"> Bio Information</string>
 	<string name="profile_bio_input">Write about yourself</string>
 	<string name="profile_friend_bio">Bio</string>
 	
-	<string name="profile_contact">Contact Information</string>
+	<string name="profile_contact"> Contact Information</string>
 	<string name="profile_email">Email</string>
 	<string name="profile_phone">Phone</string>
 	<string name="profile_about">About:</string>
 	
-    <string name="profile_shared_workouts">Workouts Shared</string>
+    <string name="profile_shared_workouts"> Workouts Shared</string>
     <string name="profile_friend_workouts">Workouts</string>
 	
     <string name="profile_shared_preferences">profile_shared_preferences</string>
