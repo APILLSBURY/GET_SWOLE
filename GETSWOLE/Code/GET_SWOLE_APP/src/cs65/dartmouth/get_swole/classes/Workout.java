@@ -9,6 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import cs65.dartmouth.get_swole.CalendarUtility;
 import cs65.dartmouth.get_swole.Globals;
 import cs65.dartmouth.get_swole.database.*;
 
@@ -67,14 +68,16 @@ public class Workout extends GetSwoleClass {
 	
 	//return true if we found the date, false if not
 	public boolean removeDate(Calendar cal) {
-		int date = cal.get(Calendar.DATE);
-		int month = cal.get(Calendar.MONTH);
-		int year = cal.get(Calendar.YEAR);
+		Calendar toRemove = null;
 		for (Calendar day : scheduledDates) {
-			if (day.get(Calendar.DATE) == date && day.get(Calendar.MONTH) == month && day.get(Calendar.YEAR) == year) {
-				scheduledDates.remove(day);
-				return true;
+			if (CalendarUtility.testDateEquality(cal, day) == (CalendarUtility.EQUALS)) {
+				toRemove = day;
+				break;
 			}
+		}
+		if (toRemove != null) {
+			scheduledDates.remove(toRemove);
+			return true;
 		}
 		return false;
 	}
