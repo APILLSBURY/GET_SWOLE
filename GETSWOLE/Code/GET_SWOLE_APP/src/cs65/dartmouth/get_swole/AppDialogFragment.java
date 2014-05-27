@@ -6,6 +6,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -18,6 +19,10 @@ import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -26,6 +31,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import cs65.dartmouth.get_swole.classes.Exercise;
 import cs65.dartmouth.get_swole.classes.ExerciseArrayAdapter;
+import cs65.dartmouth.get_swole.classes.Frequency;
 import cs65.dartmouth.get_swole.classes.GetSwoleClass;
 import cs65.dartmouth.get_swole.classes.Set;
 import cs65.dartmouth.get_swole.classes.Workout;
@@ -54,6 +60,7 @@ public class AppDialogFragment extends DialogFragment {
 	public static final int DIALOG_ID_SCHEDULE_UPDATE = 11;
 	public static final int DIALOG_ID_SCHEDULE_NEW_PICK = 12;
 	public static final int DIALOG_ID_VIEW_DOWNLOAD_WORKOUT = 13;
+	public static final int DIALOG_ID_SCHEDULE_FREQUENCY = 14;
 	
 	private static final String DIALOG_ID_KEY = "dialog_id";
 	
@@ -697,74 +704,182 @@ public class AppDialogFragment extends DialogFragment {
 		    
 			return b.create();
 			
-		case DIALOG_ID_SCHEDULE_NEW:
-			    final long dateSelected = getArguments().getLong(DATE);
-			    
-				// Create custom dialog
-				b = new AlertDialog.Builder(parent);
-				b.setTitle(parent.getString(R.string.schedule_choose_workout));
-				
-				 // we need to set an adapter and callback
-			    dbWrapper.open();
-			    final List<GetSwoleClass> workouts = dbWrapper.getAllEntries(Workout.class);
-			    dbWrapper.close();
-			    String [] workoutNames = new String[workouts.size()];
-			    for (int i = 0; i < workouts.size(); i++) {
-			    	workoutNames[i] = workouts.get(i).getName();
-			    }
-			    
-				b.setItems(workoutNames, new DialogInterface.OnClickListener() {
-				        public void onClick(DialogInterface dialog, int item) {
-				        	GetSwoleClass workout = workouts.get(item);
-			            	
-			            	// open a dialog to display 
-		    	 			DialogFragment fragment = AppDialogFragment.newInstanceSchedule(workout, dateSelected, DIALOG_ID_SCHEDULE_NEW_PICK);
-		    	 			fragment.show(getFragmentManager(), getString(R.string.dialog_fragment_tag_when_to_schedule_new));
-		    	 			getDialog().cancel();
-				        }
-				    });
-				
-				b.setNegativeButton(R.string.negative, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-					}
-				});
-				return b.create();
-				
-			case DIALOG_ID_SCHEDULE_NEW_PICK:
-				long workoutId = getArguments().getLong(WORKOUT_ID);
-				final long date = getArguments().getLong(DATE);
-				b = new AlertDialog.Builder(parent);
-				b.setTitle(R.string.schedule_pick_when);
-				dbWrapper.open();
-				final Workout workout = (Workout) dbWrapper.getEntryById(workoutId, Workout.class);
-				dbWrapper.close();
-				// The click listener will use intents upon selection
-				DialogInterface.OnClickListener dListener = new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int item) {
-						if (item == 0) {
-							Calendar cal = Calendar.getInstance();
-							cal.setTimeInMillis(date);
-							Log.d(Globals.TAG, "date: " + CalendarUtility.getDate(date));
-							workout.addDate(cal);
-							dbWrapper.open();
-							dbWrapper.updateScheduling(workout);
-							dbWrapper.close();
-							
-							Log.d(Globals.TAG, "Scheduled workout for day " + cal.get(Calendar.DATE));
-							ScheduleFragment scheduleFragment = (ScheduleFragment) 
-									((MainActivity) parent).mSectionsPagerAdapter.getFragment(MainActivity.SCHEDULE_FRAGMENT);
-							scheduleFragment.updateCalendar();
-						}
-						else {
-							
-						}
-						
-					}
-				};
-				b.setItems(R.array.schedule_pick_options, dListener);
-				return b.create();
+	case DIALOG_ID_SCHEDULE_NEW:
+		    final long dateSelected = getArguments().getLong(DATE);
+		    
+			// Create custom dialog
+			b = new AlertDialog.Builder(parent);
+			b.setTitle(parent.getString(R.string.schedule_choose_workout));
 			
+			 // we need to set an adapter and callback
+		    dbWrapper.open();
+		    final List<GetSwoleClass> workouts = dbWrapper.getAllEntries(Workout.class);
+		    dbWrapper.close();
+		    String [] workoutNames = new String[workouts.size()];
+		    for (int i = 0; i < workouts.size(); i++) {
+		    	workoutNames[i] = workouts.get(i).getName();
+		    }
+		    
+			b.setItems(workoutNames, new DialogInterface.OnClickListener() {
+			        public void onClick(DialogInterface dialog, int item) {
+			        	GetSwoleClass workout = workouts.get(item);
+		            	
+		            	// open a dialog to display 
+	    	 			DialogFragment fragment = AppDialogFragment.newInstanceSchedule(workout, dateSelected, DIALOG_ID_SCHEDULE_NEW_PICK);
+	    	 			fragment.show(getFragmentManager(), getString(R.string.dialog_fragment_tag_when_to_schedule_new));
+	    	 			getDialog().cancel();
+			        }
+			    });
+			
+			b.setNegativeButton(R.string.negative, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+				}
+			});
+			return b.create();
+			
+		case DIALOG_ID_SCHEDULE_NEW_PICK:
+			long workoutId = getArguments().getLong(WORKOUT_ID);
+			final long date = getArguments().getLong(DATE);
+			final Calendar cal = Calendar.getInstance();
+			cal.setTimeInMillis(date);
+			b = new AlertDialog.Builder(parent);
+			b.setTitle(R.string.schedule_pick_when);
+			dbWrapper.open();
+			final Workout workout = (Workout) dbWrapper.getEntryById(workoutId, Workout.class);
+			dbWrapper.close();
+			// The click listener will use intents upon selection
+			DialogInterface.OnClickListener dListener = new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int item) {
+					if (item == 0) {
+						Log.d(Globals.TAG, "date: " + CalendarUtility.getDate(date));
+						workout.addDate(cal);
+						dbWrapper.open();
+						dbWrapper.updateScheduling(workout);
+						dbWrapper.close();
+						
+						Log.d(Globals.TAG, "Scheduled workout for day " + cal.get(Calendar.DATE));
+						ScheduleFragment scheduleFragment = (ScheduleFragment) 
+								((MainActivity) parent).mSectionsPagerAdapter.getFragment(MainActivity.SCHEDULE_FRAGMENT);
+						scheduleFragment.updateCalendar();
+					}
+					else {// custom dialog
+						final Dialog frequencyDialog = new Dialog(parent);
+						frequencyDialog.setContentView(R.layout.dialog_frequency);
+						frequencyDialog.setTitle("Set Frequency");
+						
+						final Calendar start = (Calendar) cal.clone();
+						final Calendar end = (Calendar) cal.clone();
+						final Calendar day = (Calendar) cal.clone();
+						
+						
+						Spinner spinner = (Spinner) frequencyDialog.findViewById(R.id.day_spinner);
+						ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(parent,
+						        R.array.day_array, android.R.layout.simple_spinner_item);
+						adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+						spinner.setAdapter(adapter);		
+						spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+						    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+						    	String dayString = (String) parent.getItemAtPosition(pos);
+						        if (dayString.equals("Sunday")) {
+						        	day.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+						        }
+						        else if (dayString.equals("Monday")) {
+						        	day.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+							    }
+						        else if (dayString.equals("Tuesday")) {
+						        	day.set(Calendar.DAY_OF_WEEK, Calendar.TUESDAY);
+							    }
+						        else if (dayString.equals("Wednesday")) {
+						        	day.set(Calendar.DAY_OF_WEEK, Calendar.WEDNESDAY);
+							    }
+						        else if (dayString.equals("Thursday")) {
+						        	day.set(Calendar.DAY_OF_WEEK, Calendar.THURSDAY);
+							    }
+						        else if (dayString.equals("Friday")) {
+						        	day.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY);
+							    }
+						        else if (dayString.equals("Saturday")) {
+						        	day.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
+							    }
+						    }
+						    public void onNothingSelected(AdapterView<?> parent) {
+						    	day.set(Calendar.DAY_OF_WEEK, Calendar.getInstance().get(Calendar.DAY_OF_WEEK));
+						    }
+						});
+			 
+						Button startDate = (Button) frequencyDialog.findViewById(R.id.frequency_start_date);
+						startDate.setOnClickListener(new OnClickListener() {
+							@Override
+							public void onClick(View v) {
+							    DatePickerDialog startDatePicker = new DatePickerDialog(parent,
+							    new OnDateSetListener() {
+							    	@Override
+							    	public void onDateSet(DatePicker view, int year, int month, int day) {
+							    		start.set(Calendar.YEAR, year);
+							    		start.set(Calendar.MONTH, month);
+							    		start.set(Calendar.DATE, day);
+							    	}
+							    },
+					    		start.get(Calendar.YEAR),
+					    		start.get(Calendar.MONTH),
+					    		start.get(Calendar.DATE));
+							    startDatePicker.show();
+							}
+						});
+						
+						Button endDate = (Button) frequencyDialog.findViewById(R.id.frequency_end_date);
+						endDate.setOnClickListener(new OnClickListener() {
+							@Override
+							public void onClick(View v) {
+							    DatePickerDialog endDatePicker = new DatePickerDialog(parent,
+							    new OnDateSetListener() {
+							    	@Override
+							    	public void onDateSet(DatePicker view, int year, int month, int day) {
+							    		end.set(Calendar.YEAR, year);
+							    		end.set(Calendar.MONTH, month);
+							    		end.set(Calendar.DATE, day);
+							    	}
+							    },
+					    		end.get(Calendar.YEAR),
+					    		end.get(Calendar.MONTH),
+					    		end.get(Calendar.DATE));
+							    endDatePicker.show();
+							}
+						});
+						Button dialogButton = (Button) frequencyDialog.findViewById(R.id.frequency_done_button);
+						// if button is clicked, close the custom dialog
+						dialogButton.setOnClickListener(new OnClickListener() {
+							@Override
+							public void onClick(View v) {
+								Frequency freq = new Frequency(day.get(Calendar.DAY_OF_WEEK));
+								freq.setStartDate(start);
+								freq.setEndDate(end);
+								workout.addFrequency(freq);
+								dbWrapper.open();
+								dbWrapper.updateScheduling(workout);
+								dbWrapper.close();
+								
+								Log.d(Globals.TAG, "Scheduled frequency");
+								ScheduleFragment scheduleFragment = (ScheduleFragment) 
+										((MainActivity) parent).mSectionsPagerAdapter.getFragment(MainActivity.SCHEDULE_FRAGMENT);
+								scheduleFragment.updateCalendar();
+								frequencyDialog.dismiss();
+							}
+						});
+						
+			 
+						frequencyDialog.show();
+					}
+					
+				}
+			};
+			b.setItems(R.array.schedule_pick_options, dListener);
+			return b.create();
+		
+		case DIALOG_ID_SCHEDULE_FREQUENCY:
+			
+		
 		case DIALOG_ID_SCHEDULE_UPDATE:
 			
 		case DIALOG_ID_VIEW_DOWNLOAD_WORKOUT:
