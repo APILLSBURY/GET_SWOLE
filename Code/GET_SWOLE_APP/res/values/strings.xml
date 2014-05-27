@@ -138,16 +138,18 @@
     
     <!-- Settings -->
     
+    <string name="settings_unit_settings">Unit Settings</string>
+    <string name="unit_preference_summary">Select the units in which you would like to see weight values</string>
+   	<string name="preference_key_unit_display">settings_unit_display</string>
+   	<string name="title_unit_preference">Weight Unit Preference</string>
+	<string name="pounds">lb</string>
+    <string name="kilograms">kg</string>
+    
     <string name="settings_data_management">Data Management</string>
-    <string name="settings_delete_workouts">Clear Saved Workouts</string>
-    <string name="settings_delete_workouts_summary">Remove all workouts created and download from the database. This will remove all instances and scheduled data for those workouts as well.</string>
     <string name="settings_delete_history">Clear Workout History</string>
     <string name="settings_delete_history_summary">Remove all historical logs and scheduling data associated with each workout stored in the database.</string>
-    <string name="settings_delete_all">Clear All Data</string>
-    <string name="settings_delete_all_summary">Remove all data stored in the app and online database. This will remove all saved workouts, exercises and corresponding scheduled dates.</string>
-
-    
-    <string name="settings_additional_settings">Additional Settings</string>
+    <string name="settings_delete_all">Clear All Workout Data</string>
+    <string name="settings_delete_all_summary">Remove all workouts created and downloaded from the database. This will remove all instances and scheduled data for those workouts as well.</string>
     
     
     <string name="settings_misc">Misc</string>

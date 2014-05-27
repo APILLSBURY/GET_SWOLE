@@ -2,14 +2,14 @@
 <resources>
     
     <!-- Metric array for weights -->
-    <!-- <string-array name="weight_display_name">
-        <item>Metric (Kilograms)</item>
-        <item>Imperial (Pounds)</item>
+    <string-array name="weight_display_name">
+        <item>Pounds</item>
+        <item>Kilograms</item>
     </string-array>
     <string-array name="weight_display_value">
-        <item>@string/lbs</item>
-        <item>@string/kg</item>
-    </string-array> -->
+        <item>@string/pounds</item>
+        <item>@string/kilograms</item>
+    </string-array>
     
     <!-- Day array for Frequency Dialog -->
     <string-array name="day_array">
