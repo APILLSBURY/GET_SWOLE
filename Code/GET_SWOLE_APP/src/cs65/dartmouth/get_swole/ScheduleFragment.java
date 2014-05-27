@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Locale;
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
 import android.app.DialogFragment;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
@@ -37,9 +36,10 @@ import cs65.dartmouth.get_swole.database.DatabaseWrapper;
 
 public class ScheduleFragment extends ListFragment {
 	
-	public GregorianCalendar month, itemmonth;// calendar instances.
+	public GregorianCalendar month;// calendar instances.
 
 	public CalendarAdapter adapter;// adapter instance
+	public ArrayList<String> items; // container to store calendar items which needs showing the event marker
 	private View view;
 	private Context context;
 	private DatabaseWrapper dbWrapper;
@@ -59,7 +59,6 @@ public class ScheduleFragment extends ListFragment {
 		Locale.setDefault(Locale.US);
 
 		month = (GregorianCalendar) GregorianCalendar.getInstance();
-		itemmonth = (GregorianCalendar) month.clone();
 		selectedDay = (Calendar) month.clone();
 		selectedGridvalue = selectedDay.get(Calendar.DATE);
 
@@ -181,8 +180,22 @@ public class ScheduleFragment extends ListFragment {
 	public void refreshCalendar() {
 		TextView title = (TextView) view.findViewById(R.id.title);
 		adapter.refreshDays();
+		adapter.notifyDataSetChanged();
+
 		title.setText(android.text.format.DateFormat.format("MMMM yyyy", month));
 	}
+
+	public Runnable calendarUpdater = new Runnable() {
+
+		@Override
+		public void run() {
+			items.clear();
+
+			// Print dates of the current week
+			adapter.setItems(items);
+			adapter.notifyDataSetChanged();
+		}
+	};
 	
 	@Override
 	public void onResume() {
