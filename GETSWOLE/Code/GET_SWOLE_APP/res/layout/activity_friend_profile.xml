@@ -88,10 +88,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:background="@color/get_swole_blue"
             android:text="@string/profile_bio"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/white" />
+            android:textColor="@color/get_swole_blue" />
                 
         <EditText
             android:id="@+id/bioInputText"
@@ -174,10 +173,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:background="@color/get_swole_blue"
             android:text="@string/profile_contact"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/white" />
+            android:textColor="@color/get_swole_blue" />
         
         <TextView
             android:id="@+id/email"
@@ -200,10 +198,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:background="@color/get_swole_blue"
             android:text="@string/profile_friend_workouts"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/white" />
+            android:textColor="@color/get_swole_blue" />
 
         <ListView
             android:id="@id/android:list"
