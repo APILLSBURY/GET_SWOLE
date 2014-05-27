@@ -40,8 +40,6 @@ public class ScheduleFragment extends ListFragment {
 	public GregorianCalendar month, itemmonth;// calendar instances.
 
 	public CalendarAdapter adapter;// adapter instance
-	public Handler handler;	// for grabbing some event values for showing the dot marker.
-	public ArrayList<String> items; // container to store calendar items which needs showing the event marker
 	private View view;
 	private Context context;
 	private DatabaseWrapper dbWrapper;
@@ -65,16 +63,11 @@ public class ScheduleFragment extends ListFragment {
 		selectedDay = (Calendar) month.clone();
 		selectedGridvalue = selectedDay.get(Calendar.DATE);
 
-		items = new ArrayList<String>();
-
 		getWorkoutsByDay();
 		adapter = new CalendarAdapter(context, month, workoutsByDay);
 		
 		GridView gridview = (GridView) view.findViewById(R.id.gridview);
 		gridview.setAdapter(adapter);
-
-		handler = new Handler();
-		handler.post(calendarUpdater);
 
 		TextView title = (TextView) view.findViewById(R.id.title);
 		title.setText(android.text.format.DateFormat.format("MMMM yyyy", month));
@@ -187,26 +180,9 @@ public class ScheduleFragment extends ListFragment {
 	
 	public void refreshCalendar() {
 		TextView title = (TextView) view.findViewById(R.id.title);
-
 		adapter.refreshDays();
-		adapter.notifyDataSetChanged();
-		handler.post(calendarUpdater); // generate some calendar items
-
 		title.setText(android.text.format.DateFormat.format("MMMM yyyy", month));
 	}
-
-	public Runnable calendarUpdater = new Runnable() {
-
-		@Override
-		public void run() {
-			items.clear();
-
-			// Print dates of the current week
-			DateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
-			adapter.setItems(items);
-			adapter.notifyDataSetChanged();
-		}
-	};
 	
 	@Override
 	public void onResume() {
