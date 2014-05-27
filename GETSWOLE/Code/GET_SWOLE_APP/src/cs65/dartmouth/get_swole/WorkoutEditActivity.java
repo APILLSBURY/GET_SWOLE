@@ -39,6 +39,7 @@ public class WorkoutEditActivity extends Activity {
 	
 	Button button2;
 	LinearLayout buttonLayout;
+	LinearLayout addExistingLayout;
 	boolean firstAdded;
 	EditText commentBox;
 	
@@ -54,6 +55,7 @@ public class WorkoutEditActivity extends Activity {
 		// Display	
 		commentBox = (EditText) findViewById(R.id.workoutComments);
 		buttonLayout = (LinearLayout) findViewById(R.id.workout_buttons);
+		addExistingLayout = (LinearLayout) findViewById(R.id.addExistingLayout);
 		LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 		TextView nameView = (TextView) findViewById(R.id.workoutName);
 
@@ -86,6 +88,7 @@ public class WorkoutEditActivity extends Activity {
     	});
 		
 		button3.setText(getString(R.string.start_workout_button));
+		button3.setTextColor(getResources().getColor(R.color.get_swole_orange));
 		button3.setLayoutParams(params);
 		button3.setOnClickListener(new OnClickListener() {
    	     @Override
@@ -115,7 +118,7 @@ public class WorkoutEditActivity extends Activity {
 		
 		if (dbWrapper.getAllEntries(Exercise.class).size() > 0) {
 			firstAdded = true;
-	        buttonLayout.addView(button2);
+	        addExistingLayout.addView(button2);
 		}
 		
 		dbWrapper.close();
@@ -221,7 +224,7 @@ public class WorkoutEditActivity extends Activity {
         dbWrapper.close();
         
         if (!firstAdded) {
-	        buttonLayout.addView(button2);
+	        addExistingLayout.addView(button2);
 	        firstAdded = true;
         }
         

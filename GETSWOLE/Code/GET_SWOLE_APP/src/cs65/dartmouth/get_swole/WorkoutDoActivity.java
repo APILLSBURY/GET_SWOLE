@@ -60,12 +60,13 @@ public class WorkoutDoActivity extends Activity {
 		     @Override
 		     public void onClick(View v) {
 			        // begin timer
-		    	 	/*
+		    	 	
 			    	DialogFragment fragment = AppDialogFragment.newInstance(AppDialogFragment.DIALOG_ID_TIMER);
-	     	        fragment.show(getFragmentManager(), getString(R.string.dialog_fragment_tag_timer)); */
+	     	        fragment.show(getFragmentManager(), getString(R.string.dialog_fragment_tag_timer)); 
 		     }
 		});
-		button2.setText(getString(R.string.stop_workout_button));	
+		button2.setText(getString(R.string.stop_workout_button));
+		button2.setTextColor(getResources().getColor(R.color.get_swole_orange));
 		button2.setLayoutParams(params);
 		button2.setOnClickListener(new OnClickListener() {
 		     @Override

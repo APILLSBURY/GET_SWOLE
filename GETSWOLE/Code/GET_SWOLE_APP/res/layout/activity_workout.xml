@@ -38,12 +38,20 @@
         android:paddingTop="@dimen/activity_vertical_margin" >
     </ListView>
     
+    <LinearLayout
+        android:id="@+id/addExistingLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/exerciseListView" 
+        android:orientation="vertical"/>
+        
+        
      <LinearLayout
          android:id="@+id/workout_buttons"
          android:layout_width="fill_parent"
          android:layout_height="wrap_content"
-         android:layout_below="@+id/exerciseListView"
-         android:orientation="vertical" >
+         android:orientation="vertical" 
+         android:layout_below="@+id/addExistingLayout">
             
     </LinearLayout>
     
