@@ -278,6 +278,7 @@ public class DatabaseWrapper {
 	}
 	
 	public int updateScheduling(Workout workout) {
+		Log.d(Globals.TAG, "updating scheduling");
 		//update frequency list
 		ContentValues values = new ContentValues();
 		values.put(DatabaseHelper.WORKOUT_FREQUENCY_LIST, workout.getFrequencyListByteArray());
