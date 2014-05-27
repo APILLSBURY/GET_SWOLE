@@ -22,7 +22,7 @@ public class ViewWorkoutInstanceActivity extends Activity implements OnItemClick
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_view_workout_instance);
 		
-		long id= getIntent().getExtras().getLong(Globals.ID_TAG, -1L); // get the id of the workout instance
+		long id= getIntent().getExtras().getLong(Globals.ID_TAG, -1L); // get the id of the workout instance - should not be -1
 		DatabaseWrapper dbWrapper = new DatabaseWrapper(this);
 		dbWrapper.open();
 		instance = (WorkoutInstance) dbWrapper.getEntryById(id, WorkoutInstance.class);
