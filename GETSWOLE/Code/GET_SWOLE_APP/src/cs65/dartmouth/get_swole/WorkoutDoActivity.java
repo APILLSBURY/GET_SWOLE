@@ -81,10 +81,8 @@ public class WorkoutDoActivity extends Activity {
 		long id = getIntent().getExtras().getLong(Globals.ID_TAG, -1L);
 		dbWrapper.open();
 		workoutInstance = new WorkoutInstance((Workout) dbWrapper.getEntryById(id, Workout.class));
+		workoutInstance.setTime(Calendar.getInstance());
 		dbWrapper.close();
-		workoutInstance.setTime(Calendar.getInstance());		
-		DatabaseWrapper dbWrapper = new DatabaseWrapper(this);
-		workoutInstance.setWorkout((Workout) dbWrapper.getEntryById(id, Workout.class));
 		
 		// create an exercise list for the workoutinstance
 		ArrayList<Exercise> wiExercises = new ArrayList<Exercise>();
@@ -155,7 +153,7 @@ public class WorkoutDoActivity extends Activity {
 		// We want to save the workout into the database as a workout instance
 		dbWrapper.open();
 		WorkoutInstance saved = dbWrapper.createEntry(workoutInstance);	
-		dbWrapper.close();	
+		dbWrapper.close();
 		finish(); // close the activity
 			
 	}
