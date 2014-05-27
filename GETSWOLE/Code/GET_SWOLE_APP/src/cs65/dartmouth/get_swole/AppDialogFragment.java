@@ -296,7 +296,7 @@ public class AppDialogFragment extends DialogFragment {
 			}
 			return b.create();
 		case DIALOG_ID_ADD_EXISTING_EXERCISE:
-			// Create custom dialog
+
 			b = new AlertDialog.Builder(parent);
 
 		    inflater = getActivity().getLayoutInflater();
@@ -305,9 +305,12 @@ public class AppDialogFragment extends DialogFragment {
 		    
 		    dbWrapper.open();
 		    List<Exercise> dbExercises = dbWrapper.getAllEntries(Exercise.class);
-		    final ArrayList<Exercise> exercises = new ArrayList<Exercise>();
-		    exercises.addAll(dbExercises);
 		    dbWrapper.close();
+
+		    final ArrayList<Exercise> exercises = new ArrayList<Exercise>();
+		    for (Exercise e : dbExercises) {
+		    	if (!e.getExerciseInstance()) exercises.add(e);
+		    }		    
 
 		    ExerciseArrayAdapter exerciseArrayAdapter = new ExerciseArrayAdapter(parent, R.layout.exercises_list_row, exercises);
 
