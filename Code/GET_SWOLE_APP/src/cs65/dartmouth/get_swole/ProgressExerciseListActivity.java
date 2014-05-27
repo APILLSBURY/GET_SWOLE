@@ -1,35 +1,42 @@
 package cs65.dartmouth.get_swole;
 
-import android.app.ListActivity;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import android.widget.TextView;
 import cs65.dartmouth.get_swole.classes.ExerciseArrayAdapter;
 import cs65.dartmouth.get_swole.classes.GetSwoleClass;
 import cs65.dartmouth.get_swole.classes.Workout;
 import cs65.dartmouth.get_swole.database.DatabaseWrapper;
 
-public class ProgressExerciseListActivity extends ListActivity {
+public class ProgressExerciseListActivity extends Activity {
 
 	Context context = this;
 	Workout workout;
 	ExerciseArrayAdapter exerciseAdapter;
+	ListView exerciseList;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		setContentView(R.layout.activity_exercise_progress);	
+		
+		exerciseList = (ListView) findViewById(R.id.progressExerciseListView);
+		TextView workoutName = (TextView) findViewById(R.id.progressWorkoutName);
+		
 		DatabaseWrapper dbWrapper = new DatabaseWrapper(this);
 		dbWrapper.open();
 		workout = (Workout) dbWrapper.getEntryById(getIntent().getExtras().getLong(Globals.ID_TAG), Workout.class);
-		exerciseAdapter = new ExerciseArrayAdapter(this, R.layout.workouts_list_row, workout.getExerciseList());
+		exerciseAdapter = new ExerciseArrayAdapter(this, R.layout.exercises_list_row, workout.getExerciseList());
 		
-		setListAdapter(exerciseAdapter);
+		workoutName.setText(workout.getName());
+		exerciseList.setAdapter(exerciseAdapter);
 				
 		// Define the listener interface
         OnItemClickListener listener = new OnItemClickListener() {
@@ -48,15 +55,7 @@ public class ProgressExerciseListActivity extends ListActivity {
         };
 
         // Get the ListView and wired the listener
-        ListView listView = getListView();
-        listView.setOnItemClickListener(listener);
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.exercise_progress, menu);
-		return true;
+        exerciseList.setOnItemClickListener(listener);
 	}
 
 }

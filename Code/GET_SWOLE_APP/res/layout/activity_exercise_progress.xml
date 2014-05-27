@@ -15,12 +15,13 @@
         android:layout_height="wrap_content"
         android:text="Workout Name"
         android:textSize="30sp" 
-        android:textColor="@color/get_swole_blue"/>
+        android:textColor="@color/get_swole_blue"
+        android:layout_marginBottom="10dp"/>
 
     <ListView
         android:id="@+id/progressExerciseListView"
-        android:layout_width="239dp"
-        android:layout_height="332dp" >
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
     </ListView>
 
 </LinearLayout>

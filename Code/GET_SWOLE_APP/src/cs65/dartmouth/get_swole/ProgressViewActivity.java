@@ -139,7 +139,7 @@ public class ProgressViewActivity extends Activity {
 	    });		
 		progressChart.setShowLegend(true);
 		progressChart.setLegendAlign(LegendAlign.BOTTOM);
-		progressChart.setDrawBackground(true);
+		//progressChart.setDrawBackground(true);
 		
 		
 	}
@@ -167,10 +167,10 @@ public class ProgressViewActivity extends Activity {
 		repsDataSeries = new GraphViewSeries(getString(R.string.progress_actual_line), new GraphViewSeriesStyle(Color.BLUE, 4), repsData);
 
 		// reps goal data - just a straight line
-		if (exercise.getMaxReps() != -1) {
+		if (exercise.getRepsGoal() != -1) {
 			GraphViewData [] repsGoal = new GraphViewData[2];
-			repsGoal[0] = new GraphViewData(instanceWorkouts.get(firstIndex).getTime().getTimeInMillis(), exercise.getMaxReps());
-			repsGoal[1] = new GraphViewData(instanceWorkouts.get(secondIndex).getTime().getTimeInMillis(), exercise.getMaxReps());
+			repsGoal[0] = new GraphViewData(instanceWorkouts.get(firstIndex).getTime().getTimeInMillis(), exercise.getRepsGoal());
+			repsGoal[1] = new GraphViewData(instanceWorkouts.get(secondIndex).getTime().getTimeInMillis(), exercise.getRepsGoal());
 			repsGoalSeries = new GraphViewSeries(getString(R.string.progress_goal_line),  new GraphViewSeriesStyle(Color.RED, 4), repsGoal);
 		}
 		
@@ -197,10 +197,10 @@ public class ProgressViewActivity extends Activity {
 		weightDataSeries = new GraphViewSeries(getString(R.string.progress_actual_line), new GraphViewSeriesStyle(Color.BLUE, 4), weightData);
 
 		// weight goal data
-		if (exercise.getMaxWeight() != -1) {
+		if (exercise.getWeightGoal() != -1) {
 			GraphViewData [] weightGoal = new GraphViewData[2];
-			weightGoal[0] = new GraphViewData(instanceWorkouts.get(firstIndex).getTime().getTimeInMillis(), exercise.getMaxWeight());
-			weightGoal[1] = new GraphViewData(instanceWorkouts.get(secondIndex).getTime().getTimeInMillis(), exercise.getMaxWeight());
+			weightGoal[0] = new GraphViewData(instanceWorkouts.get(firstIndex).getTime().getTimeInMillis(), exercise.getWeightGoal());
+			weightGoal[1] = new GraphViewData(instanceWorkouts.get(secondIndex).getTime().getTimeInMillis(), exercise.getWeightGoal());
 			weightGoalSeries = new GraphViewSeries(getString(R.string.progress_goal_line), new GraphViewSeriesStyle(Color.RED, 4), weightGoal);
 		}
 				

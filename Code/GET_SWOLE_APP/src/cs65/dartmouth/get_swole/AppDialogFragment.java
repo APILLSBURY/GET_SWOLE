@@ -44,20 +44,20 @@ public class AppDialogFragment extends DialogFragment {
 	private static final String WORKOUT_ID = "Workout_Id";
 	private static final String DATE = "Date";
 	
-	public static final int DIALOG_ID_NEW_WORKOUT = 2;
-	public static final int DIALOG_ID_DATE = 3;
-	public static final int DIALOG_ID_EDIT_EXERCISE = 5; // for adding new exercises, or editing already existing
-	public static final int DIALOG_ID_ADD_EXISTING_EXERCISE = 6;
+	public static final int DIALOG_ID_NEW_WORKOUT = 1;
+	public static final int DIALOG_ID_DATE = 2;
+	public static final int DIALOG_ID_EDIT_EXERCISE = 3; // for adding new exercises, or editing already existing
+	public static final int DIALOG_ID_ADD_EXISTING_EXERCISE = 4;
 	//public static final int DIALOG_ID_DO_EXERCISE = 7;
-	public static final int DIALOG_ID_TIMER = 8;
-	public static final int DIALOG_ID_EDIT_SETS = 9;
-	public static final int DIALOG_ID_DO_SETS = 10;
-	public static final int DIALOG_ID_VIEW_EXERCISE = 11;
-	public static final int DIALOG_ID_VIEW_SETS = 12;
-	public static final int DIALOG_ID_SCHEDULE_NEW = 13;
-	public static final int DIALOG_ID_SCHEDULE_UPDATE = 14;
-	public static final int DIALOG_ID_SCHEDULE_NEW_PICK = 15;
-	public static final int DIALOG_ID_VIEW_DOWNLOAD_WORKOUT = 16;
+	public static final int DIALOG_ID_TIMER = 5;
+	public static final int DIALOG_ID_EDIT_SETS = 6;
+	public static final int DIALOG_ID_DO_SETS = 7;
+	public static final int DIALOG_ID_VIEW_EXERCISE = 8;
+	public static final int DIALOG_ID_VIEW_SETS = 9;
+	public static final int DIALOG_ID_SCHEDULE_NEW = 10;
+	public static final int DIALOG_ID_SCHEDULE_UPDATE = 11;
+	public static final int DIALOG_ID_SCHEDULE_NEW_PICK = 12;
+	public static final int DIALOG_ID_VIEW_DOWNLOAD_WORKOUT = 13;
 	
 	private static final String DIALOG_ID_KEY = "dialog_id";
 	
@@ -756,6 +756,7 @@ public class AppDialogFragment extends DialogFragment {
 				return b.create();
 			
 		case DIALOG_ID_SCHEDULE_UPDATE:
+			
 		case DIALOG_ID_VIEW_DOWNLOAD_WORKOUT:
 			b = new AlertDialog.Builder(parent);
 			b.setTitle(R.string.friend_view_download);
@@ -768,7 +769,7 @@ public class AppDialogFragment extends DialogFragment {
 					((FriendProfileActivity) parent).downloadWorkout();
 				}
 			});
-			b.setNegativeButton("No", new DialogInterface.OnClickListener() {
+			b.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					// 

@@ -26,8 +26,7 @@
                 android:id="@+id/frame"
                 android:layout_width="110dp"
                 android:layout_height="110dp"
-                android:layout_gravity="center"
-                android:background="@color/background_holo_dark" >
+                android:layout_gravity="center">
 
                 <ImageView
                     android:id="@+id/profilePhoto"
@@ -99,7 +98,7 @@
             android:id="@+id/bio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/background_holo_dark"
+            android:background="@color/get_swole_orange"
             android:text="@string/profile_bio"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/white" />
@@ -221,7 +220,7 @@
             android:id="@+id/contactInfo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/background_holo_dark"
+            android:background="@color/get_swole_orange"
             android:text="@string/profile_contact"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/white" />
@@ -246,7 +245,7 @@
             android:id="@+id/sharedWorkouts"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/background_holo_dark"
+            android:background="@color/get_swole_orange"
             android:text="@string/profile_shared_workouts"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/white" />
