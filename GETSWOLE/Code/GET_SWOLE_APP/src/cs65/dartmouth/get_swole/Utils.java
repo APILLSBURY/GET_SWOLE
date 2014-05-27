@@ -32,7 +32,7 @@ public class Utils {
 	}
 	
 	// Read from preference, the unit used for displaying lbs (taken from MyRuns)
-	public static boolean getIsMetricFromPerf(Context context) {
+	public static boolean getWeightUnits(Context context) {
 
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
 
@@ -46,6 +46,22 @@ public class Utils {
 			return true;
 		else
 			return false;
+	}
+	
+	// Get numerical weight in int value
+	public static int getWeight(Context context, int weight) {
+		if (getWeightUnits(context))
+			return weight;
+		else
+			return (int) poundsToKilos(weight);
+	}
+	
+	// Get the weight in terms of units
+	public static String getWeightString(Context context, int weight) {
+		if (getWeightUnits(context))
+			return weight + " lb";
+		else
+			return (int) poundsToKilos(weight) + " kg";
 	}
 	
 	// Make a listview the same height as the sum of all of its children
