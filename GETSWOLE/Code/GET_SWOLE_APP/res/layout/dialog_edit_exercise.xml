@@ -40,6 +40,13 @@
              android:layout_height="wrap_content"
              android:text="@string/edit_sets" />
 
+         <CheckBox
+             android:id="@+id/checkIfKilos"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_weight="1"
+             android:text="@string/check_if_kilos" />
+
 	 </LinearLayout>
 
     <LinearLayout

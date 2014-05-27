@@ -31,7 +31,7 @@ public class ViewWorkoutInstanceActivity extends Activity implements OnItemClick
 		TextView name = (TextView) findViewById(R.id.completedWorkoutName);
 		name.setText(instance.getWorkout().getName());
 		TextView timestamp = (TextView) findViewById(R.id.timestampWorkout);
-		timestamp.setText("Completed on: " + instance.getTime().toString());
+		timestamp.setText("Completed on: " + android.text.format.DateFormat.format("MM-dd-yyyy hh:mm:ss", instance.getTime()));		
 		
 		// Define a new adapter
         mAdapter = new ExerciseArrayAdapter(this, R.layout.exercises_list_row, instance.getExerciseList());

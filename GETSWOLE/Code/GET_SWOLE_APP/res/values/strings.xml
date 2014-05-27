@@ -29,6 +29,7 @@
     <string name="exercise_notes_title">Notes:</string>
     <string name="exercise_notes_hint">about this exercise.</string>
     <string name="existing_exercise">Add existing exercise</string>
+    <string name="check_if_kilos">Using kilos</string>
 
     <!-- Schedule -->
     <string name="schedule_new">Schedule Workout</string>
