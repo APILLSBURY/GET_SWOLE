@@ -11,18 +11,16 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,7 +30,6 @@ import cs65.dartmouth.get_swole.classes.GetSwoleClass;
 import cs65.dartmouth.get_swole.classes.Set;
 import cs65.dartmouth.get_swole.classes.Workout;
 import cs65.dartmouth.get_swole.classes.WorkoutInstance;
-import cs65.dartmouth.get_swole.classes.WorkoutsAdapter;
 import cs65.dartmouth.get_swole.database.DatabaseWrapper;
 
 public class AppDialogFragment extends DialogFragment {
@@ -48,7 +45,6 @@ public class AppDialogFragment extends DialogFragment {
 	public static final int DIALOG_ID_DATE = 2;
 	public static final int DIALOG_ID_EDIT_EXERCISE = 3; // for adding new exercises, or editing already existing
 	public static final int DIALOG_ID_ADD_EXISTING_EXERCISE = 4;
-	//public static final int DIALOG_ID_DO_EXERCISE = 7;
 	public static final int DIALOG_ID_TIMER = 5;
 	public static final int DIALOG_ID_EDIT_SETS = 6;
 	public static final int DIALOG_ID_DO_SETS = 7;
@@ -427,6 +423,7 @@ public class AppDialogFragment extends DialogFragment {
 		    v = inflater.inflate(R.layout.dialog_timer, null);
 		    b.setView(v);	
 					    
+	    	//final MediaPlayer mp = MediaPlayer.create(this, R.);
 		    final EditText entered = (EditText) v.findViewById(R.id.enteredTime);
 		    final TextView time = (TextView) v.findViewById(R.id.time);
 		    final Button start = (Button) v.findViewById(R.id.beginTimer);    
@@ -434,7 +431,8 @@ public class AppDialogFragment extends DialogFragment {
 		    	
 		    	@Override
 		    	public void onClick(View v) {
-		    		
+		    		// need to disable the start button
+		    		start.setClickable(false);
 		    		int seconds = 30;
 		    		if (!entered.getText().toString().isEmpty())
 		    			seconds = Integer.parseInt(entered.getText().toString());
@@ -445,11 +443,23 @@ public class AppDialogFragment extends DialogFragment {
 					       time.setText(""+(millisUntilFinished/1000));
 					    }
 					    @Override
-					    public void onFinish() { }
+					    public void onFinish() {
+					    	time.setText("Finished!");
+					    	start.setClickable(true);
+					    	//mp.start();
+					    }
 					}.start();
 					
 		    	}
 		    });
+		    b.setPositiveButton(R.string.positive, new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					// do nothing
+					
+				}
+			});
 		    return b.create();
 		case DIALOG_ID_EDIT_SETS:
 			// Create custom dialog
