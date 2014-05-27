@@ -116,8 +116,8 @@ public class WorkoutDoActivity extends Activity {
                      // Open dialog to edit this exercise
                 	Exercise e = workoutInstance.getWorkout().getExerciseList().get(position);
                 	//doneSets.set(position, e.getSetList());
-                	DialogFragment fragment = AppDialogFragment.newInstance(e, 1, position);
-        	        fragment.show(getFragmentManager(), getString(R.string.dialog_fragment_tag_do_exercise));
+                	DialogFragment fragment = AppDialogFragment.newInstanceSets(e.getId(), 1, position);
+        	        fragment.show(getFragmentManager(), getString(R.string.dialog_fragment_tag_do_sets));
                 		
                 }
 	    };
@@ -126,21 +126,7 @@ public class WorkoutDoActivity extends Activity {
 	    listView.setOnItemClickListener(mListener);
     
 	}
-	
-	public void onDoExercise(Exercise e, int position) { // position is its position in the exercise list of the workout 
-		// We want to add this exercise to the instance's list of exercises
-		// Need to check the done sets list
-		dbWrapper.open(); 
-		if (doneSets.get(position).size() != 0) { // some sets were done here 
-			ArrayList<Set> sets = doneSets.get(position);
-			e.setSetList(sets);
-			e.setExerciseInstance(true);
-		}
-		e = dbWrapper.createEntry(e);
-		dbWrapper.close();
-				
-		workoutInstance.getExerciseList().set(position, e);
-	}
+
 	
 	public void onFinishWorkout() {
 		// Need to get rid of the null spaces in the workout instance exercise list
@@ -160,13 +146,51 @@ public class WorkoutDoActivity extends Activity {
 	
 	public void setDoneSets(ArrayList<Set> sets, int position) {
 		doneSets.set(position, sets);
+		
+		// get corresponding exercise
+		Exercise original = workoutInstance.getWorkout().getExerciseList().get(position);
+		
+		Exercise e = new Exercise(original.getName());
+		// set the id of this exercise to be the id of the original exercise
+		e.setOldId(original.getId());
+		// set the tag that this is an exercise instance
+		e.setExerciseInstance(true);
+		// update the set list 
+		e.setSetList(sets);
+		
+		// We want to add this exercise to the instance's list of exercises
+		dbWrapper.open(); 			
+		e = dbWrapper.createEntry(e);
+		dbWrapper.close();
+				
+		workoutInstance.getExerciseList().set(position, e);
+				
 	}
 	
 	public ArrayList<Set> getDoneSets(int position) {
 		return doneSets.get(position);
 	}
 	
+	
+	/*
+	// DON'T NEED THESE ANYMORE
 	public ArrayList<Exercise> getDoneExercises() {
 		return workoutInstance.getExerciseList();
 	}
+	
+	public void onDoExercise(Exercise e, int position) { // position is its position in the exercise list of the workout 
+		// We want to add this exercise to the instance's list of exercises
+		// Need to check the done sets list
+		dbWrapper.open(); 
+		if (doneSets.get(position).size() != 0) { // some sets were done here 
+			ArrayList<Set> sets = doneSets.get(position);
+			e.setSetList(sets);
+			e.setExerciseInstance(true);
+		}
+		e = dbWrapper.createEntry(e);
+		dbWrapper.close();
+				
+		workoutInstance.getExerciseList().set(position, e);
+	}*/
+	
 }
