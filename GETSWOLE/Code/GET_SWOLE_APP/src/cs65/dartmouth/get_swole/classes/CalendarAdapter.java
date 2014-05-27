@@ -129,13 +129,8 @@ public class CalendarAdapter extends BaseAdapter {
 					&& month.get(Calendar.YEAR) == currDate.get(Calendar.YEAR)) {
 				Log.d(Globals.TAG, "current day");
 				dayView.setPaintFlags(dayView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+				setSelected(v);
 			}
-		}
-
-
-		if (dayString.get(position).equals(curentDateString)) {
-			setSelected(v);
-			previousView = v;
 		}
 		
 		dayView.setText(gridvalue + "");
