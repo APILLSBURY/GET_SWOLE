@@ -5,40 +5,29 @@ import java.util.ArrayList;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
-import cs65.dartmouth.get_swole.classes.ProfileObject;
-import cs65.dartmouth.get_swole.classes.Workout;
-import cs65.dartmouth.get_swole.database.DatabaseWrapper;
-import cs65.dartmouth.get_swole.gae.Downloader;
-import cs65.dartmouth.get_swole.gae.Uploader;
+import android.app.ListActivity;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.app.Activity;
-import android.app.DialogFragment;
-import android.app.ListActivity;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.Typeface;
+import cs65.dartmouth.get_swole.classes.Exercise;
+import cs65.dartmouth.get_swole.classes.Workout;
+import cs65.dartmouth.get_swole.database.DatabaseWrapper;
+import cs65.dartmouth.get_swole.gae.Downloader;
 
 public class FriendProfileActivity extends ListActivity {
 	
@@ -348,9 +337,17 @@ public class FriendProfileActivity extends ListActivity {
 		DatabaseWrapper wrapper = new DatabaseWrapper(mContext);
 		wrapper.open();
 		
-		wrapper.createEntry(selectedWorkout);
-		
+		// we first need to save all of their exercises into our database
+		ArrayList<Exercise> newExercises = new ArrayList<Exercise>();
+		for (Exercise e : selectedWorkout.getExerciseList()) {
+			Exercise saved = wrapper.createEntry(e);
+			newExercises.add(saved);
+		}
+		selectedWorkout.setExerciseList(newExercises);
+		wrapper.createEntry(selectedWorkout);		
 		wrapper.close();
+		
+		Toast.makeText(this,  "Workout downloaded successfully.", Toast.LENGTH_SHORT).show();
 	}
 	
 	// HANDLING LISTVIEW OF WORKOUTS

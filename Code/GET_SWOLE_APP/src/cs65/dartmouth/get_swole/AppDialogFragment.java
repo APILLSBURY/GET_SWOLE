@@ -911,14 +911,13 @@ public class AppDialogFragment extends DialogFragment {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					// Save the workout
-					// method that cameron writes, 
 					((FriendProfileActivity) parent).downloadWorkout();
 				}
 			});
 			b.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
-					// 
+					// do nothing 
 				}
 			});
 			
