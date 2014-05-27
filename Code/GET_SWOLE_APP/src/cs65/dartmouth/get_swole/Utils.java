@@ -32,21 +32,21 @@ public class Utils {
 	}
 	
 	// Read from preference, the unit used for displaying lbs (taken from MyRuns)
-	public static boolean getIsMetricFromPerf(Context context) {
+	//public static boolean getIsMetricFromPerf(Context context) {
 
-		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
-
-		String[] weight_display_options = context.getResources().getStringArray(R.array.weight_display_name);
-
-		String option = settings.getString(context.getString(R.string.preference_key_unit_display), unit_display_options[0]);
-
-		String option_metric = context.getString(R.string.kilometers);
-
-		if (option.equals(option_metric))
-			return true;
-		else
-			return false;
-	}
+//		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
+//
+//		String[] weight_display_options = context.getResources().getStringArray(R.array.weight_display_name);
+//
+//		String option = settings.getString(context.getString(R.string.preference_key_unit_display), unit_display_options[0]);
+//
+//		String option_metric = context.getString(R.string.kilometers);
+//
+//		if (option.equals(option_metric))
+//			return true;
+//		else
+//			return false;
+//	}
 	
 	// Make a listview the same height as the sum of all of its children
 	// http://stackoverflow.com/questions/1661293/why-do-listview-items-not-grow-to-wrap-their-content

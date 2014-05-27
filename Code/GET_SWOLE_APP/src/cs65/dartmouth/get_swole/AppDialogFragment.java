@@ -947,10 +947,10 @@ public class AppDialogFragment extends DialogFragment {
 				public void onClick(DialogInterface dialog, int which) {
 					dbWrapper.open();
 					if (mode == 0 ) { // we want to clear history of workouts
-						dbWrapper.clearHistory();	
+						//dbWrapper.clearHistory();	
 					}
 					else { // mode is 1, delete everything
-						dbWrapper.clearAll();
+						//dbWrapper.clearAll();
 					}
 					dbWrapper.close();
 				}
