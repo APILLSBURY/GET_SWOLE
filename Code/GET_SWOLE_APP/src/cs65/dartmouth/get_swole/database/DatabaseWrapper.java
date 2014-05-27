@@ -35,7 +35,8 @@ public class DatabaseWrapper {
 	private static final String[] WORKOUT_INSTANCE_COLUMNS = {
 									DatabaseHelper.WORKOUT_INSTANCE_ID, 
 									DatabaseHelper.WORKOUT_INSTANCE_WORKOUT, 
-									DatabaseHelper.WORKOUT_INSTANCE_EXERCISE_LIST, 
+									DatabaseHelper.WORKOUT_INSTANCE_EXERCISE_LIST,
+									DatabaseHelper.WORKOUT_INSTANCE_NAME,
 									DatabaseHelper.WORKOUT_INSTANCE_TIME };
 
 	private static final String[] EXERCISE_COLUMNS = {
@@ -122,6 +123,7 @@ public class DatabaseWrapper {
 		ContentValues values = new ContentValues();
 		values.put(DatabaseHelper.WORKOUT_INSTANCE_WORKOUT, workoutInstance.getWorkout().getId());
 		values.put(DatabaseHelper.WORKOUT_INSTANCE_EXERCISE_LIST, workoutInstance.getExerciseListByteArray());
+		values.put(DatabaseHelper.WORKOUT_INSTANCE_NAME, workoutInstance.getName());
 		values.put(DatabaseHelper.WORKOUT_INSTANCE_TIME, DATE_FORMAT.format(workoutInstance.getTime().getTime()));
 		
 		if (database == null) {
@@ -244,7 +246,7 @@ public class DatabaseWrapper {
 	
 	public GetSwoleClass getEntryById(long id, Class<? extends GetSwoleClass> c) {
 		int index = getClassIndex(c);
-		Cursor cursor = database.query(DatabaseHelper.TABLE_NAMES[index],
+		Cursor cursor = database.query(DatabaseHelper.TABLE_NAMES[index], 
 				ALL_COLUMNS_OF_ALL_TABLES[index], null, null, null, null, null);
 
 		cursor.moveToFirst();
@@ -351,6 +353,7 @@ public class DatabaseWrapper {
 		long workoutId = cursor.getLong(cursor.getColumnIndex(DatabaseHelper.WORKOUT_INSTANCE_WORKOUT));
 		workoutInstance.setWorkout((Workout) getEntryById(workoutId, Workout.class));
 		workoutInstance.setExerciseListFromByteArray(cursor.getBlob(cursor.getColumnIndex(DatabaseHelper.WORKOUT_INSTANCE_EXERCISE_LIST)), context);
+		workoutInstance.setName(cursor.getString(cursor.getColumnIndex(DatabaseHelper.WORKOUT_INSTANCE_NAME)));
 		Calendar c = Calendar.getInstance();
 		try {
 			c.setTime(DATE_FORMAT.parse(cursor.getString(cursor.getColumnIndex(DatabaseHelper.WORKOUT_INSTANCE_TIME))));

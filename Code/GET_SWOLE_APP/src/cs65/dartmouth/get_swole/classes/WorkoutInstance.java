@@ -23,7 +23,12 @@ public class WorkoutInstance extends GetSwoleClass {
 		time = Calendar.getInstance();
 		exerciseList = new ArrayList<Exercise>();
 		id = -1;
-		name = workout.getName() + " completed at " + CalendarUtility.HOURS_MINUTES_DATE_FORMAT.format(time.getTime());
+		if (workout != null) {
+			setName();
+		}
+		else {
+			name = "";
+		}
 	}
 	
 	public void addExercise(Exercise e) {
@@ -80,6 +85,10 @@ public class WorkoutInstance extends GetSwoleClass {
 	
 	public void setTime(Calendar t) {
 		time = t;
+	}
+	
+	public void setName() {
+		name = workout.getName() + " completed at " + CalendarUtility.HOURS_MINUTES_DATE_FORMAT.format(time.getTime());
 	}
 	
 	public void setExerciseList(ArrayList<Exercise> el) {

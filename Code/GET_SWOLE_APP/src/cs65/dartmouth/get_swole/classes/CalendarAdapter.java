@@ -119,7 +119,7 @@ public class CalendarAdapter extends BaseAdapter {
 			if (gridvalue == currDate.get(Calendar.DATE)
 					&& month.get(Calendar.MONTH) == currDate.get(Calendar.MONTH)
 					&& month.get(Calendar.YEAR) == currDate.get(Calendar.YEAR)) {
-				dayView.setBackground(mContext.getResources().getDrawable(R.drawable.calendar_bg_orange_big));
+				dayView.setBackgroundResource(R.drawable.calendar_bg_orange_big);
 			}
 		}
 
