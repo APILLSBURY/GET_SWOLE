@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     
-    <!--<string-array name="weight_display_name">
-    
+    <!-- Metric array for weights -->
+    <!-- <string-array name="weight_display_name">
         <item>Metric (Kilograms)</item>
         <item>Imperial (Pounds)</item>
     </string-array>
     <string-array name="weight_display_value">
         <item>@string/lbs</item>
         <item>@string/kg</item>
-    </string-array>-->
+    </string-array> -->
     
-
     <!-- Day array for Frequency Dialog -->
     <string-array name="day_array">
         <item>Sunday</item>

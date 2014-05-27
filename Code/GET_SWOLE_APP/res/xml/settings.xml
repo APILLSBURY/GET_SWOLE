@@ -5,25 +5,22 @@
         
         <PreferenceScreen
             android:title="@string/settings_delete_workouts"
-            android:summary="@string/settings_delete_workouts_summary">
+            android:summary="@string/settings_delete_workouts_summary"
+            android:key="deleteWorkouts">
             
         </PreferenceScreen>
         
         <PreferenceScreen
             android:title="@string/settings_delete_history"
-            android:summary="@string/settings_delete_history_summary">
-            
-        </PreferenceScreen>
-        
-        <PreferenceScreen 
-            android:title="@string/settings_delete_profile"
-            android:summary="@string/settings_delete_profile_summary">
+            android:summary="@string/settings_delete_history_summary"
+            android:key="deleteHistory">
             
         </PreferenceScreen>
         	
         <PreferenceScreen 
             android:title="@string/settings_delete_all"
-            android:summary="@string/settings_delete_all_summary">
+            
+            android:key="deleteAll">
             
         </PreferenceScreen>
         
