@@ -34,20 +34,14 @@ public class SettingsActivity extends PreferenceActivity {
 	    // Load the preferences from an XML resource
         addPreferencesFromResource(R.xml.settings);
         
-        Preference workoutPrefs = (Preference) findPreference("deleteWorkouts");
-        workoutPrefs.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-        	public boolean onPreferenceClick(Preference preference) {
-        		Toast.makeText(getBaseContext(), "Workouts", Toast.LENGTH_SHORT).show();
-        		// Dialog
-        		return true;
-        	}
-        });
         
         Preference historyPrefs = (Preference) findPreference("deleteHistory");
         historyPrefs.setOnPreferenceClickListener(new OnPreferenceClickListener() {
         	public boolean onPreferenceClick(Preference preference) {
-        		Toast.makeText(getBaseContext(), "History", Toast.LENGTH_SHORT).show();
-        		// Dialog
+        		
+                AppDialogFragment name = AppDialogFragment.newInstanceConfirm(0);
+                name.show(getFragmentManager(), "Are you sure you want to delete history");
+        		
         		return true;
         	}
         });
@@ -55,8 +49,10 @@ public class SettingsActivity extends PreferenceActivity {
         Preference deletePrefs = (Preference) findPreference("deleteAll");
         deletePrefs.setOnPreferenceClickListener(new OnPreferenceClickListener() {
         	public boolean onPreferenceClick(Preference preference) {
-        		Toast.makeText(getBaseContext(), "All", Toast.LENGTH_SHORT).show();
-        		// Dialog
+ 
+                AppDialogFragment name = AppDialogFragment.newInstanceConfirm(1);
+                name.show(getFragmentManager(), "Are you sure you want to delete all");
+        		
         		return true;
         	}
         });
