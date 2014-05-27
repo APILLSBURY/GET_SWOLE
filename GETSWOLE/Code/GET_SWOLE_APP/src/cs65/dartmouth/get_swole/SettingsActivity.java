@@ -38,6 +38,7 @@ public class SettingsActivity extends PreferenceActivity {
         workoutPrefs.setOnPreferenceClickListener(new OnPreferenceClickListener() {
         	public boolean onPreferenceClick(Preference preference) {
         		Toast.makeText(getBaseContext(), "Workouts", Toast.LENGTH_SHORT).show();
+        		// Dialog
         		return true;
         	}
         });
@@ -46,6 +47,7 @@ public class SettingsActivity extends PreferenceActivity {
         historyPrefs.setOnPreferenceClickListener(new OnPreferenceClickListener() {
         	public boolean onPreferenceClick(Preference preference) {
         		Toast.makeText(getBaseContext(), "History", Toast.LENGTH_SHORT).show();
+        		// Dialog
         		return true;
         	}
         });
@@ -54,6 +56,7 @@ public class SettingsActivity extends PreferenceActivity {
         deletePrefs.setOnPreferenceClickListener(new OnPreferenceClickListener() {
         	public boolean onPreferenceClick(Preference preference) {
         		Toast.makeText(getBaseContext(), "All", Toast.LENGTH_SHORT).show();
+        		// Dialog
         		return true;
         	}
         });
