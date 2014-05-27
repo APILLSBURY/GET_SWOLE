@@ -15,11 +15,11 @@
             
         </PreferenceScreen>
         
-        <PreferenceScreen 
+        <!--<PreferenceScreen 
             android:title="@string/settings_delete_profile"
             android:summary="@string/settings_delete_profile">
             
-        </PreferenceScreen>
+        </PreferenceScreen>-->
         	
         <PreferenceScreen 
             android:title="@string/settings_delete_history"
