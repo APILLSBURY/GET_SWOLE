@@ -764,121 +764,142 @@ public class AppDialogFragment extends DialogFragment {
 						scheduleFragment.updateCalendar();
 					}
 					else {// custom dialog
-						final Dialog frequencyDialog = new Dialog(parent);
-						frequencyDialog.setContentView(R.layout.dialog_frequency);
-						frequencyDialog.setTitle("Set Frequency");
-						
-						final Calendar start = (Calendar) cal.clone();
-						final Calendar end = (Calendar) cal.clone();
-						final Calendar day = (Calendar) cal.clone();
-						
-						
-						Spinner spinner = (Spinner) frequencyDialog.findViewById(R.id.day_spinner);
-						ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(parent,
-						        R.array.day_array, android.R.layout.simple_spinner_item);
-						adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-						spinner.setAdapter(adapter);		
-						spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-						    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-						    	String dayString = (String) parent.getItemAtPosition(pos);
-						        if (dayString.equals("Sunday")) {
-						        	day.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
-						        }
-						        else if (dayString.equals("Monday")) {
-						        	day.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-							    }
-						        else if (dayString.equals("Tuesday")) {
-						        	day.set(Calendar.DAY_OF_WEEK, Calendar.TUESDAY);
-							    }
-						        else if (dayString.equals("Wednesday")) {
-						        	day.set(Calendar.DAY_OF_WEEK, Calendar.WEDNESDAY);
-							    }
-						        else if (dayString.equals("Thursday")) {
-						        	day.set(Calendar.DAY_OF_WEEK, Calendar.THURSDAY);
-							    }
-						        else if (dayString.equals("Friday")) {
-						        	day.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY);
-							    }
-						        else if (dayString.equals("Saturday")) {
-						        	day.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
-							    }
-						    }
-						    public void onNothingSelected(AdapterView<?> parent) {
-						    	day.set(Calendar.DAY_OF_WEEK, Calendar.getInstance().get(Calendar.DAY_OF_WEEK));
-						    }
-						});
-			 
-						Button startDate = (Button) frequencyDialog.findViewById(R.id.frequency_start_date);
-						startDate.setOnClickListener(new OnClickListener() {
-							@Override
-							public void onClick(View v) {
-							    DatePickerDialog startDatePicker = new DatePickerDialog(parent,
-							    new OnDateSetListener() {
-							    	@Override
-							    	public void onDateSet(DatePicker view, int year, int month, int day) {
-							    		start.set(Calendar.YEAR, year);
-							    		start.set(Calendar.MONTH, month);
-							    		start.set(Calendar.DATE, day);
-							    	}
-							    },
-					    		start.get(Calendar.YEAR),
-					    		start.get(Calendar.MONTH),
-					    		start.get(Calendar.DATE));
-							    startDatePicker.show();
-							}
-						});
-						
-						Button endDate = (Button) frequencyDialog.findViewById(R.id.frequency_end_date);
-						endDate.setOnClickListener(new OnClickListener() {
-							@Override
-							public void onClick(View v) {
-							    DatePickerDialog endDatePicker = new DatePickerDialog(parent,
-							    new OnDateSetListener() {
-							    	@Override
-							    	public void onDateSet(DatePicker view, int year, int month, int day) {
-							    		end.set(Calendar.YEAR, year);
-							    		end.set(Calendar.MONTH, month);
-							    		end.set(Calendar.DATE, day);
-							    	}
-							    },
-					    		end.get(Calendar.YEAR),
-					    		end.get(Calendar.MONTH),
-					    		end.get(Calendar.DATE));
-							    endDatePicker.show();
-							}
-						});
-						Button dialogButton = (Button) frequencyDialog.findViewById(R.id.frequency_done_button);
-						// if button is clicked, close the custom dialog
-						dialogButton.setOnClickListener(new OnClickListener() {
-							@Override
-							public void onClick(View v) {
-								Frequency freq = new Frequency(day.get(Calendar.DAY_OF_WEEK));
-								freq.setStartDate(start);
-								freq.setEndDate(end);
-								workout.addFrequency(freq);
-								dbWrapper.open();
-								dbWrapper.updateScheduling(workout);
-								dbWrapper.close();
-								
-								Log.d(Globals.TAG, "Scheduled frequency");
-								ScheduleFragment scheduleFragment = (ScheduleFragment) 
-										((MainActivity) parent).mSectionsPagerAdapter.getFragment(MainActivity.SCHEDULE_FRAGMENT);
-								scheduleFragment.updateCalendar();
-								frequencyDialog.dismiss();
-							}
-						});
-						
-			 
-						frequencyDialog.show();
+		            	// open a dialog to display 
+	    	 			DialogFragment fragment = AppDialogFragment.newInstanceSchedule(workout, date, DIALOG_ID_SCHEDULE_FREQUENCY);
+	    	 			fragment.show(getFragmentManager(), getString(R.string.dialog_fragment_tag_schedule_frequency));
+	    	 			getDialog().cancel();
 					}
-					
 				}
 			};
 			b.setItems(R.array.schedule_pick_options, dListener);
 			return b.create();
 		
 		case DIALOG_ID_SCHEDULE_FREQUENCY:
+			long freqWorkoutId = getArguments().getLong(WORKOUT_ID);
+			final long freqDate = getArguments().getLong(DATE);
+			final Calendar currCal = Calendar.getInstance();
+			currCal.setTimeInMillis(freqDate);
+			b = new AlertDialog.Builder(parent);
+			dbWrapper.open();
+			final Workout freqWorkout = (Workout) dbWrapper.getEntryById(freqWorkoutId, Workout.class);
+			dbWrapper.close();
 			
+			 // Get the layout inflater
+		    inflater = getActivity().getLayoutInflater();
+		  	final View view = inflater.inflate(R.layout.dialog_frequency, null);
+		    b.setView(view);
+		    b.setTitle("Set Frequency");
+			
+			final Calendar startDate = (Calendar) currCal.clone();
+			final Calendar endDate = (Calendar) currCal.clone();
+			final Calendar day = (Calendar) currCal.clone();
+			day.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+			
+			
+			Spinner spinner = (Spinner) view.findViewById(R.id.day_spinner);
+			ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(parent,
+			        R.array.day_array, android.R.layout.simple_spinner_item);
+			adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			spinner.setAdapter(adapter);		
+			spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+			    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+			    	String dayString = (String) parent.getItemAtPosition(pos);
+			        if (dayString.equals("Sunday")) {
+			        	day.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+			        }
+			        else if (dayString.equals("Monday")) {
+			        	day.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+				    }
+			        else if (dayString.equals("Tuesday")) {
+			        	day.set(Calendar.DAY_OF_WEEK, Calendar.TUESDAY);
+				    }
+			        else if (dayString.equals("Wednesday")) {
+			        	day.set(Calendar.DAY_OF_WEEK, Calendar.WEDNESDAY);
+				    }
+			        else if (dayString.equals("Thursday")) {
+			        	day.set(Calendar.DAY_OF_WEEK, Calendar.THURSDAY);
+				    }
+			        else if (dayString.equals("Friday")) {
+			        	day.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY);
+				    }
+			        else if (dayString.equals("Saturday")) {
+			        	day.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
+				    }
+			    }
+			    public void onNothingSelected(AdapterView<?> parent) {
+			    	day.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+			    }
+			});
+ 
+			final Button startButton = (Button) view.findViewById(R.id.frequency_start_date);
+    		startButton.setText(android.text.format.DateFormat.format("MM/dd/yyyy", startDate));
+			startButton.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+				    DatePickerDialog startDatePicker = new DatePickerDialog(parent,
+				    new OnDateSetListener() {
+				    	@Override
+				    	public void onDateSet(DatePicker view, int year, int month, int day) {
+				    		startDate.set(Calendar.YEAR, year);
+				    		startDate.set(Calendar.MONTH, month);
+				    		startDate.set(Calendar.DATE, day);
+				    		startButton.setText(android.text.format.DateFormat.format("MM/dd/yyyy", startDate));
+				    	}
+				    },
+		    		startDate.get(Calendar.YEAR),
+		    		startDate.get(Calendar.MONTH),
+		    		startDate.get(Calendar.DATE));
+				    startDatePicker.show();
+				}
+			});
+			
+			final Button endButton = (Button) view.findViewById(R.id.frequency_end_date);
+    		endButton.setText(android.text.format.DateFormat.format("MM/dd/yyyy", endDate));
+			endButton.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+				    DatePickerDialog endDatePicker = new DatePickerDialog(parent,
+				    new OnDateSetListener() {
+				    	@Override
+				    	public void onDateSet(DatePicker view, int year, int month, int day) {
+				    		endDate.set(Calendar.YEAR, year);
+				    		endDate.set(Calendar.MONTH, month);
+				    		endDate.set(Calendar.DATE, day);
+				    		endButton.setText(android.text.format.DateFormat.format("MM/dd/yyyy", endDate));
+				    	}
+				    },
+		    		endDate.get(Calendar.YEAR),
+		    		endDate.get(Calendar.MONTH),
+		    		endDate.get(Calendar.DATE));
+				    endDatePicker.show();
+				}
+			});
+			
+			b.setPositiveButton(R.string.positive, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					Log.d(Globals.TAG, "day=" + day.get(Calendar.DAY_OF_WEEK) + " startday=" + startDate.get(Calendar.DATE) + " enddate=" + endDate.get(Calendar.DATE));
+					Frequency freq = new Frequency(day.get(Calendar.DAY_OF_WEEK));
+					freq.setStartDate(startDate);
+					freq.setEndDate(endDate);
+					dbWrapper.open();
+					freq = dbWrapper.createEntry(freq);
+					freqWorkout.addFrequency(freq);
+					dbWrapper.updateScheduling(freqWorkout);
+					dbWrapper.close();
+					
+					Log.d(Globals.TAG, "Scheduled frequency");
+					ScheduleFragment scheduleFragment = (ScheduleFragment) 
+							((MainActivity) parent).mSectionsPagerAdapter.getFragment(MainActivity.SCHEDULE_FRAGMENT);
+					scheduleFragment.updateCalendar();
+				}
+			});
+			b.setNegativeButton(R.string.negative, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+				}
+			});
+			return b.create();
 		
 		case DIALOG_ID_SCHEDULE_UPDATE:
 			

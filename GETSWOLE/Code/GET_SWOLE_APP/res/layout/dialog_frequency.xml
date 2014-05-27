@@ -15,7 +15,7 @@
 	        android:id="@+id/workout_list_single_row_title"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:text="This exercise repeats every "
+	        android:text="@string/frequency_repeat"
 	        android:textSize="18sp"
 	        android:layout_marginLeft="15dp"
 	        android:textColor="@color/get_swole_blue"/>
@@ -36,7 +36,7 @@
 	        android:id="@+id/workout_list_single_row_details"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:text="Starting on "
+	        android:text="@string/choose_start_date"
 	        android:textSize="18sp"
 	        android:layout_marginLeft="15dp"
 	        android:textColor="@color/get_swole_blue" />
@@ -44,8 +44,7 @@
 	    <Button
 	        android:id="@+id/frequency_start_date"
 	        android:layout_height="wrap_content"
-	        android:layout_width="wrap_content"
-	        android:text="Choose a start date" />
+	        android:layout_width="fill_parent" />
 	</LinearLayout>
 	
     <LinearLayout
@@ -57,7 +56,7 @@
 	        android:id="@+id/workout_list_single_row_details"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:text="Ending on "
+	        android:text="@string/choose_end_date"
 	        android:textSize="18sp"
 	        android:layout_marginLeft="15dp"
 	        android:includeFontPadding="false"
@@ -66,14 +65,7 @@
 		<Button
 		    android:id="@+id/frequency_end_date"
 		    android:layout_width="fill_parent"
-		    android:layout_height="wrap_content"
-		    android:text="Choose an end date"/>
+		    android:layout_height="wrap_content" />
 	</LinearLayout>
-	
-	<Button
-	    android:id="@+id/frequency_done_button"
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-	    android:text="Done"/>
 
 </LinearLayout>
