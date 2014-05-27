@@ -147,13 +147,9 @@ public class ProgressViewActivity extends Activity {
 	}
 	
 	public void configureData() {
-		// reps goal data - just a straight line
-		if (exercise.getMaxReps() != -1) {
-			GraphViewData [] repsGoal = new GraphViewData[2];
-			repsGoal[0] = new GraphViewData(instanceWorkouts.get(0).getTime().getTimeInMillis(), exercise.getMaxReps());
-			repsGoal[1] = new GraphViewData(instanceWorkouts.get(instanceWorkouts.size()-1).getTime().getTimeInMillis(), exercise.getMaxReps());
-			repsGoalSeries = new GraphViewSeries(getString(R.string.progress_goal_line),  new GraphViewSeriesStyle(Color.RED, 4), repsGoal);
-		}
+		
+		int firstIndex = -1;
+		int secondIndex = -1;
 		
 		// reps instance data
 		int dataIndex = 0;
@@ -162,22 +158,28 @@ public class ProgressViewActivity extends Activity {
 		for (int i = 0 ; i < instanceWorkouts.size(); i++) {
 			if (instanceExercises.get(i) != null) { // we did this exercise during this workout
 				int maxReps = instanceExercises.get(i).getMaxReps();
-				if (maxReps != -1) // we did some reps of this exercise
+				if (maxReps != -1) { // we did some reps of this exercise
+					if (firstIndex == -1) firstIndex = i;
+					else secondIndex = i;
 					tempRepsData[dataIndex++] = new GraphViewData(instanceWorkouts.get(i).getTime().getTimeInMillis(), maxReps);
+				}
 			}
 		}			
 		GraphViewData [] repsData = clamp(tempRepsData, dataIndex);	
 		repsDataSeries = new GraphViewSeries(getString(R.string.progress_actual_line), new GraphViewSeriesStyle(Color.BLUE, 4), repsData);
 
-		
-		// weight goal data
-		if (exercise.getMaxWeight() != -1) {
-			GraphViewData [] weightGoal = new GraphViewData[2];
-			weightGoal[0] = new GraphViewData(instanceWorkouts.get(0).getTime().getTimeInMillis(), exercise.getMaxWeight());
-			weightGoal[1] = new GraphViewData(instanceWorkouts.get(instanceWorkouts.size()-1).getTime().getTimeInMillis(), exercise.getMaxWeight());
-			weightGoalSeries = new GraphViewSeries(getString(R.string.progress_goal_line), new GraphViewSeriesStyle(Color.RED, 4), weightGoal);
+		// reps goal data - just a straight line
+		if (exercise.getMaxReps() != -1) {
+			GraphViewData [] repsGoal = new GraphViewData[2];
+			repsGoal[0] = new GraphViewData(instanceWorkouts.get(firstIndex).getTime().getTimeInMillis(), exercise.getMaxReps());
+			repsGoal[1] = new GraphViewData(instanceWorkouts.get(secondIndex).getTime().getTimeInMillis(), exercise.getMaxReps());
+			repsGoalSeries = new GraphViewSeries(getString(R.string.progress_goal_line),  new GraphViewSeriesStyle(Color.RED, 4), repsGoal);
 		}
+		
 
+		firstIndex = -1;
+		secondIndex = -1;
+		
 		// weight instance data
 		dataIndex = 0;
 		GraphViewData [] tempWeightData = new GraphViewData[instanceWorkouts.size()];
@@ -185,14 +187,25 @@ public class ProgressViewActivity extends Activity {
 		for (int i = 0; i < instanceWorkouts.size(); i++) {
 			if (instanceExercises.get(i) != null) { // we did this exercise during this workout 
 				int maxWeight = instanceExercises.get(i).getMaxWeight();
-				if (maxWeight != -1) 
+				if (maxWeight != -1) {
+					if (firstIndex == -1) firstIndex = i;
+					else secondIndex = i;
 					tempWeightData[dataIndex++] = new GraphViewData(instanceWorkouts.get(i).getTime().getTimeInMillis(), maxWeight);
+				}
 			}
 		}
 		
 		GraphViewData [] weightData = clamp(tempWeightData, dataIndex);	
 		weightDataSeries = new GraphViewSeries(getString(R.string.progress_actual_line), new GraphViewSeriesStyle(Color.BLUE, 4), weightData);
 
+		// weight goal data
+		if (exercise.getMaxWeight() != -1) {
+			GraphViewData [] weightGoal = new GraphViewData[2];
+			weightGoal[0] = new GraphViewData(instanceWorkouts.get(firstIndex).getTime().getTimeInMillis(), exercise.getMaxWeight());
+			weightGoal[1] = new GraphViewData(instanceWorkouts.get(secondIndex).getTime().getTimeInMillis(), exercise.getMaxWeight());
+			weightGoalSeries = new GraphViewSeries(getString(R.string.progress_goal_line), new GraphViewSeriesStyle(Color.RED, 4), weightGoal);
+		}
+				
 	}
 	
 	// Based on checkbox preferences and exercise instances
