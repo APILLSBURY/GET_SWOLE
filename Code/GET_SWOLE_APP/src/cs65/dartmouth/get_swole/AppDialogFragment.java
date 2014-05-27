@@ -13,8 +13,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.app.DialogFragment;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -125,7 +125,8 @@ public class AppDialogFragment extends DialogFragment {
 		AppDialogFragment frag = new AppDialogFragment();
 		Bundle args = new Bundle();
 		
-		args.putInt(DIALOG_ID_KEY, DIALOG_ID_SCHEDULE_NEW_PICK);
+		args.putInt(DIALOG_ID_KEY, dialogId);
+		args.putLong(DATE, date);
 		args.putLong(WORKOUT_ID, workout.getId());
 		
 		frag.setArguments(args);
@@ -155,7 +156,7 @@ public class AppDialogFragment extends DialogFragment {
 		View v;
 		
 		AlertDialog.Builder b;
-		DatabaseWrapper dbWrapper = new DatabaseWrapper(parent);
+		final DatabaseWrapper dbWrapper = new DatabaseWrapper(parent);
 		
 		switch (dialogId) {	
 			
@@ -685,52 +686,73 @@ public class AppDialogFragment extends DialogFragment {
 			});
 		    
 			return b.create();
+			
 		case DIALOG_ID_SCHEDULE_NEW:
-		    final long dateSelected = getArguments().getLong(DATE);
-		    
-			
-			// Create custom dialog
-			b = new AlertDialog.Builder(parent);
-			b.setTitle(parent.getString(R.string.schedule_choose_workout));
-			
-			 // we need to set an adapter and callback
-		    dbWrapper.open();
-		    final List<GetSwoleClass> workouts = dbWrapper.getAllEntries(Workout.class);
-		    String [] workoutNames = new String[workouts.size()];
-		    for (int i = 0; i < workouts.size(); i++) {
-		    	workoutNames[i] = workouts.get(i).getName();
-		    }
-		    
-			b.setItems(workoutNames, new DialogInterface.OnClickListener() {
-			        public void onClick(DialogInterface dialog, int item) {
-			        	GetSwoleClass workout = workouts.get(item);
-		            	
-		            	// open a dialog to display 
-	    	 			DialogFragment fragment = AppDialogFragment.newInstanceSchedule(workout, dateSelected, DIALOG_ID_SCHEDULE_NEW_PICK);
-	    	 			fragment.show(getFragmentManager(), getString(R.string.dialog_fragment_tag_when_to_schedule_new));
-			        }
-			    }).show();
-	        	        
-		    
-			return b.create();	
-		case DIALOG_ID_SCHEDULE_NEW_PICK:
-			
-			b = new AlertDialog.Builder(parent);
-			b.setTitle(R.string.schedule_pick_when);
-			// The click listener will use intents upon selection
-			DialogInterface.OnClickListener dListener = new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int item) {
-					if (item == 0) {
-						// we want to schedule just for today
+			    final long dateSelected = getArguments().getLong(DATE);
+			    
+				// Create custom dialog
+				b = new AlertDialog.Builder(parent);
+				b.setTitle(parent.getString(R.string.schedule_choose_workout));
+				
+				 // we need to set an adapter and callback
+			    dbWrapper.open();
+			    final List<GetSwoleClass> workouts = dbWrapper.getAllEntries(Workout.class);
+			    String [] workoutNames = new String[workouts.size()];
+			    for (int i = 0; i < workouts.size(); i++) {
+			    	workoutNames[i] = workouts.get(i).getName();
+			    }
+			    
+				b.setItems(workoutNames, new DialogInterface.OnClickListener() {
+				        public void onClick(DialogInterface dialog, int item) {
+				        	GetSwoleClass workout = workouts.get(item);
+			            	
+			            	// open a dialog to display 
+		    	 			DialogFragment fragment = AppDialogFragment.newInstanceSchedule(workout, dateSelected, DIALOG_ID_SCHEDULE_NEW_PICK);
+		    	 			fragment.show(getFragmentManager(), getString(R.string.dialog_fragment_tag_when_to_schedule_new));
+		    	 			getDialog().cancel();
+				        }
+				    });
+				
+				b.setNegativeButton(R.string.negative, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
 					}
-					else {
-						// schedule frequency
+				});
+				return b.create();
+				
+			case DIALOG_ID_SCHEDULE_NEW_PICK:
+				long workoutId = getArguments().getLong(WORKOUT_ID);
+				final long date = getArguments().getLong(DATE);
+				b = new AlertDialog.Builder(parent);
+				b.setTitle(R.string.schedule_pick_when);
+				dbWrapper.open();
+				final Workout workout = (Workout) dbWrapper.getEntryById(workoutId, Workout.class);
+				dbWrapper.close();
+				// The click listener will use intents upon selection
+				DialogInterface.OnClickListener dListener = new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int item) {
+						if (item == 0) {
+							Calendar cal = Calendar.getInstance();
+							cal.setTimeInMillis(date);
+							Log.d(Globals.TAG, "date: " + CalendarUtility.getDate(date));
+							workout.addDate(cal);
+							dbWrapper.open();
+							dbWrapper.updateScheduling(workout);
+							dbWrapper.close();
+							
+							Log.d(Globals.TAG, "Scheduled workout for day " + cal.get(Calendar.DATE));
+							ScheduleFragment scheduleFragment = (ScheduleFragment) 
+									((MainActivity) parent).mSectionsPagerAdapter.getFragment(MainActivity.SCHEDULE_FRAGMENT);
+							scheduleFragment.updateCalendar();
+						}
+						else {
+							
+						}
 						
 					}
-				}
-			};
-			b.setItems(R.array.schedule_pick_options, dListener);
-			return b.create();
+				};
+				b.setItems(R.array.schedule_pick_options, dListener);
+				return b.create();
 			
 		case DIALOG_ID_SCHEDULE_UPDATE:
 		case DIALOG_ID_VIEW_DOWNLOAD_WORKOUT:
