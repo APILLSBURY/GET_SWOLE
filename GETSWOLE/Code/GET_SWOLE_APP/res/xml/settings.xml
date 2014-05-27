@@ -7,10 +7,21 @@
             android:title="@string/settings_delete_workouts"
             android:summary="@string/settings_delete_workouts_summary">
             
-            
         </PreferenceScreen>
         
         <PreferenceScreen
+            android:title="@string/settings_delete_history"
+            android:summary="@string/settings_delete_history_summary">
+            
+        </PreferenceScreen>
+        
+        <PreferenceScreen 
+            android:title="@string/settings_delete_profile"
+            android:summary="@string/settings_delete_profile">
+            
+        </PreferenceScreen>
+        	
+        <PreferenceScreen 
             android:title="@string/settings_delete_history"
             android:summary="@string/settings_delete_history_summary">
             
