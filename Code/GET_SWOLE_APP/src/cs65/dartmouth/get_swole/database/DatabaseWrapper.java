@@ -324,7 +324,7 @@ public class DatabaseWrapper {
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {
 			WorkoutInstance wi = cursorToEntry(cursor, new WorkoutInstance());
-			if (wId == wi.getWorkout().getId()) { // if this instance was of this workout
+			if (wi.getWorkout() != null && wId == wi.getWorkout().getId()) { // if this instance was of this workout
 				instances.add(wi);
 			}
 			cursor.moveToNext();
