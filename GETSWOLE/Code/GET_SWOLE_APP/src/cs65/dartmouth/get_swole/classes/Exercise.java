@@ -167,7 +167,8 @@ public class Exercise extends GetSwoleClass {
 			else { s += reps + " reps at " + weight + ", ";
 			}
 		}
-		return s.substring(0, s.length() - 2) + ". Rest: " + rest + "secs";
+		if (rest != -1) return s.substring(0, s.length() - 2) + " Rest: " + rest + "secs";
+		else return s.substring(0, s.length() - 2);
 	}
 	
 	public boolean equals(Exercise e) {
