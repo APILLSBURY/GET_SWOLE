@@ -1,7 +1,9 @@
 package cs65.dartmouth.get_swole.data;
 
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
+import android.util.Log;
 import com.google.appengine.labs.repackaged.org.json.JSONArray;
 import com.google.appengine.labs.repackaged.org.json.JSONException;
 import com.google.appengine.labs.repackaged.org.json.JSONObject;
@@ -12,6 +14,8 @@ public class Exercise extends GetSwoleClass {
 	private int repsGoal;
 	private int weightGoal;
 	private int rest;
+	private boolean exerciseInstance;
+	private long oldId;
 	private String notes;
 	
 	public Exercise() {
@@ -25,7 +29,9 @@ public class Exercise extends GetSwoleClass {
 		repsGoal = -1;
 		weightGoal = -1;
 		rest = -1;
+		exerciseInstance = false;
 		notes = "";
+		oldId = -1;
 		id = -1;
 	}
 	
@@ -42,7 +48,7 @@ public class Exercise extends GetSwoleClass {
 	public String getSetListString() {
 		String s = "";
 		for (int i = 0; i < setList.size(); i++) {
-			s += setList.get(i).toString() + "&";
+			s += setList.get(i).toString() + ",";
 		}
 		if (s.length() >= 1) {
 			s = s.substring(0, s.length() - 1); //remove the trailing "&"
@@ -51,7 +57,7 @@ public class Exercise extends GetSwoleClass {
 	}
 	
 	public void setSetListFromString(String s) {
-		String[] sets = s.split("&");
+		String[] sets = s.split(",");
 		setList.clear();
 		String[] repsByWeight;
 		for (int i = 0; i < sets.length; i++) {
@@ -78,6 +84,14 @@ public class Exercise extends GetSwoleClass {
 	
 	public int getRest() {
 		return rest;
+	}
+	
+	public boolean getExerciseInstance() {
+		return exerciseInstance;
+	}
+	
+	public long getOldId() {
+		return oldId;
 	}
 	
 	public String getNotes() {
@@ -116,6 +130,23 @@ public class Exercise extends GetSwoleClass {
 	
 	public void setRest(int r) {
 		rest = r;
+	}
+	
+	public void setExerciseInstance(boolean ei) {
+		exerciseInstance = ei;
+	}
+	
+	public void setExerciseInstanceFromInt(int i) {
+		if (i == 0) {
+			exerciseInstance = false;
+		}
+		else {
+			exerciseInstance = true;
+		}
+	}
+	
+	public void setOldId(long oid) {
+		oldId = oid;
 	}
 	
 	public void setNotes(String n) {
@@ -179,6 +210,7 @@ public class Exercise extends GetSwoleClass {
 			return null;
 		}
 	}
+	
 	
 	
 }
