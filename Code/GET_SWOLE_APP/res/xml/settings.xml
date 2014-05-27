@@ -4,13 +4,6 @@
        	android:title="@string/settings_data_management">
         
         <PreferenceScreen
-            android:title="@string/settings_delete_workouts"
-            android:summary="@string/settings_delete_workouts_summary"
-            android:key="deleteWorkouts">
-            
-        </PreferenceScreen>
-        
-        <PreferenceScreen
             android:title="@string/settings_delete_history"
             android:summary="@string/settings_delete_history_summary"
             android:key="deleteHistory">
