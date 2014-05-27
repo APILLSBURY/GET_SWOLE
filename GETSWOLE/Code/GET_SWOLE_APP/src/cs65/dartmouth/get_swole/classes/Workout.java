@@ -66,6 +66,12 @@ public class Workout extends GetSwoleClass {
 		return false;
 	}
 	
+	//return true if we replaced an exercise, false if we couldn't find one with that name
+	public void clearScheduling() {
+		scheduledDates.clear();
+		frequencyList.clear();
+	}
+	
 	//return true if we found the date, false if not
 	public boolean removeDate(Calendar cal) {
 		Calendar toRemove = null;
@@ -241,7 +247,6 @@ public class Workout extends GetSwoleClass {
 				exerciseList.add(exercise);
 			}
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
