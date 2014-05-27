@@ -105,6 +105,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 					.setTabListener(this));
 		}
 		
+		// Set Default Page to Schedule
+		mViewPager.setCurrentItem(1);
+		
 		// Google Cloud Messaging
 		mContext = getApplicationContext();
 				
