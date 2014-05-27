@@ -384,7 +384,6 @@ public class FriendProfileActivity extends ListActivity {
 			
     	    // Access the textview to set
     	    TextView workoutView = (TextView) listItemView.findViewById(R.id.workout_list_single_row); 
-    	    workoutView.setTextColor(Color.BLACK);
     	    Workout workout = workouts.get(position);
     	    workoutView.setText(workout.getName());
     	    
