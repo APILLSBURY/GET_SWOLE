@@ -15,7 +15,10 @@ import cs65.dartmouth.get_swole.R;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -89,7 +92,6 @@ public class CalendarAdapter extends BaseAdapter {
 
 	// create a new view for each item referenced by the Adapter
 	public View getView(int position, View convertView, ViewGroup parent) {
-		Log.d(Globals.TAG, "Creating a new view");
 		View v = convertView;
 		TextView dayView;
 		if (convertView == null) { // if it's not recycled, initialize some attributes
@@ -103,6 +105,8 @@ public class CalendarAdapter extends BaseAdapter {
 		// taking last part of date. ie; 2 from 2012-12-02
 		String gridvalueString = separatedTime[2].replaceFirst("^0*", "");
 		int gridvalue = Integer.parseInt(gridvalueString);
+		dayView.setPaintFlags(0);
+		
 		// checking whether the day is in current month or not.
 		if ((gridvalue > 1) && (position < firstDay)) {
 			// setting offdays to white color.
@@ -116,23 +120,24 @@ public class CalendarAdapter extends BaseAdapter {
 		} else {
 			// setting curent month's days in blue color.
 			dayView.setTextColor(Color.BLACK);
-			Log.d(Globals.TAG, "Setting color to black- gridvalue = " + gridvalue);
 			if (!workoutsByDay.get(gridvalue).isEmpty()) {
-				Log.d(Globals.TAG, "Setting color to orange");
 				dayView.setTextColor(mContext.getResources().getColor(R.color.get_swole_orange));
 			}
 			Calendar currDate = Calendar.getInstance();
 			if (gridvalue == currDate.get(Calendar.DATE)
 					&& month.get(Calendar.MONTH) == currDate.get(Calendar.MONTH)
 					&& month.get(Calendar.YEAR) == currDate.get(Calendar.YEAR)) {
-				v.setBackgroundResource(R.drawable.calendar_bg_orange_big);
+				Log.d(Globals.TAG, "current day");
+				dayView.setPaintFlags(dayView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 			}
 		}
+
 
 		if (dayString.get(position).equals(curentDateString)) {
 			setSelected(v);
 			previousView = v;
 		}
+		
 		dayView.setText(gridvalue + "");
 
 		// create date string for comparison
@@ -159,7 +164,7 @@ public class CalendarAdapter extends BaseAdapter {
 
 	public View setSelected(View view) {
 		if (previousView != null) {
-			previousView.setBackgroundResource(R.drawable.list_item_background);
+			previousView.setBackgroundResource(R.drawable.calendar_cell);
 		}
 		previousView = view;
 		view.setBackgroundResource(R.drawable.calendar_cel_selectl);
