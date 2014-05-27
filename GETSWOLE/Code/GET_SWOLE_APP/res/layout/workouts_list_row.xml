@@ -21,7 +21,7 @@
 	        android:layout_height="wrap_content"
 	        android:text="TextView"
 	        android:textSize="20sp"
-	        android:layout_marginLeft="20dp" />
+	        android:layout_marginLeft="15dp" />
             
     </LinearLayout>
 

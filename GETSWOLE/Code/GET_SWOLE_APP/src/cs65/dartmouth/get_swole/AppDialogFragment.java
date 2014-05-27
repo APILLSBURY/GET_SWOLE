@@ -760,7 +760,7 @@ public class AppDialogFragment extends DialogFragment {
 			b = new AlertDialog.Builder(parent);
 			b.setTitle(R.string.friend_view_download);
 			// The click listener will use intents upon selection
-			b.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+			b.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					// Save the workout
