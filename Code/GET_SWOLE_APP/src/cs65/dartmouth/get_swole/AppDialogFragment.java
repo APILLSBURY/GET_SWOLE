@@ -697,6 +697,7 @@ public class AppDialogFragment extends DialogFragment {
 				 // we need to set an adapter and callback
 			    dbWrapper.open();
 			    final List<GetSwoleClass> workouts = dbWrapper.getAllEntries(Workout.class);
+			    dbWrapper.close();
 			    String [] workoutNames = new String[workouts.size()];
 			    for (int i = 0; i < workouts.size(); i++) {
 			    	workoutNames[i] = workouts.get(i).getName();

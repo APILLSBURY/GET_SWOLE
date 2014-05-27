@@ -3,7 +3,8 @@
 		android:layout_width="match_parent"
 	    android:id="@+id/progressViewLayout"
 	    android:orientation="vertical"
-	    android:layout_height="match_parent">
+	    android:layout_height="match_parent"
+	    android:background="@color/black">
 	
 	    <TextView
 	        android:id="@+id/exerciseTitleProgress"
@@ -12,13 +13,6 @@
 	        android:text="Large Text"
 	        android:textColor="@color/get_swole_orange"
 	        android:textSize="30sp" />
-
-<!-- 	    <ToggleButton -->
-<!-- 	        android:id="@+id/repsToWeight" -->
-<!-- 	        android:layout_width="wrap_content" -->
-<!-- 	        android:layout_height="wrap_content" -->
-<!-- 	        android:textOn="@string/exercise_reps_title" -->
-<!-- 	        android:textOff="@string/exercise_weight_title"/> -->
 
 		<LinearLayout 
 		    android:layout_width="fill_parent"
@@ -31,7 +25,8 @@
 		        android:layout_height="wrap_content"
 		        android:layout_weight="1"
 		        android:text="@string/progress_now_displaying_reps"
-		        android:textAppearance="?android:attr/textAppearanceSmall" />
+		        android:textAppearance="?android:attr/textAppearanceSmall"
+		        android:textColor="@color/white" />
 		     
 		    <Button
 		        android:id="@+id/repsToWeight"
