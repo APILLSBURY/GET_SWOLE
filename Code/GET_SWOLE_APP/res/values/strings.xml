@@ -41,6 +41,7 @@
     <string name="progress_switch_to_reps">View reps progress</string>
     <string name="progress_now_displaying_weight">Now displaying weight progress.</string>
     <string name="progress_now_displaying_reps">Now displaying reps progress.</string>
+    <string name="progress_click_exercise">Choose exercise to view progress.</string>
     
     <!-- Dialogs -->
     <string name="positive">OK</string>
