@@ -114,7 +114,6 @@ public class ScheduleFragment extends ListFragment {
 		//set up the gridview
 		gridview.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-				((CalendarAdapter) parent.getAdapter()).setSelected(v);
 				String selectedGridDate = CalendarAdapter.dayString.get(position);
 				String[] separatedTime = selectedGridDate.split("-");
 				String gridvalueString = separatedTime[2].replaceFirst("^0*", "");// taking last part of date. ie; 2 from 2012-12-02.
@@ -130,7 +129,8 @@ public class ScheduleFragment extends ListFragment {
 				}
 				else {
 					selectedGridvalue = gridvalue;
-					selectedDay.set(Calendar.DATE, selectedGridvalue);
+					selectedDay.set(Calendar.DATE, selectedGridvalue); 
+					((CalendarAdapter) parent.getAdapter()).setSelected(v, selectedDay);
 					configureListView(workoutsByDay.get(selectedGridvalue));
 				}
 			}
@@ -150,18 +150,15 @@ public class ScheduleFragment extends ListFragment {
 		else {
 			month.set(GregorianCalendar.MONTH, month.get(GregorianCalendar.MONTH) + 1);
 		}
+		if (selectedDay.get(Calendar.DATE) > month.getActualMaximum(Calendar.DATE)) {
+			selectedDay.set(Calendar.DATE, month.getActualMaximum(Calendar.DATE));
+			selectedGridvalue = selectedDay.get(Calendar.DATE);
+		}
 		selectedDay.set(Calendar.MONTH, month.get(Calendar.MONTH));
+		adapter.setSelectedDate(selectedDay);
 		getWorkoutsByDay();
 		adapter.setWorkoutsByDay(workoutsByDay);
-		if (Calendar.getInstance().get(Calendar.MONTH) == month.get(Calendar.MONTH)
-				&& Calendar.getInstance().get(Calendar.YEAR) == month.get(Calendar.YEAR)) {
-			selectedGridvalue = Calendar.getInstance().get(Calendar.DATE);
-			selectedDay.set(Calendar.DATE, selectedGridvalue);
-			configureListView(workoutsByDay.get(selectedGridvalue));
-		}
-		else {
-			configureListView(new ArrayList<GetSwoleClass>());
-		}
+		configureListView(workoutsByDay.get(selectedGridvalue));
 	}
 
 	//BASED ON METHOD FROM https://github.com/mukesh4u/Android-Calendar-Sync
@@ -174,18 +171,16 @@ public class ScheduleFragment extends ListFragment {
 			month.set(GregorianCalendar.MONTH,
 					month.get(GregorianCalendar.MONTH) - 1);
 		}
+		if (selectedDay.get(Calendar.DATE) > month.getActualMaximum(Calendar.DATE)) {
+			selectedDay.set(Calendar.DATE, month.getActualMaximum(Calendar.DATE));
+			selectedGridvalue = selectedDay.get(Calendar.DATE);
+		}
 		selectedDay.set(Calendar.MONTH, month.get(Calendar.MONTH));
+		selectedGridvalue = selectedDay.get(Calendar.DATE);
+		adapter.setSelectedDate(selectedDay);
 		getWorkoutsByDay();
 		adapter.setWorkoutsByDay(workoutsByDay);
-		if (Calendar.getInstance().get(Calendar.MONTH) == month.get(Calendar.MONTH)
-				&& Calendar.getInstance().get(Calendar.YEAR) == month.get(Calendar.YEAR)) {
-			selectedGridvalue = Calendar.getInstance().get(Calendar.DATE);
-			selectedDay.set(Calendar.DATE, selectedGridvalue);
-			configureListView(workoutsByDay.get(selectedGridvalue));
-		}
-		else {
-			configureListView(new ArrayList<GetSwoleClass>());
-		}
+		configureListView(workoutsByDay.get(selectedGridvalue));
 	}
 
 	//METHOD FROM https://github.com/mukesh4u/Android-Calendar-Sync
@@ -195,6 +190,7 @@ public class ScheduleFragment extends ListFragment {
 
 	public void updateCalendar() {
 		getWorkoutsByDay();
+		adapter.setSelectedDate(selectedDay);
 		adapter.setWorkoutsByDay(workoutsByDay);
 		configureListView(workoutsByDay.get(selectedGridvalue));
 		refreshCalendar();
