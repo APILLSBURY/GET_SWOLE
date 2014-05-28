@@ -54,8 +54,9 @@ public class Utils {
 			String option = settings.getString(context.getString(R.string.preference_key_height_display), weight_display_options[0]);
 
 			String option_metric = context.getString(R.string.inches);
+			String option_metric2 = context.getString(R.string.centimeters);
 
-			if (option.equals(option_metric))
+			if (option.equals(option_metric) || (!option.equals(option_metric) && !option.equals(option_metric2)))
 				return true;
 			else
 				return false;
@@ -81,8 +82,9 @@ public class Utils {
 		String option = settings.getString(context.getString(R.string.preference_key_weight_display), weight_display_options[0]);
 
 		String option_metric = context.getString(R.string.pounds);
+		String option_metric2 = context.getString(R.string.kilograms);
 
-		if (option.equals(option_metric))
+		if (option.equals(option_metric) || (!option.equals(option_metric) && !option.equals(option_metric2)))
 			return true;
 		else
 			return false;
