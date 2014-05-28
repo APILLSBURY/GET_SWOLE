@@ -35,8 +35,8 @@ public class ProfileObject {
 		sport = "";
 		
 		gender = -1;
-		height = -1.0;
-		weight = -1.0;
+		height = 0;
+		weight = 0;
 		bio = "";
 		email = "";
 		phone = "";
