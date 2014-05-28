@@ -825,7 +825,7 @@ public class ProfileActivity extends ListActivity {
 		if (Utils.getWeightUnits(mContext)) {
 			mEditor.putString(mKey, pounds);
 			
-			if (!mValue.equals("")) {
+			if (!pounds.equals("")) {
 				double weight = Double.parseDouble(((String) ((EditText) findViewById(R.id.weightinput)).getText().toString()));
 				profileObj.setWeight(weight);
 			}
@@ -837,7 +837,6 @@ public class ProfileActivity extends ListActivity {
 		}
 		
 
-		
 		// Save Bio
 		
 		mKey = getString(R.string.preference_key_profile_bio);
