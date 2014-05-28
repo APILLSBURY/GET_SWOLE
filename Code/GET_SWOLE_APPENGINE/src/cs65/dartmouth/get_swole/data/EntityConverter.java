@@ -71,6 +71,9 @@ public class EntityConverter {
 		workout.setName((String) entity.getProperty("name"));
 		workout.setNotes((String) entity.getProperty("notes"));
 		workout.setExerciseList( (String) ((Text) entity.getProperty("exerciseList")).getValue().toString() );
+		
+		workout.setFrequencyList((String) ((Text) entity.getProperty("frequencyList")).getValue().toString() );
+		workout.setScheduledDatesFromString((String) ((Text) entity.getProperty("scheduledDates")).getValue().toString() );
 	
 		return workout;
 	}
@@ -84,6 +87,9 @@ public class EntityConverter {
 		entity.setProperty("name", entry.getName());
 		entity.setProperty("notes", entry.getNotes());
 		entity.setProperty("exerciseList", new Text(entry.getExerciseListJSONString()));
+		
+		entity.setProperty("frequencyList", new Text(entry.getFrequencyListJSONString()));
+		entity.setProperty("scheduledDates", new Text(entry.getScheduledDatesString()));
 		
 		return entity;
 		
