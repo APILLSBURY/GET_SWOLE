@@ -455,8 +455,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		  AlarmManager alarm = (AlarmManager) getSystemService(ALARM_SERVICE);
 		  // Set repeating alarm - every 24 hours at 2 am
 		  Calendar c = Calendar.getInstance();
-		  c.set(Calendar.HOUR_OF_DAY, 3);
-		  c.set(Calendar.MINUTE, 1);
+		  c.set(Calendar.HOUR_OF_DAY, 16);
+		  c.set(Calendar.MINUTE, 7);
 		  
 		  PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1,  intentAlarm, 0);
 		  alarm.setRepeating(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), 86400000, pendingIntent);
