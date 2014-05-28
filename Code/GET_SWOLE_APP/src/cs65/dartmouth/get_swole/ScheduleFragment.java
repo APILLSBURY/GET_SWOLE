@@ -50,8 +50,6 @@ public class ScheduleFragment extends ListFragment {
 	private int selectedGridvalue;
 	private Calendar selectedDay;
 	
-	private Frequency frequencyToSave;
-
 	//BASED ON METHOD FROM https://github.com/mukesh4u/Android-Calendar-Sync, but customized for my purposes
 	// The schedule button is mine
 	@Override
@@ -140,7 +138,6 @@ public class ScheduleFragment extends ListFragment {
 		
 		//set up the listview
 		configureListView(workoutsByDay.get(selectedGridvalue));
-		
 		return view;
 	}
 	
@@ -323,41 +320,5 @@ public class ScheduleFragment extends ListFragment {
 		}
 		return dailyWorkouts;
 	}
-	
-	// Set up the alarm system for workouts
-	  public void scheduleAlarms() {
-		  
-		// Get the scheduled workouts and create alarms
-	    long time = Calendar.getInstance().getTimeInMillis();
-	    long workoutId = 0;
-
-	    // create an Intent and set the class which will execute when Alarm triggers, here we have
-	    // given AlarmReciever in the Intent, the onRecieve() method of this class will execute when the alarm finishes
-	    Intent intentAlarm = new Intent(getActivity(), AlarmReceiver.class);
-	    Bundle b = new Bundle();
-	    b.putLong(Globals.ID_TAG, workoutId);
-	    intentAlarm.putExtras(b);
-
-	    //Get the Alarm Service
-	    AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
-
-	    //set the alarm for particular time
-	    alarmManager.set(AlarmManager.RTC_WAKEUP, time, PendingIntent.getBroadcast(getActivity(), 1,  intentAlarm, PendingIntent.FLAG_UPDATE_CURRENT));
-	  }
-	  
-	  // Will listen for alarms
-	  private class AlarmReceiver extends BroadcastReceiver {
-		  @Override
-		  public void onReceive(Context context, Intent intent)  {
-			  // Start the notification service
-			  Intent i = new Intent(getActivity(), WorkoutNotificationService.class);
-			  Bundle b = new Bundle();
-			  b.putLong(Globals.ID_TAG, intent.getExtras().getLong(Globals.ID_TAG));
-			  i.putExtras(b);
-			  getActivity().startService(i);
-       
-		  }
-
-	  }
 }
 
