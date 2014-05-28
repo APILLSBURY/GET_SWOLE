@@ -33,22 +33,25 @@ public class WorkoutsAdapter extends ArrayAdapter<GetSwoleClass> {
 	    
 	    // Access the textviews to set
 	    TextView workoutView = (TextView) rowView.findViewById(R.id.workout_list_single_row_title);    	
+    	TextView ownerView = (TextView) rowView.findViewById(R.id.ownerName);
+    	
 	    GetSwoleClass gWorkout = workouts.get(position);
-	    workoutView.setText(gWorkout.getName());
-	    
-	    if (resource == R.layout.workouts_list_row_small) {
-	    	if (gWorkout instanceof Workout) 
-	    		workoutView.setTextColor(Color.WHITE);
+    	workoutView.setText(gWorkout.getName());
 
+    	String owner;
+	    if (resource == R.layout.workouts_list_row_small) {
+	    	if (gWorkout instanceof Workout) {
+	    		workoutView.setTextColor(Color.WHITE);   
+	        	owner = ((Workout) gWorkout).getOwner();
+	        	if (!owner.isEmpty()) ownerView.setText(owner);
+	        	else ownerView.setText("Me");
+	    	}
 	    }
-	    else { // resource is regular sized
-	    	TextView ownerView = (TextView) rowView.findViewById(R.id.ownerName);
-	    	String owner = ((Workout) gWorkout).getOwner();
-	    	if (!owner.isEmpty()) ownerView.setText(owner);
-	    	else ownerView.setText("Me");
+	    else { // we are only looking at workouts
+	    	owner = ((Workout) gWorkout).getOwner();
+        	if (!owner.isEmpty()) ownerView.setText(owner);
+        	else ownerView.setText("Me");
 	    }
-	    
-	    
 	    
 	    return rowView;
 	}
