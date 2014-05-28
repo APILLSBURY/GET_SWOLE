@@ -310,6 +310,7 @@ public class Workout extends GetSwoleClass {
 			id = obj.getLong("id");
 			this.name = obj.getString("name");
 			notes = obj.getString("notes");
+			setScheduledDatesFromString(obj.getString("scheduledDates"));
 			
 			// Frequency list
 			setFrequencyList(obj.getString("frequencyList"));
@@ -336,6 +337,7 @@ public class Workout extends GetSwoleClass {
 			obj.put("notes", notes);
 			obj.put("exerciseList", getExerciseListJSONString());
 			obj.put("frequencyList", getFrequencyListJSONString());
+			obj.put("scheduledDates", getScheduledDatesString());
 			
 			return obj;
 		}

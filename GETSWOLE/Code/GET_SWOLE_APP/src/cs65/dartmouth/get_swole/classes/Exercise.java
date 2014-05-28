@@ -51,7 +51,7 @@ public class Exercise extends GetSwoleClass {
 			s += setList.get(i).toString() + ",";
 		}
 		if (s.length() >= 1) {
-			s = s.substring(0, s.length() - 1); //remove the trailing "&"
+			s = s.substring(0, s.length() - 1); //remove the trailing ","
 		}
 		return s;
 	}
