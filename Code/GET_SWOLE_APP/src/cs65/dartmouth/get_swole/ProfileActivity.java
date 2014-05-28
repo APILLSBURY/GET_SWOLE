@@ -631,12 +631,20 @@ public class ProfileActivity extends ListActivity {
 			Log.d(Globals.TAG, "Loading in");
 			
 			// Check that it is not empty
-			if (in.equals("")) {
+			if (in.equals("") && feet.equals("")) {
 				((EditText) findViewById(R.id.feetinput)).setText(feet);
 				((EditText) findViewById(R.id.inchinput)).setText(in);
 			}
-			else {
+			else if (!in.equals("") && feet.equals("")) {
 				((EditText) findViewById(R.id.feetinput)).setText(feet);
+				((EditText) findViewById(R.id.inchinput)).setText(Utils.decimalFormat.format(Double.parseDouble(in)));
+			}
+			else if (in.equals("") && !feet.equals("")) {
+				((EditText) findViewById(R.id.feetinput)).setText(Utils.decimalFormat.format(Integer.parseInt(feet)));
+				((EditText) findViewById(R.id.inchinput)).setText(in);
+			}
+			else if (!in.equals("") && !feet.equals("")) {
+				((EditText) findViewById(R.id.feetinput)).setText(Utils.decimalFormat.format(Integer.parseInt(feet)));
 				((EditText) findViewById(R.id.inchinput)).setText(Utils.decimalFormat.format(Double.parseDouble(in)));
 			}
 		}
@@ -802,22 +810,10 @@ public class ProfileActivity extends ListActivity {
 			}
 		}
 		else {
-			if ((!feetString.equals("") && !inString.equals(""))) {
-				double cm = Double.parseDouble(inString); // get the value in cm
-				mEditor.putString(feetKey, String.valueOf((int) Utils.centimetersToInches(cm) / 12)); // set the feet as the same
-				mEditor.putString(inKey, String.valueOf(Utils.centimetersToInches(cm) % 12)); // convert back to inches
-				profileObj.setHeight((double) Utils.centimetersToInches(cm) / 12, Utils.centimetersToInches(cm) % 12); // save in terms of inches
-			}
-			else if (!feetString.equals("") && inString.equals("")) {
-				double cm = Double.parseDouble(inString); // get the value in cm
-				mEditor.putString(feetKey, String.valueOf((int) Utils.centimetersToInches(cm) / 12)); // set the feet as the same
-				profileObj.setHeight((double) Utils.centimetersToInches(cm) / 12, 0);
-			}
-			else if (feetString.equals("") && !inString.equals("")) {
-				double cm = Double.parseDouble(inString); // get the value in cm
-				mEditor.putString(inKey, String.valueOf(Utils.centimetersToInches(cm) % 12)); // convert back to inches
-				profileObj.setHeight(0, Utils.centimetersToInches(cm) % 12);
-			}
+			double cm = Double.parseDouble(inString); // get the value in cm
+			mEditor.putString(feetKey, String.valueOf((int) Utils.centimetersToInches(cm) / 12)); // set the feet as the same
+			mEditor.putString(inKey, String.valueOf(Utils.centimetersToInches(cm) % 12)); // convert back to inches
+			profileObj.setHeight((double) Utils.centimetersToInches(cm) / 12, Utils.centimetersToInches(cm) % 12); // save in terms of inches
 		}
 		
 		// Save Weight
@@ -835,11 +831,9 @@ public class ProfileActivity extends ListActivity {
 			}
 		}
 		else {
-			if (!mValue.equals("")) {
-				double kg = Double.parseDouble(pounds); // get the value in kg
-				mEditor.putString(mKey, String.valueOf(Utils.kilosToPound(kg))); // convert back to pounds
-				profileObj.setWeight(Utils.kilosToPound(kg)); // save in terms of pounds
-			}
+			double kg = Double.parseDouble(pounds); // get the value in kg
+			mEditor.putString(mKey, String.valueOf(Utils.kilosToPound(kg))); // convert back to pounds
+			profileObj.setWeight(Utils.kilosToPound(kg)); // save in terms of pounds
 		}
 		
 
