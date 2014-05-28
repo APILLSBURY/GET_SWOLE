@@ -233,8 +233,9 @@ public class FriendsActivity extends ListActivity {
 			ProfileObject entry = getItem(position);
 			
 			// Set text on the views
-			if (!entry.getSport().equals(""))
+			if (!entry.getSport().equals("")) {
 				titleView.setText(entry.getFirstName() + " " + entry.getLastName() + " (" + entry.getSport() + ")");
+			}
 			else
 				titleView.setText(entry.getFirstName() + " " + entry.getLastName() );
 			summaryView.setText(entry.getHometown());
