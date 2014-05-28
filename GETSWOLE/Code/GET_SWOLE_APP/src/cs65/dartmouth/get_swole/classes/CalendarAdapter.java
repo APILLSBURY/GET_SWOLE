@@ -10,6 +10,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 
+import cs65.dartmouth.get_swole.CalendarUtility;
 import cs65.dartmouth.get_swole.Globals;
 import cs65.dartmouth.get_swole.R;
 
@@ -66,6 +67,10 @@ public class CalendarAdapter extends BaseAdapter {
 		refreshDays();
 	}
 
+	public void setSelectedDate(Calendar c) {
+		selectedDate = (GregorianCalendar) c;
+	}
+	
 	public void setWorkoutsByDay(ArrayList<ArrayList<GetSwoleClass>> workoutsByDay) {
 		this.workoutsByDay = workoutsByDay;
 	}
@@ -130,12 +135,14 @@ public class CalendarAdapter extends BaseAdapter {
 				dayView.setTextColor(mContext.getResources().getColor(R.color.get_swole_orange));
 			}
 			Calendar currDate = Calendar.getInstance();
-			if (gridvalue == currDate.get(Calendar.DATE)
-					&& month.get(Calendar.MONTH) == currDate.get(Calendar.MONTH)
-					&& month.get(Calendar.YEAR) == currDate.get(Calendar.YEAR)) {
-				Log.d(Globals.TAG, "current day");
+			currDate.set(Calendar.DATE, gridvalue);
+			currDate.set(Calendar.MONTH, month.get(Calendar.MONTH));
+			currDate.set(Calendar.YEAR, month.get(Calendar.YEAR));
+			if (CalendarUtility.testDateEquality(currDate, selectedDate) == CalendarUtility.EQUALS) {
+				setSelected(v, (GregorianCalendar) currDate);
+			}
+			if (CalendarUtility.testDateEquality(currDate, Calendar.getInstance()) == CalendarUtility.EQUALS) {
 				dayView.setPaintFlags(dayView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-				setSelected(v);
 			}
 		}
 		
@@ -155,12 +162,13 @@ public class CalendarAdapter extends BaseAdapter {
 	}
 
 	//METHOD FROM https://github.com/mukesh4u/Android-Calendar-Sync
-	public View setSelected(View view) {
+	public View setSelected(View view, Calendar date) {
 		if (previousView != null) {
 			previousView.setBackgroundResource(R.drawable.calendar_cell);
 		}
 		previousView = view;
 		view.setBackgroundResource(R.drawable.calendar_cel_selectl);
+		selectedDate = (GregorianCalendar) date;
 		return view;
 	}
 	
