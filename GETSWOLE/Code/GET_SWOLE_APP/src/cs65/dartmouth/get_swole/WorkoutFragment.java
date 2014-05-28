@@ -6,7 +6,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
@@ -25,13 +27,18 @@ public class WorkoutFragment extends ListFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		
+				
 		mContext = getActivity();
 		
 		dbWrapper = new DatabaseWrapper(mContext);
 		configureListView();
 					
 	
+	}
+	
+	@Override
+	public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
+		return inflater.inflate(R.layout.fragment_workout, null, false);
 	}
 	
 	@Override

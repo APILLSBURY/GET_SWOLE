@@ -16,8 +16,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_alignParentTop="true"
-        android:textSize="35sp" 
-        android:textColor="@color/get_swole_blue"/>
+        android:textSize="35sp" />
 
     <EditText
         android:id="@+id/workoutComments"

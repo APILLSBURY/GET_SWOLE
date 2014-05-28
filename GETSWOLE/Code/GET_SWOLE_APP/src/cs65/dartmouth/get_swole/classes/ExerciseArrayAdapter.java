@@ -39,7 +39,7 @@ public class ExerciseArrayAdapter extends ArrayAdapter<Exercise> {
 	    // Access the textviews to set
 	    TextView exerciseTitleView = (TextView) rowView.findViewById(R.id.exercise_list_single_row_title);    		
 	    Exercise e = exercises.get(position);
-	    exerciseTitleView.setText(e.toString());
+	    exerciseTitleView.setText(e.toString(context));
 	    
 	    return rowView;
 	}

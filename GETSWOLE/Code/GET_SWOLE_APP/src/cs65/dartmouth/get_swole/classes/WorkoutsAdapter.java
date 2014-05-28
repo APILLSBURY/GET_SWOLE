@@ -3,6 +3,7 @@ package cs65.dartmouth.get_swole.classes;
 import java.util.List;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,11 +36,13 @@ public class WorkoutsAdapter extends ArrayAdapter<GetSwoleClass> {
 	    GetSwoleClass gWorkout = workouts.get(position);
 	    workoutView.setText(gWorkout.getName());
 	    
-	    if (resource == R.layout.workouts_list_row) {
-	    	// then we want to display the comments
-		    TextView workoutDetails = (TextView) rowView.findViewById(R.id.workout_list_single_row_details);
-		    workoutDetails.setText(((Workout) gWorkout).getNotes()) ;  	
+	    if (resource == R.layout.workouts_list_row_small) {
+	    	if (gWorkout instanceof Workout) 
+	    		workoutView.setTextColor(Color.WHITE);
+
 	    }
+	    
+	    
 	    
 	    return rowView;
 	}
