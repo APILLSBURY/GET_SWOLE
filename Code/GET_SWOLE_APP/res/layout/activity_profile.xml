@@ -165,8 +165,9 @@
 
             <EditText
                 android:id="@+id/feetinput"
-                android:layout_width="60dp"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
+                android:gravity="right"
                 android:ems="10"
                 android:inputType="number" >
             </EditText>
@@ -180,8 +181,9 @@
 
             <EditText
                 android:id="@+id/inchinput"
-                android:layout_width="60dp"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
+                android:gravity="right"
                 android:ems="10"
                 android:inputType="numberDecimal" />
 
@@ -208,8 +210,9 @@
 
             <EditText
                 android:id="@+id/weightinput"
-                android:layout_width="60dp"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
+                android:gravity="right"
                 android:inputType="numberDecimal" >
 
             </EditText>
