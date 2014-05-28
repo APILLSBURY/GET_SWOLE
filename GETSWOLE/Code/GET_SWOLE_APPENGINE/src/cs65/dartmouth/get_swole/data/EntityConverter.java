@@ -67,6 +67,7 @@ public class EntityConverter {
 		Workout workout = new Workout();
 		
 		workout.setRegId((String) entity.getProperty("regId"));
+		workout.setOwner((String) entity.getProperty("owner"));
 		workout.setId((long) entity.getProperty("id"));
 		workout.setName((String) entity.getProperty("name"));
 		workout.setNotes((String) entity.getProperty("notes"));
@@ -83,6 +84,7 @@ public class EntityConverter {
 		Entity entity = new Entity(kind, entry.getRegId() + ":" + entry.getName() + "," + entry.getId(), parentKey);
 		
 		entity.setProperty("regId", entry.getRegId());
+		entity.setProperty("owner", entry.getOwner());
 		entity.setProperty("id", entry.getId());
 		entity.setProperty("name", entry.getName());
 		entity.setProperty("notes", entry.getNotes());
