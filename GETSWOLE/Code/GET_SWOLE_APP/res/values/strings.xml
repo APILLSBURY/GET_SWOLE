@@ -77,10 +77,16 @@
         <item>Download workout.</item>
     </string-array>
     <string name="schedule_choose_workout">Choose a workout:</string>
+    <string name="workout_options">Workout Options:</string>
     <string name="choose_start_date">Starting on </string>
     <string name="choose_end_date">Ending on </string>
     <string name="frequency_repeat">This exercise repeats every </string>
     <string name="are_you_sure">Are you sure?</string>
+    <string-array name="workout_options_array">
+        <item>Start</item>
+        <item>Edit frequency</item>
+        <item>Remove from this day</item>
+    </string-array>
     
     <!-- Profile -->
 	<string name="default_profile_photo">default_profile.png</string>

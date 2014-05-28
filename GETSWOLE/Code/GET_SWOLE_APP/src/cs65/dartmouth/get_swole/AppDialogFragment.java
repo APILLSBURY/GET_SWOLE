@@ -912,7 +912,54 @@ public class AppDialogFragment extends DialogFragment {
 			});
 			return b.create();
 		
-		case DIALOG_ID_SCHEDULE_UPDATE:
+		case DIALOG_ID_SCHEDULE_UPDATE:			
+			// grab the id of this workout
+			final long wId = getArguments().getLong(WORKOUT_ID);
+			final long datePicked = getArguments().getLong(DATE);
+			dbWrapper.open();
+			final Workout wo = (Workout) dbWrapper.getEntryById(wId, Workout.class);
+			dbWrapper.close();
+			
+			// Create custom dialog
+			b = new AlertDialog.Builder(parent);
+			b.setTitle(parent.getString(R.string.workout_options));
+				
+			String [] options = getResources().getStringArray(R.array.workout_options_array);
+
+			b.setItems(options, new DialogInterface.OnClickListener() {
+			        public void onClick(DialogInterface dialog, int item) {
+			        	
+			        	if (item == 0) { // we want to start the workout
+			        		Intent intent = new Intent(parent, WorkoutDoActivity.class);
+			        		Bundle b = new Bundle();
+			        		b.putLong(Globals.ID_TAG, wId);
+			        		intent.putExtras(b);
+			        		parent.startActivity(intent);
+			        		getDialog().cancel();
+			        	}
+			        	else if (item == 1) { // we want to change its scheduling
+			        		// open a dialog to display 
+		    	 			DialogFragment fragment = AppDialogFragment.newInstanceSchedule(wo, datePicked, DIALOG_ID_SCHEDULE_FREQUENCY);
+		    	 			fragment.show(getFragmentManager(), getString(R.string.dialog_fragment_tag_when_to_schedule_new));
+		    	 			getDialog().cancel();
+			        	}
+			        	else { // we want to delete from this day
+			        		Calendar c = Calendar.getInstance();
+			        		c.setTimeInMillis(datePicked);
+			        		wo.removeDate(c);
+			        		
+			        	}
+		            	
+			        }
+			    });
+			
+			b.setNegativeButton(R.string.negative, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					// do nothing
+				}
+			});
+			return b.create();
 			
 		case DIALOG_ID_VIEW_DOWNLOAD_WORKOUT:
 			b = new AlertDialog.Builder(parent);
