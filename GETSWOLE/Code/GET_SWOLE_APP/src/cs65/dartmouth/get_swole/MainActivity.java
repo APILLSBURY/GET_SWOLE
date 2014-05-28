@@ -1,13 +1,20 @@
 package cs65.dartmouth.get_swole;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.ActionBar.Tab;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -32,6 +39,9 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
+import cs65.dartmouth.get_swole.classes.GetSwoleClass;
+import cs65.dartmouth.get_swole.classes.Workout;
+import cs65.dartmouth.get_swole.database.DatabaseWrapper;
 import cs65.dartmouth.get_swole.gae.ServerUtilities;
 
 
@@ -127,7 +137,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         else {
             Log.i(Globals.TAG, "No valid Google Play Services APK found.");
         }
-		
+		scheduleAlarms();
 		
 	}
 
@@ -433,6 +443,24 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		editor.putInt(PROPERTY_APP_VERSION, appVersion);
 		editor.commit();
 	}
+	
+	// Set up the alarm system for workouts
+	  public void scheduleAlarms() {
+		  		  		  
+		  // create an Intent and set the class which will execute when Alarm triggers, here we have
+		  // given AlarmReciever in the Intent, the onRecieve() method of this class will execute when the alarm finishes
+		  Intent intentAlarm = new Intent(this, AlarmReceiver.class);
 
+		  //Get the Alarm Service
+		  AlarmManager alarm = (AlarmManager) getSystemService(ALARM_SERVICE);
+		  // Set repeating alarm - every 24 hours at 2 am
+		  Calendar c = Calendar.getInstance();
+		  c.set(Calendar.HOUR_OF_DAY, 12);
+		  c.set(Calendar.MINUTE, 48);
+		  
+		  PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1,  intentAlarm, 0);
+		  alarm.setRepeating(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), 86400000, pendingIntent);
+		  Log.e(Globals.TAG, "set alarms");
+	  }
 
 }

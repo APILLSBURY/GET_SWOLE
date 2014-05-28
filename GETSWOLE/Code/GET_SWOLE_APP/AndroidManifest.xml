@@ -37,7 +37,9 @@
 
         <!-- ACTIVITIES -->
 
-         <service android:name=".WorkoutNotificationService" />
+        <service android:name=".WorkoutNotificationService"
+            	android:enabled="true" />
+        <receiver android:name=".AlarmReceiver" />
 
         <activity
             android:name="cs65.dartmouth.get_swole.MainActivity"
