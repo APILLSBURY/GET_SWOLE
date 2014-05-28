@@ -51,7 +51,7 @@ public class WorkoutNotificationService extends Service {
     	b.putLong(Globals.ID_TAG, w.getId());
     	workoutDo.putExtras(b);
     	
-		PendingIntent contentIntent = PendingIntent.getActivity(this, 0, workoutDo, 0);
+		PendingIntent contentIntent = PendingIntent.getActivity(this, (int) w.getId(), workoutDo, 0);
         Notification notification = new Notification.Builder(this)
         .setContentTitle(w.getName() + " scheduled for today.")
         .setContentText(getResources().getString(R.string.notification_text)).setSmallIcon(R.drawable.ic_launcher)
@@ -59,7 +59,7 @@ public class WorkoutNotificationService extends Service {
         mNotificationManager =  (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         notification.flags = Notification.DEFAULT_LIGHTS | Notification.FLAG_AUTO_CANCEL;
         
-        mNotificationManager.notify(0, notification); 
+        mNotificationManager.notify((int) w.getId(), notification);
 
 	}
 }

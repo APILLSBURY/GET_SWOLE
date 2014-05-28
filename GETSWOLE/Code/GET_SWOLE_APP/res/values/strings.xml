@@ -148,8 +148,8 @@
     <string name="clear_profile">Clear</string>
     
     <!-- GCM Strings -->
-    <!--<string name="server_url">http://getswoleandroidapp.appspot.com</string>-->
-    <string name="server_url">http://192.168.1.18:8888</string>
+    <string name="server_url">http://getswoleandroidapp.appspot.com</string>
+    <!-- <string name="server_url">http://192.168.1.18:8888</string>-->
     
     <!-- Settings -->
     
