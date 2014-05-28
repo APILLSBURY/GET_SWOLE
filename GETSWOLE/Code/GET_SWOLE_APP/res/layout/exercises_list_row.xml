@@ -9,7 +9,7 @@
 	 <TextView 
         android:id="@+id/exercise_list_single_row_title"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:textAppearance="?android:attr/textAppearanceLarge" 
         android:textColor="@color/get_swole_orange"
         android:paddingBottom="5dp"
@@ -20,7 +20,9 @@
 	  <TextView
         android:id="@+id/exercise_list_single_row_details"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="3dp"
+        android:layout_marginLeft="10dp"
         android:textSize="12sp"
         android:text="dflkdj"
         android:textAppearance="?android:attr/textAppearanceSmall" />

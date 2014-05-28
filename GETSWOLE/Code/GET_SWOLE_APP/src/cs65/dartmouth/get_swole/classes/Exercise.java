@@ -164,9 +164,13 @@ public class Exercise extends GetSwoleClass {
 			else { s += reps + " reps at " + Utils.getWeightString(context, weight) + ", ";
 			}
 		}
-		if (setList.isEmpty()) s += "  ";
-		if (rest != -1) return s.substring(0, s.length() - 2) + "Rest: " + rest + "secs";
-		else return s.substring(0, s.length() - 2);
+		if (rest != -1) {
+			if (setList.isEmpty()) 
+				return "Rest: " + rest + "secs";
+			return s.substring(0, s.length() -2) + " Rest: " + rest + "secs";
+		}
+		if (setList.isEmpty()) return s;
+		return s.substring(0, s.length() - 2);
 	}
 	
 	@Override
