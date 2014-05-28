@@ -143,7 +143,7 @@
     
     <!-- GCM Strings -->
     <!--<string name="server_url">http://getswoleandroidapp.appspot.com</string>-->
-    <string name="server_url">http://10.31.206.202:8888</string>
+    <string name="server_url">http://192.168.1.18:8888</string>
     
     <!-- Settings -->
     
@@ -154,7 +154,7 @@
    	<string name="title_height_preference">Height</string>
    	<string name="dialog_height_preference">Height Unit Preference</string>
 	<string name="inches">in</string>
-	<string name="feet">feet</string>
+	<string name="feet">ft</string>
     <string name="centimeters">cm</string>
     
     <string name="weight_preference_summary">Select the units in which you would like to see weight values</string>
