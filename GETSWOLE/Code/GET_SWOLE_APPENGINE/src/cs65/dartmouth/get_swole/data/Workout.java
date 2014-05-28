@@ -2,12 +2,14 @@ package cs65.dartmouth.get_swole.data;
 
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-
+import java.util.Locale;
 import com.google.appengine.labs.repackaged.org.json.JSONArray;
 import com.google.appengine.labs.repackaged.org.json.JSONException;
 import com.google.appengine.labs.repackaged.org.json.JSONObject;
+
 
 import android.content.Context;
 import android.util.Log;
@@ -18,8 +20,9 @@ public class Workout extends GetSwoleClass {
 	private ArrayList<Exercise> exerciseList;
 	private Calendar startDate;
 	private ArrayList<Calendar> scheduledDates;
-//	private ArrayList<Frequency> frequencyList;
+	private ArrayList<Frequency> frequencyList;
 	private String notes;
+	public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
 	
 	public Workout() {
 		this("");
@@ -30,102 +33,107 @@ public class Workout extends GetSwoleClass {
 		exerciseList = new ArrayList<Exercise>();
 		startDate = Calendar.getInstance();
 		scheduledDates = new ArrayList<Calendar>();
-//		frequencyList = new ArrayList<Frequency>();
+		frequencyList = new ArrayList<Frequency>();
 		notes = "";
 		id = -1;
 	}
-//	
-//	//add a date to the list of scheduled dates
-//	public void addDate(Calendar date) {
-//		scheduledDates.add(date);
-//	}
-//	
-//	//add an exercise to the end of the list
-//	public void addExercise(Exercise e) {
-//		exerciseList.add(e);
-//	}
-//	
-//	//insert an exercise into a specific location
-//	public void addExercise(int index, Exercise e) {
-//		exerciseList.add(index, e);
-//	}
-//	
-//	
-//	//return true if we replaced an exercise, false if we couldn't find one with that name
-//	public boolean updateExercise(String name, Exercise newExercise) {
-//		for (int i = 0; i < exerciseList.size(); i++) {
-//			if (exerciseList.get(i).getName().equals(name)) {
-//				exerciseList.set(i, newExercise);
-//				return true;
-//			}
-//		}
-//		return false;
-//	}
-//	
-//	//return true if we found the date, false if not
+	
+	//add a date to the list of scheduled dates
+	public void addDate(Calendar date) {
+		scheduledDates.add(date);
+	}
+	
+	//add an exercise to the end of the list
+	public void addExercise(Exercise e) {
+		exerciseList.add(e);
+	}
+	
+	//insert an exercise into a specific location
+	public void addExercise(int index, Exercise e) {
+		exerciseList.add(index, e);
+	}
+	
+	
+	//return true if we replaced an exercise, false if we couldn't find one with that name
+	public boolean updateExercise(String name, Exercise newExercise) {
+		for (int i = 0; i < exerciseList.size(); i++) {
+			if (exerciseList.get(i).getName().equals(name)) {
+				exerciseList.set(i, newExercise);
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	//return true if we replaced an exercise, false if we couldn't find one with that name
+	public void clearScheduling() {
+		scheduledDates.clear();
+		frequencyList.clear();
+	}
+	
+	//return true if we found the date, false if not
 //	public boolean removeDate(Calendar cal) {
-//		int date = cal.get(Calendar.DATE);
-//		int month = cal.get(Calendar.MONTH);
-//		int year = cal.get(Calendar.YEAR);
+//		Calendar toRemove = null;
 //		for (Calendar day : scheduledDates) {
-//			if (day.get(Calendar.DATE) == date && day.get(Calendar.MONTH) == month && day.get(Calendar.YEAR) == year) {
-//				scheduledDates.remove(day);
-//				return true;
+//			if (CalendarUtility.testDateEquality(cal, day) == (CalendarUtility.EQUALS)) {
+//				toRemove = day;
+//				break;
 //			}
+//		}
+//		if (toRemove != null) {
+//			scheduledDates.remove(toRemove);
+//			return true;
 //		}
 //		return false;
 //	}
-//	
-//	//add a frequency to the frequency list
-//	public void addFrequency(Frequency f) {
-//		frequencyList.add(f);
-//	}
-//	
-//	
-//	
-//	public String getScheduledDatesString() {
-//		String s = "";
-//		for (int i = 0; i < scheduledDates.size(); i++) {
-//			s += DatabaseWrapper.DATE_FORMAT.format(scheduledDates.get(i).getTime()) + "&";
-//		}
-//		if (s.length() >= 1) {
-//			s = s.substring(0, s.length() - 1); //remove the trailing "&"
-//		}
-//		return s;
-//	}
-//	
-//	public void setScheduledDatesFromString(String s) {
-//		String[] dates = s.split("&");
-//		Calendar cal;
-//		scheduledDates.clear();
-//		for (int i = 0; i < dates.length; i++) {
-//			cal = Calendar.getInstance();
-//			try {
-//				if (!dates[i].isEmpty()) {
-//					cal.setTime(DatabaseWrapper.DATE_FORMAT.parse(dates[i]));
-//					scheduledDates.add(cal);
-//				}
-//			}
-//			catch (Exception e) {
-//				Log.e(Globals.TAG, "Couldn't parse the date " + dates[i], e);
-//			}
-//		}
-//	}
+	
+	//add a frequency to the frequency list
+	public void addFrequency(Frequency f) {
+		frequencyList.add(f);
+	}
+
+	
+	public String getScheduledDatesString() {
+		String s = "";
+		for (int i = 0; i < scheduledDates.size(); i++) {
+			s += DATE_FORMAT.format(scheduledDates.get(i).getTime()) + "&";
+		}
+		if (s.length() >= 1) {
+			s = s.substring(0, s.length() - 1); //remove the trailing "&"
+		}
+		return s;
+	}
+	
+	public void setScheduledDatesFromString(String s) {
+		String[] dates = s.split("&");
+		Calendar cal;
+		scheduledDates.clear();
+		for (int i = 0; i < dates.length; i++) {
+			cal = Calendar.getInstance();
+			try {
+				if (!dates[i].isEmpty()) {
+					cal.setTime(DATE_FORMAT.parse(dates[i]));
+					scheduledDates.add(cal);
+				}
+			}
+			catch (Exception e) {}
+		}
+	}
 	
 	
 	//BYTE ARRAY METHODS
-//	public byte[] getExerciseListByteArray() {
-//		int[] intArray = new int[exerciseList.size()];
-//		for (int i = 0; i < exerciseList.size(); i++) {
-//			Exercise exercise = exerciseList.get(i);
-//			intArray[i] = (int) exercise.getId();
-//		}
-//		ByteBuffer byteBuffer = ByteBuffer.allocate(intArray.length * Integer.SIZE);
-//		IntBuffer intBuffer = byteBuffer.asIntBuffer();
-//		intBuffer.put(intArray);
-//		return byteBuffer.array();
-//	}
-//	
+	public byte[] getExerciseListByteArray() {
+		int[] intArray = new int[exerciseList.size()];
+		for (int i = 0; i < exerciseList.size(); i++) {
+			Exercise exercise = exerciseList.get(i);
+			intArray[i] = (int) exercise.getId();
+		}
+		ByteBuffer byteBuffer = ByteBuffer.allocate(intArray.length * Integer.SIZE);
+		IntBuffer intBuffer = byteBuffer.asIntBuffer();
+		intBuffer.put(intArray);
+		return byteBuffer.array();
+	}
+	
 //	public void setExerciseListFromByteArray(byte[] byteArray, Context c) {
 //		ByteBuffer byteBuffer = ByteBuffer.wrap(byteArray);
 //		IntBuffer intBuffer = byteBuffer.asIntBuffer();
@@ -141,20 +149,20 @@ public class Workout extends GetSwoleClass {
 //		}
 //		db.close();
 //	}
-//	
-//	
-//	public byte[] getFrequencyListByteArray() {
-//		int[] intArray = new int[frequencyList.size()];
-//		for (int i = 0; i < frequencyList.size(); i++) {
-//			Frequency frequency = frequencyList.get(i);
-//			intArray[i] = (int) frequency.getId();
-//		}
-//		ByteBuffer byteBuffer = ByteBuffer.allocate(intArray.length * Integer.SIZE);
-//		IntBuffer intBuffer = byteBuffer.asIntBuffer();
-//		intBuffer.put(intArray);
-//		return byteBuffer.array();
-//	}
-//	
+	
+	
+	public byte[] getFrequencyListByteArray() {
+		int[] intArray = new int[frequencyList.size()];
+		for (int i = 0; i < frequencyList.size(); i++) {
+			Frequency frequency = frequencyList.get(i);
+			intArray[i] = (int) frequency.getId();
+		}
+		ByteBuffer byteBuffer = ByteBuffer.allocate(intArray.length * Integer.SIZE);
+		IntBuffer intBuffer = byteBuffer.asIntBuffer();
+		intBuffer.put(intArray);
+		return byteBuffer.array();
+	}
+	
 //	public void setFrequencyListFromByteArray(byte[] byteArray, Context c) {
 //		ByteBuffer byteBuffer = ByteBuffer.wrap(byteArray);
 //		IntBuffer intBuffer = byteBuffer.asIntBuffer();
@@ -190,6 +198,19 @@ public class Workout extends GetSwoleClass {
 
 	}
 	
+	public String getFrequencyListJSONString() {
+		// Exercise list (convert to JSONArray)
+		JSONArray jsonArray = new JSONArray();
+		
+		// Loop through the exercises and turn to JSONObjects
+		for (Frequency freq : frequencyList) {
+			jsonArray.put(freq.toJSONObject());
+		}
+		
+		// Convert the jsonArray to string
+		return jsonArray.toString();
+	}
+	
 	public Calendar getStartDate() {
 		return startDate;
 	}
@@ -198,9 +219,9 @@ public class Workout extends GetSwoleClass {
 		return scheduledDates;
 	}
 	
-//	public ArrayList<Frequency> getFrequencyList() {
-//		return frequencyList;
-//	}
+	public ArrayList<Frequency> getFrequencyList() {
+		return frequencyList;
+	}
 	
 	public long getId() {
 		return id;
@@ -236,7 +257,23 @@ public class Workout extends GetSwoleClass {
 				exerciseList.add(exercise);
 			}
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	
+	public void setFrequencyList(String jsonString) {
+		
+		// Exercise list (convert from JSONArray to a real exercise list)
+		JSONArray jsonArray;
+		try {
+			jsonArray = new JSONArray(jsonString);
+			for (int i = 0; i < jsonArray.length(); i++) {
+				Frequency frequency = new Frequency();
+				frequency.fromJSONObject(jsonArray.getJSONObject(i));
+				frequencyList.add(frequency);
+			}
+		} catch (JSONException e) {
 			e.printStackTrace();
 		}
 
@@ -250,9 +287,9 @@ public class Workout extends GetSwoleClass {
 		scheduledDates = sd;
 	}
 	
-//	public void setFrequencyList(ArrayList<Frequency> f) {
-//		frequencyList = f;
-//	}
+	public void setFrequencyList(ArrayList<Frequency> f) {
+		frequencyList = f;
+	}
 	
 	public void setNotes(String n) {
 		notes = n;
@@ -263,7 +300,6 @@ public class Workout extends GetSwoleClass {
 	}
 	
 	// GCM JSONOBJECT HANDLING
-	
 	public JSONObject fromJSONObject(JSONObject obj) {	
 		try {
 			
@@ -271,6 +307,10 @@ public class Workout extends GetSwoleClass {
 			id = obj.getLong("id");
 			this.name = obj.getString("name");
 			notes = obj.getString("notes");
+			setScheduledDatesFromString(obj.getString("scheduledDates"));
+			
+			// Frequency list
+			setFrequencyList(obj.getString("frequencyList"));
 			
 			// Exercise list (convert from JSONArray to a real exercise list)
 			setExerciseList(obj.getString("exerciseList"));
@@ -293,6 +333,8 @@ public class Workout extends GetSwoleClass {
 			obj.put("name", name);
 			obj.put("notes", notes);
 			obj.put("exerciseList", getExerciseListJSONString());
+			obj.put("frequencyList", getFrequencyListJSONString());
+			obj.put("scheduledDates", getScheduledDatesString());
 			
 			return obj;
 		}
@@ -300,5 +342,6 @@ public class Workout extends GetSwoleClass {
 			return null;
 		}
 	}
+	
 	
 }
