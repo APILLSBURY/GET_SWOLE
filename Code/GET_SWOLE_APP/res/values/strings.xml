@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">GET SWOLE</string>
+    <string name="profile_title">Profile</string>
+    <string name="friends_title">Friends</string>
+    <string name="friend_title">Friend</string>
+    <string name="settings_title">Settings</string>
+    <string name="title_section1">Workouts</string>
+    <string name="title_section2">Schedule</string>
+    <string name="title_section3">Progress</string>
+
+    <!-- Workouts -->
+    <string name="add_button">New workout</string>
+    <string name="add_exercise_button">New Exercise</string>
+    <string name="start_workout_button">START!</string>
+    <string name="stop_workout_button">Finish</string>
+    <string name="workout_notes_hint">Workout instructions, etc.</string>
+    <string name="timer">Timer</string>
+    <string name="enter_time">Enter time (secs):</string>
+    <string name="welcome">Welcome to GET SWOLE!</string>
+    <string name="choose_workout">Select a workout to start or edit.</string>
+
+    <!-- Exercises -->
+    <string name="exercise_name_title">Name:</string>
+    <string name="exercise_reps_title">Reps</string>
+    <string name="exercise_weight_title">Weight</string>
+    <string name="exercise_reps_goal_title">Max Reps Goal:</string>
+    <string name="exercise_weight_goal_title">Max Weight Goal:</string>
+    <string name="exercise_rest_title">Rest (secs):</string>
+    <string name="exercise_notes_title">Notes:</string>
+    <string name="exercise_notes_hint">about this exercise.</string>
+    <string name="existing_exercise">Add existing exercise</string>
+    <string name="check_if_kilos">Using kilos</string>
+
+    <!-- Schedule -->
+    <string name="schedule_new">Schedule Workout</string>
+    
+    <!-- Progress -->
+    <string name="view_progress_workout">Select a workout to view progress.</string>
+    <string name="progress_goal_line">Goal</string>
+    <string name="progress_actual_line">Actual</string>
+    <string name="not_enough_data">Not enough data on this exercise.</string>
+    <string name="progress_switch_to_weight">View weight progress</string>
+    <string name="progress_switch_to_reps">View reps progress</string>
+    <string name="progress_now_displaying_weight">Now displaying weight progress.</string>
+    <string name="progress_now_displaying_reps">Now displaying reps progress.</string>
+    <string name="progress_click_exercise">Select an exercise to view progress.</string>
+    
+    <!-- Notification -->
+    <string name="notification_text">Click here to begin workout.</string>
+    <!-- Dialogs -->
+    <string name="positive">OK</string>
+    <string name="yes">Yes</string>
+    <string name="negative">Cancel</string>
+    <string name="no">No</string>
+    <string name="delete">Delete</string>
+    <string name="dialog_title_new_workout">New Workout</string>
+    <string name="dialog_hint_new_workout">Workout Name</string>
+    <string name="dialog_fragment_tag_new_workout">dialog_fragment_new_workout</string>
+    <string name="dialog_fragment_tag_edit_exercise">dialog_fragment_edit_exercise</string>
+    <string name="dialog_fragment_tag_do_exercise">dialog_fragment_do_exercise</string>
+    <string name="dialog_framgnet_tag_view_exercise">dialog_fragment_view_exercise</string>
+    <string name="dialog_fragment_tag_timer">dialog_fragment_timer</string>
+    <string name="dialog_fragment_tag_existing_exercise">dialog_fragment_existing_exercise</string>
+    <string name="dialog_fragment_tag_do_sets">dialog_fragment_do_sets</string>
+    <string name="dialog_fragment_tag_edit_sets">dialog_fragment_edit_sets</string>
+    <string name="dialog_fragment_tag_view_sets">dialog_fragment_view_sets</string>
+    <string name="begin_timer">Start</string>
+    <string name="edit_sets">Edit sets</string>
+    <string name="dialog_fragment_tag_schedule_new">dialog_fragment_schedule_new</string>
+    <string name="dialog_fragment_tag_when_to_schedule_new">dialog_fragment_when_to_schedule_new</string>
+    <string name="dialog_fragment_tag_schedule_frequency">dialog_fragment_tag_schedule_frequency</string>
+    <string name="schedule_pick_when">Schedule this workout:</string>
+    <string-array name="schedule_pick_options">
+        <item>Just for this date</item>
+        <item>Set repeating event</item>
+    </string-array>	
+    <string name="friend_view_download">Download?</string>
+    <string-array name="friend_view_download_options">
+        <item>View workout.</item>
+        <item>Download workout.</item>
+    </string-array>
+    <string name="schedule_choose_workout">Choose a workout:</string>
+    <string name="workout_options">Workout Options:</string>
+    <string name="choose_start_date">Starting on </string>
+    <string name="choose_end_date">Ending on </string>
+    <string name="frequency_repeat">This exercise repeats every </string>
+    <string name="are_you_sure">Are you sure?</string>
+    <string-array name="workout_options_array">
+        <item>Start</item>
+        <item>Edit frequency</item>
+        <item>Remove from this day</item>
+    </string-array>
+    <string name="timer_title">Timer</string>
+    <string name="add_existing_title">Add existing</string>
+    <string name="edit_sets_title">Sets</string>
+    <string name="edit_exercise_title">Exercise</string>
+    
+    <!-- Profile -->
+	<string name="default_profile_photo">default_profile.png</string>
+	<string name="profile_saved_photo_file_name">profile_photo</string>
+	<string name="profile_first_name">First</string>
+	<string name="profile_last_name">Last</string>
+	<string name="profile_hometown">Hometown</string>
+	<string name="profile_athletic_information">Athletic Information:</string>
+	<string name="profile_sport">Sport</string>
+	<string name="profile_gender">Gender:</string>
+	<string name="profile_gender_male">Male</string>
+	<string name="profile_gender_female">Female</string>
+	<string name="profile_height">Height:</string>
+	<string name="profile_ft">ft</string>
+	<string name="profile_in">in</string>
+	<string name="profile_weight">Weight:</string>
+	<string name="profile_lb">lb</string>
+	<string name="profile_bio"> Bio Information</string>
+	<string name="profile_bio_input">Write about yourself</string>
+	<string name="profile_friend_bio">Bio</string>
+	
+	<string name="profile_contact"> Contact Information</string>
+	<string name="profile_email">Email</string>
+	<string name="profile_phone">Phone</string>
+	<string name="profile_about">About:</string>
+	
+    <string name="profile_shared_workouts"> Workouts Shared</string>
+    <string name="profile_friend_workouts">Workouts</string>
+	
+    <string name="profile_shared_preferences">profile_shared_preferences</string>
+    <string name="preference_key_profile_first_name">profile_first_name</string>
+    <string name="preference_key_profile_last_name">profile_last_name</string>
+    <string name="preference_key_profile_hometown">profile_hometown</string>
+    <string name="preference_key_profile_sport">profile_sport</string>
+    <string name="preference_key_profile_gender">profile_gender</string>
+    <string name="preference_key_profile_height_feet">profile_feet</string>    	
+    <string name="preference_key_profile_height_in">profile_in</string>    
+    <string name="preference_key_profile_weight">profile_weight</string>
+    <string name="preference_key_profile_bio">profile_bio</string>  
+    <string name="preference_key_profile_email">profile_email</string>    
+    <string name="preference_key_profile_phone">profile_phone</string>
+        
+    <string name="ui_button_save_title">Save</string>
+    <string name="ui_button_save_picture">Save Picture</string>
+    <string name="ui_button_cancel_title">Cancel</string>
+    
+    <string name="save_profile_message">Saved Profile!</string>
+    <string name="cancel_profile_message">Canceled Profile</string>
+    
+    <string name="clear_profile">Clear</string>
+    
+    <!-- GCM Strings -->
+    <string name="server_url">http://getswoleandroidapp.appspot.com</string>
+    <!-- <string name="server_url">http://192.168.1.18:8888</string>-->
+    
+    <!-- Settings -->
+    
+    <string name="settings_unit_settings">Unit Settings</string>
+    
+    <string name="height_preference_summary">Select the units in which you would like to see height values</string>
+   	<string name="preference_key_height_display">settings_height_display</string>
+   	<string name="title_height_preference">Height</string>
+   	<string name="dialog_height_preference">Height Unit Preference</string>
+	<string name="inches">in</string>
+	<string name="feet">ft</string>
+    <string name="centimeters">cm</string>
+    
+    <string name="weight_preference_summary">Select the units in which you would like to see weight values</string>
+   	<string name="preference_key_weight_display">settings_weight_display</string>
+   	<string name="title_weight_preference">Weight</string>
+   	<string name="dialog_weight_preference">Weight Unit Preference</string>
+	<string name="pounds">lb</string>
+    <string name="kilograms">kg</string>
+    
+    <string name="settings_data_management">Data Management</string>
+    <string name="settings_delete_history">Clear Workout History</string>
+    <string name="settings_delete_history_summary">Remove all historical logs and scheduling data associated with each workout stored in the database.</string>
+    <string name="settings_delete_all">Clear All Workout Data</string>
+    <string name="settings_delete_all_summary">Remove all workouts created and downloaded from the database. This will remove all instances and scheduled data for those workouts as well.</string>
+    
+    
+    <string name="settings_misc">Misc</string>
+    <string name="settings_getswole_webpage">GET SWOLE Webpage</string>
+    <string name="getswole_webpage">http://getswoleapp.weebly.com</string>
+    
+    <!-- Misc -->
+    
+    <string name="title_activity_exercise_progress">ExerciseProgressActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_view_workout_instance">ViewWorkoutInstanceActivity</string>
+    <string name="title_activity_progress_view">ProgressViewActivity</string>
+
+</resources>

@@ -1,0 +1,58 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+   	<PreferenceCategory
+		android:title="@string/settings_unit_settings"> 
+            
+        <ListPreference
+            android:title="@string/title_height_preference"
+            android:summary="@string/height_preference_summary"
+            android:key="@string/preference_key_height_display"
+            android:entries="@array/height_display_name"
+            android:entryValues="@array/height_display_value"
+            android:dialogTitle="@string/dialog_height_preference" />
+        
+        <ListPreference
+            android:title="@string/title_weight_preference"
+            android:summary="@string/weight_preference_summary"
+            android:key="@string/preference_key_weight_display"
+            android:entries="@array/weight_display_name"
+            android:entryValues="@array/weight_display_value"
+            android:dialogTitle="@string/dialog_weight_preference" />
+        
+    </PreferenceCategory>-->
+    
+    <PreferenceCategory 
+       	android:title="@string/settings_data_management">
+        
+        <PreferenceScreen
+            android:title="@string/settings_delete_history"
+            android:summary="@string/settings_delete_history_summary"
+            android:key="deleteHistory">
+            
+        </PreferenceScreen>
+        	
+        <PreferenceScreen 
+            android:title="@string/settings_delete_all"
+            android:summary="@string/settings_delete_all_summary"
+            android:key="deleteAll">
+            
+        </PreferenceScreen>
+        
+    </PreferenceCategory>
+    
+	<PreferenceCategory
+		android:title="@string/settings_misc">
+        
+        <PreferenceScreen
+            android:title="@string/settings_getswole_webpage"
+            android:summary="@string/getswole_webpage">
+            
+            <intent 
+                android:action="android.intent.action.VIEW"
+                android:data="http://getswoleapp.weebly.com" />
+            
+        </PreferenceScreen>
+        
+    </PreferenceCategory>
+    
+</PreferenceScreen>
