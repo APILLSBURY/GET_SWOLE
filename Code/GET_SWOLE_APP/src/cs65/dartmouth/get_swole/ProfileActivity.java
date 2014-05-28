@@ -1084,7 +1084,11 @@ public class ProfileActivity extends ListActivity {
     	    //workoutView.setTextColor(Color.BLACK);
     	    Workout workout = workouts.get(position);
     	    workoutView.setText(workout.getName());
-    	    ownerView.setText(workout.getOwner());
+    	    
+    	    if (workout.getOwner().isEmpty())
+    	    	ownerView.setText("Me");
+    	    else
+    	    	ownerView.setText(workout.getOwner());
     	    
     	    
             // Get checkbox if necessary
