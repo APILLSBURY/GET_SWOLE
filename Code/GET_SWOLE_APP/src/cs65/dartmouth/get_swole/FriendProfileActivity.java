@@ -9,6 +9,7 @@ import org.json.JSONException;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
@@ -37,6 +38,7 @@ public class FriendProfileActivity extends ListActivity {
 	
 	// Information
 	String friendRegId;
+	String personalRegId;
 	String pictureString;
 	String firstName;
 	String lastName;
@@ -83,6 +85,7 @@ public class FriendProfileActivity extends ListActivity {
         Bundle extras = getIntent().getExtras();
         
         friendRegId = extras.getString("regId");
+        personalRegId = extras.getString("personalRegId");
         pictureString = extras.getString("pictureString");
         firstName = extras.getString("firstName");
         lastName = extras.getString("lastName");
@@ -400,7 +403,9 @@ public class FriendProfileActivity extends ListActivity {
     	    
     	    // Set owner
        	    TextView ownerView = (TextView) listItemView.findViewById(R.id.ownerName);
-    	    if (workout.getOwner().isEmpty())
+   
+       	    
+    	    if (workout.getOwner().isEmpty() || workout.getRegId().equals(personalRegId))
     	    	ownerView.setText("Me");
     	    else
     	    	ownerView.setText(workout.getOwner());

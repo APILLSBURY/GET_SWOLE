@@ -41,6 +41,8 @@ public class FriendsActivity extends ListActivity {
 	ProfilesAdapter profilesAdapter;
 	Context mContext;
 	
+	String regId;
+	
 	// Retrieve all profiles
 	private void updateFriendProfiles() {
 		profilesAdapter.clear();
