@@ -8,7 +8,7 @@
         
 	 <TextView 
         android:id="@+id/exercise_list_single_row_title"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge" 
         android:textColor="@color/get_swole_orange"
