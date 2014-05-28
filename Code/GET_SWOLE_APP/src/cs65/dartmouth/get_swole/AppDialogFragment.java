@@ -43,12 +43,10 @@ public class AppDialogFragment extends DialogFragment {
 	private static final String EXERCISE_ID = "Exercise_Id";
 	private static final String MODE = "Mode";
 	private static final String EXERCISE_POSITION = "Exercise_Position";
-	private static final String WORKOUT_INSTANCE_ID = "WorkoutInstance_Id";
 	private static final String WORKOUT_ID = "Workout_Id";
 	private static final String DATE = "Date";
 	
 	public static final int DIALOG_ID_NEW_WORKOUT = 1;
-	public static final int DIALOG_ID_DATE = 2;
 	public static final int DIALOG_ID_EDIT_EXERCISE = 3; // for adding new exercises, or editing already existing
 	public static final int DIALOG_ID_ADD_EXISTING_EXERCISE = 4;
 	public static final int DIALOG_ID_TIMER = 5;
@@ -144,7 +142,6 @@ public class AppDialogFragment extends DialogFragment {
 		final Activity parent = getActivity();
 		
 		// For use by time/date setting dialogs
-		Calendar c = Calendar.getInstance();
 		LayoutInflater inflater;
 		View v;
 		
@@ -152,22 +149,7 @@ public class AppDialogFragment extends DialogFragment {
 		final DatabaseWrapper dbWrapper = new DatabaseWrapper(parent);
 		
 		switch (dialogId) {	
-			
-		case DIALOG_ID_DATE:
-			// Create date picker dialog
-			Dialog dpDialog = new DatePickerDialog(parent, 
-					new DatePickerDialog.OnDateSetListener() {	 
-			            @Override
-			            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-			            	// Add callback
-			            	// add this frequency to the database
-			            	
-			            	
-			            }
-	 
-	        }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH)); 
-			return dpDialog;
-		
+	
 		case DIALOG_ID_NEW_WORKOUT:
 			// Create custom dialog
 			b = new AlertDialog.Builder(parent);
@@ -208,6 +190,7 @@ public class AppDialogFragment extends DialogFragment {
 		case DIALOG_ID_EDIT_EXERCISE:				
 			// Create custom dialog
 			b = new AlertDialog.Builder(parent);
+			b.setTitle(parent.getString(R.string.edit_exercise_title));
 
 			 // Get the layout inflater
 		    inflater = getActivity().getLayoutInflater();
@@ -292,7 +275,7 @@ public class AppDialogFragment extends DialogFragment {
 		case DIALOG_ID_ADD_EXISTING_EXERCISE:
 
 			b = new AlertDialog.Builder(parent);
-
+			b.setTitle(parent.getString(R.string.add_existing_title));
 		    inflater = getActivity().getLayoutInflater();
 		    v = inflater .inflate(R.layout.dialog_existing_exercise, null);    
 		    final Spinner exerciseSpinner = (Spinner) v.findViewById(R.id.exercise_spinner);
@@ -328,93 +311,12 @@ public class AppDialogFragment extends DialogFragment {
 				}
 		    });
 		    
-		    return b.create();
-		/*
-		case DIALOG_ID_DO_EXERCISE:
-			// Create custom dialog
-			b = new AlertDialog.Builder(parent);
-
-			 // Get the layout inflater
-		    inflater = getActivity().getLayoutInflater();
-		  	v = inflater.inflate(R.layout.dialog_edit_exercise, null);
-		    b.setView(v);		
-
-		    // Text views 
-		    final EditText exerciseName2 = (EditText) v.findViewById(R.id.exerciseName);
-			final EditText exerciseRepsGoal2 = (EditText) v.findViewById(R.id.exerciseRepsGoal);
-			final EditText exerciseWeightGoal2 = (EditText) v.findViewById(R.id.exerciseWeightGoal);
-			final EditText exerciseRest2 = (EditText) v.findViewById(R.id.exerciseRest);
-			final EditText exerciseNotes2 = (EditText) v.findViewById(R.id.exerciseNotes);
-			
-			// Id of exercise entry that we are loading up, could not be there
-		    final long id2 = getArguments().getLong(EXERCISE_ID, -1L); // cannot be -1 if doing an exercise
-		    final int position = getArguments().getInt(EXERCISE_POSITION, -1); // can't be -1
-			
-		    Button setsButton2 = (Button) v.findViewById(R.id.editSets);
-		    setsButton2.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					
-					// start the dialog fragment
-					// Display dialog with nothing in it
-    	 			DialogFragment fragment = AppDialogFragment.newInstanceSets(id2, 1, position);
-    	 			fragment.show(getFragmentManager(), getString(R.string.dialog_fragment_tag_edit_sets));
-					
-				}
-			});
-		    
-		    Exercise e;
-		    
-		    // if we have edited the edittexts here in this activity, we'd like to fill them with this, not the original exercise
-		    if ( ((WorkoutDoActivity) parent).getDoneExercises().get(position) != null) { // we have entered information here before
-		    	
-		    	e = ((WorkoutDoActivity) parent).getDoneExercises().get(position);
-		    }
-		    else { // fill with original 
-				dbWrapper.open();
-				e = (Exercise) dbWrapper.getEntryById(id2, Exercise.class);
-				dbWrapper.close();
-		    }
-			
-			exerciseName2.setText(e.getName());
-			if (e.getRepsGoal() != -1) exerciseRepsGoal2.setText(e.getRepsGoal() + "");
-			if (e.getWeightGoal() != -1) exerciseWeightGoal2.setText(e.getWeightGoal() + "");
-			if (e.getRest() != -1) exerciseRest2.setText(e.getRest() + "");
-			exerciseNotes2.setText(e.getNotes());
-		    
-			b.setPositiveButton(getString(R.string.positive), new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					
-					Exercise e = new Exercise(exerciseName2.getText().toString());
-					// set the id of this exercise to be the id of the original exercise
-					e.setOldId(id2);
-					// set the tag that this is an exercise instance
-					e.setExerciseInstance(true);
-					// the information from the sets dialog has already been sent back
-					if (!exerciseRepsGoal2.getText().toString().isEmpty()) e.setRepsGoal(Integer.parseInt(exerciseRepsGoal2.getText().toString()));
-					if (!exerciseWeightGoal2.getText().toString().isEmpty()) e.setWeightGoal(Integer.parseInt(exerciseWeightGoal2.getText().toString()));
-					if (!exerciseRest2.getText().toString().isEmpty()) e.setRest(Integer.parseInt(exerciseRest2.getText().toString()));
-					e.setNotes(exerciseNotes2.getText().toString());
-										
-					((WorkoutDoActivity) parent).onDoExercise(e, position);
-					
-				}
-			});
-			
-			b.setNegativeButton(getString(R.string.negative), new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					// do nothing
-				}
-			});
-			
-			return b.create();*/		
+		    return b.create();	
 		case DIALOG_ID_TIMER:
 			
 			// Create custom dialog
 			b = new AlertDialog.Builder(parent);
-
+			b.setTitle(parent.getString(R.string.timer_title));
 			 // Get the layout inflater
 		    inflater = getActivity().getLayoutInflater();
 		    v = inflater.inflate(R.layout.dialog_timer, null);
@@ -461,7 +363,7 @@ public class AppDialogFragment extends DialogFragment {
 		case DIALOG_ID_EDIT_SETS:
 			// Create custom dialog
 			b = new AlertDialog.Builder(parent);
-	
+			b.setTitle(parent.getString(R.string.edit_sets_title));
 			 // Get the layout inflater
 		    inflater = getActivity().getLayoutInflater();
 		  	final View setsView = inflater.inflate(R.layout.dialog_edit_sets, null);
@@ -539,7 +441,7 @@ public class AppDialogFragment extends DialogFragment {
 		case DIALOG_ID_DO_SETS:
 			// Create custom dialog
 			b = new AlertDialog.Builder(parent);
-	
+			b.setTitle(parent.getString(R.string.edit_sets_title));
 			 // Get the layout inflater
 		    inflater = getActivity().getLayoutInflater();
 		  	final View setsView2 = inflater.inflate(R.layout.dialog_edit_sets, null);

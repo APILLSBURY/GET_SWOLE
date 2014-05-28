@@ -90,6 +90,10 @@
         <item>Edit frequency</item>
         <item>Remove from this day</item>
     </string-array>
+    <string name="timer_title">Timer</string>
+    <string name="add_existing_title">Add existing</string>
+    <string name="edit_sets_title">Sets</string>
+    <string name="edit_exercise_title">Exercise</string>
     
     <!-- Profile -->
 	<string name="default_profile_photo">default_profile.png</string>
