@@ -67,10 +67,10 @@ public class Frequency extends GetSwoleClass {
 	public JSONObject fromJSONObject(JSONObject obj) {	
 		try {
 			day = obj.getInt("day");
-			Calendar startTime = Calendar.getInstance();
-			startTime.setTime(DatabaseWrapper.DATE_FORMAT.parse(obj.getString("startDate")));
-			Calendar endTime = Calendar.getInstance();
-			endTime.setTime(DatabaseWrapper.DATE_FORMAT.parse(obj.getString("endDate")));
+			startDate = Calendar.getInstance();
+			startDate.setTime(DatabaseWrapper.DATE_FORMAT.parse(obj.getString("startDate")));
+			endDate = Calendar.getInstance();
+			endDate.setTime(DatabaseWrapper.DATE_FORMAT.parse(obj.getString("endDate")));
 		}
 		catch (Exception e) {
 			Log.e(Globals.TAG, "Exception creating frequency from JSONObject", e);
