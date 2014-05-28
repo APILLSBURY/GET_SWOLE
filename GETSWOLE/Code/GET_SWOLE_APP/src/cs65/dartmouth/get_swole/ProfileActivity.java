@@ -147,7 +147,7 @@ public class ProfileActivity extends ListActivity {
 		else
 			loadProfile();
 		
-		Log.d(Globals.TAG, "not in yet!");
+	
 		// Make sure that the correct height units are being displayed
 		if (Utils.getHeightUnits(mContext)) {}
 		else {
@@ -666,27 +666,26 @@ public class ProfileActivity extends ListActivity {
 			}
 		}
 		
+		Log.d(Globals.TAG, "GOT THROUGH HEIGHT!");
+		
 		// Load Weight
 		
 		mKey = getString(R.string.preference_key_profile_weight);
 		String pounds = mPrefs.getString(mKey, "");
 		
 		if (Utils.getWeightUnits(mContext)) {
-			if (pounds.equals(""))
-				((EditText) findViewById(R.id.weightinput)).setText("");
-			else 
+			if (!pounds.equals(""))
 				((EditText) findViewById(R.id.weightinput)).setText(Utils.decimalFormat.format(Double.parseDouble(pounds)));
 		}
 		else {
-			if (pounds.equals(""))
-				((EditText) findViewById(R.id.weightinput)).setText("");
-			else {
+			if (!pounds.equals("")){
 				// Convert to kg
 				double kg = Utils.poundsToKilos(Double.parseDouble(pounds));
 				((EditText) findViewById(R.id.weightinput)).setText(Utils.decimalFormat.format(kg));
 			}
 		}
 		
+		Log.d(Globals.TAG, "GOT THROUGH WEIGHT!");
 		
 		// Load Bio
 		mKey = getString(R.string.preference_key_profile_bio);
@@ -810,17 +809,18 @@ public class ProfileActivity extends ListActivity {
 			}
 		}
 		else {
-			double cm = Double.parseDouble(inString); // get the value in cm
-			mEditor.putString(feetKey, String.valueOf((int) Utils.centimetersToInches(cm) / 12)); // set the feet as the same
-			mEditor.putString(inKey, String.valueOf(Utils.centimetersToInches(cm) % 12)); // convert back to inches
-			profileObj.setHeight(0, Utils.centimetersToInches(cm)); // save in terms of inches
+			if (!inString.equals("")) {
+				double cm = Double.parseDouble(inString); // get the value in cm
+				mEditor.putString(feetKey, String.valueOf((int) Utils.centimetersToInches(cm) / 12)); // set the feet as the same
+				mEditor.putString(inKey, String.valueOf(Utils.centimetersToInches(cm) % 12)); // convert back to inches
+				profileObj.setHeight(0, Utils.centimetersToInches(cm)); // save in terms of inches
+			}
 		}
 		
 		// Save Weight
 		
 		mKey = getString(R.string.preference_key_profile_weight);
 		String pounds = (String) ((EditText) findViewById(R.id.weightinput)).getText().toString();
-
 		
 		if (Utils.getWeightUnits(mContext)) {
 			mEditor.putString(mKey, pounds);
@@ -831,9 +831,11 @@ public class ProfileActivity extends ListActivity {
 			}
 		}
 		else {
-			double kg = Double.parseDouble(pounds); // get the value in kg
-			mEditor.putString(mKey, String.valueOf(Utils.kilosToPound(kg))); // convert back to pounds
-			profileObj.setWeight(Utils.kilosToPound(kg)); // save in terms of pounds
+			if (!pounds.equals("")) {
+				double kg = Double.parseDouble(pounds); // get the value in kg
+				mEditor.putString(mKey, String.valueOf(Utils.kilosToPound(kg))); // convert back to pounds
+				profileObj.setWeight(Utils.kilosToPound(kg)); // save in terms of pounds
+			}
 		}
 		
 
