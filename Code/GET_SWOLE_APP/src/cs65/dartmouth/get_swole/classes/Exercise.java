@@ -1,14 +1,12 @@
 package cs65.dartmouth.get_swole.classes;
 
 import java.util.ArrayList;
-import java.util.regex.Pattern;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import cs65.dartmouth.get_swole.Globals;
-
-import android.util.Log;
+import android.content.Context;
+import cs65.dartmouth.get_swole.Utils;
 
 public class Exercise extends GetSwoleClass {
 	
@@ -155,16 +153,15 @@ public class Exercise extends GetSwoleClass {
 		notes = n;
 	}
 	
-	@Override
-	public String toString() {
+	public String toString(Context context) {
 		String s = name + ": ";
 		for (Set set : setList) {
 			int reps = set.getReps();
 			int weight = set.getWeight();
 			if ((reps == 0) && (weight == 0)) continue;
-			if (reps == 0) s += weight + ", ";
+			if (reps == 0) s += Utils.getWeightString(context, weight) + ", ";
 			else if (weight == 0) s+= reps + " reps, ";
-			else { s += reps + " reps at " + weight + ", ";
+			else { s += reps + " reps at " + Utils.getWeightString(context, weight) + ", ";
 			}
 		}
 		if (rest != -1) return s.substring(0, s.length() - 2) + " Rest: " + rest + "secs";

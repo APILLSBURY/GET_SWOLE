@@ -18,6 +18,8 @@
     <string name="workout_notes_hint">Workout instructions, etc.</string>
     <string name="timer">Timer</string>
     <string name="enter_time">Enter time (secs):</string>
+    <string name="welcome">Welcome to GET SWOLE!</string>
+    <string name="choose_workout">Select a workout to start or edit.</string>
 
     <!-- Exercises -->
     <string name="exercise_name_title">Name:</string>
@@ -35,6 +37,7 @@
     <string name="schedule_new">Schedule Workout</string>
     
     <!-- Progress -->
+    <string name="view_progress_workout">Select a workout to view progress.</string>
     <string name="progress_goal_line">Goal</string>
     <string name="progress_actual_line">Actual</string>
     <string name="not_enough_data">Not enough data on this exercise.</string>
@@ -42,7 +45,7 @@
     <string name="progress_switch_to_reps">View reps progress</string>
     <string name="progress_now_displaying_weight">Now displaying weight progress.</string>
     <string name="progress_now_displaying_reps">Now displaying reps progress.</string>
-    <string name="progress_click_exercise">Choose exercise to view progress.</string>
+    <string name="progress_click_exercise">Select an exercise to view progress.</string>
     
     <!-- Dialogs -->
     <string name="positive">OK</string>

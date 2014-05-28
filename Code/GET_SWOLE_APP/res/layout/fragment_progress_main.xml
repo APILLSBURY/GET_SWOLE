@@ -10,7 +10,9 @@
          
      <TextView android:id="@+id/textview1"
                android:layout_width="match_parent"
-               android:layout_height="match_parent"
+               android:layout_height="wrap_content"
+               android:text="@string/view_progress_workout"
+               android:textColor="@color/get_swole_orange"
                />
      
      <ListView android:id="@id/android:list"
