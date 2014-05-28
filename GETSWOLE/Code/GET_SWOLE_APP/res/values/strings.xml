@@ -47,6 +47,8 @@
     <string name="progress_now_displaying_reps">Now displaying reps progress.</string>
     <string name="progress_click_exercise">Select an exercise to view progress.</string>
     
+    <!-- Notification -->
+    <string name="notification_text">Click here to begin workout.</string>
     <!-- Dialogs -->
     <string name="positive">OK</string>
     <string name="yes">Yes</string>

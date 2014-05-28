@@ -1,5 +1,4 @@
 //THIS CODE IS BASED OFF OF CODE FROM https://github.com/mukesh4u/Android-Calendar-Sync
-// COMMENTED OUT CONFIGURE LIST VIEW
 package cs65.dartmouth.get_swole;
 
 import java.util.ArrayList;
@@ -8,7 +7,10 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 
+import android.app.AlarmManager;
 import android.app.DialogFragment;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -321,4 +323,41 @@ public class ScheduleFragment extends ListFragment {
 		}
 		return dailyWorkouts;
 	}
+	
+	// Set up the alarm system for workouts
+	  public void scheduleAlarms() {
+		  
+		// Get the scheduled workouts and create alarms
+	    long time = Calendar.getInstance().getTimeInMillis();
+	    long workoutId = 0;
+
+	    // create an Intent and set the class which will execute when Alarm triggers, here we have
+	    // given AlarmReciever in the Intent, the onRecieve() method of this class will execute when the alarm finishes
+	    Intent intentAlarm = new Intent(getActivity(), AlarmReceiver.class);
+	    Bundle b = new Bundle();
+	    b.putLong(Globals.ID_TAG, workoutId);
+	    intentAlarm.putExtras(b);
+
+	    //Get the Alarm Service
+	    AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+
+	    //set the alarm for particular time
+	    alarmManager.set(AlarmManager.RTC_WAKEUP, time, PendingIntent.getBroadcast(getActivity(), 1,  intentAlarm, PendingIntent.FLAG_UPDATE_CURRENT));
+	  }
+	  
+	  // Will listen for alarms
+	  private class AlarmReceiver extends BroadcastReceiver {
+		  @Override
+		  public void onReceive(Context context, Intent intent)  {
+			  // Start the notification service
+			  Intent i = new Intent(getActivity(), WorkoutNotificationService.class);
+			  Bundle b = new Bundle();
+			  b.putLong(Globals.ID_TAG, intent.getExtras().getLong(Globals.ID_TAG));
+			  i.putExtras(b);
+			  getActivity().startService(i);
+       
+		  }
+
+	  }
 }
+

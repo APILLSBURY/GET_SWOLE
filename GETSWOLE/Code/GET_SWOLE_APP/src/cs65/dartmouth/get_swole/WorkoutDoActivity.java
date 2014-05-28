@@ -5,8 +5,8 @@ import java.util.Calendar;
 
 import android.app.Activity;
 import android.app.DialogFragment;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
@@ -41,8 +41,10 @@ public class WorkoutDoActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_workout);	
 		
-		dbWrapper = new DatabaseWrapper(this);
+		stopWorkoutNotification();
 		
+		dbWrapper = new DatabaseWrapper(this);
+
 		// Display		
 		TextView nameView = (TextView) findViewById(R.id.workoutName);
 		LinearLayout buttonLayout = (LinearLayout) findViewById(R.id.workout_buttons);
@@ -172,26 +174,9 @@ public class WorkoutDoActivity extends Activity {
 		return doneSets.get(position);
 	}
 	
-	
-	/*
-	// DON'T NEED THESE ANYMORE
-	public ArrayList<Exercise> getDoneExercises() {
-		return workoutInstance.getExerciseList();
+	public void stopWorkoutNotification() {
+		Intent intent = new Intent(this, WorkoutNotificationService.class);
+		stopService(intent);
 	}
-	
-	public void onDoExercise(Exercise e, int position) { // position is its position in the exercise list of the workout 
-		// We want to add this exercise to the instance's list of exercises
-		// Need to check the done sets list
-		dbWrapper.open(); 
-		if (doneSets.get(position).size() != 0) { // some sets were done here 
-			ArrayList<Set> sets = doneSets.get(position);
-			e.setSetList(sets);
-			e.setExerciseInstance(true);
-		}
-		e = dbWrapper.createEntry(e);
-		dbWrapper.close();
-				
-		workoutInstance.getExerciseList().set(position, e);
-	}*/
-	
+ 	
 }

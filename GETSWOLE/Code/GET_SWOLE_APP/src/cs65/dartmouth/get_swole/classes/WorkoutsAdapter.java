@@ -41,6 +41,10 @@ public class WorkoutsAdapter extends ArrayAdapter<GetSwoleClass> {
 	    		workoutView.setTextColor(Color.WHITE);
 
 	    }
+	    else { // resource is regular sized
+	    	TextView ownerView = (TextView) rowView.findViewById(R.id.ownerName);
+	    	ownerView.setText(((Workout) gWorkout).getOwner());
+	    }
 	    
 	    
 	    

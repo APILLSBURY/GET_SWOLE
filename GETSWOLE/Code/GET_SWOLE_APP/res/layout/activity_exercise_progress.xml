@@ -23,7 +23,8 @@
         android:layout_height="wrap_content"
         android:text="@string/progress_click_exercise"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:layout_marginBottom="10dp" />
+        android:layout_marginBottom="10dp" 
+        android:textColor="@color/get_swole_orange"/>
 
     <ListView
         android:id="@+id/progressExerciseListView"
