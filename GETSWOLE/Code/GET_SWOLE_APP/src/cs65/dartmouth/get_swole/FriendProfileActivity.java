@@ -119,12 +119,15 @@ public class FriendProfileActivity extends ListActivity {
      	
      	// Bio Information
  		TextView bioTextView = (TextView) findViewById(R.id.bio);   
+ 		TextView bioUnderLine = (TextView) findViewById(R.id.bioUnderline);
  		EditText bioTextInput = (EditText) findViewById(R.id.bioInputText);
      	TextView genderTextInput = (TextView) findViewById(R.id.genderInput);
      	TextView heightTextInput = (TextView) findViewById(R.id.heightinput);
      	TextView weightTextInput = (TextView) findViewById(R.id.weightinput);
      	if (gender == -1 && height == 0 && weight == 0 && bio.equals("")) {
      		bioTextView.setVisibility(View.GONE);
+     		bioUnderLine.setVisibility(View.GONE);
+     		bioTextInput.setVisibility(View.GONE);
      		
      		TextView genderTextView = (TextView) findViewById(R.id.gender);
      		genderTextView.setVisibility(View.GONE);
@@ -138,8 +141,6 @@ public class FriendProfileActivity extends ListActivity {
      		weightTextView.setVisibility(View.GONE);
      		weightTextInput.setVisibility(View.GONE);
      		
-     		bioTextView.setVisibility(View.GONE);
-     		bioTextInput.setVisibility(View.GONE);
      	}
      	else {
      	
@@ -181,7 +182,8 @@ public class FriendProfileActivity extends ListActivity {
      	
      	// Contact Information
      	
- 		TextView contactTextView = (TextView) findViewById(R.id.contactInfo);     	
+ 		TextView contactTextView = (TextView) findViewById(R.id.contactInfo); 
+ 		TextView contactUnderline = (TextView) findViewById(R.id.contactUnderline);
      	TextView emailTextInput = (TextView) findViewById(R.id.email);	
  		TextView phoneTextInput = (TextView) findViewById(R.id.phone);
  		
@@ -201,6 +203,7 @@ public class FriendProfileActivity extends ListActivity {
  		
      	if (email.equals("") && phone.equals("")) {
      		contactTextView.setVisibility(View.GONE);
+     		contactUnderline.setVisibility(View.GONE);
      		emailTextInput.setVisibility(View.GONE);
      		phoneTextInput.setVisibility(View.GONE);
      	}

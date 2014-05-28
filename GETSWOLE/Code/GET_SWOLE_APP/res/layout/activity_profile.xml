@@ -105,6 +105,15 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/get_swole_blue" />
 
+        <TextView
+            android:id="@+id/bioUnderline"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/get_swole_blue"
+            android:text="@string/profile_bio"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/get_swole_blue" />
+        
         <EditText
             android:id="@+id/bioInputText"
             android:layout_marginTop="5dp"
@@ -233,6 +242,15 @@
             android:text="@string/profile_contact"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/get_swole_blue" />
+        
+        <TextView
+            android:id="@+id/contactUnderline"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/get_swole_blue"
+            android:text="@string/profile_bio"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/get_swole_blue" />
 
         <EditText
             android:id="@+id/email"
@@ -258,6 +276,15 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:text="@string/profile_shared_workouts"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/get_swole_blue" />
+        
+        <TextView
+            android:id="@+id/workoutUnderline"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/get_swole_blue"
+            android:text="@string/profile_bio"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/get_swole_blue" />
 
