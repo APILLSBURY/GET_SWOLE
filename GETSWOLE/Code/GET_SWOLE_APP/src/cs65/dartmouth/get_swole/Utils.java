@@ -108,9 +108,9 @@ public class Utils {
 	
 	public static String getWeightString(Context context, double weight) {
 		if (getWeightUnits(context))
-			return weight + " lb";
+			return decimalFormat.format(weight) + " lb";
 		else
-			return (int) poundsToKilos(weight) + " kg";
+			return decimalFormat.format(poundsToKilos(weight)) + " kg";
 	}
 	
 	// Make a listview the same height as the sum of all of its children
