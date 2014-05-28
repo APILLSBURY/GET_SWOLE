@@ -1,4 +1,3 @@
-//THIS CODE IS BASED OFF OF CODE FROM https://github.com/mukesh4u/Android-Calendar-Sync
 
 package cs65.dartmouth.get_swole;
 
@@ -13,6 +12,7 @@ public class CalendarUtility {
 	
 	public static final SimpleDateFormat HOURS_MINUTES_DATE_FORMAT = new SimpleDateFormat("HH:mm", Locale.getDefault());
 	
+	//THIS METHOD IS FROM https://github.com/mukesh4u/Android-Calendar-Sync
 	public static String getDate(long milliSeconds) {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		Calendar calendar = Calendar.getInstance();
@@ -20,7 +20,7 @@ public class CalendarUtility {
 		return formatter.format(calendar.getTime());
 	}
 	
-
+	//THIS METHOD IS MY CODE
 	public static int testDateEquality(Calendar cal1, Calendar cal2) {
 		if (cal1.get(Calendar.YEAR) > cal2.get(Calendar.YEAR)) {
 			return GREATER_THAN;

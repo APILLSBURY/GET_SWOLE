@@ -51,6 +51,7 @@ public class CalendarAdapter extends BaseAdapter {
 	private View previousView;
 	private ArrayList<ArrayList<GetSwoleClass>> workoutsByDay;
 
+	//BASED ON METHOD FROM https://github.com/mukesh4u/Android-Calendar-Sync
 	public CalendarAdapter(Context c, GregorianCalendar monthCalendar, ArrayList<ArrayList<GetSwoleClass>> workoutsByDay) {
 		this.workoutsByDay = workoutsByDay;
 		CalendarAdapter.dayString = new ArrayList<String>();
@@ -69,6 +70,7 @@ public class CalendarAdapter extends BaseAdapter {
 		this.workoutsByDay = workoutsByDay;
 	}
 	
+	//METHOD FROM https://github.com/mukesh4u/Android-Calendar-Sync
 	public void setItems(ArrayList<String> items) {
 		for (int i = 0; i != items.size(); i++) {
 			if (items.get(i).length() == 1) {
@@ -78,19 +80,22 @@ public class CalendarAdapter extends BaseAdapter {
 		this.items = items;
 	}
 
+	//METHOD FROM https://github.com/mukesh4u/Android-Calendar-Sync
 	public int getCount() {
 		return dayString.size();
 	}
 
+	//METHOD FROM https://github.com/mukesh4u/Android-Calendar-Sync
 	public Object getItem(int position) {
 		return dayString.get(position);
 	}
 
+	//METHOD FROM https://github.com/mukesh4u/Android-Calendar-Sync
 	public long getItemId(int position) {
 		return 0;
 	}
 
-	// create a new view for each item referenced by the Adapter
+	//BASED ON CODE FROM https://github.com/mukesh4u/Android-Calendar-Sync, but with a lot of customization
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View v = convertView;
 		TextView dayView;
@@ -118,8 +123,9 @@ public class CalendarAdapter extends BaseAdapter {
 			dayView.setClickable(false);
 			dayView.setFocusable(false);
 		} else {
-			// setting curent month's days in blue color.
+			// setting current month's days in black
 			dayView.setTextColor(Color.BLACK);
+			// setting days with workouts to have orange text
 			if (!workoutsByDay.get(gridvalue).isEmpty()) {
 				dayView.setTextColor(mContext.getResources().getColor(R.color.get_swole_orange));
 			}
@@ -145,18 +151,10 @@ public class CalendarAdapter extends BaseAdapter {
 		if (monthStr.length() == 1) {
 			monthStr = "0" + monthStr;
 		}
-
-		/*
-		// show icon if date is not empty and it exists in the items array
-		ImageView iw = (ImageView) v.findViewById(R.id.date_icon);
-		if (!workoutsByDay.get(gridvalue).isEmpty()) {
-			iw.setVisibility(View.VISIBLE);
-		} else {
-			iw.setVisibility(View.INVISIBLE);
-		} */
 		return v;
 	}
 
+	//METHOD FROM https://github.com/mukesh4u/Android-Calendar-Sync
 	public View setSelected(View view) {
 		if (previousView != null) {
 			previousView.setBackgroundResource(R.drawable.calendar_cell);
@@ -166,6 +164,8 @@ public class CalendarAdapter extends BaseAdapter {
 		return view;
 	}
 	
+	
+	//METHOD FROM https://github.com/mukesh4u/Android-Calendar-Sync
 	public void refreshDays() {
 		// clear items
 		items.clear();
@@ -202,6 +202,8 @@ public class CalendarAdapter extends BaseAdapter {
 		}
 	}
 
+	
+	//METHOD FROM https://github.com/mukesh4u/Android-Calendar-Sync
 	private int getMaxP() {
 		int maxP;
 		if (month.get(GregorianCalendar.MONTH) == month

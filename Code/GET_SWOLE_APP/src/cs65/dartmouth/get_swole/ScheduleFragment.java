@@ -49,7 +49,9 @@ public class ScheduleFragment extends ListFragment {
 	private Calendar selectedDay;
 	
 	private Frequency frequencyToSave;
-	
+
+	//BASED ON METHOD FROM https://github.com/mukesh4u/Android-Calendar-Sync, but customized for my purposes
+	// The schedule button is mine
 	@Override
 	public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
 		context = getActivity();
@@ -140,6 +142,7 @@ public class ScheduleFragment extends ListFragment {
 		return view;
 	}
 	
+	//BASED ON METHOD FROM https://github.com/mukesh4u/Android-Calendar-Sync
 	protected void setNextMonth() {
 		if (month.get(GregorianCalendar.MONTH) == month.getActualMaximum(GregorianCalendar.MONTH)) {
 			month.set((month.get(GregorianCalendar.YEAR) + 1), month.getActualMinimum(GregorianCalendar.MONTH), 1);
@@ -161,6 +164,7 @@ public class ScheduleFragment extends ListFragment {
 		}
 	}
 
+	//BASED ON METHOD FROM https://github.com/mukesh4u/Android-Calendar-Sync
 	protected void setPreviousMonth() {
 		if (month.get(GregorianCalendar.MONTH) == month
 				.getActualMinimum(GregorianCalendar.MONTH)) {
@@ -184,6 +188,7 @@ public class ScheduleFragment extends ListFragment {
 		}
 	}
 
+	//METHOD FROM https://github.com/mukesh4u/Android-Calendar-Sync
 	protected void showToast(String string) {
 		Toast.makeText(getActivity().getApplicationContext(), string, Toast.LENGTH_SHORT).show();
 	}
@@ -194,7 +199,8 @@ public class ScheduleFragment extends ListFragment {
 		configureListView(workoutsByDay.get(selectedGridvalue));
 		refreshCalendar();
 	}
-	
+
+	//BASED ON METHOD FROM https://github.com/mukesh4u/Android-Calendar-Sync
 	public void refreshCalendar() {
 		TextView title = (TextView) view.findViewById(R.id.title);
 		adapter.refreshDays();
@@ -203,6 +209,7 @@ public class ScheduleFragment extends ListFragment {
 		title.setText(android.text.format.DateFormat.format("MMMM yyyy", month));
 	}
 
+	//BASED ON METHOD FROM https://github.com/mukesh4u/Android-Calendar-Sync
 	public Runnable calendarUpdater = new Runnable() {
 
 		@Override
@@ -221,6 +228,8 @@ public class ScheduleFragment extends ListFragment {
 		updateCalendar();
 	}
 	
+	
+	//MY CODE
 	private void configureListView(ArrayList<GetSwoleClass> workouts) {
 				
 		workoutsAdapter = new WorkoutsAdapter(context, R.layout.workouts_list_row_small, workouts);
@@ -251,6 +260,7 @@ public class ScheduleFragment extends ListFragment {
 		listView.setOnItemClickListener(listener);
 	}
 	
+	//MY CODE
 	private void getWorkoutsByDay() {
 		dbWrapper.open();
 		List<Workout> allWorkouts = dbWrapper.getAllEntries(Workout.class);
