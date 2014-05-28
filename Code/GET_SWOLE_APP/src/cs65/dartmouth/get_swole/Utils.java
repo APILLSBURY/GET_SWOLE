@@ -66,7 +66,7 @@ public class Utils {
 		if (getHeightUnits(context)) 
 			return ((int) inches / 12) + "'" + decimalFormat.format(((double) inches % 12)) + "''";
 		else {
-			return decimalFormat.format(inchesToCentimeters(inches)) + "cm";
+			return decimalFormat.format(inchesToCentimeters(inches)) + " cm";
 		}
 			
 	}
