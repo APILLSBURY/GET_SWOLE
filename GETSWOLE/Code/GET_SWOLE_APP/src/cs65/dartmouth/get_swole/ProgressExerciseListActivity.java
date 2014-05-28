@@ -33,6 +33,7 @@ public class ProgressExerciseListActivity extends Activity {
 		DatabaseWrapper dbWrapper = new DatabaseWrapper(this);
 		dbWrapper.open();
 		workout = (Workout) dbWrapper.getEntryById(getIntent().getExtras().getLong(Globals.ID_TAG), Workout.class);
+		dbWrapper.close();
 		exerciseAdapter = new ExerciseArrayAdapter(this, R.layout.exercises_list_row, workout.getExerciseList());
 		
 		workoutName.setText(workout.getName());
