@@ -38,7 +38,6 @@ public class FriendProfileActivity extends ListActivity {
 	
 	// Information
 	String friendRegId;
-	String personalRegId;
 	String pictureString;
 	String firstName;
 	String lastName;
@@ -85,7 +84,6 @@ public class FriendProfileActivity extends ListActivity {
         Bundle extras = getIntent().getExtras();
         
         friendRegId = extras.getString("regId");
-        personalRegId = extras.getString("personalRegId");
         pictureString = extras.getString("pictureString");
         firstName = extras.getString("firstName");
         lastName = extras.getString("lastName");
@@ -405,7 +403,7 @@ public class FriendProfileActivity extends ListActivity {
        	    TextView ownerView = (TextView) listItemView.findViewById(R.id.ownerName);
    
        	    
-    	    if (workout.getOwner().isEmpty() || workout.getRegId().equals(personalRegId))
+    	    if (workout.getOwner().isEmpty())
     	    	ownerView.setText("Me");
     	    else
     	    	ownerView.setText(workout.getOwner());
