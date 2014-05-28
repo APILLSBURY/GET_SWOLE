@@ -2,10 +2,15 @@ package cs65.dartmouth.get_swole.classes;
 
 import java.util.Calendar;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.util.Log;
 
 import cs65.dartmouth.get_swole.CalendarUtility;
 import cs65.dartmouth.get_swole.Globals;
+import cs65.dartmouth.get_swole.database.DatabaseHelper;
+import cs65.dartmouth.get_swole.database.DatabaseWrapper;
 
 public class Frequency extends GetSwoleClass {
 
@@ -57,5 +62,34 @@ public class Frequency extends GetSwoleClass {
 	
 	public void setEndDate(Calendar ed) {
 		endDate = ed;
+	}
+	
+	public JSONObject fromJSONObject(JSONObject obj) {	
+		try {
+			day = obj.getInt("day");
+			Calendar startTime = Calendar.getInstance();
+			startTime.setTime(DatabaseWrapper.DATE_FORMAT.parse(obj.getString("startDate")));
+			Calendar endTime = Calendar.getInstance();
+			endTime.setTime(DatabaseWrapper.DATE_FORMAT.parse(obj.getString("endDate")));
+		}
+		catch (Exception e) {
+			Log.e(Globals.TAG, "Exception creating frequency from JSONObject", e);
+			return null;
+		}
+		return obj;
+	}
+				
+	public JSONObject toJSONObject() {
+		try {
+			JSONObject obj = new JSONObject();
+			obj.put("day", day);
+			obj.put("startDate", DatabaseWrapper.DATE_FORMAT.format(startDate.getTime()));
+			obj.put("endDate", DatabaseWrapper.DATE_FORMAT.format(endDate.getTime()));
+			return obj;
+		}
+		catch (JSONException e) {
+			Log.e(Globals.TAG, "Exception creating JSONObject from frequency", e);
+			return null;
+		}
 	}
 }

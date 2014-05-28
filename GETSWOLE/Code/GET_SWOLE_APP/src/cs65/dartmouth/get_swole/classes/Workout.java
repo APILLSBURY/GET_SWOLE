@@ -201,6 +201,19 @@ public class Workout extends GetSwoleClass {
 
 	}
 	
+	public String getFrequencyListJSONString() {
+		// Exercise list (convert to JSONArray)
+		JSONArray jsonArray = new JSONArray();
+		
+		// Loop through the exercises and turn to JSONObjects
+		for (Frequency freq : frequencyList) {
+			jsonArray.put(freq.toJSONObject());
+		}
+		
+		// Convert the jsonArray to string
+		return jsonArray.toString();
+	}
+	
 	public Calendar getStartDate() {
 		return startDate;
 	}
@@ -252,6 +265,23 @@ public class Workout extends GetSwoleClass {
 
 	}
 	
+	public void setFrequencyList(String jsonString) {
+		
+		// Exercise list (convert from JSONArray to a real exercise list)
+		JSONArray jsonArray;
+		try {
+			jsonArray = new JSONArray(jsonString);
+			for (int i = 0; i < jsonArray.length(); i++) {
+				Frequency frequency = new Frequency();
+				frequency.fromJSONObject(jsonArray.getJSONObject(i));
+				frequencyList.add(frequency);
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
+	}
+	
 	public void setStartDate(Calendar sd) {
 		startDate = sd;
 	}
@@ -273,7 +303,6 @@ public class Workout extends GetSwoleClass {
 	}
 	
 	// GCM JSONOBJECT HANDLING
-	
 	public JSONObject fromJSONObject(JSONObject obj) {	
 		try {
 			
@@ -281,6 +310,9 @@ public class Workout extends GetSwoleClass {
 			id = obj.getLong("id");
 			this.name = obj.getString("name");
 			notes = obj.getString("notes");
+			
+			// Frequency list
+			setFrequencyList(obj.getString("frequencyList"));
 			
 			// Exercise list (convert from JSONArray to a real exercise list)
 			setExerciseList(obj.getString("exerciseList"));
@@ -303,6 +335,7 @@ public class Workout extends GetSwoleClass {
 			obj.put("name", name);
 			obj.put("notes", notes);
 			obj.put("exerciseList", getExerciseListJSONString());
+			obj.put("frequencyList", getFrequencyListJSONString());
 			
 			return obj;
 		}

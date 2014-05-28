@@ -25,6 +25,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import cs65.dartmouth.get_swole.classes.Exercise;
+import cs65.dartmouth.get_swole.classes.Frequency;
 import cs65.dartmouth.get_swole.classes.Workout;
 import cs65.dartmouth.get_swole.database.DatabaseWrapper;
 import cs65.dartmouth.get_swole.gae.Downloader;
@@ -344,6 +345,13 @@ public class FriendProfileActivity extends ListActivity {
 			newExercises.add(saved);
 		}
 		selectedWorkout.setExerciseList(newExercises);
+		
+		ArrayList<Frequency> newFrequencies = new ArrayList<Frequency>();
+		for (Frequency f : selectedWorkout.getFrequencyList()) {
+			Frequency savedFreq = wrapper.createEntry(f);
+			newFrequencies.add(savedFreq);
+		}
+		selectedWorkout.setFrequencyList(newFrequencies);
 		wrapper.createEntry(selectedWorkout);		
 		wrapper.close();
 		
