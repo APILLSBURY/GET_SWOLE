@@ -813,7 +813,7 @@ public class ProfileActivity extends ListActivity {
 			double cm = Double.parseDouble(inString); // get the value in cm
 			mEditor.putString(feetKey, String.valueOf((int) Utils.centimetersToInches(cm) / 12)); // set the feet as the same
 			mEditor.putString(inKey, String.valueOf(Utils.centimetersToInches(cm) % 12)); // convert back to inches
-			profileObj.setHeight((double) Utils.centimetersToInches(cm) / 12, Utils.centimetersToInches(cm) % 12); // save in terms of inches
+			profileObj.setHeight(0, Utils.centimetersToInches(cm)); // save in terms of inches
 		}
 		
 		// Save Weight
