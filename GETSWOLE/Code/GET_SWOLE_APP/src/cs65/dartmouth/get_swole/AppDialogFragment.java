@@ -947,6 +947,7 @@ public class AppDialogFragment extends DialogFragment {
 			        		Calendar c = Calendar.getInstance();
 			        		c.setTimeInMillis(datePicked);
 			        		wo.removeDate(c);
+			        		getDialog().cancel();
 			        		
 			        	}
 		            	
