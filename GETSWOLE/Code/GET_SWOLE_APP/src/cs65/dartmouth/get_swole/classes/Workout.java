@@ -20,6 +20,7 @@ import android.util.Log;
 
 public class Workout extends GetSwoleClass {
 	private String regId;
+	private String owner;
 	
 	private ArrayList<Exercise> exerciseList;
 	private Calendar startDate;
@@ -34,6 +35,7 @@ public class Workout extends GetSwoleClass {
 	
 	public Workout(String name) {
 		this.name = name;
+		owner = "";
 		exerciseList = new ArrayList<Exercise>();
 		startDate = Calendar.getInstance();
 		scheduledDates = new ArrayList<Calendar>();
@@ -186,6 +188,10 @@ public class Workout extends GetSwoleClass {
 	}
 	
 	//GETTER METHODS
+	public String getOwner() {
+		return owner;
+	}
+	
 	public ArrayList<Exercise> getExerciseList() {
 		return exerciseList;
 	}
@@ -243,6 +249,10 @@ public class Workout extends GetSwoleClass {
 	
 	
 	//SETTER METHODS
+	public void setOwner(String name) {
+		owner = name;
+	}
+	
 	public void setName(String n) {
 		name = n;
 	}
@@ -310,6 +320,7 @@ public class Workout extends GetSwoleClass {
 		try {
 			
 			regId = obj.getString("regId");
+			owner = obj.getString("owner");
 			id = obj.getLong("id");
 			this.name = obj.getString("name");
 			notes = obj.getString("notes");
@@ -335,6 +346,7 @@ public class Workout extends GetSwoleClass {
 			JSONObject obj = new JSONObject();
 			
 			obj.put("regId", regId);
+			obj.put("owner", owner);
 			obj.put("id", id);
 			obj.put("name", name);
 			obj.put("notes", notes);

@@ -514,6 +514,8 @@ public class ProfileActivity extends ListActivity {
                				// If workout is listed and found the workout, add the workout to the list to upload
                				if (workoutListed.equals(workoutData.getName() + "," + workoutData.getId())) {
                					workoutData.setRegId(regId); // regId before adding to the list (for the datastore)
+               					workoutData.setOwner(profileObj.getFirstName() + " " + profileObj.getLastName()); // set the owner name
+               					workoutData.setName(workoutData.getName() + "\n(" + workoutData.getOwner() + ")");
                					uploadWorkouts.add(workoutData);
                        			Log.d(Globals.TAG, "Added: " + workoutData.getName());
                				}
