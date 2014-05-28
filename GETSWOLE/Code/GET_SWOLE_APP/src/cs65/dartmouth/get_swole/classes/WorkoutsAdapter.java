@@ -43,7 +43,8 @@ public class WorkoutsAdapter extends ArrayAdapter<GetSwoleClass> {
 	    }
 	    else { // resource is regular sized
 	    	TextView ownerView = (TextView) rowView.findViewById(R.id.ownerName);
-	    	ownerView.setText(((Workout) gWorkout).getOwner());
+	    	String owner = ((Workout) gWorkout).getOwner();
+	    	if (!owner.isEmpty()) ownerView.setText(owner);
 	    }
 	    
 	    
