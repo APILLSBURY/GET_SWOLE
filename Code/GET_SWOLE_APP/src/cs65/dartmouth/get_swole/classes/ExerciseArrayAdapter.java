@@ -21,13 +21,11 @@ public class ExerciseArrayAdapter extends ArrayAdapter<Exercise> {
 	
 	private Context context;
 	private List<Exercise> exercises;
-	private int resource;
 	
 	public ExerciseArrayAdapter(Context context, int resource, List<Exercise> exercises) {
 		super(context, resource, exercises);
 		this.exercises = exercises;
 		this.context = context;	
-		this.resource = resource;
 	}
 	
 	
@@ -36,17 +34,15 @@ public class ExerciseArrayAdapter extends ArrayAdapter<Exercise> {
 		
 		// Inflate the layout for a row
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-	    View rowView = inflater.inflate(resource, parent, false);
+	    View rowView = inflater.inflate(R.layout.exercises_list_row, parent, false);
 	    
 	    TextView exerciseTitleView = (TextView) rowView.findViewById(R.id.exercise_list_single_row_title);    		
 	    Exercise e = exercises.get(position);
 	    exerciseTitleView.setText(e.getName());
 	    
-	    // Access the textviews to set
-	    if (resource == R.layout.exercises_list_row) {
-	    	TextView exerciseDetailsView = (TextView) rowView.findViewById(R.id.exercise_list_single_row_details);
-	    	exerciseDetailsView.setText(e.toString(context));
-	    }
+    	TextView exerciseDetailsView = (TextView) rowView.findViewById(R.id.exercise_list_single_row_details);
+    	exerciseDetailsView.setText(e.toString(context));
+	    
 	   
 	    
 	    return rowView;

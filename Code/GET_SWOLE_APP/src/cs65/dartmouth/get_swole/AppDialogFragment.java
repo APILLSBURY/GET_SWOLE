@@ -6,8 +6,8 @@ import java.util.List;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.DatePickerDialog;
+import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
@@ -20,11 +20,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,7 +36,6 @@ import cs65.dartmouth.get_swole.classes.Frequency;
 import cs65.dartmouth.get_swole.classes.GetSwoleClass;
 import cs65.dartmouth.get_swole.classes.Set;
 import cs65.dartmouth.get_swole.classes.Workout;
-import cs65.dartmouth.get_swole.classes.WorkoutInstance;
 import cs65.dartmouth.get_swole.database.DatabaseWrapper;
 
 public class AppDialogFragment extends DialogFragment {
@@ -277,8 +278,10 @@ public class AppDialogFragment extends DialogFragment {
 			b = new AlertDialog.Builder(parent);
 			b.setTitle(parent.getString(R.string.add_existing_title));
 		    inflater = getActivity().getLayoutInflater();
-		    v = inflater .inflate(R.layout.dialog_existing_exercise, null);    
-		    final Spinner exerciseSpinner = (Spinner) v.findViewById(R.id.exercise_spinner);
+		    v = inflater.inflate(R.layout.dialog_existing_exercise, null);    
+		    b.setView(v);	
+
+		    final ListView exerciseListView = (ListView) v.findViewById(R.id.exerciseListView);
 		    
 		    dbWrapper.open();
 		    List<Exercise> dbExercises = dbWrapper.getAllEntries(Exercise.class);
@@ -289,20 +292,22 @@ public class AppDialogFragment extends DialogFragment {
 		    	if (!e.getExerciseInstance()) exercises.add(e);
 		    }		    
 
-		    ExerciseArrayAdapter exerciseArrayAdapter = new ExerciseArrayAdapter(parent, R.layout.exercises_list_row_small, exercises);
+		    ExerciseArrayAdapter exerciseArrayAdapter = new ExerciseArrayAdapter(parent, R.layout.exercises_list_row, exercises);
+		    exerciseListView.setAdapter(exerciseArrayAdapter);
+		    
+		    // Define the listener interface
+	        OnItemClickListener mListener = new OnItemClickListener() {
+	            public void onItemClick(AdapterView<?> par, View view, int position, long id) {
+	                 // Open dialog to edit this exercise
+	        		((WorkoutEditActivity) parent).onUseExistingExercise(exercises.get(position));
+	        		getDialog().cancel();
+	            		
+	            }
+	        };
 
-		    exerciseSpinner.setAdapter(exerciseArrayAdapter);
-		    
-		    b.setView(v);	
-		    
-		    b.setPositiveButton(getString(R.string.positive), new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					// We want to add this exercise to the workout's list of exercises
-				    int position = exerciseSpinner.getSelectedItemPosition();
-		    		((WorkoutEditActivity) parent).onUseExistingExercise(exercises.get(position));
-				}
-		    });
+	        // Get the ListView and wired the listener
+	        exerciseListView.setOnItemClickListener(mListener);     
+	
 		    
 		    b.setNegativeButton(getString(R.string.negative), new DialogInterface.OnClickListener() {
 				@Override
