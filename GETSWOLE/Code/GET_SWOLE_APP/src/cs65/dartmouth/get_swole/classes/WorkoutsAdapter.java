@@ -45,6 +45,7 @@ public class WorkoutsAdapter extends ArrayAdapter<GetSwoleClass> {
 	    	TextView ownerView = (TextView) rowView.findViewById(R.id.ownerName);
 	    	String owner = ((Workout) gWorkout).getOwner();
 	    	if (!owner.isEmpty()) ownerView.setText(owner);
+	    	else ownerView.setText("Me");
 	    }
 	    
 	    
