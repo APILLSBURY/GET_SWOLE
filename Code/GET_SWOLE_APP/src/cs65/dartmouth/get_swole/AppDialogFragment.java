@@ -946,11 +946,18 @@ public class AppDialogFragment extends DialogFragment {
 			        	else { // we want to delete from this day
 			        		Calendar c = Calendar.getInstance();
 			        		c.setTimeInMillis(datePicked);
-			        		wo.removeDate(c);
+			        		boolean removed = wo.removeDate(c);
+			        		if (!removed) {
+			        			Toast.makeText(parent, "Cannot remove workout; it is part of a frequency", Toast.LENGTH_LONG).show();
+			        		}
+			        		dbWrapper.open();
+			        		dbWrapper.updateScheduling(wo);
+			        		dbWrapper.close();
+							ScheduleFragment scheduleFragment = (ScheduleFragment) 
+									((MainActivity) parent).mSectionsPagerAdapter.getFragment(MainActivity.SCHEDULE_FRAGMENT);
+							scheduleFragment.updateCalendar();
 			        		getDialog().cancel();
-			        		
 			        	}
-		            	
 			        }
 			    });
 			

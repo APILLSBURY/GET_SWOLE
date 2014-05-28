@@ -231,7 +231,6 @@ public class ScheduleFragment extends ListFragment {
 		OnItemClickListener listener = new OnItemClickListener() {
 		    public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 				GetSwoleClass w = (GetSwoleClass) parent.getItemAtPosition(position);
-		    	showToast("workout " + w.getName() + " clicked"); 
 		    	if (w instanceof WorkoutInstance) {
 		    		// start a new activity to display this workoutinstance
 		    		Intent intent = new Intent(getActivity(), ViewWorkoutInstanceActivity.class);
@@ -241,7 +240,8 @@ public class ScheduleFragment extends ListFragment {
 		    		startActivity(intent);
 		    	}
 		    	else { // we want to launch a dialog to either change the scheduling or do the workout
-		    		
+		    		DialogFragment fragment = AppDialogFragment.newInstanceSchedule(w, selectedDay.getTimeInMillis(), AppDialogFragment.DIALOG_ID_SCHEDULE_UPDATE);
+					fragment.show(getActivity().getFragmentManager(), getString(R.string.dialog_fragment_tag_schedule_new));
 		    	}
 		    }
 		};
