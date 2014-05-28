@@ -230,7 +230,7 @@ public final class Datastore {
 				deleteWorkout(regId, entry.getRegId() + ":" + entry.getName() + "," + entry.getId());
 			}
 			
-			// Add the history entries to the datastore
+			// Add the workout entries to the datastore
 			for (int i = 0; i < workoutEntryList.length(); i++) {
 				Workout entry = new Workout();
 				entry.fromJSONObject(workoutEntryList.getJSONObject(i));
