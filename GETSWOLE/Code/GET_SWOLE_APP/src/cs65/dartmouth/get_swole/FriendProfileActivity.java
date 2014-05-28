@@ -397,7 +397,10 @@ public class FriendProfileActivity extends ListActivity {
     	    
     	    // Set owner
        	    TextView ownerView = (TextView) listItemView.findViewById(R.id.ownerName);
-    	    ownerView.setText(workout.getOwner());
+    	    if (workout.getOwner().isEmpty())
+    	    	ownerView.setText("Me");
+    	    else
+    	    	ownerView.setText(workout.getOwner());
     	    
 			return listItemView;
 		}
