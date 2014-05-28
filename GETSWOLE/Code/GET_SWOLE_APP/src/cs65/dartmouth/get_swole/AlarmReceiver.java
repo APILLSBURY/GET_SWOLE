@@ -18,7 +18,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 	  @Override
 	  public void onReceive(Context context, Intent intent)  {
 		  DatabaseWrapper dbWrapper = new DatabaseWrapper(context);
-		  Log.e(Globals.TAG, "recieved message");
+		  Log.e(Globals.TAG, "received message");
 		  // Let's check which exercises are happening today
 		  dbWrapper.open();
 		  List<Workout> workouts = dbWrapper.getAllEntries(Workout.class);

@@ -46,7 +46,7 @@ public class WorkoutNotificationService extends Service {
     private void showNotification(Workout w) {
     	Log.d(Globals.TAG, "showing notification");
 		
-    	Intent workoutDo = new Intent(this, WorkoutDoActivity.class).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+    	Intent workoutDo = new Intent(this, WorkoutDoActivity.class);
     	Bundle b = new Bundle();
     	b.putLong(Globals.ID_TAG, w.getId());
     	workoutDo.putExtras(b);
