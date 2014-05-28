@@ -98,7 +98,7 @@ public class Workout extends GetSwoleClass {
 	public String getScheduledDatesString() {
 		String s = "";
 		for (int i = 0; i < scheduledDates.size(); i++) {
-			s += DATE_FORMAT.format(scheduledDates.get(i).getTime()) + "&";
+			s += DATE_FORMAT.format(scheduledDates.get(i).getTime()) + ",";
 		}
 		if (s.length() >= 1) {
 			s = s.substring(0, s.length() - 1); //remove the trailing "&"
@@ -107,7 +107,7 @@ public class Workout extends GetSwoleClass {
 	}
 	
 	public void setScheduledDatesFromString(String s) {
-		String[] dates = s.split("&");
+		String[] dates = s.split(",");
 		Calendar cal;
 		scheduledDates.clear();
 		for (int i = 0; i < dates.length; i++) {
