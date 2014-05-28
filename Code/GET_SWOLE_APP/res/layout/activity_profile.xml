@@ -121,7 +121,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="@string/profile_bio_input"
-            android:inputType="textMultiLine" >
+            android:inputType="textCapSentences|textMultiLine" >
         </EditText>
         
         <LinearLayout
