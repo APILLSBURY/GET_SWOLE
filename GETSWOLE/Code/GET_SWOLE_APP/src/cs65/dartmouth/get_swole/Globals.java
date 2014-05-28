@@ -13,6 +13,6 @@ public class Globals {
 	
 	// Data conversions
 	public static double POUND_PER_KILO = 2.20462;
-	public static double INCH_PER_CM = 2.54;
+	public static double CM_PER_INCH = 2.54;
 	
 }
