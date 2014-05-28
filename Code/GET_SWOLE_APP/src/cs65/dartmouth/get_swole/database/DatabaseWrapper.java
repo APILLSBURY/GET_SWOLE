@@ -359,7 +359,7 @@ public class DatabaseWrapper {
 	private Workout cursorToEntry(Cursor cursor, Workout workout) {
 		workout.setId(cursor.getLong(cursor.getColumnIndex(DatabaseHelper.WORKOUT_ID)));
 		workout.setName(cursor.getString(cursor.getColumnIndex(DatabaseHelper.WORKOUT_NAME)));
-		workout.setName(cursor.getString(cursor.getColumnIndex(DatabaseHelper.WORKOUT_OWNER)));
+		workout.setOwner(cursor.getString(cursor.getColumnIndex(DatabaseHelper.WORKOUT_OWNER)));
 		workout.setExerciseListFromByteArray(cursor.getBlob(cursor.getColumnIndex(DatabaseHelper.WORKOUT_EXERCISE_LIST)), context);
 		workout.setScheduledDatesFromString(cursor.getString(cursor.getColumnIndex(DatabaseHelper.WORKOUT_SCHEDULED_DATES)));
 		Calendar c = Calendar.getInstance();
