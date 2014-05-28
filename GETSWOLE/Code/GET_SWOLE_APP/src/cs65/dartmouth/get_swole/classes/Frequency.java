@@ -26,8 +26,8 @@ public class Frequency extends GetSwoleClass {
 	
 	public boolean includesDate(Calendar cal) {
 		Log.d(Globals.TAG, "cal date = " + cal.get(Calendar.DATE) + CalendarUtility.testDateEquality(startDate, cal) + ", " + CalendarUtility.testDateEquality(endDate, cal));
-		return (CalendarUtility.testDateEquality(startDate, cal) == CalendarUtility.LESS_THAN 
-					&& CalendarUtility.testDateEquality(endDate, cal) == CalendarUtility.GREATER_THAN 
+		return (CalendarUtility.testDateEquality(startDate, cal) != CalendarUtility.GREATER_THAN 
+					&& CalendarUtility.testDateEquality(endDate, cal) != CalendarUtility.LESS_THAN 
 					&& cal.get(Calendar.DAY_OF_WEEK) == day);
 	}
 	
