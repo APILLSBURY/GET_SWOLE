@@ -33,6 +33,9 @@ public class WorkoutNotificationService extends Service {
 	    	showNotification(w);
 	    	Log.d(Globals.TAG, "service started");
     	}
+    	else {
+    		Log.d(Globals.TAG, "intent == null");
+    	}
 	    return START_STICKY;
     }
     
