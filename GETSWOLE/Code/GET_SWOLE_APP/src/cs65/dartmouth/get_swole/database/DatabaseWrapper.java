@@ -26,6 +26,7 @@ public class DatabaseWrapper {
 	private static final String[] WORKOUT_COLUMNS = {
 									DatabaseHelper.WORKOUT_ID, 
 									DatabaseHelper.WORKOUT_NAME, 
+									DatabaseHelper.WORKOUT_OWNER, 
 									DatabaseHelper.WORKOUT_EXERCISE_LIST, 
 									DatabaseHelper.WORKOUT_SCHEDULED_DATES, 
 									DatabaseHelper.WORKOUT_START_DATE, 
@@ -95,6 +96,7 @@ public class DatabaseWrapper {
 	public Workout createEntry(Workout workout) {
 		ContentValues values = new ContentValues();
 		values.put(DatabaseHelper.WORKOUT_NAME, workout.getName());
+		values.put(DatabaseHelper.WORKOUT_OWNER, workout.getOwner());
 		values.put(DatabaseHelper.WORKOUT_EXERCISE_LIST, workout.getExerciseListByteArray());
 		values.put(DatabaseHelper.WORKOUT_SCHEDULED_DATES, workout.getScheduledDatesString());
 		values.put(DatabaseHelper.WORKOUT_START_DATE, DATE_FORMAT.format(workout.getStartDate().getTime()));
@@ -357,6 +359,7 @@ public class DatabaseWrapper {
 	private Workout cursorToEntry(Cursor cursor, Workout workout) {
 		workout.setId(cursor.getLong(cursor.getColumnIndex(DatabaseHelper.WORKOUT_ID)));
 		workout.setName(cursor.getString(cursor.getColumnIndex(DatabaseHelper.WORKOUT_NAME)));
+		workout.setName(cursor.getString(cursor.getColumnIndex(DatabaseHelper.WORKOUT_OWNER)));
 		workout.setExerciseListFromByteArray(cursor.getBlob(cursor.getColumnIndex(DatabaseHelper.WORKOUT_EXERCISE_LIST)), context);
 		workout.setScheduledDatesFromString(cursor.getString(cursor.getColumnIndex(DatabaseHelper.WORKOUT_SCHEDULED_DATES)));
 		Calendar c = Calendar.getInstance();

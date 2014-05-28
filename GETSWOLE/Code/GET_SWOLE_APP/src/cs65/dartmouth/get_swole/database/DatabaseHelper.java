@@ -12,6 +12,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final String TABLE_NAME_WORKOUT = "workoutTable";
 	public static final String WORKOUT_ID = "_id";
 	public static final String WORKOUT_NAME = "name";
+	public static final String WORKOUT_OWNER = "owner";
 	public static final String WORKOUT_EXERCISE_LIST = "exerciselist";
 	public static final String WORKOUT_SCHEDULED_DATES = "scheduleddates";
 	public static final String WORKOUT_START_DATE = "startdate";
@@ -55,6 +56,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + TABLE_NAME_WORKOUT + " ("
             + WORKOUT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + WORKOUT_NAME + " TEXT, "
+            + WORKOUT_OWNER + " TEXT, "
             + WORKOUT_EXERCISE_LIST + " BLOB, "
             + WORKOUT_SCHEDULED_DATES + " TEXT, "
             + WORKOUT_START_DATE + " DATETIME, "
