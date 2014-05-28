@@ -138,8 +138,7 @@ public class ProgressViewActivity extends Activity {
 	        }
 	    });		
 		progressChart.setShowLegend(true);
-		progressChart.setLegendAlign(LegendAlign.BOTTOM);
-		//progressChart.setDrawBackground(true);
+		progressChart.setLegendAlign(LegendAlign.TOP);
 		
 		
 	}
