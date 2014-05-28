@@ -1052,7 +1052,7 @@ public class ProfileActivity extends ListActivity {
 			// Define hashmap, so that when onSaveClicked is called, info is not lost
 			workoutCheck.remove(entry.getName() + "," + entry.getId());
 			
-			Toast.makeText(mContext, workoutCheck.keySet().toString(), Toast.LENGTH_SHORT).show();
+			//Toast.makeText(mContext, workoutCheck.keySet().toString(), Toast.LENGTH_SHORT).show();
 			
 		}
 		
