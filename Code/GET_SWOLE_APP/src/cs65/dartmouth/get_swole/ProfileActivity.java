@@ -93,7 +93,6 @@ public class ProfileActivity extends ListActivity {
 	// Declare Uri, ImageView, and boolean for camera, taken from CameraControlActivity.java in class lecture
 	private Uri mImageCaptureUri;
 	private ImageView profileImageView;
-//	private boolean isTakenFromCamera;
 	private byte[] pictureArray;
 	
 	// Workout List
@@ -147,6 +146,25 @@ public class ProfileActivity extends ListActivity {
 		}
 		else
 			loadProfile();
+		
+		Log.d(Globals.TAG, "not in yet!");
+		// Make sure that the correct height units are being displayed
+		if (Utils.getHeightUnits(mContext)) {}
+		else {
+			EditText feetInput = (EditText) findViewById(R.id.feetinput);
+			feetInput.setVisibility(View.GONE);
+			TextView feet = (TextView) findViewById(R.id.feet);
+			feet.setVisibility(View.GONE);
+			TextView cmLabel = (TextView) findViewById(R.id.inch); // change the label to cm
+			cmLabel.setText("cm");
+		}
+		
+		// Make sure that the correct weight units are being displayed
+		if (Utils.getWeightUnits(mContext)) {}
+		else {
+			TextView kgLabel = (TextView) findViewById(R.id.lb); // change label to kg
+			kgLabel.setText("kg");
+		}
 		
 		// Get Workout List and set to adapter
 		DatabaseWrapper dbWrapper = new DatabaseWrapper(mContext);
@@ -602,18 +620,65 @@ public class ProfileActivity extends ListActivity {
 		}
 		
 		// Load Height
+		
 		mKey = getString(R.string.preference_key_profile_height_feet);
-		mValue = mPrefs.getString(mKey, "");
-		((EditText) findViewById(R.id.feetinput)).setText(mValue);
+		String feet = mPrefs.getString(mKey, "");
 		
 		mKey = getString(R.string.preference_key_profile_height_in);
-		mValue = mPrefs.getString(mKey, "");
-		((EditText) findViewById(R.id.inchinput)).setText(mValue);
+		String in = mPrefs.getString(mKey, "");
+		
+		if (Utils.getHeightUnits(mContext)) {
+			Log.d(Globals.TAG, "Loading in");
+			
+			// Check that it is not empty
+			if (in.equals("")) {
+				((EditText) findViewById(R.id.feetinput)).setText(feet);
+				((EditText) findViewById(R.id.inchinput)).setText(in);
+			}
+			else {
+				((EditText) findViewById(R.id.feetinput)).setText(feet);
+				((EditText) findViewById(R.id.inchinput)).setText(Utils.decimalFormat.format(Double.parseDouble(in)));
+			}
+		}
+		else {
+			Log.d(Globals.TAG, "Loading cm");
+			
+			if (in.equals("") && feet.equals("")) {
+				((EditText) findViewById(R.id.inchinput)).setText(in);
+			}
+			else if (!in.equals("") && feet.equals("")) {
+				// Convert to cm
+				double cm = Utils.inchesToCentimeters(Double.parseDouble(in));
+				((EditText) findViewById(R.id.inchinput)).setText(Utils.decimalFormat.format(cm));
+			}
+			else {
+				// Convert to cm
+				double cm = Utils.inchesToCentimeters(Double.parseDouble(feet) * 12 + Double.parseDouble(in));
+				((EditText) findViewById(R.id.inchinput)).setText(Utils.decimalFormat.format(cm));
+			}
+		}
 		
 		// Load Weight
+		
 		mKey = getString(R.string.preference_key_profile_weight);
-		mValue = mPrefs.getString(mKey, "");
-		((EditText) findViewById(R.id.weightinput)).setText(mValue);
+		String pounds = mPrefs.getString(mKey, "");
+		
+		if (Utils.getWeightUnits(mContext)) {
+			if (pounds.equals(""))
+				((EditText) findViewById(R.id.weightinput)).setText("");
+			else 
+				((EditText) findViewById(R.id.weightinput)).setText(Utils.decimalFormat.format(Double.parseDouble(pounds)));
+		}
+		else {
+			if (pounds.equals(""))
+				((EditText) findViewById(R.id.weightinput)).setText("");
+			else {
+				// Convert to kg
+				double kg = Utils.poundsToKilos(Double.parseDouble(pounds));
+				((EditText) findViewById(R.id.weightinput)).setText(Utils.decimalFormat.format(kg));
+			}
+		}
+		
 		
 		// Load Bio
 		mKey = getString(R.string.preference_key_profile_bio);
@@ -713,38 +778,71 @@ public class ProfileActivity extends ListActivity {
 		
 		// Save Height
 		
-		mKey = getString(R.string.preference_key_profile_height_feet);
+		String feetKey = getString(R.string.preference_key_profile_height_feet);
 		String feetString = (String) ((EditText) findViewById(R.id.feetinput)).getText().toString();
-		mEditor.putString(mKey, feetString);
-		
-		mKey = getString(R.string.preference_key_profile_height_in);
+		String inKey = getString(R.string.preference_key_profile_height_in);
 		String inString = (String) ((EditText) findViewById(R.id.inchinput)).getText().toString();
-		mEditor.putString(mKey, inString);
 		
-		if ((!feetString.equals("") && !inString.equals(""))) {
-			double feet = Double.parseDouble(((String) ((EditText) findViewById(R.id.feetinput)).getText().toString()));
-			double in = Double.parseDouble((String) ((EditText) findViewById(R.id.inchinput)).getText().toString());
-			profileObj.setHeight(feet, in);
+		if (Utils.getHeightUnits(mContext)) {
+			mEditor.putString(feetKey, feetString);
+			mEditor.putString(inKey, inString);
+			
+			if ((!feetString.equals("") && !inString.equals(""))) {
+				double feet = Double.parseDouble(feetString);
+				double in = Double.parseDouble(inString);
+				profileObj.setHeight(feet, in);
+			}
+			else if (!feetString.equals("") && inString.equals("")) {
+				double feet = Double.parseDouble(feetString);
+				profileObj.setHeight(feet, 0);
+			}
+			else if (feetString.equals("") && !inString.equals("")) {
+				double in = Double.parseDouble(inString);
+				profileObj.setHeight(0, in);
+			}
 		}
-		else if (!feetString.equals("") && inString.equals("")) {
-			double feet = Double.parseDouble(((String) ((EditText) findViewById(R.id.feetinput)).getText().toString()));
-			profileObj.setHeight(feet, 0);
-		}
-		else if (feetString.equals("") && !inString.equals("")) {
-			double in = Double.parseDouble((String) ((EditText) findViewById(R.id.inchinput)).getText().toString());
-			profileObj.setHeight(0, in);
+		else {
+			if ((!feetString.equals("") && !inString.equals(""))) {
+				double cm = Double.parseDouble(inString); // get the value in cm
+				mEditor.putString(feetKey, String.valueOf((int) Utils.centimetersToInches(cm) / 12)); // set the feet as the same
+				mEditor.putString(inKey, String.valueOf(Utils.centimetersToInches(cm) % 12)); // convert back to inches
+				profileObj.setHeight((double) Utils.centimetersToInches(cm) / 12, Utils.centimetersToInches(cm) % 12); // save in terms of inches
+			}
+			else if (!feetString.equals("") && inString.equals("")) {
+				double cm = Double.parseDouble(inString); // get the value in cm
+				mEditor.putString(feetKey, String.valueOf((int) Utils.centimetersToInches(cm) / 12)); // set the feet as the same
+				profileObj.setHeight((double) Utils.centimetersToInches(cm) / 12, 0);
+			}
+			else if (feetString.equals("") && !inString.equals("")) {
+				double cm = Double.parseDouble(inString); // get the value in cm
+				mEditor.putString(inKey, String.valueOf(Utils.centimetersToInches(cm) % 12)); // convert back to inches
+				profileObj.setHeight(0, Utils.centimetersToInches(cm) % 12);
+			}
 		}
 		
 		// Save Weight
 		
 		mKey = getString(R.string.preference_key_profile_weight);
-		mValue = (String) ((EditText) findViewById(R.id.weightinput)).getText().toString();
-		mEditor.putString(mKey, mValue);
+		String pounds = (String) ((EditText) findViewById(R.id.weightinput)).getText().toString();
+
 		
-		if (!mValue.equals("")) {
-			double weight = Double.parseDouble(((String) ((EditText) findViewById(R.id.weightinput)).getText().toString()));
-			profileObj.setWeight(weight);
+		if (Utils.getWeightUnits(mContext)) {
+			mEditor.putString(mKey, pounds);
+			
+			if (!mValue.equals("")) {
+				double weight = Double.parseDouble(((String) ((EditText) findViewById(R.id.weightinput)).getText().toString()));
+				profileObj.setWeight(weight);
+			}
 		}
+		else {
+			if (!mValue.equals("")) {
+				double kg = Double.parseDouble(pounds); // get the value in kg
+				mEditor.putString(mKey, String.valueOf(Utils.kilosToPound(kg))); // convert back to pounds
+				profileObj.setWeight(Utils.kilosToPound(kg)); // save in terms of pounds
+			}
+		}
+		
+
 		
 		// Save Bio
 		

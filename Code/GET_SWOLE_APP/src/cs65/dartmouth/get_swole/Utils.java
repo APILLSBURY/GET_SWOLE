@@ -2,6 +2,7 @@ package cs65.dartmouth.get_swole;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.DecimalFormat;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -21,14 +22,16 @@ import android.widget.ListView;
 
 public class Utils {
 	
+	public static final DecimalFormat decimalFormat = new DecimalFormat("#.##");
+	
 	// Convert inches to centimeters
 	public static double inchesToCentimeters(double inches) {
-		return (double) inches / Globals.INCH_PER_CM;
+		return (double) inches * Globals.CM_PER_INCH;
 	}
 	
 	// Convert centimeters to inches
 	public static double centimetersToInches(double cm) {
-		return (double) cm * Globals.INCH_PER_CM;
+		return (double) cm / Globals.CM_PER_INCH;
 	}
 	
 	// Convert pounds to kilograms
@@ -61,9 +64,11 @@ public class Utils {
 	// Get the height in terms of units
 	public static String getHeightString(Context context, double inches) {
 		if (getHeightUnits(context)) 
-			return ((int) inches / 12) + "'" + ((double) inches % 12) + "''";
-		else
-			return inchesToCentimeters(inches) + "cm";
+			return ((int) inches / 12) + "'" + decimalFormat.format(((double) inches % 12)) + "''";
+		else {
+			return decimalFormat.format(inchesToCentimeters(inches)) + "cm";
+		}
+			
 	}
 	
 	// Read from preference, the unit used for displaying lbs (taken from MyRuns)
@@ -93,6 +98,13 @@ public class Utils {
 	
 	// Get the weight in terms of units
 	public static String getWeightString(Context context, int weight) {
+		if (getWeightUnits(context))
+			return weight + " lb";
+		else
+			return (int) poundsToKilos(weight) + " kg";
+	}
+	
+	public static String getWeightString(Context context, double weight) {
 		if (getWeightUnits(context))
 			return weight + " lb";
 		else

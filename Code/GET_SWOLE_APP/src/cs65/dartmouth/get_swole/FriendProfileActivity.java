@@ -122,7 +122,7 @@ public class FriendProfileActivity extends ListActivity {
      	TextView genderTextInput = (TextView) findViewById(R.id.genderInput);
      	TextView heightTextInput = (TextView) findViewById(R.id.heightinput);
      	TextView weightTextInput = (TextView) findViewById(R.id.weightinput);
-     	if (gender == -1 && height == -1 && weight == -1 && bio.equals("")) {
+     	if (gender == -1 && height == 0 && weight == 0 && bio.equals("")) {
      		bioTextView.setVisibility(View.GONE);
      		
      		TextView genderTextView = (TextView) findViewById(R.id.gender);
@@ -151,8 +151,8 @@ public class FriendProfileActivity extends ListActivity {
 	     	}
 	     	genderTextInput.setFocusable(false);
 	
-	     	if (height != -1) {
-	     		heightTextInput.setText((int) height / 12 + "'" + (int) height % 12 + "''");
+	     	if (height != 0) {
+	     		heightTextInput.setText(Utils.getHeightString(mContext, height));
 	     	}
 	     	else {
 	     		TextView heightTextView = (TextView) findViewById(R.id.height);
@@ -162,8 +162,8 @@ public class FriendProfileActivity extends ListActivity {
 	     	heightTextInput.setFocusable(false);
 	     	
 	
-	     	if (weight != -1)
-	     		weightTextInput.setText(weight + " lb");
+	     	if (weight != 0)
+	     		weightTextInput.setText(Utils.getWeightString(mContext, weight));
 	     	else {
 	     		TextView weightTextView = (TextView) findViewById(R.id.weight);
 	     		weightTextView.setVisibility(View.GONE);
