@@ -12,7 +12,7 @@ import cs65.dartmouth.get_swole.classes.ExerciseArrayAdapter;
 import cs65.dartmouth.get_swole.classes.WorkoutInstance;
 import cs65.dartmouth.get_swole.database.DatabaseWrapper;
 
-public class ViewWorkoutInstanceActivity extends Activity implements OnItemClickListener {
+public class ViewWorkoutInstanceActivity extends Activity {
 
 	WorkoutInstance instance;
 	ExerciseArrayAdapter mAdapter;
@@ -39,17 +39,7 @@ public class ViewWorkoutInstanceActivity extends Activity implements OnItemClick
         // Assign the adapter to ListView
         ListView listView = (ListView) findViewById(R.id.completedExerciseListView);
         listView.setAdapter(mAdapter);
-
-        // Get the ListView and wired the listener
-        listView.setOnItemClickListener(this); 
         
-	}
-
-	@Override
-	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        // Open dialog to edit this exercise
-		DialogFragment fragment = AppDialogFragment.newInstance(instance, 2, position);
-    	fragment.show(getFragmentManager(), getString(R.string.dialog_fragment_tag_edit_exercise));
 	}
 
 }

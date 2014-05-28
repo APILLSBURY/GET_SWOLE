@@ -12,7 +12,6 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.InputType;
@@ -55,8 +54,6 @@ public class AppDialogFragment extends DialogFragment {
 	public static final int DIALOG_ID_TIMER = 5;
 	public static final int DIALOG_ID_EDIT_SETS = 6;
 	public static final int DIALOG_ID_DO_SETS = 7;
-	public static final int DIALOG_ID_VIEW_EXERCISE = 8;
-	public static final int DIALOG_ID_VIEW_SETS = 9;
 	public static final int DIALOG_ID_SCHEDULE_NEW = 10;
 	public static final int DIALOG_ID_SCHEDULE_UPDATE = 11;
 	public static final int DIALOG_ID_SCHEDULE_NEW_PICK = 12;
@@ -79,25 +76,12 @@ public class AppDialogFragment extends DialogFragment {
 	}
 	
 	// For editing exercises
-	public static AppDialogFragment newInstance(GetSwoleClass o, int mode, int position) {
+	public static AppDialogFragment newInstance(GetSwoleClass o, int position) {
 		AppDialogFragment frag = new AppDialogFragment();
 		Bundle args = new Bundle();
-		if (mode == 0) {
-			args.putInt(DIALOG_ID_KEY, DIALOG_ID_EDIT_EXERCISE);
-			args.putLong(EXERCISE_ID, o.getId());
-		}
-		/*else if (mode == 1){ // do
-			args.putInt(DIALOG_ID_KEY,  DIALOG_ID_DO_EXERCISE);
-			args.putInt(EXERCISE_POSITION, position);
-			args.putLong(EXERCISE_ID, o.getId());
-
-		}*/
-		else { // view
-			args.putInt(DIALOG_ID_KEY,  DIALOG_ID_VIEW_EXERCISE);
-			args.putInt(EXERCISE_POSITION, position);
-			args.putLong(WORKOUT_INSTANCE_ID, o.getId());
-
-		}
+		args.putInt(DIALOG_ID_KEY, DIALOG_ID_EDIT_EXERCISE);
+		args.putLong(EXERCISE_ID, o.getId());
+		
 		frag.setArguments(args);
 		return frag;
 	}
@@ -115,11 +99,6 @@ public class AppDialogFragment extends DialogFragment {
 			args.putInt(DIALOG_ID_KEY,  DIALOG_ID_DO_SETS);
 			args.putInt(EXERCISE_POSITION, position);
 			args.putLong(EXERCISE_ID, id);
-		}
-		else { // view
-			args.putInt(DIALOG_ID_KEY,  DIALOG_ID_VIEW_SETS);
-			args.putInt(EXERCISE_POSITION, position);
-			args.putLong(WORKOUT_INSTANCE_ID, id);
 		}
 		frag.setArguments(args);
 		return frag;
@@ -327,7 +306,7 @@ public class AppDialogFragment extends DialogFragment {
 		    	if (!e.getExerciseInstance()) exercises.add(e);
 		    }		    
 
-		    ExerciseArrayAdapter exerciseArrayAdapter = new ExerciseArrayAdapter(parent, R.layout.exercises_list_row, exercises);
+		    ExerciseArrayAdapter exerciseArrayAdapter = new ExerciseArrayAdapter(parent, R.layout.exercises_list_row_small, exercises);
 
 		    exerciseSpinner.setAdapter(exerciseArrayAdapter);
 		    
@@ -628,93 +607,6 @@ public class AppDialogFragment extends DialogFragment {
 			}); 
 		    
 			return b.create();
-		case DIALOG_ID_VIEW_EXERCISE:
-			// Create custom dialog
-			b = new AlertDialog.Builder(parent);
-
-			 // Get the layout inflater
-		    inflater = getActivity().getLayoutInflater();
-		  	v = inflater.inflate(R.layout.dialog_edit_exercise, null);
-		    b.setView(v);		
-
-		    // Text views 
-		    EditText exerciseName3 = (EditText) v.findViewById(R.id.exerciseName);
-			EditText exerciseRepsGoal3 = (EditText) v.findViewById(R.id.exerciseRepsGoal);
-			EditText exerciseWeightGoal3 = (EditText) v.findViewById(R.id.exerciseWeightGoal);
-			EditText exerciseRest3 = (EditText) v.findViewById(R.id.exerciseRest);
-			EditText exerciseNotes3 = (EditText) v.findViewById(R.id.exerciseNotes);
-			
-			// We want the id of the workout instance and the position of the exercise in its list
-		    final long wInstanceId = getArguments().getLong(WORKOUT_INSTANCE_ID, -1L); 
-		    final int exercisePos = getArguments().getInt(EXERCISE_POSITION, -1);
-			
-		    Button exerciseSetsButton = (Button) v.findViewById(R.id.editSets);
-		    exerciseSetsButton.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					// start the dialog fragment, give it the information about workout instance 
-    	 			DialogFragment fragment = AppDialogFragment.newInstanceSets(wInstanceId, 2, exercisePos);
-    	 			fragment.show(getFragmentManager(), getString(R.string.dialog_fragment_tag_view_sets));
-					
-				}
-			});
-		    
-			dbWrapper.open();
-			WorkoutInstance wi = (WorkoutInstance) dbWrapper.getEntryById(wInstanceId, WorkoutInstance.class);
-			dbWrapper.close();
-			Exercise ex = wi.getExerciseList().get(exercisePos);
-			
-			exerciseName3.setText(ex.getName());
-			if (ex.getRepsGoal() != -1) exerciseRepsGoal3.setText(ex.getRepsGoal() + "");
-			if (ex.getWeightGoal() != -1) exerciseWeightGoal3.setText(ex.getWeightGoal() + "");
-			if (ex.getRest() != -1) exerciseRest3.setText(ex.getRest() + "");
-			exerciseNotes3.setText(ex.getNotes());
-			    
-			b.setPositiveButton(getString(R.string.positive), new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					// do nothing
-					
-				}
-			});
-			
-			return b.create();		
-		case DIALOG_ID_VIEW_SETS:
-			// Create custom dialog
-			b = new AlertDialog.Builder(parent);
-	
-			 // Get the layout inflater
-		    inflater = getActivity().getLayoutInflater();
-		  	View setsView3 = inflater.inflate(R.layout.dialog_edit_sets, null);
-		    b.setView(setsView3);		
-		    
-		    // get id of workout instance and position of exercise in its list
-		    long instanceId = getArguments().getLong(WORKOUT_INSTANCE_ID, -1L); 			    
-		    int posInEList = getArguments().getInt(EXERCISE_POSITION, -1);
-		    
-			dbWrapper.open();
-			WorkoutInstance instance = (WorkoutInstance) dbWrapper.getEntryById(instanceId, WorkoutInstance.class);
-			dbWrapper.close();
-			
-			sets = instance.getExerciseList().get(posInEList).getSetList();	   
-								    	
-	    	for (int i = 0; i < sets.size(); i++) { // assume set size is at most 8
-				if (sets.get(i).getReps() != 0)
-				((EditText) setsView3.findViewById(repIds[i])).setText(sets.get(i).getReps() + ""); 
-				if (sets.get(i).getWeight() != 0)
-				((EditText) setsView3.findViewById(weightIds[i])).setText(sets.get(i).getWeight() + ""); 
-			}    
-			  
-		    
-		    b.setPositiveButton(R.string.positive, new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					// do nothing
-				}
-			});
-		    
-			return b.create();
-			
 	case DIALOG_ID_SCHEDULE_NEW:
 		    final long dateSelected = getArguments().getLong(DATE);
 		    

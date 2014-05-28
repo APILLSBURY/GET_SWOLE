@@ -154,7 +154,7 @@ public class Exercise extends GetSwoleClass {
 	}
 	
 	public String toString(Context context) {
-		String s = name + ": ";
+		String s = "";
 		for (Set set : setList) {
 			int reps = set.getReps();
 			int weight = set.getWeight();
@@ -164,6 +164,24 @@ public class Exercise extends GetSwoleClass {
 			else { s += reps + " reps at " + Utils.getWeightString(context, weight) + ", ";
 			}
 		}
+		if (setList.isEmpty()) s += " ";
+		if (rest != -1) return s.substring(0, s.length() - 2) + " Rest: " + rest + "secs";
+		else return s.substring(0, s.length() - 2);
+	}
+	
+	@Override
+	public String toString() {
+		String s = "";
+		for (Set set : setList) {
+			int reps = set.getReps();
+			int weight = set.getWeight();
+			if ((reps == 0) && (weight == 0)) continue;
+			if (reps == 0) s += weight + " lb, ";
+			else if (weight == 0) s+= reps + " reps, ";
+			else { s += reps + " reps at " + weight+ " lb, ";
+			}
+		}
+		if (setList.isEmpty()) s += " ";
 		if (rest != -1) return s.substring(0, s.length() - 2) + " Rest: " + rest + "secs";
 		else return s.substring(0, s.length() - 2);
 	}
