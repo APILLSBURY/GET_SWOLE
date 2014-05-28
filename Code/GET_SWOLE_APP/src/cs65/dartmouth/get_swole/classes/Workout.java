@@ -2,8 +2,10 @@ package cs65.dartmouth.get_swole.classes;
 
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Locale;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,6 +26,7 @@ public class Workout extends GetSwoleClass {
 	private ArrayList<Calendar> scheduledDates;
 	private ArrayList<Frequency> frequencyList;
 	private String notes;
+	public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
 	
 	public Workout() {
 		this("");
@@ -97,7 +100,7 @@ public class Workout extends GetSwoleClass {
 	public String getScheduledDatesString() {
 		String s = "";
 		for (int i = 0; i < scheduledDates.size(); i++) {
-			s += DatabaseWrapper.DATE_FORMAT.format(scheduledDates.get(i).getTime()) + "&";
+			s += DATE_FORMAT.format(scheduledDates.get(i).getTime()) + "&";
 		}
 		if (s.length() >= 1) {
 			s = s.substring(0, s.length() - 1); //remove the trailing "&"
@@ -113,7 +116,7 @@ public class Workout extends GetSwoleClass {
 			cal = Calendar.getInstance();
 			try {
 				if (!dates[i].isEmpty()) {
-					cal.setTime(DatabaseWrapper.DATE_FORMAT.parse(dates[i]));
+					cal.setTime(DATE_FORMAT.parse(dates[i]));
 					scheduledDates.add(cal);
 				}
 			}

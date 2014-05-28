@@ -264,9 +264,6 @@ public class ScheduleFragment extends ListFragment {
 		dbWrapper.close();
 		workoutsByDay = new ArrayList<ArrayList<GetSwoleClass>>();
 		workoutsByDay.add(null); //add a null value for day 0
-		ArrayList<GetSwoleClass> dailyWorkouts;
-		ArrayList<Calendar> scheduledDates;
-		ArrayList<Frequency> frequencyList;
 		int daysInMonth = month.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
 		Log.d(Globals.TAG, "daysInMonth=" + daysInMonth);
 		GregorianCalendar currDay = (GregorianCalendar) month.clone();
@@ -274,38 +271,7 @@ public class ScheduleFragment extends ListFragment {
 		
 		boolean end = false;
 		while (!end) {
-			dailyWorkouts = new ArrayList<GetSwoleClass>();
-			
-			//add completed workouts
-			if (CalendarUtility.testDateEquality(currDay, Calendar.getInstance()) != CalendarUtility.GREATER_THAN) {
-				for (WorkoutInstance wi : allWorkoutInstances) {
-					if (CalendarUtility.testDateEquality(currDay, wi.getTime()) == CalendarUtility.EQUALS) {
-						dailyWorkouts.add(wi);
-					}
-				}
-			}
-			
-			//add upcoming scheduled workouts
-			if (CalendarUtility.testDateEquality(currDay, Calendar.getInstance()) != CalendarUtility.LESS_THAN) {
-				for (Workout w : allWorkouts) {
-					
-					scheduledDates = w.getScheduledDates();
-					for (Calendar c : scheduledDates) {
-						if (CalendarUtility.testDateEquality(c, currDay) == CalendarUtility.EQUALS) {
-							dailyWorkouts.add(w);
-							Log.d(Globals.TAG, "date " + currDay.get(GregorianCalendar.DATE) + " is in scheduled dates!");
-						}
-					}
-					frequencyList = w.getFrequencyList();
-					for (Frequency f : frequencyList) {
-						if (f.includesDate(currDay)) {
-							Log.d(Globals.TAG, "date " + currDay.get(GregorianCalendar.DATE) + " is in frequency!");
-							dailyWorkouts.add(w);
-						}
-					}
-				}
-			}
-			workoutsByDay.add(dailyWorkouts);
+			workoutsByDay.add(getDailyWorkouts(currDay, allWorkouts, allWorkoutInstances));
 			
 			//Log.d(Globals.TAG, "currDay = " + currDay.get(GregorianCalendar.DATE));
 			if ((currDay.get(GregorianCalendar.DATE) + 1) > daysInMonth) {
@@ -315,5 +281,44 @@ public class ScheduleFragment extends ListFragment {
 				currDay.set(GregorianCalendar.DATE, currDay.get(GregorianCalendar.DATE) + 1);
 			}
 		}
+	}
+	
+	public static ArrayList<GetSwoleClass> getDailyWorkouts(Calendar currDay, List<Workout> allWorkouts, List<WorkoutInstance> allWorkoutInstances) {
+		ArrayList<Calendar> scheduledDates;
+		ArrayList<Frequency> frequencyList;
+		ArrayList<GetSwoleClass> dailyWorkouts = new ArrayList<GetSwoleClass>();
+		
+		if (allWorkoutInstances != null) {
+			//add completed workouts
+			if (CalendarUtility.testDateEquality(currDay, Calendar.getInstance()) != CalendarUtility.GREATER_THAN) {
+				for (WorkoutInstance wi : allWorkoutInstances) {
+					if (CalendarUtility.testDateEquality(currDay, wi.getTime()) == CalendarUtility.EQUALS) {
+						dailyWorkouts.add(wi);
+					}
+				}
+			}
+		}
+		
+		//add upcoming scheduled workouts
+		if (CalendarUtility.testDateEquality(currDay, Calendar.getInstance()) != CalendarUtility.LESS_THAN) {
+			for (Workout w : allWorkouts) {
+				
+				scheduledDates = w.getScheduledDates();
+				for (Calendar c : scheduledDates) {
+					if (CalendarUtility.testDateEquality(c, currDay) == CalendarUtility.EQUALS) {
+						dailyWorkouts.add(w);
+						Log.d(Globals.TAG, "date " + currDay.get(GregorianCalendar.DATE) + " is in scheduled dates!");
+					}
+				}
+				frequencyList = w.getFrequencyList();
+				for (Frequency f : frequencyList) {
+					if (f.includesDate(currDay)) {
+						Log.d(Globals.TAG, "date " + currDay.get(GregorianCalendar.DATE) + " is in frequency!");
+						dailyWorkouts.add(w);
+					}
+				}
+			}
+		}
+		return dailyWorkouts;
 	}
 }
